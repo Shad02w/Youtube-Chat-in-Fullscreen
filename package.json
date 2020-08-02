@@ -1,0 +1,21 @@
+{
+    "name": "youtube-chat-in-fullscreen",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:Shad02w/Youtube-Chat-in-Fullscreen.git",
+    "author": "Shad02w@Win10 <alvistse123@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "start": "webpack --config webpack.dev.js",
+        "build": "webpack --config webpack.prod.js"
+    },
+    "devDependencies": {
+        "axios": "^0.19.2",
+        "clean-webpack-plugin": "^3.0.0",
+        "copy-webpack-plugin": "^6.0.3",
+        "html-webpack-plugin": "^4.3.0",
+        "webpack": "^4.44.1",
+        "webpack-cli": "^3.3.12",
+        "webpack-merge": "^5.0.9"
+    }
+}

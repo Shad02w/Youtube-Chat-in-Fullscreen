@@ -1,0 +1,21 @@
+{
+    "name": "Youtube Chat in Fullscreen",
+    "description": "Show Youtube live chat when entering full screen mode",
+    "version": "1.0",
+    "manifest_version": 2,
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_icon": "/images/chat.png"
+    },
+    "permissions": [
+        "storage",
+        "webRequest",
+        "*://*.youtube.com/"
+    ]
+}
