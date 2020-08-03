@@ -20,7 +20,10 @@ chrome.webRequest.onCompleted.addListener((details) => {
     if (!query.v) return
     const watch_id = query.v
 
-    // get the watch_id, to check whether it is a live streaming page
+    /**
+     * Get the watch_id, to check whether it is a live streaming page
+     */
+
 
 
 }, requestFilter)
