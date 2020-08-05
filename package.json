@@ -10,12 +10,17 @@
         "build": "webpack --config webpack.prod.js"
     },
     "devDependencies": {
+        "@types/chrome": "^0.0.122",
+        "@types/gapi.client": "^1.0.3",
+        "axios": "^0.19.2",
         "clean-webpack-plugin": "^3.0.0",
         "copy-webpack-plugin": "^6.0.3",
-        "gapi": "^0.0.3",
         "html-webpack-plugin": "^4.3.0",
+        "ts-loader": "^8.0.2",
+        "typescript": "^3.9.7",
         "webpack": "^4.44.1",
         "webpack-cli": "^3.3.12",
         "webpack-merge": "^5.0.9"
-    }
+    },
+    "dependencies": {}
 }

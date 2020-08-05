@@ -6,18 +6,27 @@ const { merge } = require('webpack-merge')
 
 module.exports = merge({}, {
     entry: {
-        background: "./src/background.js",
-        popup: "./src/popup.js"
+        background: "./src/background.ts",
+        popup: "./src/popup.ts",
+        inject: './src/inject.ts'
     },
     output: {
         filename: "[name].js",
         path: path.resolve(__dirname, "build")
     },
     module: {
-        rules: []
+        rules: [
+            {
+                test: /\.tsx?$/,
+                loader: 'ts-loader',
+            }
+        ]
+    },
+    resolve: {
+        extensions: ['.ts', '.js']
     },
     plugins: [
-        new CleanWebpackPlugin(),
+        // new CleanWebpackPlugin(),
         new HtmlWp({
             template: path.join(__dirname, './src/popup.html'),
             filename: "popup.html",
@@ -26,6 +35,7 @@ module.exports = merge({}, {
         new CopyWp({
             patterns: [
                 path.resolve(__dirname, './src/manifest.json'),
+                // path.resolve(__dirname, './src/api.js'),
                 {
                     from: path.resolve(__dirname, './src/images'),
                     to: path.resolve(__dirname, 'build', 'images')
