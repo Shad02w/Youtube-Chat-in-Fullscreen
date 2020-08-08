@@ -1,10 +1,10 @@
 import qs from 'query-string'
-import { getVideoDetails } from './get'
-import Axios from 'axios'
+import { getVideoDetails } from './get-axios'
 
 chrome.runtime.onInstalled.addListener(() => {
     console.log('onInstalled')
 })
+
 
 
 const requestFilter = {
@@ -17,7 +17,6 @@ chrome.webRequest.onCompleted.addListener(async (details: chrome.webRequest.WebR
     console.log(details)
     const url = details.url as string
     const tabId = details.tabId
-    const frameId = details.frameId
     const query = qs.parseUrl(url).query
 
 

@@ -32,11 +32,6 @@ module.exports = merge({}, {
             filename: "popup.html",
             chunks: ['popup']
         }),
-        new HtmlWp({
-            template: path.join(__dirname, './src/background.html'),
-            filename: "background.html",
-            chunks: ['background']
-        }),
         new CopyWp({
             patterns: [
                 path.resolve(__dirname, './src/manifest.json'),

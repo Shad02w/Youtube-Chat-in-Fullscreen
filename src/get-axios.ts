@@ -1,9 +1,13 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 const apiKey = 'AIzaSyCNHhtYKFqyZdmG3koM1QKjWGHxe8m9yQg'
 
-export const getVideoDetails = async (video_id: string): Promise<any> => {
-    const req = axios.request({
+type Video = gapi.client.youtube.Video
+
+
+export const getVideoDetails = async (video_id: string): Promise<Video | undefined> => {
+    const res1 = await gapi.client.videos.list({ part: 'snippet' })
+    const req = axios.request<any, AxiosResponse<gapi.client.youtube.VideoListResponse>>({
         method: 'GET',
         url: 'https://www.googleapis.com/youtube/v3/videos',
         responseType: 'json',
@@ -13,7 +17,7 @@ export const getVideoDetails = async (video_id: string): Promise<any> => {
             key: apiKey
         }
     })
-    let res = undefined
+    let res: undefined | AxiosResponse<gapi.client.youtube.VideoListResponse> = undefined
     try {
         res = await req
     } catch (error) {
