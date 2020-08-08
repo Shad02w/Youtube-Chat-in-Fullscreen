@@ -4,9 +4,7 @@
     "version": "1.0",
     "manifest_version": 2,
     "background": {
-        "scripts": [
-            "background.js"
-        ],
+        "page": "background.html",
         "persistent": true
     },
     "browser_action": {
@@ -18,5 +16,8 @@
         "webRequest",
         "*://*.youtube.com/"
     ],
-    "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'"
+    "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
+    "web_accessible_resources": [
+        "xhrMod.js"
+    ]
 }

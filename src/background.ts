@@ -1,10 +1,6 @@
-/// <reference types="@types/gapi.client" />
-
-import URL from 'url'
-import qs from 'querystring'
+import qs from 'query-string'
 import { getVideoDetails } from './get'
-
-
+import Axios from 'axios'
 
 chrome.runtime.onInstalled.addListener(() => {
     console.log('onInstalled')
@@ -15,31 +11,42 @@ const requestFilter = {
     urls: ['https://www.youtube.com/watch*']
 }
 
-chrome.webRequest.onCompleted.addListener(async (details: any) => {
+chrome.webRequest.onCompleted.addListener(async (details: chrome.webRequest.WebResponseCacheDetails) => {
     if (!details || !details.url) return
 
     console.log(details)
     const url = details.url as string
     const tabId = details.tabId
-    const query = qs.decode(URL.parse(url).query as string)
-    console.log(query)
+    const frameId = details.frameId
+    const query = qs.parseUrl(url).query
 
 
     if (!query.v) return
     const video_id = query.v as string
     const videoDetail = await getVideoDetails(video_id)
-    console.log(videoDetail)
+    if (videoDetail === undefined) return
 
-    if (videoDetail.snippet.liveBroadcastContent !== undefined &&
+    //Check whether this is a live page
+    if (videoDetail.snippet?.liveBroadcastContent !== undefined &&
+        videoDetail.liveStreamingDetails?.activeLiveChatId !== undefined &&
         // (videoDetail.snippet.liveBroadcastContent === 'live' || videoDetail.snippet.liveBroadcastContent === 'upcoming')) { // get live chat id 
         /**Now only support live streaming not live recorded page */
-        videoDetail.snippet.liveBroadcastContent === 'live') { // get live chat id 
+        videoDetail.snippet!.liveBroadcastContent === 'live') { // get live chat id 
 
-        // if it is a streaming page, inject the script
+
+        // // if it is a streaming page, inject the script
         chrome.tabs.executeScript(tabId, {
-            file: 'inject.js'
+            file: 'contentScript.js',
         }, () => {
-            console.log('js injected')
+            const listener = (details: chrome.webRequest.WebRequestBodyDetails): void => {
+                console.log(details.frameId, details.url)
+                if (details.frameId === 0) return // To prevent the infinity loop, since it will capture the replayed xhr requst from content script
+                chrome.tabs.sendMessage(tabId, { url: details.url })
+            }
+            chrome.webRequest.onBeforeRequest.addListener(listener, {
+                urls: ['https://www.youtube.com/live_chat/get_live_chat*'],
+                tabId,
+            })
         })
     }
 

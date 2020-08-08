@@ -1,6 +1,5 @@
 const HtmlWp = require('html-webpack-plugin')
 const CopyWp = require('copy-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const path = require('path')
 const { merge } = require('webpack-merge')
 
@@ -8,7 +7,8 @@ module.exports = merge({}, {
     entry: {
         background: "./src/background.ts",
         popup: "./src/popup.ts",
-        inject: './src/inject.ts'
+        xhrMod: './src/xhrMod.ts',
+        contentScript: './src/contentScript.ts'
     },
     output: {
         filename: "[name].js",
@@ -31,6 +31,11 @@ module.exports = merge({}, {
             template: path.join(__dirname, './src/popup.html'),
             filename: "popup.html",
             chunks: ['popup']
+        }),
+        new HtmlWp({
+            template: path.join(__dirname, './src/background.html'),
+            filename: "background.html",
+            chunks: ['background']
         }),
         new CopyWp({
             patterns: [
