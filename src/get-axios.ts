@@ -5,8 +5,8 @@ const apiKey = 'AIzaSyCNHhtYKFqyZdmG3koM1QKjWGHxe8m9yQg'
 type Video = gapi.client.youtube.Video
 
 
+
 export const getVideoDetails = async (video_id: string): Promise<Video | undefined> => {
-    const res1 = await gapi.client.videos.list({ part: 'snippet' })
     const req = axios.request<any, AxiosResponse<gapi.client.youtube.VideoListResponse>>({
         method: 'GET',
         url: 'https://www.googleapis.com/youtube/v3/videos',
