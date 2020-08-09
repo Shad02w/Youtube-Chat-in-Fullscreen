@@ -34,20 +34,23 @@ export const getVideoDetails = async (video_id: string): Promise<Video | undefin
     return undefined
 }
 
-export const getLiveMessages = async (liveChatId: string) => {
-    const liveChatRequest = axios.request({
+
+export const getLiveMessages = async (liveChatId: string, nextPageToken?: string) => {
+    const liveChatRequest = axios.request<any, AxiosResponse<gapi.client.youtube.LiveChatMessageListResponse>>({
         method: 'GET',
         url: 'https://www.googleapis.com/youtube/v3/liveChat/messages',
         responseType: 'json',
         params: {
             liveChatId,
             part: 'snippet,authorDetails',
-            key: apiKey
+            key: apiKey,
+            pageToken: nextPageToken ? nextPageToken : undefined
         }
     })
+
+
     try {
         const res = await liveChatRequest
-        console.log('liveChat', res.data)
         return res.data
     } catch (error) {
         console.error(error.response.data)

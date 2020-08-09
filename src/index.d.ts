@@ -20,7 +20,7 @@ declare namespace YoutubeLiveChat {
     interface LiveChatResponse {
         responseContext: ResponseContext
         continuationContents: ContinuationContents
-        trackingParams: string
+        trackingParams?: string
     }
 
     interface ResponseContext {
@@ -48,17 +48,40 @@ declare namespace YoutubeLiveChat {
     interface ContinuationContents {
         liveChatContinuation: {
             continuations: Continuation[]
-            actions: LiveChatContinuationAction[]
-            trackingParams: string
+            actions?: LiveChatContinuationAction[]
+            trackingParams?: string
         }
     }
 
+    interface ContinuationData {
+        continuation: string
+        timoutMs: string
+    }
+
+    interface InvalidationContinuationData extends ContinuationData {
+        invalidationId: InvalidationId
+    }
+
+    interface InvalidationId {
+        objectId: string
+        objectSource: number
+        protoCreationTimestampMs: string
+        subscribeToGcmTopics: boolean
+        topic: string
+    }
+
+    interface TimedContinuationData extends ContinuationData {
+        clickTrackingParams: string
+
+    }
+
     interface Continuation {
-        timedContinuationData: {
-            timoutMs: number,
-            continuation: string
-            clickTrackingParams: string
-        }
+
+        /**Can be either one, dont know why */
+
+        invalidationContinuationData?: InvalidationContinuationData
+
+        timedContinuationData?: TimedContinuationData
     }
 
     interface LiveChatContinuationAction {
@@ -86,7 +109,7 @@ declare namespace YoutubeLiveChat {
         authorPhoto: LiveChatTextMessageRenderer.AuthorPhoto
         contextMenuEndpoint: LiveChatTextMessageRenderer.ContextMenuEndpoint
         id: string
-        authorBadges: LiveChatTextMessageRenderer.AuthorBadge
+        authorBadges?: LiveChatTextMessageRenderer.AuthorBadge
         authorExternalChannelId: string
         contextMenuAccessibility: LiveChatTextMessageRenderer
 

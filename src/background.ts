@@ -35,16 +35,20 @@ chrome.webRequest.onCompleted.addListener(async (details: chrome.webRequest.WebR
 
         // // if it is a streaming page, inject the script
         chrome.tabs.executeScript(tabId, {
-            file: 'contentScript.js',
+            file: 'liveChatRequestReplay.js',
         }, () => {
             const listener = (details: chrome.webRequest.WebRequestBodyDetails): void => {
-                console.log(details.frameId, details.url)
                 if (details.frameId === 0) return // To prevent the infinity loop, since it will capture the replayed xhr requst from content script
                 chrome.tabs.sendMessage(tabId, { url: details.url })
             }
+
             chrome.webRequest.onBeforeRequest.addListener(listener, {
                 urls: ['https://www.youtube.com/live_chat/get_live_chat*'],
                 tabId,
+            })
+            chrome.tabs.onRemoved.addListener((id) => {
+                if (id === tabId)
+                    chrome.webRequest.onBeforeRequest.removeListener(listener)
             })
         })
     }
