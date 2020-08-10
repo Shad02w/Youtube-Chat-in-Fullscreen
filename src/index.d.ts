@@ -1,6 +1,6 @@
 declare namespace YoutubeLiveChat {
 
-    interface LiveChat {
+    interface Data {
         csn: string
         url: string
         response: LiveChatResponse
