@@ -36,7 +36,7 @@ chrome.webRequest.onCompleted.addListener((details) => {
         file: 'liveChatRequestReplay.js'
     })
 
-}, { urls: ['https://www.youtube.com/watch*'] })
+}, vidoeRequestFilter)
 
 // Cant catch url request when user refresh the page, which need to inject content script again
 // chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
