@@ -1,5 +1,4 @@
 import qs from 'query-string'
-import { getVideoDetails } from './get-axios'
 
 
 chrome.runtime.onInstalled.addListener(() => {
