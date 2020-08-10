@@ -5,6 +5,7 @@
     "repository": "git@github.com:Shad02w/Youtube-Chat-in-Fullscreen.git",
     "author": "Shad02w@Win10 <alvistse123@gmail.com>",
     "license": "MIT",
+    "description": "A chrome extension to show the youtube live chat in fullscreen mode",
     "scripts": {
         "start": "webpack --config webpack.dev.js",
         "build": "webpack --config webpack.prod.js"
