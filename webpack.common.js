@@ -7,7 +7,6 @@ module.exports = merge({}, {
     entry: {
         background: "./src/background.ts",
         popup: "./src/popup.ts",
-        xhrMod: './src/xhrMod.ts',
         gapiLiveChat: './src/gapiLiveChat.ts',
         liveChatRequestReplay: './src/liveChatRequestReplay.ts'
     },
