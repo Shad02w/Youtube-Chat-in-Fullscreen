@@ -13,7 +13,9 @@ const vidoeRequestFilter = {
 
 const liveChatRequestFilter = {
     // urls: ['https://www.youtube.com/live_chat/get_live_chat*']
-    urls: ['https://www.youtube.com/youtubei/v1/live_chat/get_live_chat*']
+    // urls: ['https://www.youtube.com/youtubei/v1/live_chat/get_live_chat*']
+    urls: ['https://www.youtube.com/*/get_live_chat*']
+
 }
 
 export interface CatchedLiveChatRequestMessage {
@@ -21,18 +23,18 @@ export interface CatchedLiveChatRequestMessage {
     url: string
 }
 
-chrome.webRequest.onCompleted.addListener((details) => {
+chrome.webRequest.onBeforeRequest.addListener((details) => {
     if (details.frameId === 0) return
+    console.log('/get_live_chat details', details)
     const message: CatchedLiveChatRequestMessage = {
         tabId: details.tabId,
         url: details.url
     }
     chrome.tabs.sendMessage(details.tabId, message)
-}, liveChatRequestFilter)
+}, liveChatRequestFilter, ['requestBody'])
 
 
 chrome.webRequest.onCompleted.addListener((details) => {
-    console.log(details)
     chrome.tabs.executeScript(details.tabId, {
         file: 'liveChatRequestReplay.js'
     })
