@@ -12,7 +12,8 @@ const vidoeRequestFilter = {
 }
 
 const liveChatRequestFilter = {
-    urls: ['https://www.youtube.com/live_chat/get_live_chat*']
+    // urls: ['https://www.youtube.com/live_chat/get_live_chat*']
+    urls: ['https://www.youtube.com/youtubei/v1/live_chat/get_live_chat*']
 }
 
 export interface CatchedLiveChatRequestMessage {
