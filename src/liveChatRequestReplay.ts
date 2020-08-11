@@ -22,39 +22,39 @@ declare var window: MyWindow
     // run code here
     console.log('liveChatRequestReplay.js injected')
 
-    // id
-    const addChatListToDOM = async (chatListActions: YoutubeLiveChat.LiveChatContinuationAction[]) => {
-        const videoContainer = document.getElementById('container')
-        console.log(videoContainer)
-        const overlayLiveChatContainer = document.createElement('div')
-        overlayLiveChatContainer.id = 'overlay-live-chat-container'
-        // overlayLiveChatContainer.style.width = '100px'
-        // overlayLiveChatContainer.style.height = '200px'
-        // overlayLiveChatContainer.style.background = 'black'
-        // overlayLiveChatContainer.style.color = '#fff'
-        chatListActions.map(action => {
-            const p = document.createElement('p')
-            p.innerHTML = action.addChatItemAction.item.liveChatTextMessageRenderer.message.runs[0].text
-        })
+    // The request either be get or post
+    async function ReplayRequest(url: string, requestBody?: JSON): Promise<YoutubeLiveChat.Data | undefined> {
+        let data: YoutubeLiveChat.Data | undefined
+        try {
+            if (!requestBody) {
+                const res = await axios.get(url)
+                data = res.data as YoutubeLiveChat.Data
+                console.log('GET', data)
+            } else {
+                const res = await axios.post(url, requestBody, { responseType: 'json' })
+                data = res.data as YoutubeLiveChat.Data
+                console.log('POST', data)
+            }
+        } catch (error) {
+            if (error.response)
+                console.error(error.response.data)
+            else
+                console.error(error)
+        }
+        return data
 
     }
 
 
-    chrome.runtime.onMessage.addListener(async (message: CatchedLiveChatRequestMessage) => {
-        console.log(message)
-        // let res: AxiosResponse<YoutubeLiveChat.Data> | undefined = undefined
-        // try {
-        //     res = await axios.post(message.url)
-        // } catch (error) {
-        //     error.response.data
-        // }
-        // if (res === undefined) return
-        // // const data = res.data as YoutubeLiveChat.Data
-        // console.log('data', data)
 
-        // if (data.response.continuationContents.liveChatContinuation.actions &&
-        //     data.response.continuationContents.liveChatContinuation.actions.length === 0) return
-        // const { response: { continuationContents: { liveChatContinuation: { actions } } } } = data
+
+
+    chrome.runtime.onMessage.addListener(async function (message: CatchedLiveChatRequestMessage) {
+        console.log(message)
+        const { url } = message.details
+        const requestBody = message.requestBody
+        const data = await ReplayRequest(url, requestBody)
+        if (data === undefined) return
 
     })
 
