@@ -2,6 +2,8 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { render } from 'react-dom'
 import { CatchedLiveChatRequestMessage } from './background'
+import { StyleSheet } from 'aphrodite'
+import { createUseStyles } from 'react-jss'
 import './css/App.css'
 
 /* Replay the get_live_chat xhr request to get the response */
@@ -53,6 +55,20 @@ declare var window: MyWindow
         return data
     }
 
+    const styles = StyleSheet.create({
+        innerContainer: {
+        }
+    })
+
+    const useStyles = createUseStyles({
+        innerContainer: {
+            position: 'absolute',
+            width: '200px',
+            height: '300px',
+            background: 'black'
+        }
+    })
+
     const App: React.FC = () => {
 
         const [chatList, setChatList] = useState<YoutubeLiveChat.LiveChatContinuationAction[]>([])
@@ -75,9 +91,10 @@ declare var window: MyWindow
                 return <p>AAAAAAAAAAAA</p>
         }
 
+        const classes = useStyles()
 
         return (
-            <div id='chat-list-inner-container'>
+            <div id='_chat-list-inner-container' className={classes.innerContainer}>
                 {creteChatList()}
             </div>
         )

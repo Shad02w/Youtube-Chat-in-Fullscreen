@@ -1,5 +1,8 @@
 #_chat-list-container {
     background: rgba(150, 150, 150, 0.596);
+    height: auto;
+    width: auto;
+    overflow: hidden;
     position: absolute;
     top: 0px;
     right: 0px;
