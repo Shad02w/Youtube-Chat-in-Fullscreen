@@ -1,0 +1,7 @@
+#_chat-list-container {
+    background: rgba(150, 150, 150, 0.596);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    backdrop-filter: blur(10px); 
+}

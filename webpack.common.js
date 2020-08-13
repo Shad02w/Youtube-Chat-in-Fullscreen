@@ -7,7 +7,7 @@ module.exports = merge({}, {
     entry: {
         background: "./src/background.ts",
         popup: "./src/popup.ts",
-        liveChatRequestReplay: './src/liveChatRequestReplay.ts'
+        liveChatRequestReplay: './src/liveChatRequestReplay.tsx'
     },
     output: {
         filename: "[name].js",
@@ -18,11 +18,15 @@ module.exports = merge({}, {
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',
+            },
+            {
+                test: /.css$/,
+                use: ["style-loader", "css-loader"]
             }
         ]
     },
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [
         // new CleanWebpackPlugin(),
@@ -34,13 +38,10 @@ module.exports = merge({}, {
         new CopyWp({
             patterns: [
                 path.resolve(__dirname, './src/manifest.json'),
-                // path.resolve(__dirname, './src/api.js'),
                 {
                     from: path.resolve(__dirname, './src/images'),
                     to: path.resolve(__dirname, 'build', 'images')
                 },
-                // { from: './src/manifest.json', to: './' },
-                // { from: './src/images/**/*', to: './images' }
             ]
         })
     ],

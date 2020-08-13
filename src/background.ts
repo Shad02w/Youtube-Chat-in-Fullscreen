@@ -1,6 +1,4 @@
-import qs from 'query-string'
-
-
+import parse from 'url-parse'
 chrome.runtime.onInstalled.addListener(() => {
     console.log('onInstalled')
 })
@@ -43,7 +41,7 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
 
 chrome.webRequest.onBeforeRequest.addListener((details) => {
     if (details.frameId === 0) return
-    console.log('/get_live_chat details', details)
+    console.log(parse(details.url).pathname, details.tabId, details)
 
     // since arraybuffer can not send through message passing, need to parse the request body first
     if (details.method === 'POST') {
@@ -69,7 +67,8 @@ chrome.webRequest.onBeforeRequest.addListener((details) => {
 
 chrome.webRequest.onCompleted.addListener((details) => {
     chrome.tabs.executeScript(details.tabId, {
-        file: 'liveChatRequestReplay.js'
+        file: 'liveChatRequestReplay.js',
+        runAt: 'document_idle'
     })
 
 }, vidoeRequestFilter)
