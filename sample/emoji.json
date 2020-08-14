@@ -1,0 +1,1910 @@
+{
+    "responseContext": {
+        "serviceTrackingParams": [
+            {
+                "service": "CSI",
+                "params": [
+                    {
+                        "key": "GetLiveChat_rid",
+                        "value": "0xa1007569602c6c29"
+                    },
+                    {
+                        "key": "c",
+                        "value": "WEB"
+                    },
+                    {
+                        "key": "cver",
+                        "value": "2.20200812.02.01"
+                    },
+                    {
+                        "key": "yt_li",
+                        "value": "1"
+                    }
+                ]
+            },
+            {
+                "service": "GFEEDBACK",
+                "params": [
+                    {
+                        "key": "e",
+                        "value": "23744176,23788843,23804281,23827035,23839597,23856950,23857949,23859802,23862346,23868331,23876166,23880389,23882503,23883098,23884386,23895671,23907595,23910804,23911055,23916148,23918272,23918598,23919117,23919287,23921357,23921993,23927887,23927906,23928508,23930220,23931485,23931939,23934047,23936747,24590220,24631151,45170005,9449243"
+                    },
+                    {
+                        "key": "logged_in",
+                        "value": "1"
+                    }
+                ]
+            },
+            {
+                "service": "GUIDED_HELP",
+                "params": [
+                    {
+                        "key": "logged_in",
+                        "value": "1"
+                    }
+                ]
+            },
+            {
+                "service": "ECATCHER",
+                "params": [
+                    {
+                        "key": "client.name",
+                        "value": "WEB"
+                    },
+                    {
+                        "key": "client.version",
+                        "value": "2.20200812"
+                    },
+                    {
+                        "key": "innertube.build.changelist",
+                        "value": "326044463"
+                    },
+                    {
+                        "key": "innertube.build.experiments.source_version",
+                        "value": "326455738"
+                    },
+                    {
+                        "key": "innertube.build.label",
+                        "value": "youtube.ytfe.innertube_20200811_2_RC0"
+                    },
+                    {
+                        "key": "innertube.build.timestamp",
+                        "value": "1597166077"
+                    },
+                    {
+                        "key": "innertube.build.variants.checksum",
+                        "value": "121d9fd86d61f503f3fbd18b7ead67f1"
+                    },
+                    {
+                        "key": "innertube.run.job",
+                        "value": "ytfe-innertube-replica-only.ytfe"
+                    }
+                ]
+            }
+        ],
+        "webResponseContextExtensionData": {
+            "hasDecorated": true
+        }
+    },
+    "continuationContents": {
+        "liveChatContinuation": {
+            "continuations": [
+                {
+                    "timedContinuationData": {
+                        "timeoutMs": 4886,
+                        "continuation": "0ofMyAPFARpsQ2pnS0RRb0xXblE1VlhCWWJVZHBVamdxSndvWVZVTXhiM0JJVlhKM09ISjJibk5oWkZRdGFVZHdOME5uRWd0YWREbFZjRmh0UjJsU09Cb1Q2cWpkdVFFTkNndGFkRGxWY0ZodFIybFNPQ0FCKIH7o43bmOsCMAA4AEABSiAIABAAGAAgADoAQABKAggBUIz8qo3YmOsCWAN4AIABAFDJ6tiN25jrAlivruLskZjrAmgEggECCASIAQCgAfnPoo7bmOsC"
+                    }
+                }
+            ],
+            "actions": [
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "seiya"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2p3S09nb2FRMDEyYW1kdmRtSnRUM05EUm1STE0yZG5iMlIzVEdkTlMxRVNIRU5KTFhWc2RtNVFiVTl6UTBaUldXWnFkMjlrU201blJERm5NelFRQUJvNENnMEtDMXAwT1ZWd1dHMUhhVkk0S2ljS0dGVkRNVzl3U0ZWeWR6aHlkbTV6WVdSVUxXbEhjRGREWnhJTFduUTVWWEJZYlVkcFVqZ2dBU2dFTWhvS0dGVkRNMVpXU0ZObVJtTktSbUpYV0V4bFJFbEVTRVJ2WnclM0QlM0Q="
+                                    }
+                                },
+                                "id": "CjoKGkNNdmpnb3ZibU9zQ0ZkSzNnZ29kd0xnTUtREhxDSS11bHZuUG1Pc0NGUVlmandvZEpuZ0QxZzM0",
+                                "timestampUsec": "1597339967992267",
+                                "authorExternalChannelId": "UC3VVHSfFcJFbWXLeDIDHDog",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-lMJNZKLfCQE/AAAAAAAAAAI/AAAAAAAAAAA/MT3sHkpU-W8/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-lMJNZKLfCQE/AAAAAAAAAAI/AAAAAAAAAAA/MT3sHkpU-W8/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/obG1u-WX-fQI6fHz_84Kj5c54cuBAtYu0JvhLOYI347kr6_OmsQoX9VauYb1MMTGovgREkW8=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/obG1u-WX-fQI6fHz_84Kj5c54cuBAtYu0JvhLOYI347kr6_OmsQoX9VauYb1MMTGovgREkW8=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (4 months)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (4 months)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CI-ulvnPmOsCFQYfjwodJngD1g34"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "以翔旋風"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2tjS1JRb2FRMHBFWHpOSmRtSnRUM05EUmxKWFJuZG5SV1ExT1dOTmNXY1NKME5KYVVVMFNWUmliVTl6UTBaVmMyNVpRVzlrTkU5blJVZG5NVFU1TnpNek9UazJPREl6T0JBQUdqZ0tEUW9MV25RNVZYQlliVWRwVWpncUp3b1lWVU14YjNCSVZYSjNPSEoyYm5OaFpGUXRhVWR3TjBObkVndGFkRGxWY0ZodFIybFNPQ0FCS0FReUdnb1lWVU54U0VveFRGSm1jMFZyTWpWeU56UklaMUZsWmtWMw=="
+                                    }
+                                },
+                                "id": "CkUKGkNKRF8zSXZibU9zQ0ZSV0Z3Z0VkNTljTXFnEidDSWlFNElUYm1Pc0NGVXNuWUFvZDRPZ0VHZzE1OTczMzk5NjgyMzg%3D",
+                                "timestampUsec": "1597339969470352",
+                                "authorExternalChannelId": "UCqHJ1LRfsEk25r74HgQefEw",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-KucUcJE_hss/AAAAAAAAAAI/AAAAAAAAAAA/m-em9ADZ3Vw/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-KucUcJE_hss/AAAAAAAAAAI/AAAAAAAAAAA/m-em9ADZ3Vw/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/obG1u-WX-fQI6fHz_84Kj5c54cuBAtYu0JvhLOYI347kr6_OmsQoX9VauYb1MMTGovgREkW8=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/obG1u-WX-fQI6fHz_84Kj5c54cuBAtYu0JvhLOYI347kr6_OmsQoX9VauYb1MMTGovgREkW8=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (5 months)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (5 months)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CIiE4ITbmOsCFUsnYAod4OgEGg1597339968238"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "is she finishing up?"
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "Jeidyn"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2pzS09Rb2FRMHh4VFRKdmRtSnRUM05EUmxKaVRXZG5iMlEwV25OT1dVRVNHME5OU0drd1gyWmhiVTl6UTBaVlkybHpkMEZrVVVGblFsZFJNUkFBR2pnS0RRb0xXblE1VlhCWWJVZHBVamdxSndvWVZVTXhiM0JJVlhKM09ISjJibk5oWkZRdGFVZHdOME5uRWd0YWREbFZjRmh0UjJsU09DQUJLQVF5R2dvWVZVTllOMGxxZWtkVk1HRkhUbVpJUjBKcFNGZFRWVEJu"
+                                    }
+                                },
+                                "id": "CjkKGkNMcU0yb3ZibU9zQ0ZSYk1nZ29kNFpzTllBEhtDTUhpMF9mYW1Pc0NGVWNpc3dBZFFBZ0JXUTE%3D",
+                                "timestampUsec": "1597339969422906",
+                                "authorExternalChannelId": "UCX7IjzGU0aGNfHGBiHWSU0g",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-YRexuUFKRdo/AAAAAAAAAAI/AAAAAAAAAAA/Tns3Gi43Nvc/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-YRexuUFKRdo/AAAAAAAAAAI/AAAAAAAAAAA/Tns3Gi43Nvc/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CMHi0_famOsCFUciswAdQAgBWQ1"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "クエン"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2owS093b2FRMUF6VlRWWmRtSnRUM05EUmxrdGFtZG5iMlJCUTJOTFJrRVNIVU5MWlVkM1RYVTJiVTl6UTBaU1JGOWhRVzlrYlZwclVEaDNNems0RUFBYU9Bb05DZ3RhZERsVmNGaHRSMmxTT0NvbkNoaFZRekZ2Y0VoVmNuYzRjblp1YzJGa1ZDMXBSM0EzUTJjU0MxcDBPVlZ3V0cxSGFWSTRJQUVvQkRJYUNoaFZRMmhVY0VJMWMzZGpNamxKVlhsaWFVRkxMV3hNWVVFJTNE"
+                                    }
+                                },
+                                "id": "CjsKGkNQM1U1WXZibU9zQ0ZZLWpnZ29kQUNjS0ZBEh1DS2VHd011Nm1Pc0NGUkRfYUFvZG1aa1A4dzM5OA%3D%3D",
+                                "timestampUsec": "1597339969612413",
+                                "authorExternalChannelId": "UChTpB5swc29IUybiAK-lLaA",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-rtpLxTCHUNw/AAAAAAAAAAI/AAAAAAAAAAA/Ix-ceQGORug/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-rtpLxTCHUNw/AAAAAAAAAAI/AAAAAAAAAAA/Ix-ceQGORug/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (7 months)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (7 months)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CKeGwMu6mOsCFRD_aAodmZkP8w398"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃんっ！"
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "芳乃清隆"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2tjS1JRb2FRMDFQZDI1WmVtSnRUM05EUm1WS1VHZDNiMlJCUld0RWRYY1NKME5RWmpsNWIweGhiVTl6UTBaUmNsQlVRVWxrYm1OVlJYSlJNVFU1TnpNek9UazJOemM0TXhBQUdqZ0tEUW9MV25RNVZYQlliVWRwVWpncUp3b1lWVU14YjNCSVZYSjNPSEoyYm5OaFpGUXRhVWR3TjBObkVndGFkRGxWY0ZodFIybFNPQ0FCS0FReUdnb1lWVU5zWW13elNFbHFSREp2Umt0bFJHWjJSbGt5Wlc5Qg=="
+                                    }
+                                },
+                                "id": "CkUKGkNNT3duWXpibU9zQ0ZlSlBnd29kQUVrRHV3EidDUGY5eW9MYW1Pc0NGUXJQVEFJZG5jVUVyUTE1OTczMzk5Njc3ODM%3D",
+                                "timestampUsec": "1597339970525251",
+                                "authorExternalChannelId": "UClbl3HIjD2oFKeDfvFY2eoA",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-EVvxuAGCuCU/AAAAAAAAAAI/AAAAAAAAAAA/HJAChlkGhQc/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-EVvxuAGCuCU/AAAAAAAAAAI/AAAAAAAAAAA/HJAChlkGhQc/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CPf9yoLamOsCFQrPTAIdncUErQ1597339967783"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "甘楽"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2p3S09nb2FRMUIxUzI1SmVtSnRUM05EUmxWTWFHZG5iMlJ2TW05Tk5YY1NIRU5NUjNOb2RYcEhiVTl6UTBaa1UwaGpRVzlrTjNSQlJVTm5OamNRQUJvNENnMEtDMXAwT1ZWd1dHMUhhVkk0S2ljS0dGVkRNVzl3U0ZWeWR6aHlkbTV6WVdSVUxXbEhjRGREWnhJTFduUTVWWEJZYlVkcFVqZ2dBU2dFTWhvS0dGVkRhVzVIVjJFd2RVOW1TRkYzYkhrd1RqTnNVMGs1UVElM0QlM0Q="
+                                    }
+                                },
+                                "id": "CjoKGkNQdUtuSXpibU9zQ0ZVTGhnZ29kbzJvTTV3EhxDTEdzaHV6R21Pc0NGZFNIY0FvZDd0QUVDZzY3",
+                                "timestampUsec": "1597339970504059",
+                                "authorExternalChannelId": "UCinGWa0uOfHQwly0N3lSI9A",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-RRcx8JzaBlA/AAAAAAAAAAI/AAAAAAAAAAA/KhzuEIhQVcc/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-RRcx8JzaBlA/AAAAAAAAAAI/AAAAAAAAAAA/KhzuEIhQVcc/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (11 months)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (11 months)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CLGshuzGmOsCFdSHcAod7tAECg67"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "ライト104"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2owS093b2FRMHhpTm5KWmVtSnRUM05EUmxsSGMwUlJiMlE1Y2tGRVNHY1NIVU5QWm1zMlRETlpiVTl6UTBaamFFWlpRVzlrTFdOdlJYcDNMVEUxRUFBYU9Bb05DZ3RhZERsVmNGaHRSMmxTT0NvbkNoaFZRekZ2Y0VoVmNuYzRjblp1YzJGa1ZDMXBSM0EzUTJjU0MxcDBPVlZ3V0cxSGFWSTRJQUVvQkRJYUNoaFZRMVpYUzFaUGNWUTFXVWxOVGpacFZ6TXRjRzExVjFFJTNE"
+                                    }
+                                },
+                                "id": "CjsKGkNMYjZyWXpibU9zQ0ZZR3NEUW9kOXJBREhnEh1DT2ZrNkwzWW1Pc0NGY2hGWUFvZC1jb0V6dy0xNQ%3D%3D",
+                                "timestampUsec": "1597339970796854",
+                                "authorExternalChannelId": "UCVWKVOqT5YIMN6iW3-pmuWQ",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-QYAM4AjzjCc/AAAAAAAAAAI/AAAAAAAAAAA/UkEreTQVMu0/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-QYAM4AjzjCc/AAAAAAAAAAI/AAAAAAAAAAA/UkEreTQVMu0/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/obG1u-WX-fQI6fHz_84Kj5c54cuBAtYu0JvhLOYI347kr6_OmsQoX9VauYb1MMTGovgREkW8=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/obG1u-WX-fQI6fHz_84Kj5c54cuBAtYu0JvhLOYI347kr6_OmsQoX9VauYb1MMTGovgREkW8=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (5 months)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (5 months)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "COfk6L3YmOsCFchFYAod-coEzw-15"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/DdzOXK60G4bi8wTRqqvQAQ",
+                                                "shortcuts": [
+                                                    ":_aqua大天使あくあ:",
+                                                    ":aqua大天使あくあ:",
+                                                    ":_大天使あくあ:",
+                                                    ":大天使あくあ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aqua大天使あくあ",
+                                                    "aqua大天使あくあ",
+                                                    "_大天使あくあ",
+                                                    "大天使あくあ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/tdhH3FPWpZUAzHa7P9OdYWz_dSy3ziBZHwTNnQQniC8bCFZofiGNZobcUsO0s5qgVN8OgjsXzvY=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/tdhH3FPWpZUAzHa7P9OdYWz_dSy3ziBZHwTNnQQniC8bCFZofiGNZobcUsO0s5qgVN8OgjsXzvY=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aqua大天使あくあ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "Pon PI PaT"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2tjS1JRb2FRMGszWm5KWmVtSnRUM05EUmxwdVpHZG5iMlJCY2xsR1VrRVNKME5OVjNjd2MycGhiVTl6UTBaU1RtdGhRVzlrWVV4WlRGaDNNVFU1TnpNek9UazJPVFk0T1JBQUdqZ0tEUW9MV25RNVZYQlliVWRwVWpncUp3b1lWVU14YjNCSVZYSjNPSEoyYm5OaFpGUXRhVWR3TjBObkVndGFkRGxWY0ZodFIybFNPQ0FCS0FReUdnb1lWVU5tWDJkSWRqVnlSV1J3YTBaclpFVTJhak5sV1dsQg=="
+                                    }
+                                },
+                                "id": "CkUKGkNJN2ZyWXpibU9zQ0ZabmRnZ29kQXJZRlJBEidDTVd3MHNqYW1Pc0NGUk5rYUFvZGFMWUxYdzE1OTczMzk5Njk2ODk%3D",
+                                "timestampUsec": "1597339970793358",
+                                "authorExternalChannelId": "UCf_gHv5rEdpkFkdE6j3eYiA",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-fSu_tiyfZi0/AAAAAAAAAAI/AAAAAAAAAAA/3cAvHGpDQ2M/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-fSu_tiyfZi0/AAAAAAAAAAI/AAAAAAAAAAA/3cAvHGpDQ2M/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/sGnVdFSWfZwLOqdwU0wKpFdlaY6FlqFvnAG1lNYt0Jk2qVdwzKjb0iactGaBRjjtTmIuVxXCoQ=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/sGnVdFSWfZwLOqdwU0wKpFdlaY6FlqFvnAG1lNYt0Jk2qVdwzKjb0iactGaBRjjtTmIuVxXCoQ=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (1 month)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (1 month)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CMWw0sjamOsCFRNkaAodaLYLXw1597339969689"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "アタリメ"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2pzS09Rb2FRMHREVjNkWmVtSnRUM05EUmxKVVFXZG5iMlJXU1ZsR1ZHY1NHME5LZVRrNUxXSlpiVTl6UTBaa2VrMWpkMFZrYUZwclNpMVJNeEFBR2pnS0RRb0xXblE1VlhCWWJVZHBVamdxSndvWVZVTXhiM0JJVlhKM09ISjJibk5oWkZRdGFVZHdOME5uRWd0YWREbFZjRmh0UjJsU09DQUJLQVF5R2dvWVZVTkJVVzA0TVVwWE9HWnFTRVExWkRKdGVrOURNV0ZC"
+                                    }
+                                },
+                                "id": "CjkKGkNLQ1d3WXpibU9zQ0ZSVEFnZ29kVklZRlRnEhtDSnk5OS1iWW1Pc0NGZHpNY3dFZGhaa0otUTM%3D",
+                                "timestampUsec": "1597339971111712",
+                                "authorExternalChannelId": "UCAQm81JW8fjHD5d2mzOC1aA",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-Evn7-PnEo9Q/AAAAAAAAAAI/AAAAAAAAAAA/Bxd1p_EgJiA/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-Evn7-PnEo9Q/AAAAAAAAAAI/AAAAAAAAAAA/Bxd1p_EgJiA/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (8 months)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (8 months)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CJy99-bYmOsCFdzMcwEdhZkJ-Q3"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "でーさん"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2tjS1JRb2FRMDVxWjNwWmVtSnRUM05EUmxGVE0yZG5iMlJCUkhORlFtY1NKME5RWlMwNWNXcGhiVTl6UTBaWGNrVlVRVWxrTlhKelRYRm5NVFU1TnpNek9UazNNREF6TVJBQUdqZ0tEUW9MV25RNVZYQlliVWRwVWpncUp3b1lWVU14YjNCSVZYSjNPSEoyYm5OaFpGUXRhVWR3TjBObkVndGFkRGxWY0ZodFIybFNPQ0FCS0FReUdnb1lWVU5sZDJaVGRtTmtkRTFmU0VocGRrUlFaR2RwZFUxMw=="
+                                    }
+                                },
+                                "id": "CkUKGkNOamd6WXpibU9zQ0ZRUzNnZ29kQURzRUJnEidDUGUtOXFqYW1Pc0NGV3JFVEFJZDVyc01xZzE1OTczMzk5NzAwMzE%3D",
+                                "timestampUsec": "1597339971317848",
+                                "authorExternalChannelId": "UCewfSvcdtM_HHivDPdgiuMw",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-3WNXyRr2vcQ/AAAAAAAAAAI/AAAAAAAAAAA/ygSMxyE9nRs/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-3WNXyRr2vcQ/AAAAAAAAAAI/AAAAAAAAAAA/ygSMxyE9nRs/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/obG1u-WX-fQI6fHz_84Kj5c54cuBAtYu0JvhLOYI347kr6_OmsQoX9VauYb1MMTGovgREkW8=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/obG1u-WX-fQI6fHz_84Kj5c54cuBAtYu0JvhLOYI347kr6_OmsQoX9VauYb1MMTGovgREkW8=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (3 months)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (3 months)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CPe-9qjamOsCFWrETAId5rsMqg1597339970031"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "かろ"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2owS093b2FRMDVwWDNaWmVtSnRUM05EUmxGVE9FUlJiMlJrVkVsUGVIY1NIVU5MWm1GZmRXbHhiVTl6UTBabGJqaFBRVmxrUlhkM1RtaEJORFV5RUFBYU9Bb05DZ3RhZERsVmNGaHRSMmxTT0NvbkNoaFZRekZ2Y0VoVmNuYzRjblp1YzJGa1ZDMXBSM0EzUTJjU0MxcDBPVlZ3V0cxSGFWSTRJQUVvQkRJYUNoaFZRMjQzTkc1dFNERjFaRXBoTW13ME1GcEtUMWczZUdjJTNE"
+                                    }
+                                },
+                                "id": "CjsKGkNOaV92WXpibU9zQ0ZRUzhEUW9kZFRJT3h3Eh1DS2ZhX3VpcW1Pc0NGZW44T0FZZEV3d05oQTQ1Mg%3D%3D",
+                                "timestampUsec": "1597339971051480",
+                                "authorExternalChannelId": "UCn74nmH1udJa2l40ZJOX7xg",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-nRzUe5c2NeI/AAAAAAAAAAI/AAAAAAAAAAA/V7NKK8Mx6CU/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-nRzUe5c2NeI/AAAAAAAAAAI/AAAAAAAAAAA/V7NKK8Mx6CU/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (7 months)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (7 months)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CKfa_uiqmOsCFen8OAYdEwwNhA452"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "むめ"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2owS093b2FRMUJRZHpZMGVtSnRUM05EUmxWcGJHZG5iMlJIVlRSR1drRVNIVU5OZGtSeGRHbHpiVTl6UTBaWVVrZG1RVzlrTkZGSlRtSjNNekU1RUFBYU9Bb05DZ3RhZERsVmNGaHRSMmxTT0NvbkNoaFZRekZ2Y0VoVmNuYzRjblp1YzJGa1ZDMXBSM0EzUTJjU0MxcDBPVlZ3V0cxSGFWSTRJQUVvQkRJYUNoaFZRM0Y1VFVOd2N6TkVWMHRIZVdOeWVFZGxSRXRXWVdjJTNE"
+                                    }
+                                },
+                                "id": "CjsKGkNQUHc2NHpibU9zQ0ZVaWxnZ29kR1U0RlpBEh1DTXZEcXRpc21Pc0NGWFJHZkFvZDRRSU5idzMxOQ%3D%3D",
+                                "timestampUsec": "1597339971811443",
+                                "authorExternalChannelId": "UCqyMCps3DWKGycrxGeDKVag",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-U8PHsS0MmSU/AAAAAAAAAAI/AAAAAAAAAAA/IluGK5mK0aQ/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-U8PHsS0MmSU/AAAAAAAAAAI/AAAAAAAAAAA/IluGK5mK0aQ/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (6 months)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (6 months)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CMvDqtismOsCFXRGfAod4QINbw319"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "i am in distress and need assistance"
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "Katura"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2pzS09Rb2FRMGt0WlMxdmVtSnRUM05EUm1STFoyZG5iMlJEY0d0Q2JIY1NHME5KWmt0cFpGUmhiVTl6UTBaU1VHRjBRVzlrZG1oUlJFVlJNaEFBR2pnS0RRb0xXblE1VlhCWWJVZHBVamdxSndvWVZVTXhiM0JJVlhKM09ISjJibk5oWkZRdGFVZHdOME5uRWd0YWREbFZjRmh0UjJsU09DQUJLQVF5R2dvWVZVTlVlVmMxWm5CdWFVeDFjWGQ2ZG10c1NtUm1lbTlC"
+                                    }
+                                },
+                                "id": "CjkKGkNJLWUtb3pibU9zQ0ZkS2dnZ29kQ3BrQmx3EhtDSWZLaWRUYW1Pc0NGUlBhdEFvZHZoUURFUTI%3D",
+                                "timestampUsec": "1597339972046607",
+                                "authorExternalChannelId": "UCTyW5fpniLuqwzvklJdfzoA",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-Mu1LYjy42NE/AAAAAAAAAAI/AAAAAAAAAAA/b91Sek6DsEA/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-Mu1LYjy42NE/AAAAAAAAAAI/AAAAAAAAAAA/b91Sek6DsEA/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CIfKidTamOsCFRPatAodvhQDEQ2"
+                    }
+                },
+                {
+                    "addChatItemAction": {
+                        "item": {
+                            "liveChatTextMessageRenderer": {
+                                "message": {
+                                    "runs": [
+                                        {
+                                            "text": "ちゃん"
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXumQBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaっっっ:",
+                                                    ":aquaっっっ:",
+                                                    ":_っっっ:",
+                                                    ":っっっ:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaっっっ",
+                                                    "aquaっっっ",
+                                                    "_っっっ",
+                                                    "っっっ"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/BqP-VKYJgo4KTZcFrbl6Lrl6LQmJoPjPuwzEGurtePcbXOdl0jG1je0qRUkUEQ5_rVDyX1bnow=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaっっっ:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        },
+                                        {
+                                            "emoji": {
+                                                "emojiId": "UC1opHUrw8rvnsadT-iGp7Cg/_GugXvWRBJCQ_APTkKqIBg",
+                                                "shortcuts": [
+                                                    ":_aquaびっくりまーく:",
+                                                    ":aquaびっくりまーく:",
+                                                    ":_びっくりまーく:",
+                                                    ":びっくりまーく:"
+                                                ],
+                                                "searchTerms": [
+                                                    "_aquaびっくりまーく",
+                                                    "aquaびっくりまーく",
+                                                    "_びっくりまーく",
+                                                    "びっくりまーく"
+                                                ],
+                                                "image": {
+                                                    "thumbnails": [
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w24-h24-c-k-nd",
+                                                            "width": 24,
+                                                            "height": 24
+                                                        },
+                                                        {
+                                                            "url": "https://yt3.ggpht.com/2zjDjy8g0Paq2LJdCSb5o4RIrZzkWDx8dNHxSPgXLn25y88OVrxtHM-yU4zRjwb0pH181bLQhII=w48-h48-c-k-nd",
+                                                            "width": 48,
+                                                            "height": 48
+                                                        }
+                                                    ],
+                                                    "accessibility": {
+                                                        "accessibilityData": {
+                                                            "label": ":_aquaびっくりまーく:"
+                                                        }
+                                                    }
+                                                },
+                                                "isCustomEmoji": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authorName": {
+                                    "simpleText": "林志南"
+                                },
+                                "contextMenuEndpoint": {
+                                    "commandMetadata": {
+                                        "webCommandMetadata": {
+                                            "ignoreNavigation": true
+                                        }
+                                    },
+                                    "liveChatItemContextMenuEndpoint": {
+                                        "params": "Q2owS093b2FRMGxJTjI4ME0ySnRUM05EUmxKSWVHZG5iMlJmTVVWQ2NVRVNIVU5KZWpVd1psaEZiVTl6UTBaVlIwTmpRVzlrVHkxblQxbDNNVGd3RUFBYU9Bb05DZ3RhZERsVmNGaHRSMmxTT0NvbkNoaFZRekZ2Y0VoVmNuYzRjblp1YzJGa1ZDMXBSM0EzUTJjU0MxcDBPVlZ3V0cxSGFWSTRJQUVvQkRJYUNoaFZRMVZKZFc4d1kySlVaRFYzZUVOTVJERlhaR3RRZFZFJTNE"
+                                    }
+                                },
+                                "id": "CjsKGkNJSDdvNDNibU9zQ0ZSSHhnZ29kXzFFQnFBEh1DSXo1MGZYRW1Pc0NGVUdDY0FvZE8tZ09ZdzE4MA%3D%3D",
+                                "timestampUsec": "1597339972730241",
+                                "authorExternalChannelId": "UCUIuo0cbTd5wxCLD1WdkPuQ",
+                                "authorPhoto": {
+                                    "thumbnails": [
+                                        {
+                                            "url": "https://yt3.ggpht.com/-OqiUrQYBbvg/AAAAAAAAAAI/AAAAAAAAAAA/vrmj2DGyHxQ/s32-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 32,
+                                            "height": 32
+                                        },
+                                        {
+                                            "url": "https://yt3.ggpht.com/-OqiUrQYBbvg/AAAAAAAAAAI/AAAAAAAAAAA/vrmj2DGyHxQ/s64-c-k-no-mo-rj-c0xffffff/photo.jpg",
+                                            "width": 64,
+                                            "height": 64
+                                        }
+                                    ]
+                                },
+                                "authorBadges": [
+                                    {
+                                        "liveChatAuthorBadgeRenderer": {
+                                            "customThumbnail": {
+                                                "thumbnails": [
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s16-c-k"
+                                                    },
+                                                    {
+                                                        "url": "https://yt3.ggpht.com/NcHioKzlZRhEhJElJVFUxvACobhlnr0i-ktr7uo9Bo31QN8dZf8_52lIN6StUqaU4M5VLwGC2A=s32-c-k"
+                                                    }
+                                                ]
+                                            },
+                                            "tooltip": "Member (9 months)",
+                                            "accessibility": {
+                                                "accessibilityData": {
+                                                    "label": "Member (9 months)"
+                                                }
+                                            }
+                                        }
+                                    }
+                                ],
+                                "contextMenuAccessibility": {
+                                    "accessibilityData": {
+                                        "label": "Comment actions"
+                                    }
+                                }
+                            }
+                        },
+                        "clientId": "CIz50fXEmOsCFUGCcAodO-gOYw180"
+                    }
+                }
+            ]
+        }
+    }
+}
