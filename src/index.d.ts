@@ -84,16 +84,32 @@ declare namespace YoutubeLiveChat {
         timedContinuationData?: TimedContinuationData
     }
 
+    interface MessageRun {
+        text: string
+    }
+
     interface LiveChatContinuationAction {
-        addChatItemAction: {
+        addChatItemAction?: {
             item: LiveChatActionItem
             clientId: string
         }
+        markChatItemAsDeletedAction?: {
+            deletedStateMessage: {
+                runs: MessageRun[]
+            }
+        }
+        replayChatItemAction: {
+            actions: LiveChatContinuationAction[]
+            videoOffsetTimeMsec: string
+        }
+
     }
 
     interface LiveChatActionItem {
-        liveChatTextMessageRenderer: LiveChatTextMessageRenderer
+        liveChatPlaceholderItemRenderer?: LiveChatPlaceholderItemRenderer
+        liveChatTextMessageRenderer?: LiveChatTextMessageRenderer
     }
+
 
     interface AccessibilityData {
         label: string
@@ -103,13 +119,18 @@ declare namespace YoutubeLiveChat {
         accessibilityData: AccessibilityData
     }
 
+    interface LiveChatPlaceholderItemRenderer {
+        id: string
+        timestampUsec: string
+    }
+
     interface LiveChatTextMessageRenderer {
         message: LiveChatTextMessageRenderer.Message
         authorName: LiveChatTextMessageRenderer.AuthorName
         authorPhoto: LiveChatTextMessageRenderer.AuthorPhoto
         contextMenuEndpoint: LiveChatTextMessageRenderer.ContextMenuEndpoint
         id: string
-        authorBadges?: LiveChatTextMessageRenderer.AuthorBadge
+        authorBadges?: LiveChatTextMessageRenderer.AuthorBadge[]
         authorExternalChannelId: string
         contextMenuAccessibility: LiveChatTextMessageRenderer
 
@@ -134,9 +155,6 @@ declare namespace YoutubeLiveChat {
             width?: number
         }
 
-        interface MessageRun {
-            text: string
-        }
 
         interface ContextMenuEndpoint {
             clickTrackingParams: string
@@ -153,8 +171,11 @@ declare namespace YoutubeLiveChat {
 
         interface AuthorBadge {
             liveChatAuthorBadgeRenderer: {
-                customThumbnail: {
+                customThumbnail?: {
                     thumbnails: Thumbnail[]
+                },
+                icon?: {
+                    iconType: string
                 }
                 tooltip: string
                 accessibility: {
