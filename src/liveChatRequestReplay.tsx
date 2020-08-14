@@ -133,27 +133,36 @@ declare var window: MyWindow
 
         const [chatListActions, setChatListActions] = useState<YoutubeLiveChat.LiveChatContinuationAction[]>([])
         const [isFullScreen, setIsFullScreen] = useState<boolean>(document.fullscreen)
+        const [isLivePage, setIsLivePage] = useState<boolean>(false)
 
         async function MessageListener(message: CatchedLiveChatRequestMessage) {
-            const { url } = message.details
-            const requestBody = message.requestBody
-            const data = await ReplayRequest(url, requestBody)
-            if (!data) return
-            const actions = FindObjectByKeyRecursively(data as Response, 'actions') as YoutubeLiveChat.LiveChatContinuationAction[]
-            if (!actions) return
-            // Do data false check before upate the hool
-            try {
-                const filteredActions = actions
-                    .filter(action => {
-                        // if (action.addChatItemAction === undefined) console.log('not addChatItemAction', action)
-                        if (action.addChatItemAction === undefined) return false
-                        if (action.addChatItemAction.item === undefined) return false
-                        if (action.addChatItemAction.item.liveChatTextMessageRenderer === undefined) return false
-                        return true
-                    })
-                setChatListActions([...filteredActions])
-            } catch (error) {
-                console.error('action filter error', error)
+            // if url is /watch?*, that mean the tab enter a new page, so need to 
+            console.log(message)
+            if (message.greeting) {
+                setIsLivePage(false)
+                return
+            } else {
+                const { url } = message.details
+                const requestBody = message.requestBody
+                const data = await ReplayRequest(url, requestBody)
+                if (!data) return
+                const actions = FindObjectByKeyRecursively(data as Response, 'actions') as YoutubeLiveChat.LiveChatContinuationAction[]
+                if (!actions) return
+                // Do data false check before upate the hool
+                try {
+                    const filteredActions = actions
+                        .filter(action => {
+                            // if (action.addChatItemAction === undefined) console.log('not addChatItemAction', action)
+                            if (action.addChatItemAction === undefined) return false
+                            if (action.addChatItemAction.item === undefined) return false
+                            if (action.addChatItemAction.item.liveChatTextMessageRenderer === undefined) return false
+                            return true
+                        })
+                    setChatListActions([...filteredActions])
+                    setIsLivePage(true)
+                } catch (error) {
+                    console.error('action filter error', error)
+                }
             }
         }
 
@@ -213,7 +222,7 @@ declare var window: MyWindow
 
         return (
             <div id='_chat-list-inner-container' className={`${classes.innerContainer} 
-            ${(chatListActions.length !== 0 && isFullScreen) ? classes.show : classes.hidden}`}>
+            ${(chatListActions.length !== 0 && isFullScreen && isLivePage) ? classes.show : classes.hidden}`}>
                 {creteChatList()}
             </div>
         )

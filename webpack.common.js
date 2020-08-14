@@ -3,7 +3,6 @@ const CopyWp = require('copy-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const path = require('path')
 const { merge } = require('webpack-merge')
-const webpack = require('webpack')
 
 module.exports = merge({}, {
     entry: {
@@ -21,6 +20,7 @@ module.exports = merge({}, {
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',
+                exclude: /node_modules/
             },
             {
                 test: /.css$/,
@@ -46,7 +46,7 @@ module.exports = merge({}, {
                 },
             ]
         })
-        ,
-        new BundleAnalyzerPlugin()
+        // ,
+        // new BundleAnalyzerPlugin()
     ]
 })
