@@ -20,7 +20,5 @@
         "*://*.youtube.com/"
     ],
     "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
-    "web_accessible_resources": [
-        "xhrMod.js"
-    ]
+    "web_accessible_resources": []
 }
