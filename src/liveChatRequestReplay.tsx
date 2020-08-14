@@ -2,7 +2,6 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { render } from 'react-dom'
 import { CatchedLiveChatRequestMessage } from './background'
-import { createStyles, makeStyles } from '@material-ui/core/styles'
 
 import './css/App.css'
 
@@ -21,7 +20,7 @@ declare var window: MyWindow
 
 
 
-(function () {
+(async function () {
 
     // Since Youtube get new video page without reload, so the injected script is still there  when go to next video page
     // This prevent same  script run multiple time in one tab
@@ -29,9 +28,18 @@ declare var window: MyWindow
         return
     window.injectHasRun = true
 
+
+    const { makeStyles, createStyles } = await import('@material-ui/core/styles')
+
+
     // run code here
     console.log('liveChatRequestReplay.js injected')
     const chatListContainerId = '_chat-list-container'
+
+    // Dynamic import to make solve the issue of initilize multiple instance
+    // import('@material-ui/core/styles').then((styles) => {
+
+    // })
 
 
     // The request either be get or post
@@ -57,6 +65,8 @@ declare var window: MyWindow
         }
         return data
     }
+
+
 
 
     const FindObjectByKeyRecursively = (obj: Response, targetKey: string): object | undefined => {
