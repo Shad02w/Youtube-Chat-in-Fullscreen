@@ -1,10 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&display=swap');
+
 #_chat-list-container {
-    background: rgba(150, 150, 150, 0.596);
+    background: rgba(182, 182, 182, 0.1);
     height: auto;
     width: auto;
     overflow: hidden;
     position: absolute;
+    font-family: 'Noto Sans JP', sans-serif;
     top: 0px;
     right: 0px;
+    color:#fff;
     backdrop-filter: blur(10px); 
 }

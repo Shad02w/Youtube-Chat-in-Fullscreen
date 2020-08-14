@@ -2,8 +2,8 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { render } from 'react-dom'
 import { CatchedLiveChatRequestMessage } from './background'
-import { StyleSheet } from 'aphrodite'
-import { createUseStyles } from 'react-jss'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
+
 import './css/App.css'
 
 /* Replay the get_live_chat xhr request to get the response */
@@ -15,6 +15,7 @@ interface MyWindow extends Window {
     cancelIdleCallback(handle: number): void
 }
 
+interface Response { [key: string]: any }
 
 declare var window: MyWindow
 
@@ -34,17 +35,19 @@ declare var window: MyWindow
 
 
     // The request either be get or post
-    async function ReplayRequest(url: string, requestBody?: JSON): Promise<YoutubeLiveChat.Data | undefined> {
-        let data: YoutubeLiveChat.Data | undefined
+
+    // The type of return response change change overtime
+    async function ReplayRequest(url: string, requestBody?: JSON): Promise<Response | undefined> {
+        let data: Response | undefined
         try {
             if (!requestBody) {
                 const res = await axios.get(url)
-                data = res.data as YoutubeLiveChat.Data
-                console.log('GET', data)
+                data = res.data as Response
+                // console.log('GET', data)
             } else {
                 const res = await axios.post(url, requestBody, { responseType: 'json' })
-                data = res.data as YoutubeLiveChat.Data
-                console.log('POST', data)
+                data = res.data as Response
+                // console.log('POST', data)
             }
         } catch (error) {
             if (error.response)
@@ -55,46 +58,152 @@ declare var window: MyWindow
         return data
     }
 
-    const styles = StyleSheet.create({
-        innerContainer: {
-        }
-    })
 
-    const useStyles = createUseStyles({
+    const FindObjectByKeyRecursively = (obj: Response, targetKey: string): object | undefined => {
+        const result = Object.keys(obj).find(k => k === targetKey)
+        if (result)
+            return obj[result]
+        else if (typeof obj === 'object')
+            for (const k of Object.keys(obj)) {
+                const result = FindObjectByKeyRecursively(obj[k], targetKey)
+                if (result !== undefined) return result
+            }
+        return undefined
+    }
+
+
+    const useStyles = makeStyles(() => createStyles({
         innerContainer: {
-            position: 'absolute',
-            width: '200px',
-            height: '300px',
-            background: 'black'
-        }
-    })
+            width: 300,
+            overflow: 'hidden',
+            backdropFilter: 'blur(10px)',
+        },
+        hidden: {
+            height: 0,
+        },
+        show: {
+            height: 300,
+        },
+        chatItem: {
+            padding: '5px 10px',
+            fontSize: 14,
+            display: 'flex',
+            flexFlow: 'row nowrap',
+        },
+        authorImage: {
+            borderRadius: '50%',
+            height: 25,
+            width: 25,
+            marginRight: 20
+        },
+        authorName: {
+            marginRight: 10,
+            fontWeight: 500,
+            display: 'flex',
+            flexFlow: 'row nowrap'
+        },
+        isMember: {
+            color: 'green'
+        },
+        authorBadge: {
+            width: 20,
+            height: 20,
+            marginRight: 10
+        },
+        chatMessage: {
+            overflowWrap: 'break-word',
+            wordWrap: 'break-word'
+        },
+    }))
+
+
+
 
     const App: React.FC = () => {
 
-        const [chatList, setChatList] = useState<YoutubeLiveChat.LiveChatContinuationAction[]>([])
+        const [chatListActions, setChatListActions] = useState<YoutubeLiveChat.LiveChatContinuationAction[]>([])
+        const [isFullScreen, setIsFullScreen] = useState<boolean>(document.fullscreen)
+
+        async function MessageListener(message: CatchedLiveChatRequestMessage) {
+            const { url } = message.details
+            const requestBody = message.requestBody
+            const data = await ReplayRequest(url, requestBody)
+            if (!data) return
+            const actions = FindObjectByKeyRecursively(data as Response, 'actions') as YoutubeLiveChat.LiveChatContinuationAction[]
+            if (!actions) return
+            // Do data false check before upate the hool
+            try {
+                const filteredActions = actions
+                    .filter(action => {
+                        // if (action.addChatItemAction === undefined) console.log('not addChatItemAction', action)
+                        if (action.addChatItemAction === undefined) return false
+                        if (action.addChatItemAction.item === undefined) return false
+                        if (action.addChatItemAction.item.liveChatTextMessageRenderer === undefined) return false
+                        return true
+                    })
+                setChatListActions([...filteredActions])
+            } catch (error) {
+                console.error('action filter error', error)
+            }
+        }
+
+        function FullscreenListener(event: Event) {
+            setIsFullScreen(document.fullscreen)
+        }
 
 
         useEffect(() => {
-            chrome.runtime.onMessage.addListener(async function (message: CatchedLiveChatRequestMessage) {
-                console.log(message)
-                const { url } = message.details
-                const requestBody = message.requestBody
-                const data = await ReplayRequest(url, requestBody)
-                // if (!data || !data.response.continuationContents.liveChatContinuation.actions) return
-            })
+            document.addEventListener('fullscreenchange', FullscreenListener)
+            chrome.runtime.onMessage.addListener(MessageListener)
+            return () => {
+                document.removeEventListener('fullscreenchange', FullscreenListener)
+                chrome.runtime.onMessage.removeListener(MessageListener)
+            }
         }, [])
 
-        const creteChatList = () => {
-            if (chatList.length === 0)
+
+
+        const createBagde = (authorBadges: YoutubeLiveChat.LiveChatTextMessageRenderer.AuthorBadge[] | undefined) => {
+            try {
+                if (!authorBadges || authorBadges.length === 0) return <></>
+                else if (!authorBadges[0].liveChatAuthorBadgeRenderer.customThumbnail) return <></>
+                else {
+                    console.log(authorBadges)
+                    return authorBadges.map((badge, key) =>
+                        <img key={key} className={classes.authorBadge} src={badge.liveChatAuthorBadgeRenderer.customThumbnail!.thumbnails[0].url} alt="" />
+                    )
+                }
+            } catch (error) {
+                console.error(error)
                 return <></>
-            else
-                return <p>AAAAAAAAAAAA</p>
+            }
+        }
+
+
+        const creteChatList = () => {
+            if (chatListActions.length === 0)
+                return <></>
+            else {
+                return chatListActions
+                    .map((action, key) => {
+                        return (
+                            <div className={classes.chatItem} key={key}>
+                                <img className={classes.authorImage} src={action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorPhoto.thumbnails[0].url} alt="author Image" />
+                                <div className={classes.authorName + ' ' +
+                                    (action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorBadges === undefined ? '' : classes.isMember)}>{action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorName.simpleText}</div>
+                                {createBagde(action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorBadges)}
+                                <div className={classes.chatMessage}>{action.addChatItemAction!.item.liveChatTextMessageRenderer!.message.runs[0].text}</div>
+                            </div>
+                        )
+                    })
+            }
         }
 
         const classes = useStyles()
 
         return (
-            <div id='_chat-list-inner-container' className={classes.innerContainer}>
+            <div id='_chat-list-inner-container' className={`${classes.innerContainer} 
+            ${(chatListActions.length !== 0 && isFullScreen) ? classes.show : classes.hidden}`}>
                 {creteChatList()}
             </div>
         )
@@ -117,20 +226,6 @@ declare var window: MyWindow
             render(<App />, document.getElementById(chatListContainerId))
         }
     }
-
-
-
-    // function createChatListContainer() {
-    //     const playerContainer = document.getElementById('player-container')
-    //     if (!playerContainer) return
-    //     console.log('have container')
-    //     const chatListContainer = document.createElement('div')
-    //     chatListContainer.id = chatListContainerId
-    //     playerContainer.append(chatListContainer)
-    //     render(<App />, document.getElementById(chatListContainerId))
-    // }
-    // createChatListContainer()
-
 
 
 
