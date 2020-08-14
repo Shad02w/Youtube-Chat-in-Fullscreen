@@ -29,18 +29,13 @@ declare var window: MyWindow
     window.injectHasRun = true
 
 
+    // Dynamic import '@material-ui' to solve the issue of initilize multiple instance
     const { makeStyles, createStyles } = await import('@material-ui/core/styles')
 
 
     // run code here
     console.log('liveChatRequestReplay.js injected')
     const chatListContainerId = '_chat-list-container'
-
-    // Dynamic import to make solve the issue of initilize multiple instance
-    // import('@material-ui/core/styles').then((styles) => {
-
-    // })
-
 
     // The request either be get or post
 
@@ -136,8 +131,7 @@ declare var window: MyWindow
         const [isLivePage, setIsLivePage] = useState<boolean>(false)
 
         async function MessageListener(message: CatchedLiveChatRequestMessage) {
-            // if url is /watch?*, that mean the tab enter a new page, so need to 
-            console.log(message)
+            // if url is /watch?*, that mean the tab enter a new page, so need to reset the isLivePage hook
             if (message.greeting) {
                 setIsLivePage(false)
                 return
@@ -148,7 +142,7 @@ declare var window: MyWindow
                 if (!data) return
                 const actions = FindObjectByKeyRecursively(data as Response, 'actions') as YoutubeLiveChat.LiveChatContinuationAction[]
                 if (!actions) return
-                // Do data false check before upate the hool
+                // Do data false check before upate the hook
                 try {
                     const filteredActions = actions
                         .filter(action => {
@@ -245,10 +239,6 @@ declare var window: MyWindow
             render(<App />, document.getElementById(chatListContainerId))
         }
     }
-
-
-
-
 
 })()
 
