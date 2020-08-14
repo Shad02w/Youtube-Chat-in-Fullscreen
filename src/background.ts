@@ -10,7 +10,7 @@ const vidoeRequestFilter = {
 }
 
 const liveChatRequestFilter = {
-    urls: ['https://www.youtube.com/*/get_live_chat*']
+    urls: ['https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
 
 }
 
