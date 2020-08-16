@@ -80,7 +80,19 @@ declare var window: MyWindow
         innerContainer: {
             width: 400,
             maxHeight: 600,
-            overflowY: 'auto'
+            overflowY: 'auto',
+            'scrollbar-width': 'thin',
+            'scrollbar-color': 'rgba(240, 240, 240, 0.3) transparent',
+            '&::-webkit-scrollbar': {
+                width: '5px'
+            },
+            '&::-webkit-scrollbar-track': {
+                background: 'transparent'
+            },
+            '&::-webkit-scrollbar-thumb': {
+                background: 'rgba(240, 240, 240, 0.3)',
+                borderRadius: '10px'
+            }
         },
         hidden: {
             height: 0,
@@ -127,15 +139,7 @@ declare var window: MyWindow
     // const useChatList = (): [ChatList, Dispatch<SetStateAction<ChatList>>] => {
     const useChatList = (initValue: ChatList) => {
         const [chatList, setChatList] = useState<ChatList>(initValue)
-        const update = (list: ChatList) => {
-            setChatList(preState => {
-                const newList = preState.concat(list)
-                    .slice(-100)
-
-                console.log('after slice: ', newList)
-                return [...newList]
-            })
-        }
+        const update = (list: ChatList) => setChatList(preState => preState.concat(list).slice(-100))
         const reset = () => setChatList([])
         return {
             list: chatList,
@@ -193,10 +197,9 @@ declare var window: MyWindow
         }
 
         useEffect(() => {
-            // console.log('container', document.getElementById(chatListContainerId))
+            console.log('chat list', chatList.list)
             if (!containerRef.current) return
-            const el = containerRef.current
-            el.scrollTop = el.scrollHeight
+            containerRef.current.scrollTop = containerRef.current.scrollHeight
         }, [chatList])
 
 
@@ -252,7 +255,7 @@ declare var window: MyWindow
         const classes = useStyles()
 
         return (
-            <div ref={containerRef} id='_chat-list-inner-container' className={`${classes.innerContainer} 
+            <div ref={containerRef} className={`${classes.innerContainer} 
             ${(chatList.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}>
                 {updateChatList()}
             </div>

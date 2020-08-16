@@ -72,7 +72,6 @@ declare namespace YoutubeLiveChat {
 
     interface TimedContinuationData extends ContinuationData {
         clickTrackingParams: string
-
     }
 
     interface Continuation {
@@ -81,6 +80,7 @@ declare namespace YoutubeLiveChat {
 
         invalidationContinuationData?: InvalidationContinuationData
 
+        // only return when the video page is live streaming page
         timedContinuationData?: TimedContinuationData
     }
 
