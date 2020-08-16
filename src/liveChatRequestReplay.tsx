@@ -14,12 +14,18 @@ interface MyWindow extends Window {
     requestIdleCallback(callback: any, options?: any): number
     cancelIdleCallback(handle: number): void
 }
+declare var window: MyWindow
+
+interface ChatAction extends YoutubeLiveChat.LiveChatContinuationAction {
+    uuid: string
+}
+
+type ChatActionList = ChatAction[]
 
 interface Response { [key: string]: any }
 
-declare var window: MyWindow
 
-
+type ScrollDirection = 'UP' | 'DOWN'
 
 (async function () {
 
@@ -62,8 +68,18 @@ declare var window: MyWindow
         return data
     }
 
+    function createScrollDirectionDetector() {
+        let lastscrollTop = 0;
+        return function (currentScrollTop: number): ScrollDirection {
+            const tmp = lastscrollTop
+            lastscrollTop = currentScrollTop
+            if (currentScrollTop < tmp) return 'UP'
+            else return 'DOWN'
+        }
+    }
 
-    const FindObjectByKeyRecursively = (obj: Response, targetKey: string): any | undefined => {
+
+    function FindObjectByKeyRecursively(obj: Response, targetKey: string): any | undefined {
         const result = Object.keys(obj).find(k => k === targetKey)
         if (result)
             return obj[result]
@@ -74,7 +90,6 @@ declare var window: MyWindow
             }
         return undefined
     }
-
 
 
     const useStyles = makeStyles(() => createStyles({
@@ -136,12 +151,6 @@ declare var window: MyWindow
     }))
 
 
-
-    interface ChatAction extends YoutubeLiveChat.LiveChatContinuationAction {
-        uuid: string
-    }
-    type ChatActionList = ChatAction[]
-    // const useChatList = (): [ChatList, Dispatch<SetStateAction<ChatList>>] => {
     const useChatList = (initValue: ChatActionList) => {
         const [chatActionList, setChatActionList] = useState<ChatActionList>(initValue)
         const update = (action: ChatActionList) => setChatActionList(preState => preState.concat(action).slice(-100))
@@ -194,10 +203,9 @@ declare var window: MyWindow
 
                 // Gradually update the chat list
                 const timeout = FindObjectByKeyRecursively(data as Response, 'timeoutMs') as number
-                console.log('timeout', timeout)
                 const tti = timeout || 5000
-                console.log('tti', tti)
                 const timeInterval = tti / filteredActions.length
+                console.log('Filtered Actions', filteredActions)
                 filteredActions.forEach((action, i) => setTimeout(() => chatActionList.update([action]), i * timeInterval))
                 setIsLivePage(true)
             }
@@ -207,8 +215,18 @@ declare var window: MyWindow
             setIsFullScreen(document.fullscreen)
         }
 
-        function ContainerOnWheelListener(event: React.UIEvent<HTMLDivElement, UIEvent>) {
-            setAutoScroll(false)
+
+        const scrollDetector = createScrollDirectionDetector()
+
+        function ContainerOnWheelListener({ currentTarget: { scrollTop, scrollHeight } }: React.UIEvent<HTMLDivElement, UIEvent>) {
+            const scrollDirection = scrollDetector(scrollTop)
+            switch (scrollDirection) {
+                case 'UP':
+                    setAutoScroll(false)
+                    break;
+                default:
+                    break;
+            }
         }
 
         useEffect(() => {
@@ -273,7 +291,7 @@ declare var window: MyWindow
             <div
                 ref={containerRef}
                 className={`${classes.innerContainer} ${(chatActionList.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}
-                onWheel={ContainerOnWheelListener}>
+                onScroll={ContainerOnWheelListener}>
 
                 {updateChatList()}
             </div>
