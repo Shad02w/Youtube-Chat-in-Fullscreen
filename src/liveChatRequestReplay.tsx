@@ -143,7 +143,7 @@ declare var window: MyWindow
     // const useChatList = (): [ChatList, Dispatch<SetStateAction<ChatList>>] => {
     const useChatList = (initValue: ChatActionList) => {
         const [chatActionList, setChatActionList] = useState<ChatActionList>(initValue)
-        const update = (action: ChatAction) => setChatActionList(preState => preState.concat(action).slice(-100))
+        const update = (action: ChatActionList) => setChatActionList(preState => preState.concat(action).slice(-100))
         const reset = () => setChatActionList([])
         return {
             list: chatActionList,
@@ -197,7 +197,15 @@ declare var window: MyWindow
                     //this is a live steam page
                     const tti = timedContinuationData.timeoutMs || 5000
                     const timeInterval = tti / filteredActions.length
-                    filteredActions.forEach((action, i) => setTimeout(() => chatActionList.update(action), i === 0 ? 0 : timeInterval))
+                    let count = 0
+                    const intervalNo = setInterval(() => {
+                        if (count === filteredActions.length) {
+                            clearInterval(intervalNo)
+                            return
+                        }
+                        chatActionList.update([filteredActions[count]])
+                        count++;
+                    }, timeInterval)
                 }
                 setIsLivePage(true)
             }
