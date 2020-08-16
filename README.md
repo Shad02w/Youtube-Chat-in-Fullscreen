@@ -3,20 +3,21 @@ Show Youtube live chat when in fullscreen mode
 
 ### Know Issues
 
-- [ ] Several instance of `@material-ui/styles` initialized in this application
-- [ ] The overlay still exist when the tab goes to another watch page(without refreshing)
+- [x] Several instance of `@material-ui/styles` initialized in this application
+- [x] The overlay still exist when the tab goes to another watch page(without refreshing)
 - [ ] Author name can not stick to one line if it is little bit long
 
 ### TODO
 
-- [ ] Add new chat item to the list without changing the whole list
-- [ ] /get_live_chat_replay page to be supported
-- [ ] Show membership ticker and super chat 
+- [ ] Gradually add new chat item to the chat list
+- [ ] Keep chat list scroll to the bottom, at least user scroll them up
+- [ ] Able to turn on/off the extension
 - [ ] Drag and move the overlay
-- [ ] Can turn on/off the overlay directly on Youtube control bar
-- [ ] Can the size and fontsize without options page
+- [ ] Support live stream replay video page
+- [ ] Show membership ticker and super chat
+- [ ] Turn on/off the chat list overlay directly temporarily without going to options page
+- [ ] Able to resize and change font size without options page
 - [ ] Create an options page
-- [ ] Turn on/off the extension
 
 
 
