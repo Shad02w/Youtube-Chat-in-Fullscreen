@@ -3,10 +3,13 @@ Show Youtube live chat when in fullscreen mode
 
 ### Know Issues
 
-- [x] Several instance of `@material-ui/styles` initialized in this application
-- [x] The overlay still exist when the tab goes to another watch page(without refreshing)
-- [ ] Chat list update may go to fast, not one by one
-- [ ] Author name can not stick to one line if it is little bit long
+- Author name can not stick to one line if it is little bit long
+
+### Fixed
+
+- (Fixed) Several instance of `@material-ui/styles` initialized in this application
+- (Fixed) The overlay still exist when the tab goes to another watch page(without refreshing)
+- (Fixed) Chat list update may go to fast, not one by one(setTimeout call in forEach)
 
 ### TODO
 
