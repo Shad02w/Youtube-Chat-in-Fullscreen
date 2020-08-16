@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react'
 import { render } from 'react-dom'
 import { CatchedLiveChatRequestMessage } from './background'
 
@@ -22,24 +22,24 @@ declare var window: MyWindow
 
 (async function () {
 
+
     // Since Youtube get new video page without reload, so the injected script is still there  when go to next video page
     // This prevent same  script run multiple time in one tab
+
     if (window.injectHasRun === true)
         return
     window.injectHasRun = true
-
 
     // Dynamic import '@material-ui' to solve the issue of initilize multiple instance
     const { makeStyles, createStyles } = await import('@material-ui/core/styles')
 
 
     // run code here
-    console.log('liveChatRequestReplay.js injected')
     const chatListContainerId = '_chat-list-container'
+    console.log('liveChatRequestReplay.js injected')
 
     // The request either be get or post
-
-    // The type of return response change change overtime
+    // The type of return response can change overtime
     async function ReplayRequest(url: string, requestBody?: JSON): Promise<Response | undefined> {
         let data: Response | undefined
         try {
@@ -62,8 +62,6 @@ declare var window: MyWindow
     }
 
 
-
-
     const FindObjectByKeyRecursively = (obj: Response, targetKey: string): object | undefined => {
         const result = Object.keys(obj).find(k => k === targetKey)
         if (result)
@@ -77,17 +75,18 @@ declare var window: MyWindow
     }
 
 
+
     const useStyles = makeStyles(() => createStyles({
         innerContainer: {
-            width: 300,
-            overflow: 'hidden',
-            backdropFilter: 'blur(10px)',
+            width: 400,
+            maxHeight: 600,
+            overflowY: 'auto'
         },
         hidden: {
             height: 0,
         },
         show: {
-            height: 300,
+            height: 500,
         },
         chatItem: {
             padding: '5px 10px',
@@ -103,9 +102,10 @@ declare var window: MyWindow
         },
         authorName: {
             marginRight: 10,
-            fontWeight: 500,
+            fontWeight: 700,
             display: 'flex',
-            flexFlow: 'row nowrap'
+            flexFlow: 'row nowrap',
+            minWidth: 'min-conent',
         },
         isMember: {
             color: 'green'
@@ -123,17 +123,43 @@ declare var window: MyWindow
 
 
 
+    type ChatList = YoutubeLiveChat.LiveChatContinuationAction[]
+    // const useChatList = (): [ChatList, Dispatch<SetStateAction<ChatList>>] => {
+    const useChatList = (initValue: ChatList) => {
+        const [chatList, setChatList] = useState<ChatList>(initValue)
+        const update = (list: ChatList) => {
+            setChatList(preState => {
+                const newList = preState.concat(list)
+                    .slice(-100)
+
+                console.log('after slice: ', newList)
+                return [...newList]
+            })
+        }
+        const reset = () => setChatList([])
+        return {
+            list: chatList,
+            update,
+            reset
+        }
+    }
+
+
 
     const App: React.FC = () => {
 
-        const [chatListActions, setChatListActions] = useState<YoutubeLiveChat.LiveChatContinuationAction[]>([])
-        const [isFullScreen, setIsFullScreen] = useState<boolean>(document.fullscreen)
+        // const [chatList, setChatList] = useState<YoutubeLiveChat.LiveChatContinuationAction[]>([])
+        const chatList = useChatList([])
+        const [isFullscreen, setIsFullScreen] = useState<boolean>(document.fullscreen)
         const [isLivePage, setIsLivePage] = useState<boolean>(false)
+        const containerRef = useRef<HTMLDivElement>(null)
 
         async function MessageListener(message: CatchedLiveChatRequestMessage) {
             // if url is /watch?*, that mean the tab enter a new page, so need to reset the isLivePage hook
             if (message.greeting) {
                 setIsLivePage(false)
+                setIsFullScreen(false)
+                chatList.reset()
                 return
             } else {
                 const { url } = message.details
@@ -144,7 +170,7 @@ declare var window: MyWindow
                 if (!actions) return
                 // Do data false check before upate the hook
                 try {
-                    const filteredActions = actions
+                    let filteredActions = actions
                         .filter(action => {
                             // if (action.addChatItemAction === undefined) console.log('not addChatItemAction', action)
                             if (action.addChatItemAction === undefined) return false
@@ -152,7 +178,9 @@ declare var window: MyWindow
                             if (action.addChatItemAction.item.liveChatTextMessageRenderer === undefined) return false
                             return true
                         })
-                    setChatListActions([...filteredActions])
+
+                    chatList.update(filteredActions)
+
                     setIsLivePage(true)
                 } catch (error) {
                     console.error('action filter error', error)
@@ -163,6 +191,14 @@ declare var window: MyWindow
         function FullscreenListener(event: Event) {
             setIsFullScreen(document.fullscreen)
         }
+
+        useEffect(() => {
+            // console.log('container', document.getElementById(chatListContainerId))
+            if (!containerRef.current) return
+            const el = containerRef.current
+            el.scrollTop = el.scrollHeight
+        }, [chatList])
+
 
 
         useEffect(() => {
@@ -181,7 +217,6 @@ declare var window: MyWindow
                 if (!authorBadges || authorBadges.length === 0) return <></>
                 else if (!authorBadges[0].liveChatAuthorBadgeRenderer.customThumbnail) return <></>
                 else {
-                    console.log(authorBadges)
                     return authorBadges.map((badge, key) =>
                         <img key={key} className={classes.authorBadge} src={badge.liveChatAuthorBadgeRenderer.customThumbnail!.thumbnails[0].url} alt="" />
                     )
@@ -193,11 +228,13 @@ declare var window: MyWindow
         }
 
 
-        const creteChatList = () => {
-            if (chatListActions.length === 0)
+
+
+        const updateChatList = () => {
+            if (chatList.list.length === 0)
                 return <></>
             else {
-                return chatListActions
+                return chatList.list
                     .map((action, key) => {
                         return (
                             <div className={classes.chatItem} key={key}>
@@ -215,24 +252,24 @@ declare var window: MyWindow
         const classes = useStyles()
 
         return (
-            <div id='_chat-list-inner-container' className={`${classes.innerContainer} 
-            ${(chatListActions.length !== 0 && isFullScreen && isLivePage) ? classes.show : classes.hidden}`}>
-                {creteChatList()}
+            <div ref={containerRef} id='_chat-list-inner-container' className={`${classes.innerContainer} 
+            ${(chatList.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}>
+                {updateChatList()}
             </div>
         )
     }
 
 
-    // Check constantly whether player-container is already created
-    let cancel_id = window.requestIdleCallback(createChatListContainer)
+    requestAnimationFrame(createChatListContainer)
 
     function createChatListContainer() {
         const playerContainer = document.getElementById('player-container')
         if (!playerContainer) {
-            cancel_id = window.requestIdleCallback(createChatListContainer)
+            // cancel_id = window.requestIdleCallback(createChatListContainer)
+            requestAnimationFrame(createChatListContainer)
         } else {
             console.log('have container')
-            window.cancelIdleCallback(cancel_id)
+            // window.cancelIdleCallback(cancel_id)
             const chatListContainer = document.createElement('div')
             chatListContainer.id = chatListContainerId
             playerContainer.append(chatListContainer)
@@ -241,4 +278,3 @@ declare var window: MyWindow
     }
 
 })()
-

@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 
 const requestFilter = {
-    urls: ['https://www.youtube.com/watch*', 'https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
+    urls: ['https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
 
 }
 
@@ -35,42 +35,41 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
 }
 
 
+chrome.webRequest.onCompleted.addListener(details => {
+    chrome.tabs.executeScript(details.tabId, {
+        file: 'liveChatRequestReplay.js',
+        runAt: 'document_idle'
+    }, () => {
+        const message: CatchedLiveChatRequestMessage = {
+            details,
+            greeting: 'hi'
+        }
+        chrome.tabs.sendMessage(details.tabId, message)
+    })
+}, { urls: ['https://www.youtube.com/watch*'] })
 
 
 chrome.webRequest.onBeforeRequest.addListener((details) => {
     console.log(parse(details.url).pathname, details.tabId, details)
-    if (details.url.includes('/watch')) {
-        chrome.tabs.executeScript(details.tabId, {
-            file: 'liveChatRequestReplay.js',
-            runAt: 'document_idle'
-        }, () => {
-            const message: CatchedLiveChatRequestMessage = {
-                details,
-                greeting: 'hi'
-            }
-            chrome.tabs.sendMessage(details.tabId, message)
-        })
-    } else {
-        // The replay request will sent from frame id 0, block the replayed requset from content script to prevent looping
-        if (details.frameId === 0) return
-        if (details.method === 'POST') {
-            let requestBody: JSON | undefined
-            if (!details.requestBody.raw) requestBody = undefined
-            else {
-                // Since arraybuffer can not send through message passing, need to parse the request body first
-                requestBody = RequestBodyArrayBuffer2json(details.requestBody.raw)
-            }
-            const message: CatchedLiveChatRequestMessage = {
-                details,
-                requestBody
-            }
-            chrome.tabs.sendMessage(details.tabId, message)
-        } else {
-            const message: CatchedLiveChatRequestMessage = {
-                details
-            }
-            chrome.tabs.sendMessage(details.tabId, message)
+    // The replay request will sent from frame id 0, block the replayed requset from content script to prevent looping
+    if (details.frameId === 0) return
+    if (details.method === 'POST') {
+        let requestBody: JSON | undefined
+        if (!details.requestBody.raw) requestBody = undefined
+        else {
+            // Since arraybuffer can not send through message passing, need to parse the request body first
+            requestBody = RequestBodyArrayBuffer2json(details.requestBody.raw)
         }
+        const message: CatchedLiveChatRequestMessage = {
+            details,
+            requestBody
+        }
+        chrome.tabs.sendMessage(details.tabId, message)
+    } else {
+        const message: CatchedLiveChatRequestMessage = {
+            details
+        }
+        chrome.tabs.sendMessage(details.tabId, message)
     }
 
 
