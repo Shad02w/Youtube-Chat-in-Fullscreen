@@ -51,7 +51,7 @@ declare var window: MyWindow
             } else {
                 const res = await axios.post(url, requestBody, { responseType: 'json' })
                 data = res.data as Response
-                // console.log('POST', data)
+                console.log('POST', data)
             }
         } catch (error) {
             if (error.response)
@@ -63,7 +63,7 @@ declare var window: MyWindow
     }
 
 
-    const FindObjectByKeyRecursively = (obj: Response, targetKey: string): object | undefined => {
+    const FindObjectByKeyRecursively = (obj: Response, targetKey: string): any | undefined => {
         const result = Object.keys(obj).find(k => k === targetKey)
         if (result)
             return obj[result]
@@ -106,6 +106,7 @@ declare var window: MyWindow
             fontSize: 14,
             display: 'flex',
             flexFlow: 'row nowrap',
+            alignItems: 'center'
         },
         authorImage: {
             borderRadius: '50%',
@@ -161,6 +162,7 @@ declare var window: MyWindow
         const chatActionList = useChatList([])
         const [isFullscreen, setIsFullScreen] = useState<boolean>(document.fullscreen)
         const [isLivePage, setIsLivePage] = useState<boolean>(false)
+        const [autoScroll, setAutoScroll] = useState<boolean>(true)
         const containerRef = useRef<HTMLDivElement>(null)
 
 
@@ -178,7 +180,6 @@ declare var window: MyWindow
                 if (!data) return
                 const actions = FindObjectByKeyRecursively(data as Response, 'actions') as YoutubeLiveChat.LiveChatContinuationAction[]
                 if (!actions) return
-                console.log('response come')
                 // add uuid to each action
                 const actionsWithUuid = actions.map((action) => ({ ...action, uuid: uuidV4() })) as ChatActionList
                 // Do data false check before upate the hook
@@ -191,22 +192,13 @@ declare var window: MyWindow
                         return true
                     })
 
-                // TODO: Gradually update the chat list
-                const timedContinuationData = FindObjectByKeyRecursively(data as Response, 'timedContinuationData') as YoutubeLiveChat.TimedContinuationData
-                if (timedContinuationData) {
-                    //this is a live steam page
-                    const tti = timedContinuationData.timeoutMs || 5000
-                    const timeInterval = tti / filteredActions.length
-                    let count = 0
-                    const intervalNo = setInterval(() => {
-                        if (count === filteredActions.length) {
-                            clearInterval(intervalNo)
-                            return
-                        }
-                        chatActionList.update([filteredActions[count]])
-                        count++;
-                    }, timeInterval)
-                }
+                // Gradually update the chat list
+                const timeout = FindObjectByKeyRecursively(data as Response, 'timeoutMs') as number
+                console.log('timeout', timeout)
+                const tti = timeout || 5000
+                console.log('tti', tti)
+                const timeInterval = tti / filteredActions.length
+                filteredActions.forEach((action, i) => setTimeout(() => chatActionList.update([action]), i * timeInterval))
                 setIsLivePage(true)
             }
         }
@@ -215,10 +207,14 @@ declare var window: MyWindow
             setIsFullScreen(document.fullscreen)
         }
 
+        function ContainerOnWheelListener(event: React.UIEvent<HTMLDivElement, UIEvent>) {
+            setAutoScroll(false)
+        }
+
         useEffect(() => {
-            console.log('chat list', chatActionList.list)
             if (!containerRef.current) return
-            containerRef.current.scrollTop = containerRef.current.scrollHeight
+            if (autoScroll)
+                containerRef.current.scrollTop = containerRef.current.scrollHeight
         }, [chatActionList])
 
 
@@ -274,8 +270,11 @@ declare var window: MyWindow
         const classes = useStyles()
 
         return (
-            <div ref={containerRef} className={`${classes.innerContainer} 
-            ${(chatActionList.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}>
+            <div
+                ref={containerRef}
+                className={`${classes.innerContainer} ${(chatActionList.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}
+                onWheel={ContainerOnWheelListener}>
+
                 {updateChatList()}
             </div>
         )
