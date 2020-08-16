@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react'
 import { render } from 'react-dom'
 import { CatchedLiveChatRequestMessage } from './background'
+import { v4 as uuidV4 } from 'uuid'
 
 import './css/App.css'
 
@@ -135,35 +136,40 @@ declare var window: MyWindow
 
 
 
-    type ChatList = YoutubeLiveChat.LiveChatContinuationAction[]
+    interface ChatAction extends YoutubeLiveChat.LiveChatContinuationAction {
+        uuid: string
+    }
+    type ChatActionList = ChatAction[]
     // const useChatList = (): [ChatList, Dispatch<SetStateAction<ChatList>>] => {
-    const useChatList = (initValue: ChatList) => {
-        const [chatList, setChatList] = useState<ChatList>(initValue)
-        const update = (list: ChatList) => setChatList(preState => preState.concat(list).slice(-100))
-        const reset = () => setChatList([])
+    const useChatList = (initValue: ChatActionList) => {
+        const [chatActionList, setChatActionList] = useState<ChatActionList>(initValue)
+        const update = (action: ChatAction) => setChatActionList(preState => preState.concat(action).slice(-100))
+        const reset = () => setChatActionList([])
         return {
-            list: chatList,
+            list: chatActionList,
             update,
             reset
         }
     }
 
 
+    let time: number
 
     const App: React.FC = () => {
 
         // const [chatList, setChatList] = useState<YoutubeLiveChat.LiveChatContinuationAction[]>([])
-        const chatList = useChatList([])
+        const chatActionList = useChatList([])
         const [isFullscreen, setIsFullScreen] = useState<boolean>(document.fullscreen)
         const [isLivePage, setIsLivePage] = useState<boolean>(false)
         const containerRef = useRef<HTMLDivElement>(null)
+
 
         async function MessageListener(message: CatchedLiveChatRequestMessage) {
             // if url is /watch?*, that mean the tab enter a new page, so need to reset the isLivePage hook
             if (message.greeting) {
                 setIsLivePage(false)
                 setIsFullScreen(false)
-                chatList.reset()
+                chatActionList.reset()
                 return
             } else {
                 const { url } = message.details
@@ -172,23 +178,28 @@ declare var window: MyWindow
                 if (!data) return
                 const actions = FindObjectByKeyRecursively(data as Response, 'actions') as YoutubeLiveChat.LiveChatContinuationAction[]
                 if (!actions) return
+                console.log('response come')
+                // add uuid to each action
+                const actionsWithUuid = actions.map((action) => ({ ...action, uuid: uuidV4() })) as ChatActionList
                 // Do data false check before upate the hook
-                try {
-                    let filteredActions = actions
-                        .filter(action => {
-                            // if (action.addChatItemAction === undefined) console.log('not addChatItemAction', action)
-                            if (action.addChatItemAction === undefined) return false
-                            if (action.addChatItemAction.item === undefined) return false
-                            if (action.addChatItemAction.item.liveChatTextMessageRenderer === undefined) return false
-                            return true
-                        })
+                const filteredActions = actionsWithUuid
+                    .filter(action => {
+                        // if (action.addChatItemAction === undefined) console.log('not addChatItemAction', action)
+                        if (action.addChatItemAction === undefined) return false
+                        if (action.addChatItemAction.item === undefined) return false
+                        if (action.addChatItemAction.item.liveChatTextMessageRenderer === undefined) return false
+                        return true
+                    })
 
-                    chatList.update(filteredActions)
-
-                    setIsLivePage(true)
-                } catch (error) {
-                    console.error('action filter error', error)
+                // TODO: Gradually update the chat list
+                const timedContinuationData = FindObjectByKeyRecursively(data as Response, 'timedContinuationData') as YoutubeLiveChat.TimedContinuationData
+                if (timedContinuationData) {
+                    //this is a live steam page
+                    const tti = timedContinuationData.timeoutMs || 5000
+                    const timeInterval = tti / filteredActions.length
+                    filteredActions.forEach((action, i) => setTimeout(() => chatActionList.update(action), i === 0 ? 0 : timeInterval))
                 }
+                setIsLivePage(true)
             }
         }
 
@@ -197,10 +208,10 @@ declare var window: MyWindow
         }
 
         useEffect(() => {
-            console.log('chat list', chatList.list)
+            console.log('chat list', chatActionList.list)
             if (!containerRef.current) return
             containerRef.current.scrollTop = containerRef.current.scrollHeight
-        }, [chatList])
+        }, [chatActionList])
 
 
 
@@ -234,13 +245,13 @@ declare var window: MyWindow
 
 
         const updateChatList = () => {
-            if (chatList.list.length === 0)
+            if (chatActionList.list.length === 0)
                 return <></>
             else {
-                return chatList.list
-                    .map((action, key) => {
+                return chatActionList.list
+                    .map((action) => {
                         return (
-                            <div className={classes.chatItem} key={key}>
+                            <div className={classes.chatItem} key={action.uuid}>
                                 <img className={classes.authorImage} src={action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorPhoto.thumbnails[0].url} alt="author Image" />
                                 <div className={classes.authorName + ' ' +
                                     (action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorBadges === undefined ? '' : classes.isMember)}>{action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorName.simpleText}</div>
@@ -256,7 +267,7 @@ declare var window: MyWindow
 
         return (
             <div ref={containerRef} className={`${classes.innerContainer} 
-            ${(chatList.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}>
+            ${(chatActionList.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}>
                 {updateChatList()}
             </div>
         )

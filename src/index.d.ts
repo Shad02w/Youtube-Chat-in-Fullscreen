@@ -55,7 +55,7 @@ declare namespace YoutubeLiveChat {
 
     interface ContinuationData {
         continuation: string
-        timoutMs: string
+        timeoutMs: number
     }
 
     interface InvalidationContinuationData extends ContinuationData {

@@ -34,6 +34,8 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
     return JSON.parse(jsonString)
 }
 
+let t1: number = 0
+let t2: number = 0
 
 chrome.webRequest.onCompleted.addListener(details => {
     chrome.tabs.executeScript(details.tabId, {
@@ -71,8 +73,6 @@ chrome.webRequest.onBeforeRequest.addListener((details) => {
         }
         chrome.tabs.sendMessage(details.tabId, message)
     }
-
-
 }, requestFilter, ['requestBody'])
 
 

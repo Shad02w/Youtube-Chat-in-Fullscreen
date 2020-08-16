@@ -5,11 +5,12 @@ Show Youtube live chat when in fullscreen mode
 
 - [x] Several instance of `@material-ui/styles` initialized in this application
 - [x] The overlay still exist when the tab goes to another watch page(without refreshing)
+- [ ] Chat list update may go to fast, not one by one
 - [ ] Author name can not stick to one line if it is little bit long
 
 ### TODO
 
-- [ ] Gradually add new chat item to the chat list
+- [x] Gradually add new chat item to the chat list
 - [ ] Keep chat list scroll to the bottom, at least user scroll them up
 - [ ] Able to turn on/off the extension
 - [ ] Drag and move the overlay
