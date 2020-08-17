@@ -14,7 +14,7 @@ Show Youtube live chat when in fullscreen mode
 ### TODO
 
 - [x] Gradually add new chat item to the chat list
-- [ ] Keep chat list scroll to the bottom, at least user scroll them up
+- [x] Keep chat list scroll to the bottom, at least user scroll them up
 - [ ] Able to turn on/off the extension
 - [ ] Drag and move the overlay
 - [ ] Support live stream replay video page
