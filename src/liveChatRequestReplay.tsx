@@ -112,7 +112,7 @@ type ScrollDirection = 'UP' | 'DOWN'
             }
         },
         chatListContainer: {
-
+            padding: 20
         },
         hidden: {
             height: 0,
@@ -182,8 +182,6 @@ type ScrollDirection = 'UP' | 'DOWN'
         }
     }
 
-
-    let time: number
 
     const App: React.FC = () => {
 
