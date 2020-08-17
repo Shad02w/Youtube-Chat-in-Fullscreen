@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from 're
 import { render } from 'react-dom'
 import { CatchedLiveChatRequestMessage } from './background'
 import { v4 as uuidV4 } from 'uuid'
+import down from './assets/images/down.svg'
 
 import './css/App.css'
 
@@ -42,7 +43,7 @@ type ScrollDirection = 'UP' | 'DOWN'
 
 
     // run code here
-    const chatListContainerId = '_chat-list-container'
+    const chatListContainerId = '_youtube-chat-in-fullscreen-app'
     console.log('liveChatRequestReplay.js injected')
 
     // The request either be get or post
@@ -93,7 +94,7 @@ type ScrollDirection = 'UP' | 'DOWN'
 
 
     const useStyles = makeStyles(() => createStyles({
-        innerContainer: {
+        container: {
             width: 400,
             maxHeight: 600,
             overflowY: 'auto',
@@ -109,6 +110,9 @@ type ScrollDirection = 'UP' | 'DOWN'
                 background: 'rgba(240, 240, 240, 0.3)',
                 borderRadius: '10px'
             }
+        },
+        chatListContainer: {
+
         },
         hidden: {
             height: 0,
@@ -148,6 +152,22 @@ type ScrollDirection = 'UP' | 'DOWN'
             overflowWrap: 'break-word',
             wordWrap: 'break-word'
         },
+        downButton: {
+            position: 'absolute',
+            bottom: -50,
+            margin: '0 auto',
+            width: 30,
+            height: 30,
+            left: 0,
+            right: 0,
+            transition: 'all 300ms ease-in-out',
+            '&:hover': {
+                cursor: 'pointer',
+            }
+        },
+        downButtonShow: {
+            bottom: 30,
+        }
     }))
 
 
@@ -218,7 +238,7 @@ type ScrollDirection = 'UP' | 'DOWN'
 
         const scrollDetector = createScrollDirectionDetector()
 
-        function ContainerOnWheelListener({ currentTarget: { scrollTop, scrollHeight } }: React.UIEvent<HTMLDivElement, UIEvent>) {
+        function ContainerOnScrollListener({ currentTarget: { scrollTop } }: React.UIEvent<HTMLDivElement, UIEvent>) {
             const scrollDirection = scrollDetector(scrollTop)
             switch (scrollDirection) {
                 case 'UP':
@@ -234,6 +254,10 @@ type ScrollDirection = 'UP' | 'DOWN'
             if (autoScroll)
                 containerRef.current.scrollTop = containerRef.current.scrollHeight
         }, [chatActionList])
+
+        useEffect(() => {
+            console.log('autoscroll changed', autoScroll)
+        }, [autoScroll])
 
 
 
@@ -285,15 +309,22 @@ type ScrollDirection = 'UP' | 'DOWN'
             }
         }
 
+        const backToAutoScroll = () => setAutoScroll(true)
+
+
         const classes = useStyles()
 
         return (
             <div
                 ref={containerRef}
-                className={`${classes.innerContainer} ${(chatActionList.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}
-                onScroll={ContainerOnWheelListener}>
-
-                {updateChatList()}
+                className={`${classes.container} ${(chatActionList.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}
+                onScroll={ContainerOnScrollListener}>
+                <img
+                    onClick={backToAutoScroll}
+                    className={classes.downButton + ' ' + (autoScroll ? '' : classes.downButtonShow)} src={down} alt='Auto scroll icon' />
+                <div className={classes.chatListContainer}>
+                    {updateChatList()}
+                </div>
             </div>
         )
     }
