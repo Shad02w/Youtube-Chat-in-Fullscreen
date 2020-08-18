@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react'
+import React, { useState, useEffect, useRef, Dispatch, SetStateAction, useMemo } from 'react'
 import { render } from 'react-dom'
 import { CatchedLiveChatRequestMessage } from './background'
 import { v4 as uuidV4 } from 'uuid'
@@ -54,7 +54,7 @@ type ScrollDirection = 'UP' | 'DOWN'
             if (!requestBody) {
                 const res = await axios.get(url)
                 data = res.data as Response
-                // console.log('GET', data)
+                console.log('GET', data)
             } else {
                 const res = await axios.post(url, requestBody, { responseType: 'json' })
                 data = res.data as Response
@@ -70,14 +70,23 @@ type ScrollDirection = 'UP' | 'DOWN'
     }
 
     function createScrollDirectionDetector() {
-        let lastscrollTop = 0;
-        return function (currentScrollTop: number): ScrollDirection {
-            const tmp = lastscrollTop
-            lastscrollTop = currentScrollTop
-            if (currentScrollTop < tmp) return 'UP'
+        console.log('create a scroll detector')
+        let lastScrollTop = 0;
+        return function (currentScrollTop: number, currentScrollHeight: number, clientHeight: number): ScrollDirection {
+            console.log('clientHeight', clientHeight)
+            console.log('currrentScrollTop', currentScrollTop, 'currentScrollHeight', currentScrollHeight, 'lastScrollTop', lastScrollTop)
+            const temp = lastScrollTop
+            lastScrollTop = currentScrollTop
+            if (currentScrollTop < temp && currentScrollTop + clientHeight != currentScrollHeight) return 'UP'
             else return 'DOWN'
+
+            // if currentScrollTop < lastScroll top, it have 2 possibles
+            // 1. user scroll up 
+            // 2. scrollHeight of the container decrease, so the current must smaller than last scroll top, but it is not a scroll up
+
         }
     }
+    const scrollDirectionDetector = createScrollDirectionDetector()
 
 
     function FindObjectByKeyRecursively(obj: Response, targetKey: string): any | undefined {
@@ -101,7 +110,8 @@ type ScrollDirection = 'UP' | 'DOWN'
             'scrollbar-width': 'thin',
             'scrollbar-color': 'rgba(240, 240, 240, 0.3) transparent',
             '&::-webkit-scrollbar': {
-                width: '5px'
+                width: '5px',
+                height: '5px'
             },
             '&::-webkit-scrollbar-track': {
                 background: 'transparent'
@@ -112,7 +122,7 @@ type ScrollDirection = 'UP' | 'DOWN'
             }
         },
         chatListContainer: {
-            padding: 20
+            padding: 10
         },
         hidden: {
             height: 0,
@@ -160,7 +170,7 @@ type ScrollDirection = 'UP' | 'DOWN'
             height: 30,
             left: 0,
             right: 0,
-            transition: 'all 300ms ease-in-out',
+            transition: 'all 150ms ease-in-out',
             '&:hover': {
                 cursor: 'pointer',
             }
@@ -185,8 +195,7 @@ type ScrollDirection = 'UP' | 'DOWN'
 
     const App: React.FC = () => {
 
-        // const [chatList, setChatList] = useState<YoutubeLiveChat.LiveChatContinuationAction[]>([])
-        const chatActionList = useChatList([])
+        const chatActions = useChatList([])
         const [isFullscreen, setIsFullScreen] = useState<boolean>(document.fullscreen)
         const [isLivePage, setIsLivePage] = useState<boolean>(false)
         const [autoScroll, setAutoScroll] = useState<boolean>(true)
@@ -197,8 +206,9 @@ type ScrollDirection = 'UP' | 'DOWN'
             // if url is /watch?*, that mean the tab enter a new page, so need to reset the isLivePage hook
             if (message.greeting) {
                 setIsLivePage(false)
-                setIsFullScreen(false)
-                chatActionList.reset()
+                setIsFullScreen(document.fullscreen)
+                setAutoScroll(true)
+                chatActions.reset()
                 return
             } else {
                 const { url } = message.details
@@ -212,7 +222,6 @@ type ScrollDirection = 'UP' | 'DOWN'
                 // Do data false check before upate the hook
                 const filteredActions = actionsWithUuid
                     .filter(action => {
-                        // if (action.addChatItemAction === undefined) console.log('not addChatItemAction', action)
                         if (action.addChatItemAction === undefined) return false
                         if (action.addChatItemAction.item === undefined) return false
                         if (action.addChatItemAction.item.liveChatTextMessageRenderer === undefined) return false
@@ -223,8 +232,8 @@ type ScrollDirection = 'UP' | 'DOWN'
                 const timeout = FindObjectByKeyRecursively(data as Response, 'timeoutMs') as number
                 const tti = timeout || 5000
                 const timeInterval = tti / filteredActions.length
-                console.log('Filtered Actions', filteredActions)
-                filteredActions.forEach((action, i) => setTimeout(() => chatActionList.update([action]), i * timeInterval))
+                // console.log('Filtered Actions', filteredActions)
+                filteredActions.forEach((action, i) => setTimeout(() => chatActions.update([action]), i * timeInterval))
                 setIsLivePage(true)
             }
         }
@@ -234,10 +243,14 @@ type ScrollDirection = 'UP' | 'DOWN'
         }
 
 
-        const scrollDetector = createScrollDirectionDetector()
 
-        function ContainerOnScrollListener({ currentTarget: { scrollTop } }: React.UIEvent<HTMLDivElement, UIEvent>) {
-            const scrollDirection = scrollDetector(scrollTop)
+        const ResumeAutonScroll = () => setAutoScroll(true)
+
+
+
+        function ContainerOnScrollListener({ currentTarget: { scrollTop, scrollHeight, clientHeight } }: React.UIEvent<HTMLDivElement, UIEvent>) {
+            const scrollDirection = scrollDirectionDetector(scrollTop, scrollHeight, clientHeight)
+            console.log(scrollDirection)
             switch (scrollDirection) {
                 case 'UP':
                     setAutoScroll(false)
@@ -248,15 +261,12 @@ type ScrollDirection = 'UP' | 'DOWN'
         }
 
         useEffect(() => {
+            console.log(chatActions)
             if (!containerRef.current) return
+            const el = containerRef.current
             if (autoScroll)
-                containerRef.current.scrollTop = containerRef.current.scrollHeight
-        }, [chatActionList])
-
-        useEffect(() => {
-            console.log('autoscroll changed', autoScroll)
-        }, [autoScroll])
-
+                el.scrollTop = el.scrollHeight
+        }, [chatActions])
 
 
         useEffect(() => {
@@ -285,14 +295,12 @@ type ScrollDirection = 'UP' | 'DOWN'
             }
         }
 
-
-
-
-        const updateChatList = () => {
-            if (chatActionList.list.length === 0)
-                return <></>
+        const ChatList = () => {
+            let list;
+            if (chatActions.list.length === 0)
+                list = <></>
             else {
-                return chatActionList.list
+                list = chatActions.list
                     .map((action) => {
                         return (
                             <div className={classes.chatItem} key={action.uuid}>
@@ -305,24 +313,26 @@ type ScrollDirection = 'UP' | 'DOWN'
                         )
                     })
             }
+            return (
+                <div className={classes.chatListContainer}>
+                    {list}
+                </div>
+            )
         }
 
-        const backToAutoScroll = () => setAutoScroll(true)
-
-
         const classes = useStyles()
+
 
         return (
             <div
                 ref={containerRef}
-                className={`${classes.container} ${(chatActionList.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}
-                onScroll={ContainerOnScrollListener}>
+                className={`${classes.container} ${(chatActions.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}
+                onScroll={ContainerOnScrollListener}
+            >
                 <img
-                    onClick={backToAutoScroll}
+                    onClick={ResumeAutonScroll}
                     className={classes.downButton + ' ' + (autoScroll ? '' : classes.downButtonShow)} src={down} alt='Auto scroll icon' />
-                <div className={classes.chatListContainer}>
-                    {updateChatList()}
-                </div>
+                <ChatList></ChatList>
             </div>
         )
     }
@@ -333,11 +343,9 @@ type ScrollDirection = 'UP' | 'DOWN'
     function createChatListContainer() {
         const playerContainer = document.getElementById('player-container')
         if (!playerContainer) {
-            // cancel_id = window.requestIdleCallback(createChatListContainer)
             requestAnimationFrame(createChatListContainer)
         } else {
             console.log('have container')
-            // window.cancelIdleCallback(cancel_id)
             const chatListContainer = document.createElement('div')
             chatListContainer.id = chatListContainerId
             playerContainer.append(chatListContainer)

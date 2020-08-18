@@ -7,7 +7,7 @@ const { merge } = require('webpack-merge')
 module.exports = merge({}, {
     entry: {
         background: path.resolve(__dirname, "./src/background.ts"),
-        popup: path.resolve(__dirname, './src/popup.ts'),
+        popup: path.resolve(__dirname, './src/popup.tsx'),
         liveChatRequestReplay: path.resolve(__dirname, './src/liveChatRequestReplay.tsx')
     },
     output: {
@@ -23,14 +23,21 @@ module.exports = merge({}, {
                 exclude: /node_modules/
             },
             {
-                test: /.css$/,
+                test: /\.css$/,
                 use: ["style-loader", "css-loader"]
+            },
+            {
+                test: /\.png$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 1000,
+                    fallback: 'file-loader'
+                }
             },
             {
                 test: /\.svg$/,
                 loader: 'svg-url-loader'
             }
-
         ]
     },
     resolve: {

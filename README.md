@@ -10,18 +10,23 @@ Show Youtube live chat when in fullscreen mode
 - (Fixed) Several instance of `@material-ui/styles` initialized in this application
 - (Fixed) The overlay still exist when the tab goes to another watch page(without refreshing)
 - (Fixed) Chat list update may go to fast, not one by one(setTimeout call in forEach)
+- (Fixed) When chat list is 100, since the list can be shorter, the scroll detector may fail
 
 ### TODO
 
 - [x] Gradually add new chat item to the chat list
 - [x] Keep chat list scroll to the bottom, at least user scroll them up
-- [ ] Able to turn on/off the extension
+- [ ] Create an options pages
+- [x] Able to turn on/off the extension
 - [ ] Drag and move the overlay
 - [ ] Support live stream replay video page
 - [ ] Show membership ticker and super chat
 - [ ] Turn on/off the chat list overlay directly temporarily without going to options page
 - [ ] Able to resize and change font size without options page
-- [ ] Create an options page
+
+
+
+
 
 
 

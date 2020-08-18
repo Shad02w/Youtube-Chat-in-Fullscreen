@@ -1,14 +1,7 @@
 import parse from 'url-parse'
-chrome.runtime.onInstalled.addListener(() => {
-    console.log('onInstalled')
-})
 
-
-
-
-const requestFilter = {
-    urls: ['https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
-
+export interface StorageItems {
+    on?: boolean
 }
 
 export interface CatchedLiveChatRequestMessage {
@@ -16,6 +9,22 @@ export interface CatchedLiveChatRequestMessage {
     requestBody?: JSON
     greeting?: 'hi'
 }
+chrome.runtime.onInstalled.addListener(() => {
+    // create the necessary variable in storage
+    chrome.storage.sync.set({
+        on: true
+    }, () => console.log('storage created'))
+})
+
+
+const getLiveChatRequestFilter: chrome.webRequest.RequestFilter = {
+    urls: ['https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
+}
+
+const watchPageRequestFilter: chrome.webRequest.RequestFilter = {
+    urls: ['https://www.youtube.com/watch*']
+}
+
 
 // reference to https://gist.github.com/72lions/4528834
 export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[]): JSON {
@@ -34,10 +43,7 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
     return JSON.parse(jsonString)
 }
 
-let t1: number = 0
-let t2: number = 0
-
-chrome.webRequest.onCompleted.addListener(details => {
+function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDetails) {
     chrome.tabs.executeScript(details.tabId, {
         file: 'liveChatRequestReplay.js',
         runAt: 'document_idle'
@@ -48,10 +54,9 @@ chrome.webRequest.onCompleted.addListener(details => {
         }
         chrome.tabs.sendMessage(details.tabId, message)
     })
-}, { urls: ['https://www.youtube.com/watch*'] })
+}
+function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDetails) {
 
-
-chrome.webRequest.onBeforeRequest.addListener((details) => {
     console.log(parse(details.url).pathname, details.tabId, details)
     // The replay request will sent from frame id 0, block the replayed requset from content script to prevent looping
     if (details.frameId === 0) return
@@ -73,7 +78,28 @@ chrome.webRequest.onBeforeRequest.addListener((details) => {
         }
         chrome.tabs.sendMessage(details.tabId, message)
     }
-}, requestFilter, ['requestBody'])
+}
+
+chrome.storage.onChanged.addListener((changes) => {
+    // Turn on/off extension core
+    console.log(changes)
+    if (changes['on']) {
+        const isOn = changes['on'].newValue as boolean
+        if (isOn) {
+            console.log('extension on')
+            chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
+            chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
+        }
+        else {
+            console.log('extension off')
+            chrome.webRequest.onCompleted.removeListener(watchPageRequestListener)
+            chrome.webRequest.onBeforeRequest.removeListener(getLiveChatRequestListener)
+        }
+    }
+})
+
+
+
 
 
 
