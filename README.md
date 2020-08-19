@@ -25,6 +25,7 @@ Show Youtube live chat when in full screen mode
 - [ ] Show membership ticker and super chat
 - [ ] Turn on/off the chat list overlay directly temporarily without going to options page
 - [ ] Able to resize and change font size without options page
+- [ ] Chat list remain unchanged when user exit autoscroll mode
 
 
 
