@@ -77,7 +77,7 @@ type ScrollDirection = 'UP' | 'DOWN'
             console.log('currrentScrollTop', currentScrollTop, 'currentScrollHeight', currentScrollHeight, 'lastScrollTop', lastScrollTop)
             const temp = lastScrollTop
             lastScrollTop = currentScrollTop
-            if (currentScrollTop < temp && currentScrollTop + clientHeight != currentScrollHeight) return 'UP'
+            if (currentScrollTop < temp && Math.abs(currentScrollHeight - (currentScrollTop + clientHeight)) >= 2) return 'UP'
             else return 'DOWN'
 
             // if currentScrollTop < lastScroll top, it have 2 possibles
@@ -107,6 +107,7 @@ type ScrollDirection = 'UP' | 'DOWN'
             width: 400,
             maxHeight: 600,
             overflowY: 'auto',
+            overflowX: 'hidden',
             'scrollbar-width': 'thin',
             'scrollbar-color': 'rgba(240, 240, 240, 0.3) transparent',
             '&::-webkit-scrollbar': {
