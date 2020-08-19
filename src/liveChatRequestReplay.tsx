@@ -73,8 +73,8 @@ type ScrollDirection = 'UP' | 'DOWN'
         console.log('create a scroll detector')
         let lastScrollTop = 0;
         return function (currentScrollTop: number, currentScrollHeight: number, clientHeight: number): ScrollDirection {
-            console.log('clientHeight', clientHeight)
-            console.log('currrentScrollTop', currentScrollTop, 'currentScrollHeight', currentScrollHeight, 'lastScrollTop', lastScrollTop)
+            // console.log('clientHeight', clientHeight)
+            // console.log('currrentScrollTop', currentScrollTop, 'currentScrollHeight', currentScrollHeight, 'lastScrollTop', lastScrollTop)
             const temp = lastScrollTop
             lastScrollTop = currentScrollTop
             if (currentScrollTop < temp && Math.abs(currentScrollHeight - (currentScrollTop + clientHeight)) >= 2) return 'UP'
@@ -268,6 +268,8 @@ type ScrollDirection = 'UP' | 'DOWN'
             if (autoScroll)
                 el.scrollTop = el.scrollHeight
         }, [chatActions])
+
+
 
 
         useEffect(() => {
