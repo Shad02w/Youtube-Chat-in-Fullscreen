@@ -45,7 +45,7 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
 
 function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDetails) {
     chrome.tabs.executeScript(details.tabId, {
-        file: 'liveChatRequestReplay.js',
+        file: 'liveChatReqeustReplay.js',
         runAt: 'document_idle'
     }, () => {
         const message: CatchedLiveChatRequestMessage = {
@@ -80,8 +80,14 @@ function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDet
     }
 }
 
-chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
-chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
+// Get the variable 'on' in storage to check whether the extension is on or not
+chrome.storage.sync.get(['on'], (result) => {
+    if (result.on) {
+        chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
+        chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
+    }
+})
+
 
 
 chrome.storage.onChanged.addListener((changes) => {
