@@ -13,6 +13,7 @@ Show Youtube live chat when in full screen mode
 - (Fixed) The overlay still exist when the tab goes to another watch page(without refreshing)
 - (Fixed) Chat items in the list update simultaneously, not one by one(setTimeout call in forEach)
 - (Fixed) When chat list reach its max size, the scrollHeight of the container may decrease, causing scroll direction detector to fail(since the current scrollTop is smaller than last scrollTop, but it still can be a scroll down action)
+- (Fixed) Extension is functioning when the browser start, since the event listener of web request only added when there are value change in storage.
 
 ### TODO
 
@@ -26,6 +27,7 @@ Show Youtube live chat when in full screen mode
 - [ ] Turn on/off the chat list overlay directly temporarily without going to options page
 - [ ] Able to resize and change font size without options page
 - [ ] Chat list remain unchanged when user exit autoscroll mode
+- [ ] Refresh should not be need to update the on/off state of the extension
 
 
 

@@ -57,7 +57,7 @@ function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDet
 }
 function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDetails) {
 
-    console.log(parse(details.url).pathname, details.tabId, details)
+    console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
     // The replay request will sent from frame id 0, block the replayed requset from content script to prevent looping
     if (details.frameId === 0) return
     if (details.method === 'POST') {
@@ -80,6 +80,10 @@ function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDet
     }
 }
 
+chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
+chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
+
+
 chrome.storage.onChanged.addListener((changes) => {
     // Turn on/off extension core
     console.log(changes)
@@ -87,8 +91,10 @@ chrome.storage.onChanged.addListener((changes) => {
         const isOn = changes['on'].newValue as boolean
         if (isOn) {
             console.log('extension on')
-            chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
-            chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
+            if (!chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
+                chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
+            if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestListener))
+                chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
         }
         else {
             console.log('extension off')
