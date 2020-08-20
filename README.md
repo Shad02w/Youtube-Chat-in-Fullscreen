@@ -6,6 +6,7 @@ Show Youtube live chat when in full screen mode
 - Author name can not stick to one line if it is little bit long
 - Content script will inject into one Youtube page multiple times
 - The container of the react app become null sometime (cant find reason right now)
+- Cannot show emoji, this can be serious, since if the first character is emoji, the comment will become empty
 
 ### Fixed
 
