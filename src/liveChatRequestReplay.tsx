@@ -226,6 +226,7 @@ type ScrollDirection = 'UP' | 'DOWN'
                         if (action.addChatItemAction === undefined) return false
                         if (action.addChatItemAction.item === undefined) return false
                         if (action.addChatItemAction.item.liveChatTextMessageRenderer === undefined) return false
+                        if (action.addChatItemAction.item.liveChatTextMessageRenderer.authorName === undefined) return false
                         return true
                     })
 
