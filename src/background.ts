@@ -82,9 +82,12 @@ function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDet
 
 // Get the variable 'on' in storage to check whether the extension is on or not
 chrome.storage.sync.get(['on'], (result) => {
+    console.log('result', result)
     if (result.on) {
-        chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
-        chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
+        if (!chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
+            chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
+        if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestListener))
+            chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
     }
 })
 
@@ -92,7 +95,7 @@ chrome.storage.sync.get(['on'], (result) => {
 
 chrome.storage.onChanged.addListener((changes) => {
     // Turn on/off extension core
-    console.log(changes)
+    console.log('on changes:', changes)
     if (changes['on']) {
         const isOn = changes['on'].newValue as boolean
         if (isOn) {
