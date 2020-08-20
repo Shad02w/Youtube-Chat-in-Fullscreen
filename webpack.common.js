@@ -8,7 +8,7 @@ module.exports = merge({}, {
     entry: {
         background: path.resolve(__dirname, "./src/background.ts"),
         popup: path.resolve(__dirname, './src/popup.tsx'),
-        liveChatRequestReplay: path.resolve(__dirname, './src/liveChatRequestReplay.tsx')
+        inject: path.resolve(__dirname, './src/index.tsx')
     },
     output: {
         filename: "[name].js",

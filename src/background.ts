@@ -45,7 +45,7 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
 
 function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDetails) {
     chrome.tabs.executeScript(details.tabId, {
-        file: 'liveChatReqeustReplay.js',
+        file: 'inject.js',
         runAt: 'document_idle'
     }, () => {
         const message: CatchedLiveChatRequestMessage = {
