@@ -69,7 +69,6 @@ const App: React.FC = () => {
     }
 
     useEffect(() => {
-        console.log('mounted effect')
         chrome.storage.sync.get(['on'], (result) => {
             if (result['on'] !== undefined) {
                 setExtEnable(result['on'] as boolean)
