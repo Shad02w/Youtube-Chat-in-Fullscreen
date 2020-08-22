@@ -1,5 +1,4 @@
-import axios from 'axios'
-import React, { useState, useEffect, useRef, Dispatch, SetStateAction, useMemo } from 'react'
+import React, { StrictMode } from 'react'
 import { render } from 'react-dom'
 
 
@@ -43,7 +42,11 @@ declare var window: MyWindow
             const chatListContainer = document.createElement('div')
             chatListContainer.id = chatListContainerId
             playerContainer.append(chatListContainer)
-            render(<App />, document.getElementById(chatListContainerId))
+            render(
+                <StrictMode>
+                    <App />
+                </StrictMode>
+                , document.getElementById(chatListContainerId))
         }
     }
 
