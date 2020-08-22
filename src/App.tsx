@@ -11,6 +11,7 @@ import './css/App.css'
 
 interface ChatAction extends YoutubeLiveChat.LiveChatContinuationAction {
     uuid: string
+    pageUUid: string
 }
 
 type ChatActionList = ChatAction[]
@@ -115,18 +116,19 @@ export const App: React.FC = () => {
     const [isFullscreen, setIsFullScreen] = useState<boolean>(document.fullscreen)
     const [isLivePage, setIsLivePage] = useState<boolean>(false)
     const [autoScroll, setAutoScroll] = useState<boolean>(true)
+    const [pageUuid, setPageUuid] = useState<string>(uuidV4())
     const containerRef = useRef<HTMLDivElement>(null)
+    const pageUuidRef = useRef(pageUuid)
+    pageUuidRef.current = pageUuid
 
 
     async function MessageListener(message: CatchedLiveChatRequestMessage) {
         // if url is /watch?*, that mean the tab enter a new page, so need to reset the isLivePage hook
         if (message.greeting) {
-            setIsLivePage(false)
-            setIsFullScreen(document.fullscreen)
-            setAutoScroll(true)
-            chatActions.reset()
+            setPageUuid(uuidV4())
             return
         } else {
+            console.log(pageUuidRef.current)
             const { url } = message.details
             const requestBody = message.requestBody
             const data = await ReplayRequest(url, requestBody)
@@ -134,7 +136,7 @@ export const App: React.FC = () => {
             const actions = FindObjectByKeyRecursively(data as Response, 'actions') as YoutubeLiveChat.LiveChatContinuationAction[]
             if (!actions) return
             // add uuid to each action
-            const actionsWithUuid = actions.map((action) => ({ ...action, uuid: uuidV4() })) as ChatActionList
+            const actionsWithUuid = actions.map((action) => ({ ...action, uuid: uuidV4(), pageUUid: pageUuidRef.current })) as ChatActionList
             // Do data false check before upate the hook
             const filteredActions = actionsWithUuid
                 .filter(action => {
@@ -148,32 +150,28 @@ export const App: React.FC = () => {
             const timeout = FindObjectByKeyRecursively(data as Response, 'timeoutMs') as number
             const tti = timeout || 5000
             const timeInterval = tti / filteredActions.length
-            // console.log('Filtered Actions', filteredActions)
-            filteredActions.forEach((action, i) => setTimeout(() => chatActions.update([action]), i * timeInterval))
+            filteredActions.forEach((action, i) => setTimeout(() => {
+                // check whether the chat action is come from previous page
+                if (action.pageUUid === pageUuidRef.current)
+                    chatActions.update([action])
+            }, i * timeInterval))
+
             setIsLivePage(true)
         }
     }
-
-    function FullscreenListener(event: Event) {
-        setIsFullScreen(document.fullscreen)
-    }
-
 
 
     const ResumeAutonScroll = () => setAutoScroll(true)
 
 
+    function FullscreenListener(event: Event) {
+        setIsFullScreen(document.fullscreen)
+
+    }
 
     function ContainerOnScrollListener({ currentTarget: { scrollTop, scrollHeight, clientHeight } }: React.UIEvent<HTMLDivElement, UIEvent>) {
         const scrollDirection = scrollDirectionDetector(scrollTop, scrollHeight, clientHeight)
-        console.log(scrollDirection)
-        switch (scrollDirection) {
-            case 'UP':
-                setAutoScroll(false)
-                break;
-            default:
-                break;
-        }
+        if (scrollDirection === 'UP') setAutoScroll(false)
     }
 
     useEffect(() => {
@@ -185,6 +183,12 @@ export const App: React.FC = () => {
     }, [chatActions])
 
 
+    useEffect(() => {
+        setIsLivePage(false)
+        setIsFullScreen(document.fullscreen)
+        setAutoScroll(true)
+        chatActions.reset()
+    }, [pageUuid])
 
 
     useEffect(() => {
@@ -195,7 +199,6 @@ export const App: React.FC = () => {
             chrome.runtime.onMessage.removeListener(MessageListener)
         }
     }, [])
-
 
 
     const createBagde = (authorBadges: YoutubeLiveChat.LiveChatTextMessageRenderer.AuthorBadge[] | undefined) => {
