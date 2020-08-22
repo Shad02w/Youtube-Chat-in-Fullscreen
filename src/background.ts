@@ -9,13 +9,6 @@ export interface CatchedLiveChatRequestMessage {
     requestBody?: JSON
     greeting?: 'hi'
 }
-chrome.runtime.onInstalled.addListener(() => {
-    // create the necessary variable in storage
-    chrome.storage.sync.set({
-        on: true
-    }, () => console.log('storage created'))
-})
-
 
 const getLiveChatRequestFilter: chrome.webRequest.RequestFilter = {
     urls: ['https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
@@ -44,6 +37,7 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
 }
 
 function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDetails) {
+    console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
     chrome.tabs.executeScript(details.tabId, {
         file: 'inject.js',
         runAt: 'document_idle'
@@ -80,9 +74,17 @@ function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDet
     }
 }
 
+//Run when extension just installed and reloaded
+chrome.runtime.onInstalled.addListener(() => {
+    // create the necessary variable in storage
+    chrome.storage.sync.set({
+        on: true
+    }, () => console.log('storage created'))
+})
+
+
 // Get the variable 'on' in storage to check whether the extension is on or not
 chrome.storage.sync.get(['on'], (result) => {
-    console.log('result', result)
     if (result.on) {
         if (!chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
             chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
@@ -95,7 +97,7 @@ chrome.storage.sync.get(['on'], (result) => {
 
 chrome.storage.onChanged.addListener((changes) => {
     // Turn on/off extension core
-    console.log('on changes:', changes)
+    // console.log('on changes:', changes)
     if (changes['on']) {
         const isOn = changes['on'].newValue as boolean
         if (isOn) {

@@ -30,11 +30,8 @@ export async function ReplayRequest(url: string, requestBody?: JSON): Promise<Re
 }
 
 export function createScrollDirectionDetector() {
-    console.log('create a scroll detector')
     let lastScrollTop = 0;
     return function (currentScrollTop: number, currentScrollHeight: number, clientHeight: number): ScrollDirection {
-        // console.log('clientHeight', clientHeight)
-        // console.log('currrentScrollTop', currentScrollTop, 'currentScrollHeight', currentScrollHeight, 'lastScrollTop', lastScrollTop)
         const temp = lastScrollTop
         lastScrollTop = currentScrollTop
         if (currentScrollTop < temp && Math.abs(currentScrollHeight - (currentScrollTop + clientHeight)) >= 2) return 'UP'
