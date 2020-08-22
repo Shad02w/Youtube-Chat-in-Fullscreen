@@ -74,6 +74,21 @@ function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDet
     }
 }
 
+function attachListeners() {
+    if (!chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
+        chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
+    if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestListener))
+        chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
+}
+
+function removeListeners() {
+    if (chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
+        chrome.webRequest.onCompleted.removeListener(watchPageRequestListener)
+    if (chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestListener))
+        chrome.webRequest.onBeforeRequest.removeListener(getLiveChatRequestListener)
+
+}
+
 //Run when extension just installed and reloaded
 chrome.runtime.onInstalled.addListener(() => {
     // create the necessary variable in storage
@@ -85,12 +100,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Get the variable 'on' in storage to check whether the extension is on or not
 chrome.storage.sync.get(['on'], (result) => {
-    if (result.on) {
-        if (!chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
-            chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
-        if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestListener))
-            chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
-    }
+    if (result.on) attachListeners()
 })
 
 
@@ -100,18 +110,8 @@ chrome.storage.onChanged.addListener((changes) => {
     // console.log('on changes:', changes)
     if (changes['on']) {
         const isOn = changes['on'].newValue as boolean
-        if (isOn) {
-            console.log('extension on')
-            if (!chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
-                chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
-            if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestListener))
-                chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
-        }
-        else {
-            console.log('extension off')
-            chrome.webRequest.onCompleted.removeListener(watchPageRequestListener)
-            chrome.webRequest.onBeforeRequest.removeListener(getLiveChatRequestListener)
-        }
+        if (isOn) attachListeners()
+        else removeListeners()
     }
 })
 
