@@ -22,7 +22,7 @@ Show Youtube live chat when in full screen mode
 - [x] Keep chat list scroll to the bottom, at least user scroll them up
 - [x] Create an options pages (options popup is enough)
 - [x] Able to turn on/off the extension
-- [ ] Drag and move the overlay
+- [x] Drag and move the overlay
 - [ ] Support live stream replay video page
 - [ ] Show membership ticker and super chat
 - [ ] Turn on/off the chat list overlay directly temporarily without going to options page

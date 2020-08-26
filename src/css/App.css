@@ -1,15 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
 
 #_youtube-chat-in-fullscreen-app {
-    background: rgba(20, 20, 20, 0.6);
-    height: auto;
-    width: auto;
-    overflow: hidden;
-    position: absolute;
-    font-family: 'Noto Sans JP', sans-serif;
-    top: 0px;
-    right: 0px;
-    color:#c2c2c2;
-    color:#fff;
-    backdrop-filter: blur(10px); 
+    height            : auto;
+    width             : auto;
+    /* overflow       : hidden; */
+    position          : absolute;
+    font-family       : 'Noto Sans JP', sans-serif;
+    top               : 0px;
+    left              : 0px;
+    color             : #fff;
+    /* background     : rgba(20, 20, 20, 0.6);
+    backdrop-filter   : blur(10px); */
+}
+
+
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select  : none;
+    /* Safari */
+    -khtml-user-select   : none;
+    /* Konqueror HTML */
+    -moz-user-select     : none;
+    /* Old versions of Firefox */
+    -ms-user-select      : none;
+    /* Internet Explorer/Edge */
+    user-select          : none;
+    /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }

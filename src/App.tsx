@@ -16,11 +16,37 @@ interface ChatAction extends YoutubeLiveChat.LiveChatContinuationAction {
 
 type ChatActionList = ChatAction[]
 
+const minHeight = 200,
+    minWidth = 400,
+    fixedHeight = 600,
+    fixedWidth = 400
 
 const useStyles = makeStyles(() => createStyles({
+    wrapper: {
+        width: fixedWidth,
+        position: 'absolute',
+        top: 100,
+        left: 100,
+        overflow: 'hidden',
+        background: 'rgba(20, 20, 20, 0.8)',
+        backdropFilter: 'blur(10px)',
+        gridTemplateRows: '1fr auto',
+        gridTemplateAreas: '"chat" "control"',
+        borderRadius: 20,
+        resize: 'both'
+    },
+    hidden: {
+        height: 0,
+    },
+    show: {
+        display: 'grid',
+        minHeight,
+        height: fixedHeight,
+    },
     container: {
-        width: 400,
-        maxHeight: 600,
+        gridArea: 'chat',
+        width: 'auto',
+        height: 'auto',
         overflowY: 'auto',
         overflowX: 'hidden',
         'scrollbar-width': 'thin',
@@ -30,7 +56,7 @@ const useStyles = makeStyles(() => createStyles({
             height: '5px'
         },
         '&::-webkit-scrollbar-track': {
-            background: 'transparent'
+            borderRadius: '10px'
         },
         '&::-webkit-scrollbar-thumb': {
             background: 'rgba(240, 240, 240, 0.3)',
@@ -38,13 +64,8 @@ const useStyles = makeStyles(() => createStyles({
         }
     },
     chatListContainer: {
-        padding: 10
-    },
-    hidden: {
-        height: 0,
-    },
-    show: {
-        height: 500,
+        padding: 10,
+        maxHeight: '100%'
     },
     chatItem: {
         padding: '5px 10px',
@@ -93,9 +114,27 @@ const useStyles = makeStyles(() => createStyles({
     },
     downButtonShow: {
         bottom: 30,
-    }
+    },
 }))
 
+
+const useMovableStyles = makeStyles(() => createStyles({
+    control: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
+        padding: 10,
+    },
+    moveButton: {
+        width: 30,
+        height: 30,
+        borderRadius: '50%',
+        background: 'pink',
+        '&:hover': {
+            cursor: 'pointer'
+        }
+    },
+}))
 
 const useChatList = (initValue: ChatActionList) => {
     const [chatActionList, setChatActionList] = useState<ChatActionList>(initValue)
@@ -112,15 +151,18 @@ const scrollDirectionDetector = createScrollDirectionDetector()
 
 export const App: React.FC = () => {
 
+    //Chat List
     const chatActions = useChatList([])
     const [isFullscreen, setIsFullScreen] = useState<boolean>(document.fullscreen)
     const [isLivePage, setIsLivePage] = useState<boolean>(false)
-    const [autoScroll, setAutoScroll] = useState<boolean>(true)
+    // const [autoScroll, setAutoScroll] = useState<boolean>(true)
     const [pageUuid, setPageUuid] = useState<string>(uuidV4())
     const containerRef = useRef<HTMLDivElement>(null)
     const pageUuidRef = useRef(pageUuid)
     pageUuidRef.current = pageUuid
 
+
+    const classes = useStyles()
 
     async function MessageListener(message: CatchedLiveChatRequestMessage) {
         // if url is /watch?*, that mean the tab enter a new page, so need to reset the isLivePage hook
@@ -161,7 +203,6 @@ export const App: React.FC = () => {
     }
 
 
-    const ResumeAutonScroll = () => setAutoScroll(true)
 
 
     function FullscreenListener(event: Event) {
@@ -169,24 +210,32 @@ export const App: React.FC = () => {
 
     }
 
-    function ContainerOnScrollListener({ currentTarget: { scrollTop, scrollHeight, clientHeight } }: React.UIEvent<HTMLDivElement, UIEvent>) {
-        const scrollDirection = scrollDirectionDetector(scrollTop, scrollHeight, clientHeight)
-        if (scrollDirection === 'UP') setAutoScroll(false)
-    }
+    // const ResumeAutonScroll = () => setAutoScroll(true)
+
+    // function ContainerOnScrollListener({ currentTarget: { scrollTop, scrollHeight, clientHeight } }: React.UIEvent<HTMLDivElement, UIEvent>) {
+    //     const scrollDirection = scrollDirectionDetector(scrollTop, scrollHeight, clientHeight)
+    //     if (scrollDirection === 'UP') setAutoScroll(false)
+    // }
+
+    // useEffect(() => {
+    //     console.log(chatActions)
+    //     if (!containerRef.current) return
+    //     const el = containerRef.current
+    //     if (autoScroll)
+    //         el.scrollTop = el.scrollHeight
+    // }, [chatActions])
 
     useEffect(() => {
-        console.log(chatActions)
         if (!containerRef.current) return
         const el = containerRef.current
-        if (autoScroll)
-            el.scrollTop = el.scrollHeight
+        el.scrollTop = el.scrollHeight
     }, [chatActions])
 
 
     useEffect(() => {
         setIsLivePage(false)
         setIsFullScreen(document.fullscreen)
-        setAutoScroll(true)
+        // setAutoScroll(true)
         chatActions.reset()
     }, [pageUuid])
 
@@ -241,19 +290,81 @@ export const App: React.FC = () => {
         )
     }
 
-    const classes = useStyles()
+    /**
+     * Movable
+     * @param event 
+     */
+
+    interface Distance { x: number, y: number }
+
+    const [isMoving, setIsMoving] = useState<boolean>(false)
+    const [initialDistance, setInitialDistance] = useState<Distance>({ x: 0, y: 0 })
+    const wrapperRef = useRef<HTMLDivElement>(null)
+    const isMovingRef = useRef<boolean>(isMoving)
+    const initialDistanceRef = useRef<Distance>(initialDistance)
+    isMovingRef.current = isMoving
+    initialDistanceRef.current = initialDistance
+
+
+
+    const movaleClasses = useMovableStyles()
+
+    const onMouseMovingListener = ({ pageX: mouseX, pageY: mouseY }: MouseEvent) => {
+        if (!isMovingRef.current || !wrapperRef.current) return
+        const container = wrapperRef.current
+        container.style.left = `${mouseX - initialDistanceRef.current.x}px`
+        container.style.top = `${mouseY - initialDistanceRef.current.y}px`
+        container.style.right = `auto`
+        container.style.bottom = `auto`
+    }
+
+    const onMouseDownListener = ({ pageX: mouseX, pageY: mouseY }: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (!wrapperRef.current) return
+        console.log('mousedown')
+        const wrapper = wrapperRef.current
+        setIsMoving(true)
+        const rect = wrapper.getBoundingClientRect()
+        setInitialDistance({ x: mouseX - rect.x, y: mouseY - rect.y })
+    }
+
+    useEffect(() => {
+        document.addEventListener('mousemove', onMouseMovingListener)
+        return () => {
+            document.removeEventListener('mousemove', onMouseMovingListener)
+        }
+    }, [wrapperRef])
+
+    useEffect(() => {
+        console.log('isMoving', isMoving)
+        if (!isMoving) return
+        document.addEventListener('mouseup', () => setIsMoving(false), { once: true })
+    }, [isMoving])
+
+    const Control = () => {
+
+        return (
+            <div className={movaleClasses.control}>
+                <div className={movaleClasses.moveButton} onMouseDown={onMouseDownListener}></div>
+            </div>
+        )
+    }
 
 
     return (
         <div
-            ref={containerRef}
-            className={`${classes.container} ${(chatActions.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden}`}
-            onScroll={ContainerOnScrollListener}
-        >
-            <img
+            ref={wrapperRef}
+            className={`${classes.wrapper} ${(chatActions.list.length !== 0 && isFullscreen && isLivePage) ? classes.show : classes.hidden} ${isMoving ? 'noselect' : ''}`}>
+            <div
+                ref={containerRef}
+                className={classes.container}
+            // onScroll={ContainerOnScrollListener}
+            >
+                {/* <img
                 onClick={ResumeAutonScroll}
-                className={classes.downButton + ' ' + (autoScroll ? '' : classes.downButtonShow)} src={down} alt='Auto scroll icon' />
-            <ChatList></ChatList>
+                className={classes.downButton + ' ' + (autoScroll ? '' : classes.downButtonShow)} src={down} alt='Auto scroll icon' /> */}
+                {ChatList()}
+            </div>
+            {Control()}
         </div>
     )
 }
