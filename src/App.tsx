@@ -30,17 +30,20 @@ const useStyles = makeStyles(() => createStyles({
         overflow: 'hidden',
         background: 'rgba(20, 20, 20, 0.8)',
         backdropFilter: 'blur(10px)',
-        gridTemplateRows: '1fr auto',
-        gridTemplateAreas: '"chat" "control"',
-        borderRadius: 20,
+        gridTemplateRows: '1fr',
+        gridTemplateAreas: '"chat"',
+        borderRadius: 10,
         resize: 'both'
     },
     hidden: {
+        minHeight: 0,
         height: 0,
     },
     show: {
         display: 'grid',
+        padding: 10,
         minHeight,
+        minWidth,
         height: fixedHeight,
     },
     container: {
@@ -120,10 +123,14 @@ const useStyles = makeStyles(() => createStyles({
 
 const useMovableStyles = makeStyles(() => createStyles({
     control: {
+        position: 'absolute',
+        right: 20,
+        top: 20,
+        width: 'auto',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'nowrap',
-        padding: 10,
+        // padding: 10,
     },
     moveButton: {
         width: 30,
