@@ -4,7 +4,11 @@ import Modal from '@material-ui/core/Modal'
 import Typography from '@material-ui/core/Typography'
 import Slider from '@material-ui/core/Slider'
 import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
+import IconButton from '@material-ui/core/IconButton'
 import Done from '@material-ui/icons/Done'
+import More from '@material-ui/icons/MoreHoriz'
+import PanTool from '@material-ui/icons/PanTool'
 import OpenWith from '@material-ui/icons/OpenWith'
 import { MovableTrigger } from './Movable'
 import { ShowAppContext } from '../App'
@@ -13,15 +17,13 @@ export interface IControlProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 const useStyles = makeStyles((theme) => createStyles({
     control: {
-        position: 'absolute',
-        right: 20,
-        top: 20,
-        width: 'auto',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'nowrap',
+        borderRadius: '20px'
     },
-    moveButton: {
+    btn: {
+        margin: '0px 10px',
         width: 30,
         height: 30,
         display: 'flex',
@@ -36,10 +38,9 @@ const useStyles = makeStyles((theme) => createStyles({
         }
     },
     settings: {
-        border: '0px',
         outline: 'none',
         position: 'absolute',
-        width: 400,
+        width: 300,
         height: 'auto',
         padding: 50,
         top: '50%',
@@ -48,17 +49,11 @@ const useStyles = makeStyles((theme) => createStyles({
         marginTop: '-150px',
         background: 'rgba(20, 20, 20, 0.8)',
         backdropFilter: 'blur(10px)',
-        borderRadius: 10
+        borderRadius: 20
     },
     doneButton: {
         marginTop: theme.spacing(2),
         fontSize: '1.3rem',
-    },
-    container: {
-        all: "initial",
-        '*': {
-            all: 'unset'
-        }
     },
     margin: {
         margin: theme.spacing(1),
@@ -88,15 +83,19 @@ export const Control: React.FC<IControlProps> = (props) => {
 
 
     return (
-        <div {...props} className={`${props.className || ''}`}>
-            <MovableTrigger className={classes.moveButton}>
-                <OpenWith fontSize='large' />
+        <Paper {...props} className={`${classes.control} ${props.className || ''}`} elevation={3}>
+            <MovableTrigger >
+                <IconButton aria-label='move' >
+                    <PanTool />
+                </IconButton>
             </MovableTrigger>
-            <div className={classes.moveButton} onClick={() => setShowModal(pre => !pre)}>S</div>
+            <IconButton aria-aria-label='more' onClick={() => setShowModal(true)}>
+                <More />
+            </IconButton>
             <Modal
                 onClose={() => setShowModal(false)}
                 open={showApp && showModal}>
-                <div className={classes.settings}>
+                <Paper className={classes.settings}>
                     <Typography gutterBottom color='textPrimary' variant='h5'>Font Size</Typography>
                     <Slider
                         min={5}
@@ -120,9 +119,9 @@ export const Control: React.FC<IControlProps> = (props) => {
                         color='primary'
                         size='large'
                         onClick={() => { setShowModal(false) }}>Done</Button>
-                </div>
+                </Paper>
             </Modal>
-        </div>
+        </Paper>
     )
 
 }

@@ -32,7 +32,7 @@ export const Movable: React.FC<IMovableProps> = (props) => {
     }
 
     const onMouseDownListener = ({ pageX: mouseX, pageY: mouseY, target }: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if ((target as HTMLDivElement).id !== MovalbeTriggerId || !containerRef.current) return
+        if (!(target as HTMLElement).closest(`#${MovalbeTriggerId}`) || !containerRef.current) return
         console.log('trigger')
         const container = containerRef.current
         const rect = container.getBoundingClientRect()
