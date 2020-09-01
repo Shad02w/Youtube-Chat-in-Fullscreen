@@ -14,7 +14,7 @@ export async function ReplayRequest(url: string, requestBody?: JSON): Promise<Re
         if (!requestBody) {
             const res = await axios.get(url)
             data = res.data as Response
-            console.log('GET', data)
+            // console.log('GET', data)
         } else {
             const res = await axios.post(url, requestBody, { responseType: 'json' })
             data = res.data as Response

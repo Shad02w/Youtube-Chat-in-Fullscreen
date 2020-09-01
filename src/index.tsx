@@ -25,6 +25,7 @@ declare var window: MyWindow
 
     // Dynamic import '@material-ui' to solve the issue of initilize multiple instance
     const { App } = await import('./App')
+    const { createMuiTheme } = await import('@material-ui/core/styles')
 
 
     // run code here

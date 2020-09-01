@@ -1,13 +1,42 @@
 import parse from 'url-parse'
+import chromep from 'chrome-promise'
+
+
+interface Position {
+    x: number,
+    y: number
+}
+
+interface Size {
+    width: number,
+    height: number
+}
 
 export interface StorageItems {
-    on?: boolean
+    on: boolean,
+    position: Position
+    size: Size
 }
+
+type RequestType = 'live-chat' | 'replay-live-chat' | 'video-page'
 
 export interface CatchedLiveChatRequestMessage {
     details: chrome.webRequest.WebRequestDetails
     requestBody?: JSON
-    greeting?: 'hi'
+    type: RequestType
+    // greeting?: 'hi'
+}
+
+export const preset: StorageItems = {
+    on: true,
+    position: {
+        x: 50,
+        y: 50
+    },
+    size: {
+        width: 400,
+        height: 400
+    }
 }
 
 const getLiveChatRequestFilter: chrome.webRequest.RequestFilter = {
@@ -44,7 +73,7 @@ function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDet
     }, () => {
         const message: CatchedLiveChatRequestMessage = {
             details,
-            greeting: 'hi'
+            type: 'video-page'
         }
         chrome.tabs.sendMessage(details.tabId, message)
     })
@@ -63,12 +92,14 @@ function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDet
         }
         const message: CatchedLiveChatRequestMessage = {
             details,
-            requestBody
+            requestBody,
+            type: 'live-chat'
         }
         chrome.tabs.sendMessage(details.tabId, message)
     } else {
         const message: CatchedLiveChatRequestMessage = {
-            details
+            details,
+            type: 'live-chat'
         }
         chrome.tabs.sendMessage(details.tabId, message)
     }
@@ -90,7 +121,12 @@ function removeListeners() {
 }
 
 //Run when extension just installed and reloaded
-chrome.runtime.onInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener(async () => {
+    const data = await chromep.storage.sync.get(['on'])
+    if (data.on === undefined) {
+        chromep.storage.sync.set(preset)
+    }
+
     // create the necessary variable in storage
     chrome.storage.sync.set({
         on: true

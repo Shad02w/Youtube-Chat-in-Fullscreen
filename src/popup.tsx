@@ -63,7 +63,6 @@ const App: React.FC = () => {
     const classes = useStyle()
 
     const storageListener = (changes: { [key: string]: chrome.storage.StorageChange }, area: string) => {
-        console.log(changes, 'area', area)
         if (changes['on'])
             setExtEnable(changes['on'].newValue)
     }
