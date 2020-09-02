@@ -1,43 +1,11 @@
 import parse from 'url-parse'
 import chromep from 'chrome-promise'
+import { StoragePreset, StorageItems } from './models/storage'
+import { CatchedLiveChatRequestMessage } from './models/request'
 
 
-interface Position {
-    x: number,
-    y: number
-}
 
-interface Size {
-    width: number,
-    height: number
-}
 
-export interface StorageItems {
-    on: boolean,
-    position: Position
-    size: Size
-}
-
-type RequestType = 'live-chat' | 'replay-live-chat' | 'video-page'
-
-export interface CatchedLiveChatRequestMessage {
-    details: chrome.webRequest.WebRequestDetails
-    requestBody?: JSON
-    type: RequestType
-    // greeting?: 'hi'
-}
-
-export const preset: StorageItems = {
-    on: true,
-    position: {
-        x: 50,
-        y: 50
-    },
-    size: {
-        width: 400,
-        height: 400
-    }
-}
 
 const getLiveChatRequestFilter: chrome.webRequest.RequestFilter = {
     urls: ['https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
@@ -122,15 +90,7 @@ function removeListeners() {
 
 //Run when extension just installed and reloaded
 chrome.runtime.onInstalled.addListener(async () => {
-    const data = await chromep.storage.sync.get(['on'])
-    if (data.on === undefined) {
-        chromep.storage.sync.set(preset)
-    }
-
-    // create the necessary variable in storage
-    chrome.storage.sync.set({
-        on: true
-    }, () => console.log('storage created'))
+    chromep.storage.sync.set(StoragePreset)
 })
 
 
@@ -142,8 +102,7 @@ chrome.storage.sync.get(['on'], (result) => {
 
 
 chrome.storage.onChanged.addListener((changes) => {
-    // Turn on/off extension core
-    // console.log('on changes:', changes)
+    //Remove all webrequest listener on background script
     if (changes['on']) {
         const isOn = changes['on'].newValue as boolean
         if (isOn) attachListeners()

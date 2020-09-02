@@ -1,0 +1,84 @@
+import React, { createContext, useEffect, useReducer } from 'react'
+import { StorageItems, StoragePreset } from '../models/storage'
+
+
+type StorageContextReducerActions =
+    {
+        type: 'changeFontSize', fontSize: number
+    } |
+    {
+        type: 'changeOverlaySize', size: { width: number, height: number }
+    } |
+    {
+        type: 'changeOverlayPosition', position: { top: number, left: number }
+    } |
+    {
+        type: 'changeOpacity', opacity: number
+    } |
+    {
+        type: 'updateStorageChanges', changes: Partial<StorageItems>
+    }
+
+export interface IStorageContext {
+    storage: StorageItems,
+    storageDispatch: React.Dispatch<StorageContextReducerActions>
+}
+
+
+export const StorageContext = createContext<IStorageContext>({ storage: StoragePreset } as IStorageContext)
+
+const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerActions> = (preState, action) => {
+    switch (action.type) {
+        case 'changeFontSize':
+            return { ...preState, fontSize: action.fontSize }
+        case 'changeOpacity':
+            return { ...preState, opacity: action.opacity }
+        case 'changeOverlayPosition':
+            return { ...preState, top: action.position.top, left: action.position.left }
+        case 'changeOverlaySize':
+            return { ...preState, width: action.size.width, left: action.size.width }
+        case 'updateStorageChanges':
+            return { ...preState, ...action.changes }
+        default:
+            throw new Error()
+    }
+
+}
+
+
+export const StorageContextProvider: React.FC = ({ children }) => {
+
+    const [storage, storageDispatch] = useReducer(storageContextReducer, StoragePreset)
+
+    const onStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
+        const newChanges = Object
+            .keys(changes)
+            .filter(key => changes[key].newValue)
+            .reduce((obj, key) => Object.assign(obj, { [key]: changes[key].newValue })
+                , {} as { [key: string]: any }) as Partial<StorageItems>
+        storageDispatch({ type: 'updateStorageChanges', changes: newChanges })
+    }
+
+    const getAllStorage = (items: any) => {
+        console.log('storage items', items)
+        storageDispatch({ type: 'updateStorageChanges', changes: items as StorageItems })
+    }
+
+
+
+    useEffect(() => {
+        chrome.storage.sync.get(null, getAllStorage)
+        chrome.storage.onChanged.addListener(onStorageChange)
+        return () => {
+            chrome.storage.onChanged.removeListener(onStorageChange)
+        }
+    }, [])
+
+    return (
+        <StorageContext.Provider value={{ storage, storageDispatch }}>
+            {children}
+        </StorageContext.Provider>
+    )
+
+}
+

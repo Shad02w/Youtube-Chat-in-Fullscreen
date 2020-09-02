@@ -1,10 +1,11 @@
-import React, { useState, useEffect, createContext, useMemo } from 'react'
+import React, { useState, useEffect, createContext, useMemo, useContext } from 'react'
 
 import { v4 as uuidV4 } from 'uuid'
-import { makeStyles, createStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { makeStyles, createMuiTheme, ThemeProvider, Theme } from '@material-ui/core/styles'
 import { ChatContext, ChatActionList, IChatContext } from './components/ChatContext'
 import './css/App.css'
-import { CatchedLiveChatRequestMessage } from './background'
+import { CatchedLiveChatRequestMessage } from './models/request'
+import { StorageContext } from './components/StorageContext'
 import { Movable } from './components/Movable'
 import { ChatList } from './components/ChatList'
 import { Control } from './components/Control'
@@ -19,17 +20,23 @@ const minHeight = 200,
 const theme = createMuiTheme({
     palette: {
         type: 'dark'
-    }
+    },
 })
 
-const useStyles = makeStyles(() => createStyles({
+interface StyleProps {
+    opacity: number,
+    top: number,
+    left: number
+}
+
+const useStyles = makeStyles<Theme, StyleProps>({
     wrapper: {
         width: fixedWidth,
         position: 'absolute',
-        top: 100,
-        left: 100,
+        top: props => props.top,
+        left: props => props.left,
         overflow: 'hidden',
-        background: 'rgba(20, 20, 20, 0.8)',
+        background: props => `rgba(20, 20, 20, ${props.opacity})`,
         backdropFilter: 'blur(10px)',
         gridTemplateRows: '1fr',
         gridTemplateAreas: '"chat"',
@@ -55,7 +62,7 @@ const useStyles = makeStyles(() => createStyles({
     chatList: {
         gridArea: 'chat'
     }
-}))
+})
 
 
 const checkFullscreenState = () => document.fullscreenElement != undefined
@@ -70,7 +77,8 @@ export const ShowAppContext = createContext<IShowAppContext>({} as IShowAppConte
 
 export const App: React.FC = () => {
 
-    const classes = useStyles()
+    const { storage: { opacity, top, left } } = useContext(StorageContext)
+    const classes = useStyles({ opacity, top, left })
 
     const [chatList, setChatList] = useState<ChatActionList>([])
     const [isFullscreen, setIsFullscreen] = useState<boolean>(checkFullscreenState())
@@ -113,16 +121,14 @@ export const App: React.FC = () => {
         <ThemeProvider theme={theme}>
             <ChatContext.Provider value={initContext} >
                 <ShowAppContext.Provider value={{ showApp }}>
-                    {/* <Movable className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}> */}
-                    <Movable className={`${classes.wrapper} ${classes.show}`}>
+                    <Movable className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
+                        {/* <Movable className={`${classes.wrapper} ${classes.show}`}> */}
                         <ChatList className={classes.chatList} />
                         <Control className={classes.control} />
                     </Movable>
                 </ShowAppContext.Provider>
             </ChatContext.Provider>
         </ThemeProvider>
-        // <div style={wrapper}>
-        // </div>
     )
 }
 

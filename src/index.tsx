@@ -1,5 +1,6 @@
 import React, { StrictMode } from 'react'
 import { render } from 'react-dom'
+import { StorageContextProvider } from './components/StorageContext'
 
 
 
@@ -18,24 +19,25 @@ declare var window: MyWindow
 
     // Since Youtube get new video page without reload, so the injected script is still there  when go to next video page
     // This prevent same  script run multiple time in one tab
+    const chatListContainerId = '_youtube-chat-in-fullscreen-app'
 
-    if (window.injectHasRun === true)
+    if (document.getElementById(chatListContainerId))
         return
-    window.injectHasRun = true
 
     // Dynamic import '@material-ui' to solve the issue of initilize multiple instance
     const { App } = await import('./App')
 
 
     // run code here
-    const chatListContainerId = '_youtube-chat-in-fullscreen-app'
     console.log('liveChatRequestReplay.js injected')
 
+    // setTimeout(createChatListContainer, 0)
     requestAnimationFrame(createChatListContainer)
 
     function createChatListContainer() {
         const playerContainer = document.getElementById('player-container')
         if (!playerContainer) {
+            // setTimeout(createChatListContainer, 0)
             requestAnimationFrame(createChatListContainer)
         } else {
             console.log('have container')
@@ -43,9 +45,11 @@ declare var window: MyWindow
             chatListContainer.id = chatListContainerId
             playerContainer.append(chatListContainer)
             render(
-                <StrictMode>
-                    <App />
-                </StrictMode>
+                <React.StrictMode>
+                    <StorageContextProvider>
+                        <App />
+                    </StorageContextProvider>
+                </React.StrictMode>
                 , document.getElementById(chatListContainerId))
         }
     }

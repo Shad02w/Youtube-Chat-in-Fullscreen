@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useRef, useMemo } from 'react'
 import { FindObjectByKeyRecursively, ReplayRequest } from '../function'
-import { CatchedLiveChatRequestMessage } from '../background'
+import { CatchedLiveChatRequestMessage } from '../models/request'
 import { ChatContext, ChatActionList } from './ChatContext'
 import { v4 as uuidV4 } from 'uuid'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
@@ -9,7 +9,7 @@ import down from './assets/images/down.svg'
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> { }
 
-const useStyles = makeStyles(theme => createStyles({
+const useStyles = makeStyles({
     container: {
         width: 'auto',
         height: 'auto',
@@ -80,9 +80,8 @@ const useStyles = makeStyles(theme => createStyles({
     },
     downButtonShow: {
         bottom: 30,
-    },
-
-}))
+    }
+})
 
 
 export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {

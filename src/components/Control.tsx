@@ -89,7 +89,7 @@ export const Control: React.FC<IControlProps> = (props) => {
                     <PanTool />
                 </IconButton>
             </MovableTrigger>
-            <IconButton aria-aria-label='more' onClick={() => setShowModal(true)}>
+            <IconButton aria-label='more' onClick={() => setShowModal(true)}>
                 <More />
             </IconButton>
             <Modal
