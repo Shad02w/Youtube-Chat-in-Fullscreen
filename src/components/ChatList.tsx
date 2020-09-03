@@ -3,13 +3,17 @@ import { FindObjectByKeyRecursively, ReplayRequest } from '../function'
 import { CatchedLiveChatRequestMessage } from '../models/request'
 import { ChatContext, ChatActionList } from './ChatContext'
 import { v4 as uuidV4 } from 'uuid'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
-import down from './assets/images/down.svg'
+import { makeStyles, Theme } from '@material-ui/core/styles'
+import { StorageContext } from './StorageContext'
 
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> { }
 
-const useStyles = makeStyles({
+interface ChatListStyleProps {
+    fontSize: number
+}
+
+const useStyles = makeStyles<Theme, ChatListStyleProps>({
     container: {
         width: 'auto',
         height: 'auto',
@@ -35,7 +39,7 @@ const useStyles = makeStyles({
     },
     chatItem: {
         padding: '5px 10px',
-        fontSize: 14,
+        fontSize: props => props.fontSize,
         display: 'flex',
         flexFlow: 'row nowrap',
         alignItems: 'center'
@@ -88,8 +92,9 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
 
     const containerRef = useRef<HTMLDivElement>(null)
     const { chatList, update: UpdateChatList, pageId } = useContext(ChatContext)
+    const { storage: { fontSize } } = useContext(StorageContext)
     const pageIdRef = useRef(pageId)
-    const classes = useStyles()
+    const classes = useStyles({ fontSize })
     pageIdRef.current = pageId
 
     async function LiveChatRequestListener(message: CatchedLiveChatRequestMessage) {

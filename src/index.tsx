@@ -24,21 +24,17 @@ declare var window: MyWindow
     if (document.getElementById(chatListContainerId))
         return
 
+    console.log('liveChatRequestReplay.js injected')
+
     // Dynamic import '@material-ui' to solve the issue of initilize multiple instance
     const { App } = await import('./App')
 
-
-    // run code here
-    console.log('liveChatRequestReplay.js injected')
-
-    // setTimeout(createChatListContainer, 0)
-    requestAnimationFrame(createChatListContainer)
+    setTimeout(createChatListContainer, 300)
 
     function createChatListContainer() {
         const playerContainer = document.getElementById('player-container')
         if (!playerContainer) {
-            // setTimeout(createChatListContainer, 0)
-            requestAnimationFrame(createChatListContainer)
+            setTimeout(createChatListContainer, 300)
         } else {
             console.log('have container')
             const chatListContainer = document.createElement('div')

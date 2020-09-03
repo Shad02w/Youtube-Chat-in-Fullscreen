@@ -16,7 +16,7 @@ type StorageContextReducerActions =
         type: 'changeOpacity', opacity: number
     } |
     {
-        type: 'updateStorageChanges', changes: Partial<StorageItems>
+        type: 'updateStorageChangesToLocalContext', changes: Partial<StorageItems>
     }
 
 export interface IStorageContext {
@@ -30,14 +30,21 @@ export const StorageContext = createContext<IStorageContext>({ storage: StorageP
 const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerActions> = (preState, action) => {
     switch (action.type) {
         case 'changeFontSize':
+            chrome.storage.sync.set({ 'fontSize': action.fontSize })
             return { ...preState, fontSize: action.fontSize }
         case 'changeOpacity':
+            chrome.storage.sync.set({ 'opacity': action.opacity })
             return { ...preState, opacity: action.opacity }
         case 'changeOverlayPosition':
+            console.log('storage context position change')
+            chrome.storage.sync.set({ 'top': action.position.top })
+            chrome.storage.sync.set({ 'left': action.position.left })
             return { ...preState, top: action.position.top, left: action.position.left }
         case 'changeOverlaySize':
+            chrome.storage.sync.set({ 'width': action.size.width })
+            chrome.storage.sync.set({ 'height': action.size.height })
             return { ...preState, width: action.size.width, left: action.size.width }
-        case 'updateStorageChanges':
+        case 'updateStorageChangesToLocalContext':
             return { ...preState, ...action.changes }
         default:
             throw new Error()
@@ -56,12 +63,12 @@ export const StorageContextProvider: React.FC = ({ children }) => {
             .filter(key => changes[key].newValue)
             .reduce((obj, key) => Object.assign(obj, { [key]: changes[key].newValue })
                 , {} as { [key: string]: any }) as Partial<StorageItems>
-        storageDispatch({ type: 'updateStorageChanges', changes: newChanges })
+        storageDispatch({ type: 'updateStorageChangesToLocalContext', changes: newChanges })
     }
 
     const getAllStorage = (items: any) => {
         console.log('storage items', items)
-        storageDispatch({ type: 'updateStorageChanges', changes: items as StorageItems })
+        storageDispatch({ type: 'updateStorageChangesToLocalContext', changes: items as StorageItems })
     }
 
 

@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Done from '@material-ui/icons/Done'
 import More from '@material-ui/icons/MoreHoriz'
 import PanTool from '@material-ui/icons/PanTool'
-import OpenWith from '@material-ui/icons/OpenWith'
+import { StorageContext } from './StorageContext'
 import { MovableTrigger } from './Movable'
 import { ShowAppContext } from '../App'
 
@@ -61,26 +61,23 @@ const useStyles = makeStyles((theme) => createStyles({
 }))
 
 export const Control: React.FC<IControlProps> = (props) => {
-    const classes = useStyles()
+
+    const { storage: { fontSize, opacity }, storageDispatch } = useContext(StorageContext)
     const { showApp } = useContext(ShowAppContext)
-
     const [showModal, setShowModal] = useState<boolean>(false)
-    const [fontValue, setFontValue] = useState<number>(16)
-    const [opacityValue, setOpacityValue] = useState<number>(1)
 
+    const classes = useStyles()
 
 
     const FontValueOnChange = (event: any, newValue: number | number[]) => {
-        setFontValue(newValue as number)
+        storageDispatch({ type: 'changeFontSize', fontSize: newValue as number })
     }
 
     const OpacityValueOnChange = (event: any, newValue: number | number[]) => {
-        setOpacityValue(newValue as number)
+        storageDispatch({ type: 'changeOpacity', opacity: newValue as number })
     }
 
     useEffect(() => { if (!showApp) setShowModal(false) }, [showApp])
-
-
 
     return (
         <Paper {...props} className={`${classes.control} ${props.className || ''}`} elevation={3}>
@@ -100,8 +97,8 @@ export const Control: React.FC<IControlProps> = (props) => {
                     <Slider
                         min={5}
                         max={50}
-                        value={fontValue}
-                        defaultValue={fontValue}
+                        value={fontSize}
+                        defaultValue={fontSize}
                         valueLabelDisplay='auto'
                         onChange={FontValueOnChange} />
                     <Typography gutterBottom color='textPrimary' variant='h5'>Opacity</Typography>
@@ -109,9 +106,9 @@ export const Control: React.FC<IControlProps> = (props) => {
                         min={0}
                         max={1}
                         step={0.01}
-                        value={opacityValue}
+                        value={opacity}
+                        defaultValue={opacity}
                         valueLabelDisplay='auto'
-                        defaultValue={opacityValue}
                         onChange={OpacityValueOnChange} />
                     <Button className={classes.doneButton}
                         startIcon={<Done />}

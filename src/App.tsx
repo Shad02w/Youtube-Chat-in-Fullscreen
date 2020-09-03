@@ -77,7 +77,7 @@ export const ShowAppContext = createContext<IShowAppContext>({} as IShowAppConte
 
 export const App: React.FC = () => {
 
-    const { storage: { opacity, top, left } } = useContext(StorageContext)
+    const { storage: { opacity, top, left }, storageDispatch } = useContext(StorageContext)
     const classes = useStyles({ opacity, top, left })
 
     const [chatList, setChatList] = useState<ChatActionList>([])
@@ -95,6 +95,7 @@ export const App: React.FC = () => {
 
     const WatchPageRequestListener = (message: CatchedLiveChatRequestMessage) => { if (message.type === 'video-page') setPageId(uuidV4()) }
     const fullscreenChangeListener = () => setIsFullscreen(checkFullscreenState())
+    const onMoveEndListener = (x: number, y: number) => storageDispatch({ type: 'changeOverlayPosition', position: { top: y, left: x } })
 
     useEffect(() => {
         chrome.runtime.onMessage.addListener(WatchPageRequestListener)
@@ -121,8 +122,10 @@ export const App: React.FC = () => {
         <ThemeProvider theme={theme}>
             <ChatContext.Provider value={initContext} >
                 <ShowAppContext.Provider value={{ showApp }}>
-                    <Movable className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
-                        {/* <Movable className={`${classes.wrapper} ${classes.show}`}> */}
+                    <Movable
+                        onMoveEnd={onMoveEndListener}
+                        className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
+                        {/* className={`${classes.wrapper} ${classes.show}`}> */}
                         <ChatList className={classes.chatList} />
                         <Control className={classes.control} />
                     </Movable>

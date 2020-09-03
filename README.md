@@ -24,7 +24,7 @@ Show Youtube live chat when in full screen mode
 - [x] Able to turn on/off the extension
 - [x] Drag and move the overlay
 - [x] Able to resize and change font size without options page
-- [ ] Save the size and position change to chrome storage
+- [x] Save the size and position change to chrome storage
 - [ ] Support live stream replay video page
 - [ ] Show membership ticker and super chat
 - [ ] Turn on/off the chat list overlay directly temporarily without going to options page

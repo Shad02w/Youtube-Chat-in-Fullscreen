@@ -1,7 +1,9 @@
 import React, { useState, createContext, useRef, HTMLAttributes, DetailedHTMLProps, useEffect, Children } from 'react'
 
 
-interface IMovableProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> { }
+interface IMovableProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+    onMoveEnd?: (x: number, y: number) => void
+}
 
 interface Distance {
     x: number,
@@ -40,6 +42,16 @@ export const Movable: React.FC<IMovableProps> = (props) => {
         setInitialDistance({ x: mouseX - rect.x, y: mouseY - rect.y })
     }
 
+    const onMouseUpListener = () => {
+        setMovable(false)
+        if (props.onMoveEnd && containerRef.current) {
+            const el = containerRef.current
+            const rect = el.getBoundingClientRect()
+            props.onMoveEnd(rect.x, rect.y)
+        }
+    }
+
+
 
     useEffect(() => {
         document.addEventListener('mousemove', onMouseMovingListener)
@@ -50,13 +62,14 @@ export const Movable: React.FC<IMovableProps> = (props) => {
 
     useEffect(() => {
         if (!movable || !containerRef.current) return
-        document.addEventListener('mouseup', () => setMovable(false))
+        document.addEventListener('mouseup', onMouseUpListener)
     }, [movable])
 
 
+    const { onMoveEnd, ...filteredProps } = props
 
     return (
-        <div {...props}
+        <div {...filteredProps}
             onMouseDown={onMouseDownListener}
             ref={containerRef}
             className={`${props.className || ''} ${movable ? 'noselect' : ''}`}>
