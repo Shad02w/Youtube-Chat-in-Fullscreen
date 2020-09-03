@@ -1,6 +1,6 @@
 import parse from 'url-parse'
 import chromep from 'chrome-promise'
-import { StoragePreset, StorageItems } from './models/storage'
+import { StoragePreset } from './models/storage'
 import { CatchedLiveChatRequestMessage } from './models/request'
 
 
@@ -46,6 +46,7 @@ function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDet
         chrome.tabs.sendMessage(details.tabId, message)
     })
 }
+
 function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDetails) {
 
     console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)

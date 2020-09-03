@@ -4,8 +4,6 @@ Show Youtube live chat when in full screen mode
 ### Know Issues
 
 - Author name can not stick to one line if it is little bit long
-- Content script will inject into one Youtube page multiple times
-- The container of the react app become null sometime (cant find reason right now)
 - Cannot show emoji, this can be serious, since if the first character is emoji, the comment will become empty
 
 ### Fixed
@@ -15,6 +13,8 @@ Show Youtube live chat when in full screen mode
 - (Fixed) Chat items in the list update simultaneously, not one by one(setTimeout call in forEach)
 - (Fixed) When chat list reach its max size, the scrollHeight of the container may decrease, causing scroll direction detector to fail(since the current scrollTop is smaller than last scrollTop, but it still can be a scroll down action)
 - (Fixed) Extension is functioning when the browser start, since the event listener of web request only added when there are value change in storage.
+- (Fixed )The container of the react app become null sometime (The script run when /watch page request onBeforeRequest, so the script run before /watch page )
+- (Fixed) Content script will inject into one Youtube page multiple times: Using run guard resolved the issue
 
 ### TODO
 
