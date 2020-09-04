@@ -1,10 +1,8 @@
 import React, { useState, useEffect, createContext, useMemo, useContext } from 'react'
 
-import { v4 as uuidV4 } from 'uuid'
 import { makeStyles, createMuiTheme, ThemeProvider, Theme } from '@material-ui/core/styles'
-import { ChatContext, ChatActionList, IChatContext } from './components/ChatContext'
+import { ChatContext } from './components/ChatContext'
 import './css/App.css'
-import { CatchedLiveChatRequestMessage } from './models/request'
 import { StorageContext } from './components/StorageContext'
 import { Movable } from './components/Movable'
 import { ChatList } from './components/ChatList'
@@ -78,31 +76,16 @@ export const ShowAppContext = createContext<IShowAppContext>({} as IShowAppConte
 export const App: React.FC = () => {
 
     const { storage: { opacity, top, left }, storageDispatch } = useContext(StorageContext)
+    const { chatList } = useContext(ChatContext)
     const classes = useStyles({ opacity, top, left })
 
-    const [chatList, setChatList] = useState<ChatActionList>([])
     const [isFullscreen, setIsFullscreen] = useState<boolean>(checkFullscreenState())
-    const [pageId, setPageId] = useState<string>(uuidV4())
 
     const showApp = useMemo(() => (isFullscreen && chatList.length > 0), [chatList, isFullscreen])
 
-    const initContext: IChatContext = {
-        chatList,
-        pageId: pageId,
-        update: (list) => setChatList(pre => pre.concat(list).slice(-100)),
-        reset: () => setChatList([])
-    }
-
-    const WatchPageRequestListener = (message: CatchedLiveChatRequestMessage) => { if (message.type === 'video-page') setPageId(uuidV4()) }
     const fullscreenChangeListener = () => setIsFullscreen(checkFullscreenState())
     const onMoveEndListener = (x: number, y: number) => storageDispatch({ type: 'changeOverlayPosition', position: { top: y, left: x } })
 
-    useEffect(() => {
-        chrome.runtime.onMessage.addListener(WatchPageRequestListener)
-        return () => {
-            chrome.runtime.onMessage.removeListener(WatchPageRequestListener)
-        }
-    }, [])
 
     useEffect(() => {
         document.addEventListener('fullscreenchange', fullscreenChangeListener)
@@ -112,25 +95,20 @@ export const App: React.FC = () => {
     }, [])
 
     // This mean the youtube page is change to another video page on current tab
-    useEffect(() => {
-        setChatList([])
-    }, [pageId])
 
 
     return (
 
         <ThemeProvider theme={theme}>
-            <ChatContext.Provider value={initContext} >
-                <ShowAppContext.Provider value={{ showApp }}>
-                    <Movable
-                        onMoveEnd={onMoveEndListener}
-                        className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
-                        {/* className={`${classes.wrapper} ${classes.show}`}> */}
-                        <ChatList className={classes.chatList} />
-                        <Control className={classes.control} />
-                    </Movable>
-                </ShowAppContext.Provider>
-            </ChatContext.Provider>
+            <ShowAppContext.Provider value={{ showApp }}>
+                <Movable
+                    onMoveEnd={onMoveEndListener}
+                    className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
+                    {/* className={`${classes.wrapper} ${classes.show}`}> */}
+                    <ChatList className={classes.chatList} />
+                    <Control className={classes.control} />
+                </Movable>
+            </ShowAppContext.Provider>
         </ThemeProvider>
     )
 }

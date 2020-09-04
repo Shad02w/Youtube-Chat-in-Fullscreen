@@ -5,16 +5,12 @@ Show Youtube live chat when in full screen mode
 
 - Author name can not stick to one line if it is little bit long
 - Cannot show emoji, this can be serious, since if the first character is emoji, the comment will become empty
+- Can have performance issue, video suffered from frame drop when chat overlay appear (reason unknown, maybe related to render layer)
+- When replay the live chat, the time to next chat request is unknow
 
 ### Fixed
 
-- (Fixed) Several instance of `@material-ui/styles` initialized in content scripts (There can be multiple content script being injected into one single Youtube page)
-- (Fixed) The overlay still exist when the tab goes to another watch page(without refreshing)
-- (Fixed) Chat items in the list update simultaneously, not one by one(setTimeout call in forEach)
-- (Fixed) When chat list reach its max size, the scrollHeight of the container may decrease, causing scroll direction detector to fail(since the current scrollTop is smaller than last scrollTop, but it still can be a scroll down action)
-- (Fixed) Extension is functioning when the browser start, since the event listener of web request only added when there are value change in storage.
-- (Fixed )The container of the react app become null sometime (The script run when /watch page request onBeforeRequest, so the script run before /watch page )
-- (Fixed) Content script will inject into one Youtube page multiple times: Using run guard resolved the issue
+
 
 ### TODO
 
@@ -25,10 +21,9 @@ Show Youtube live chat when in full screen mode
 - [x] Drag and move the overlay
 - [x] Able to resize and change font size without options page
 - [x] Save the size and position change to chrome storage
-- [ ] Support live stream replay video page
+- [x] Support live stream replay video page
 - [ ] Show membership ticker and super chat
 - [ ] Turn on/off the chat list overlay directly temporarily without going to options page
-- [ ] 
 - [ ] Chat list remain unchanged when user exit autoscroll mode
 - [ ] Refresh should not be need to update the on/off state of the extension
 

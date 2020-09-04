@@ -1,7 +1,7 @@
 import parse from 'url-parse'
 import chromep from 'chrome-promise'
 import { StoragePreset } from './models/storage'
-import { CatchedLiveChatRequestMessage } from './models/request'
+import { CatchedLiveChatRequestMessage, ChatType } from './models/request'
 
 
 
@@ -33,6 +33,7 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
     return JSON.parse(jsonString)
 }
 
+
 function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDetails) {
     console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
     chrome.tabs.executeScript(details.tabId, {
@@ -47,31 +48,29 @@ function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDet
     })
 }
 
+const getChatType = (url: string): ChatType => {
+    if (parse(url).pathname.endsWith('get_live_chat')) return 'live-chat'
+    return 'replay-live-chat'
+}
+
+
 function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDetails) {
 
-    console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
     // The replay request will sent from frame id 0, block the replayed requset from content script to prevent looping
     if (details.frameId === 0) return
-    if (details.method === 'POST') {
-        let requestBody: JSON | undefined
-        if (!details.requestBody.raw) requestBody = undefined
-        else {
-            // Since arraybuffer can not send through message passing, need to parse the request body first
-            requestBody = RequestBodyArrayBuffer2json(details.requestBody.raw)
-        }
-        const message: CatchedLiveChatRequestMessage = {
-            details,
-            requestBody,
-            type: 'live-chat'
-        }
-        chrome.tabs.sendMessage(details.tabId, message)
-    } else {
-        const message: CatchedLiveChatRequestMessage = {
-            details,
-            type: 'live-chat'
-        }
-        chrome.tabs.sendMessage(details.tabId, message)
+    console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
+    let requestBody: JSON | undefined
+    if (!details.requestBody.raw) requestBody = undefined
+    else {
+        // Since arraybuffer can not send through message passing, need to parse the request body first
+        requestBody = RequestBodyArrayBuffer2json(details.requestBody.raw)
     }
+    const message: CatchedLiveChatRequestMessage = {
+        details,
+        requestBody,
+        type: getChatType(details.url)
+    }
+    chrome.tabs.sendMessage(details.tabId, message)
 }
 
 function attachListeners() {

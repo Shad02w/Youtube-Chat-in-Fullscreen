@@ -1,8 +1,5 @@
-import React, { useContext, useState, useEffect, useRef, useMemo } from 'react'
-import { FindObjectByKeyRecursively, ReplayRequest } from '../function'
-import { CatchedLiveChatRequestMessage } from '../models/request'
-import { ChatContext, ChatActionList } from './ChatContext'
-import { v4 as uuidV4 } from 'uuid'
+import React, { useContext, useEffect, useRef, useMemo } from 'react'
+import { ChatContext } from './ChatContext'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import { StorageContext } from './StorageContext'
 
@@ -93,43 +90,8 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
     const containerRef = useRef<HTMLDivElement>(null)
     const { chatList, update: UpdateChatList, pageId } = useContext(ChatContext)
     const { storage: { fontSize } } = useContext(StorageContext)
-    const pageIdRef = useRef(pageId)
     const classes = useStyles({ fontSize })
-    pageIdRef.current = pageId
 
-    async function LiveChatRequestListener(message: CatchedLiveChatRequestMessage) {
-        if (message.type === 'video-page') return
-        const { url } = message.details
-        const requestBody = message.requestBody
-        const data = await ReplayRequest(url, requestBody)
-        if (!data) return
-        const actions = FindObjectByKeyRecursively(data as Response, 'actions') as YoutubeLiveChat.LiveChatContinuationAction[]
-        if (!actions) return
-        // add uuid to each action
-        const actionsWithUuid = actions.map((action) => ({
-            ...action,
-            uuid: uuidV4(),
-            pageId: pageIdRef.current
-        })) as ChatActionList
-        // Do data false check before upate the hook
-        const filteredActions = actionsWithUuid
-            .filter(action => {
-                return !(action.addChatItemAction === undefined
-                    || action.addChatItemAction.item === undefined
-                    || action.addChatItemAction.item.liveChatTextMessageRenderer === undefined);
-
-            })
-
-        // Gradually update the chat list
-        const timeout = FindObjectByKeyRecursively(data as Response, 'timeoutMs') as number
-        const tti = timeout || 5000
-        const timeInterval = tti / filteredActions.length
-        filteredActions.forEach((action, i) => setTimeout(() => {
-            // check whether the chat action is come from previous page
-            if (action.pageId === pageIdRef.current)
-                UpdateChatList([action])
-        }, i * timeInterval))
-    }
 
 
 
@@ -139,14 +101,8 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
         el.scrollTop = el.scrollHeight
     })
 
-    useEffect(() => {
-        chrome.runtime.onMessage.addListener(LiveChatRequestListener)
-        return () => {
-            chrome.runtime.onMessage.removeListener(LiveChatRequestListener)
-        }
-    }, [])
 
-    const createBagde = (authorBadges: YoutubeLiveChat.LiveChatTextMessageRenderer.AuthorBadge[] | undefined) => {
+    const createBagde = (authorBadges: YTLiveChat.AuthorBadge[] | undefined) => {
         try {
             if (!authorBadges || authorBadges.length === 0) return <></>
             else if (!authorBadges[0].liveChatAuthorBadgeRenderer.customThumbnail) return <></>
