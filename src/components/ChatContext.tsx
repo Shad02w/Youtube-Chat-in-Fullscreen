@@ -62,8 +62,8 @@ export const ChatContextProvider: React.FC = ({ children }) => {
 
         // Gradually update the chat list
         const timeout = FindObjectByKeyRecursively(data as Response, 'timeoutMs')
-            | FindObjectByKeyRecursively(data as Response, 'timeUntilLastMessageMsec')
-        const tti = timeout | 5000
+            || FindObjectByKeyRecursively(data as Response, 'timeUntilLastMessageMsec')
+        const tti = parseFloat(timeout) || 5000
         const timeInterval = tti / filteredActions.length
         filteredActions.forEach((action, i) => setTimeout(() => {
             // check whether the chat action is come from previous page
