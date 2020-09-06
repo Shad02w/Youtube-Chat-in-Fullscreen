@@ -1,7 +1,10 @@
-import React, { StrictMode } from 'react'
+import React from 'react'
 import { render } from 'react-dom'
 import { StorageContextProvider } from './components/StorageContext'
 import { ChatContextProvider } from './components/ChatContext'
+import { ChatQueueProvider } from './components/ChatQueue'
+import { PageContextProvider } from './components/PageContext'
+
 
 
 
@@ -39,12 +42,22 @@ declare var window: MyWindow
             const chatListContainer = document.createElement('div')
             chatListContainer.id = chatListContainerId
             playerContainer.append(chatListContainer)
+
+            const script = document.createElement('script')
+            script.src = chrome.runtime.getURL('./pageInject.js')
+            document.body.append(script)
+
+
             render(
                 <React.StrictMode>
                     <StorageContextProvider>
-                        <ChatContextProvider>
-                            <App />
-                        </ChatContextProvider>
+                        <PageContextProvider>
+                            <ChatQueueProvider>
+                                <ChatContextProvider>
+                                    <App />
+                                </ChatContextProvider>
+                            </ChatQueueProvider>
+                        </PageContextProvider>
                     </StorageContextProvider>
                 </React.StrictMode>,
                 document.getElementById(chatListContainerId))

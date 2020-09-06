@@ -5,6 +5,7 @@ export type ScrollDirection = 'UP' | 'DOWN'
 interface Response { [key: string]: any }
 
 
+
 /* Replay the get_live_chat* xhr request to get the response */
 export async function ReplayRequest(url: string, requestBody?: JSON): Promise<Response | undefined> {
     // The request either be get or post

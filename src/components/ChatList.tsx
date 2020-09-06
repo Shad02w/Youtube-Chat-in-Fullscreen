@@ -88,7 +88,7 @@ const useStyles = makeStyles<Theme, ChatListStyleProps>({
 export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
 
     const containerRef = useRef<HTMLDivElement>(null)
-    const { chatList, update: UpdateChatList, pageId } = useContext(ChatContext)
+    const { chatList, update: UpdateChatList } = useContext(ChatContext)
     const { storage: { fontSize } } = useContext(StorageContext)
     const classes = useStyles({ fontSize })
 
