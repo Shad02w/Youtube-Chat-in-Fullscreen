@@ -1,26 +1,41 @@
-import React, { createContext, useState, useEffect, useContext, useRef } from 'react'
+import React, { createContext, useState, useEffect, useContext, useRef, useMemo } from 'react'
 import { v4 as uuidV4 } from 'uuid'
-import { CatchedLiveChatRequestMessage } from '../models/request'
-import { FindObjectByKeyRecursively, ReplayRequest } from '../models/function'
-import { ChatActionList, ChatAction } from '../models/chat'
-import { ChatQueue } from './ChatQueue'
-import { PageContext } from './PageContext'
-import { AccordionActions } from '@material-ui/core'
+import { CatchedLiveChatRequestMessage, ChatType } from '../models/Request'
+import { FindObjectByKeyRecursively, ReplayRequest } from '../models/Function'
+import { AdvancedChatLiveActions, AdvancedChatLiveAction, ChatLiveActionWithVideoOffsetTime } from '../models/Chat'
+import { PageContext, YTPlayerState } from './PageContext'
+import { useChatQueue } from './useChatQueue'
 
 
 
 export interface IChatContext {
-    chatList: ChatActionList,
-    update(list: ChatActionList): void
+    chatList: AdvancedChatLiveActions,
+    update(list: AdvancedChatLiveActions): void
     reset(): void
 }
 
+
 const DefaultChatRequestTimeout = 5000
+const MaxChatsItem = 250
 
-const useChatList = (init: ChatActionList): IChatContext => {
-    const [chatList, setChatList] = useState<ChatActionList>(init)
+function createAdvanceChatLiveActions(chatActions: ChatLiveActionWithVideoOffsetTime[], pageId: string): AdvancedChatLiveActions {
+    return chatActions.map((action): AdvancedChatLiveAction => ({
+        ...action,
+        uuid: uuidV4(),
+        pageId
+    }))
+}
 
-    const update = (list: ChatActionList) => setChatList(pre => pre.concat(list).slice(-100))
+function filterChatActionsWithUndefinedValue(chatActions: AdvancedChatLiveActions): AdvancedChatLiveActions {
+    return chatActions.filter(action => !(action.addChatItemAction === undefined
+        || action.addChatItemAction.item === undefined
+        || action.addChatItemAction.item.liveChatTextMessageRenderer === undefined))
+}
+
+const useChatList = (init: AdvancedChatLiveActions): IChatContext => {
+    const [chatList, setChatList] = useState<AdvancedChatLiveActions>(init)
+
+    const update = (list: AdvancedChatLiveActions) => setChatList(pre => pre.concat(list).slice(-MaxChatsItem))
 
     const reset = () => setChatList([])
 
@@ -29,17 +44,24 @@ const useChatList = (init: ChatActionList): IChatContext => {
 
 
 export const ChatContextProvider: React.FC = ({ children }) => {
-    // const [chatList, setChatList] = useState<ChatActionList>([])
     const { update: updateChatList, reset: resetChatList, chatList } = useChatList([])
-    const { pageId } = useContext(PageContext)
-    const chatQueue = useContext(ChatQueue)
+
+    const { pageId, playerState } = useContext(PageContext)
+
+    // const chatQueue = useContext(ChatQueue)
+
+    const chatQueue = useChatQueue()
+
+    const [mode, setMode] = useState<ChatType>('live-chat')
+    const modeMemo = useMemo(() => mode, [mode])
 
     const pageIdRef = useRef(pageId)
     pageIdRef.current = pageId
 
-    function addLiveChats(chatActions: ChatActionList, timeUntilNextRequest: number) {
+    function addLiveChats(chatActions: AdvancedChatLiveActions, timeUntilNextRequest: number) {
         // Gradually update the chat list
         const timeInterval = timeUntilNextRequest / chatActions.length
+        console.log('timeInterval', timeInterval)
 
         // Update the chat item to chat list
         chatActions.forEach((action, i) => setTimeout(() => {
@@ -49,20 +71,6 @@ export const ChatContextProvider: React.FC = ({ children }) => {
         }, i * timeInterval))
     }
 
-    function addUuidToChatActions(chatActions: YTLiveChat.LiveAction[]): ChatActionList {
-        return chatActions.map((action): ChatAction => ({
-            ...action,
-            uuid: uuidV4(),
-            pageId: pageIdRef.current,
-            vidoOffsetTimeMsec: 0
-        }))
-    }
-
-    function filterChatActionsWithUndefinedValue(chatActions: ChatActionList): ChatActionList {
-        return chatActions.filter(action => !(action.addChatItemAction === undefined
-            || action.addChatItemAction.item === undefined
-            || action.addChatItemAction.item.liveChatTextMessageRenderer === undefined))
-    }
 
     async function LiveChatRequestListener(message: CatchedLiveChatRequestMessage) {
         if (message.type === 'video-page') return
@@ -70,43 +78,37 @@ export const ChatContextProvider: React.FC = ({ children }) => {
         const requestBody = message.requestBody
         const data = await ReplayRequest(url, requestBody)
         if (!data) return
-        let actions: YTLiveChat.LiveAction[] = []
-        let timeUntilNextRequest: number = DefaultChatRequestTimeout
+        let actions: ChatLiveActionWithVideoOffsetTime[] = []
 
         try {
             if (message.type === 'live-chat') {
-                actions = FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.LiveAction[] || actions
-                timeUntilNextRequest = FindObjectByKeyRecursively(data as Response, 'timeoutMs') || timeUntilNextRequest
+                setMode('live-chat')
+                actions = (FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.LiveAction[] || actions)
+                    .map(action => Object.assign(action, { videoOffsetTimeMsec: 0 }))
+                const timeUntilNextRequest = FindObjectByKeyRecursively(data as Response, 'timeoutMs') || DefaultChatRequestTimeout
                 if (!actions) return
 
                 addLiveChats(
                     filterChatActionsWithUndefinedValue(
-                        addUuidToChatActions(actions)
+                        createAdvanceChatLiveActions(actions, pageIdRef.current)
                     )
                     , timeUntilNextRequest)
             }
             else if (message.type === 'replay-live-chat') {
-                // chatQueue.enable()
+                setMode('replay-live-chat')
                 const replayActions = FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.ReplayLiveAction[] || actions
+                // const timeUntilNextRequest = FindObjectByKeyRecursively(data as Response, 'timeUntilLastMessageMsec') || DefaultChatRequestTimeout
                 if (!replayActions) return
                 actions = replayActions
                     .filter(replayAction => replayAction.replayChatItemAction)
                     .map(replayAction => replayAction.replayChatItemAction)
-                    // .reduce((arr, replayAction) => {
-                    //     const temp: YTLiveChat.LiveAction[] = replayAction.actions.map(action => { return { ...action, vidoOffsetTimeMsec: replayAction.videoOffsetTimeMsec } })
-                    //     return arr.concat(temp)
-                    // }, [] as YTLiveChat.LiveAction[])
-                    .map(({ actions, videoOffsetTimeMsec }) => { return { ...actions[0], videoOffsetTimeMsec } })
-                timeUntilNextRequest = FindObjectByKeyRecursively(data as Response, 'timeUntilLastMessageMsec') || timeUntilNextRequest
-                // console.log('LiveAction with videoOffset', actions)
+                    .map(({ actions, videoOffsetTimeMsec }) => { return { ...actions[0], videoOffsetTimeMsec: parseFloat(videoOffsetTimeMsec) } })
 
-
-                // chatQueue.push(
-                //     filterChatActionsWithUndefinedValue(
-                //         addUuidToChatActions(actions)
-                //     )
-                // )
-
+                chatQueue.enqueue(
+                    filterChatActionsWithUndefinedValue(
+                        createAdvanceChatLiveActions(actions, pageIdRef.current)
+                    )
+                )
             }
         } catch (error) {
             console.error(error, 'ChatList is failed to fetch or Chat Response structure has been changed')
@@ -123,7 +125,15 @@ export const ChatContextProvider: React.FC = ({ children }) => {
     useEffect(() => resetChatList(), [pageId])
 
     // When the chat queue is enable (Replay live page)
-    useEffect(() => updateChatList(chatQueue.released), [chatQueue.released])
+    useEffect(() => {
+        if (chatQueue.dequeued && modeMemo)
+            updateChatList(chatQueue.dequeued)
+    }, [chatQueue.dequeued, modeMemo])
+
+
+    useEffect(() => (playerState == YTPlayerState.PAUSED) ? chatQueue.freeze(true) : chatQueue.freeze(false)
+        , [playerState])
+
 
 
     const initContext: IChatContext = {

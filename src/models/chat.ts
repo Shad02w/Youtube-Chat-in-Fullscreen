@@ -1,8 +1,10 @@
 
-export interface ChatLiveAction extends YTLiveChat.LiveAction {
+export interface ChatLiveActionWithVideoOffsetTime extends YTLiveChat.LiveAction {
+    videoOffsetTimeMsec: number
+}
+export interface AdvancedChatLiveAction extends ChatLiveActionWithVideoOffsetTime {
     uuid: string
     pageId: string
-    vidoOffsetTimeMsec: number
 }
-export type ChatAction = ChatLiveAction
-export type ChatActionList = ChatAction[]
+// export type AdvancedChatLiveAction = AdvancedChatLiveAction
+export type AdvancedChatLiveActions = AdvancedChatLiveAction[]

@@ -84,7 +84,7 @@ export const App: React.FC = () => {
     const showApp = useMemo(() => (isFullscreen && chatList.length > 0), [chatList, isFullscreen])
 
     const fullscreenChangeListener = () => setIsFullscreen(checkFullscreenState())
-    const onMoveEndListener = (x: number, y: number) => storageDispatch({ type: 'changeOverlayPosition', position: { top: y, left: x } })
+    const onMoveEndListener = (x: number, y: number) => { if (isFullscreen) storageDispatch({ type: 'changeOverlayPosition', position: { top: y, left: x } }) }
 
 
     useEffect(() => {

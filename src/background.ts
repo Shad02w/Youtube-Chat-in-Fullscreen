@@ -1,7 +1,7 @@
 import parse from 'url-parse'
 import chromep from 'chrome-promise'
 import { StoragePreset } from './models/storage'
-import { CatchedLiveChatRequestMessage, ChatType } from './models/request'
+import { CatchedLiveChatRequestMessage, ChatType } from './models/Request'
 
 
 

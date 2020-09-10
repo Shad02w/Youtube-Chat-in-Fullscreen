@@ -36,7 +36,6 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
             chrome.storage.sync.set({ 'opacity': action.opacity })
             return { ...preState, opacity: action.opacity }
         case 'changeOverlayPosition':
-            console.log('storage context position change')
             chrome.storage.sync.set({ 'top': action.position.top })
             chrome.storage.sync.set({ 'left': action.position.left })
             return { ...preState, top: action.position.top, left: action.position.left }

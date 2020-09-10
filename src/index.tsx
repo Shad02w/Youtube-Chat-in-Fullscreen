@@ -2,7 +2,6 @@ import React from 'react'
 import { render } from 'react-dom'
 import { StorageContextProvider } from './components/StorageContext'
 import { ChatContextProvider } from './components/ChatContext'
-import { ChatQueueProvider } from './components/ChatQueue'
 import { PageContextProvider } from './components/PageContext'
 
 
@@ -35,28 +34,28 @@ declare var window: MyWindow
     console.log('liveChatRequestReplay.js injected')
 
     const observer = new MutationObserver(() => {
-        const playerContainer = document.getElementById('player-container')
-        if (playerContainer) {
+        const chatOverlayContainer = Array
+            .from(document.querySelectorAll('#player-container'))
+            .find(el => el.className.includes('ytd-watch-flexy'))
+
+        if (chatOverlayContainer) {
             console.log('have play container')
             observer.disconnect()
             const chatListContainer = document.createElement('div')
             chatListContainer.id = chatListContainerId
-            playerContainer.append(chatListContainer)
+            chatOverlayContainer.append(chatListContainer)
 
             const script = document.createElement('script')
             script.src = chrome.runtime.getURL('./pageInject.js')
             document.body.append(script)
 
-
             render(
                 <React.StrictMode>
                     <StorageContextProvider>
                         <PageContextProvider>
-                            <ChatQueueProvider>
-                                <ChatContextProvider>
-                                    <App />
-                                </ChatContextProvider>
-                            </ChatQueueProvider>
+                            <ChatContextProvider>
+                                <App />
+                            </ChatContextProvider>
                         </PageContextProvider>
                     </StorageContextProvider>
                 </React.StrictMode>,

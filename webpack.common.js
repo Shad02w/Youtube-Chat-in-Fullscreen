@@ -1,7 +1,5 @@
 const HtmlWp = require('html-webpack-plugin')
 const CopyWp = require('copy-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const TerserPlugin = require('terser-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path')
 const { merge } = require('webpack-merge')
