@@ -59,9 +59,15 @@ declare namespace YTLiveChat {
     export interface LiveAction {
 
         addChatItemAction?: {
-            item: LiveChatActionItem
+            item: AddChatActionItemActionItem
             clientId: string
         }
+
+        addLiveChatTickerItemAction?: {
+            item: AddLiveChatTickerItemActionItem
+            durationSec: string
+
+        },
         markChatItemAsDeletedAction?: {
             deletedStateMessage: {
                 runs: MessageRun[]
@@ -69,6 +75,12 @@ declare namespace YTLiveChat {
         }
     }
 
+    export interface AddChatActionItemActionItem {
+        liveChatPlaceholderItemRenderer?: LiveChatPlaceholderItemRenderer
+        liveChatTextMessageRenderer?: LiveChatTextMessageRenderer
+        liveChatPaidMessageRenderer?: LiveChatPaidMessageRenderer
+        liveChatMembershipItemRenderer?: LiveChatMembershipItemRenderer
+    }
 
     export interface ReplayLiveAction {
         replayChatItemAction: {
@@ -90,30 +102,13 @@ declare namespace YTLiveChat {
         clickTrackingParams: string
     }
 
-    export interface LiveChatActionItem {
-        liveChatPlaceholderItemRenderer?: LiveChatPlaceholderItemRenderer
-        liveChatTextMessageRenderer?: LiveChatTextMessageRenderer
-    }
-
-
-    export interface LiveChatTextMessageRenderer {
-        message: Message
-        authorName: AuthorName
-        authorPhoto: AuthorPhoto
-        contextMenuEndpoint: ContextMenuEndpoint
-        id: string
-        authorBadges?: AuthorBadge[]
-        authorExternalChannelId: string
-        contextMenuAccessibility: ContextMenuAccessibility
-
-    }
-
-    export interface Message {
-        runs: MessageRun[]
-    }
-
-    export interface AuthorName {
+    export interface Text {
         simpleText: string
+
+    }
+
+    export interface AuthorName extends Text {
+
     }
     export interface AuthorPhoto {
         thumbnails: Thumbnail[]
@@ -125,15 +120,15 @@ declare namespace YTLiveChat {
         width?: number
     }
 
+    export interface CommandMetadata {
+        webCommandMetadata: {
+            ignoreNavigation: boolean
+        }
+    }
 
     export interface ContextMenuEndpoint {
-        clickTrackingParams: string
-        commandMetadata: {
-            webCommandMetadata: {
-                ignoreNavigation: boolean
-            }
-
-        }
+        clickTrackingParams?: string
+        commandMetadata: CommandMetadata
         liveChatItemContextMenuEndpoint: {
             params: string
         }
@@ -176,8 +171,14 @@ declare namespace YTLiveChat {
         continuation: string
     }
 
+
     interface MessageRun {
-        text: string,
+        text?: string,
+        emoji?: Emoji
+    }
+
+    interface Message {
+        runs: MessageRun[]
     }
 
     interface AccessibilityData {
@@ -192,4 +193,88 @@ declare namespace YTLiveChat {
         id: string
         timestampUsec: string
     }
+
+
+    export interface Emoji {
+        emojiId: string;
+        shortcuts: string[];
+        searchTerms: string[];
+        image: Image;
+        isCustomEmoji: boolean;
+    }
+
+    export interface Image {
+        thumbnails: AuthorPhotoThumbnail[];
+        accessibility: Accessibility;
+    }
+
+
+    export interface AddLiveChatTickerItemActionItem {
+        liveChatTickerSponsorItemRenderer: LiveChatTickerSponsorItemRenderer;
+    }
+
+    export interface LiveChatTickerSponsorItemRenderer {
+        id: string;
+        detailText: Text;
+        detailTextColor: number;
+        startBackgroundColor: number;
+        endBackgroundColor: number;
+        durationSec: number;
+        showItemEndpoint: ShowItemEndpoint;
+        authorExternalChannelId: string;
+        fullDurationSec: number;
+        sponsorPhoto: OrPhoto;
+    }
+
+
+    export interface ShowItemEndpoint {
+        showLiveChatItemEndpoint: ShowLiveChatItemEndpoint;
+        commandMetadata: CommandMetadata;
+    }
+
+    export interface ShowLiveChatItemEndpoint {
+        renderer: Renderer;
+    }
+
+    export interface Renderer {
+        liveChatMembershipItemRenderer: LiveChatRenderer;
+    }
+
+    export interface LiveChatRenderer {
+        id: string
+        timestampUsec: string
+        authorExternalChannelId: string
+        authorName: AuthorName
+        authorPhoto: AuthorPhoto
+        timestampText: Text;
+        contextMenuEndpoint: ContextMenuEndpoint
+        contextMenuAccessibility: ContextMenuAccessibility
+        // authorPhoto: OrPhoto;
+    }
+
+    export interface LiveChatMembershipItemRenderer extends LiveChatRenderer {
+        headerSubtext: Message
+        authorBadges: AuthorBadge[]
+
+    }
+
+    export interface LiveChatTextMessageRenderer extends LiveChatRenderer {
+        message: Message
+        authorBadges?: AuthorBadge[]
+
+    }
+
+    export interface LiveChatPaidMessageRenderer extends LiveChatRenderer {
+        purchaseAmountText: text
+        headerBackgroundColor: number,
+        headerTextColor: number,
+        bodyBackgroundColor: number,
+        bodyTextColor: number,
+        authorNameTextColor: number
+        timestampColor: number
+        message: Message
+    }
+
+
+
 }
