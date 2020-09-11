@@ -22,10 +22,9 @@ Show Youtube live chat when in full screen mode
 - [x] Save the size and position change to chrome storage
 - [x] Support live stream replay video page
 - [x] Support showing emoji
-- [ ] Show membership ticker and super chat
 - [ ] Turn on/off the chat list overlay directly temporarily without going to options page
+- [ ] Show membership ticker and super chat
 - [ ] Chat list remain unchanged when user exit autoscroll mode
-- [ ] Refresh should not be need to update the on/off state of the extension
 
 
 

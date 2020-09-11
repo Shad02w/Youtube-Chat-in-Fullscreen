@@ -129,11 +129,11 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
         return (
             <span className={classes.chatMessage}>
                 {
-                    message.runs.map(run => {
+                    message.runs.map((run, i) => {
                         if (run.text)
                             return run.text
                         else if (run.emoji)
-                            return <img key={(new Date().toString())} className={`${classes.authorBadge} ${classes.emoji}`} src={run.emoji.image.thumbnails[0].url} alt="emoji" />
+                            return <img key={i} className={`${classes.authorBadge} ${classes.emoji}`} src={run.emoji.image.thumbnails[0].url} alt="emoji" />
                         return <></>
                     })
                 }
