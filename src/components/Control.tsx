@@ -22,21 +22,6 @@ const useStyles = makeStyles((theme) => createStyles({
         flexWrap: 'nowrap',
         borderRadius: '20px'
     },
-    btn: {
-        margin: '0px 10px',
-        width: 30,
-        height: 30,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: '50%',
-        background: 'rgba(203, 203, 203, 0.8)',
-        backdropFilter: 'blur(10px)',
-        '&:hover': {
-            cursor: 'pointer'
-        }
-    },
     settings: {
         outline: 'none',
         position: 'absolute',
@@ -62,7 +47,7 @@ const useStyles = makeStyles((theme) => createStyles({
 
 export const Control: React.FC<IControlProps> = (props) => {
 
-    const { storage: { fontSize, opacity }, storageDispatch } = useContext(StorageContext)
+    const { storage: { fontSize, opacity, blur }, storageDispatch } = useContext(StorageContext)
     const { showApp } = useContext(ShowAppContext)
     const [showModal, setShowModal] = useState<boolean>(false)
 
@@ -76,6 +61,12 @@ export const Control: React.FC<IControlProps> = (props) => {
     const OpacityValueOnChange = (event: any, newValue: number | number[]) => {
         storageDispatch({ type: 'changeOpacity', opacity: newValue as number })
     }
+
+    const BlurValueOnChanage = (_: any, newValue: number | number[]) => {
+        storageDispatch({ type: 'changeBackgroundBlur', blur: newValue as number })
+
+    }
+
 
     useEffect(() => { if (!showApp) setShowModal(false) }, [showApp])
 
@@ -95,8 +86,9 @@ export const Control: React.FC<IControlProps> = (props) => {
                 <Paper className={classes.settings}>
                     <Typography gutterBottom color='textPrimary' variant='h5'>Font Size</Typography>
                     <Slider
-                        min={5}
-                        max={50}
+                        min={1}
+                        max={4}
+                        step={0.1}
                         value={fontSize}
                         defaultValue={fontSize}
                         valueLabelDisplay='auto'
@@ -110,6 +102,15 @@ export const Control: React.FC<IControlProps> = (props) => {
                         defaultValue={opacity}
                         valueLabelDisplay='auto'
                         onChange={OpacityValueOnChange} />
+                    <Typography gutterBottom color='textPrimary' variant='h5'>Blur</Typography>
+                    <Slider
+                        min={0}
+                        max={30}
+                        step={1}
+                        value={blur}
+                        defaultValue={blur}
+                        valueLabelDisplay='auto'
+                        onChange={BlurValueOnChanage} />
                     <Button className={classes.doneButton}
                         startIcon={<Done />}
                         variant='contained'

@@ -5,7 +5,9 @@ interface StyleStorageItem {
     opacity: number,
     width: number,
     height: number,
-    fontSize: number
+    fontSize: number,
+    blur: number,
+    show:boolean
 }
 
 interface AppStorageItem {
@@ -23,6 +25,9 @@ export const StoragePreset: StorageItems = {
     left: 50,
     width: 400,
     height: 400,
-    fontSize: 16,
-    opacity: 0.8
+    // use spacing to define font size
+    fontSize: 2,
+    opacity: 0.8,
+    blur: 10,
+    show:true
 }

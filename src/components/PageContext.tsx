@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 import { v4 as uuidV4 } from 'uuid'
 import { CatchedLiveChatRequestMessage } from '../models/Request'
 import { InterceptedDataElementId } from '../models/intercept'
@@ -46,8 +46,8 @@ export const PageContextProvider: React.FC = ({ children }) => {
             const observer = new MutationObserver((mutations) => {
                 const childMutation = mutations.find(mutation => mutation.type === 'childList')
                 if (!childMutation) return
-                const playerState = parseInt((childMutation.target as HTMLDivElement).innerHTML) as YTPlayerState
-                setPlayerState(playerState)
+                const state = parseInt((childMutation.target as HTMLDivElement).innerHTML) as YTPlayerState
+                setPlayerState(state)
             })
             observer.observe(interceptedElment, { childList: true, subtree: true })
             return () => observer.disconnect()

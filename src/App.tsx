@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext, useMemo, useContext } from 'react'
 
-import { makeStyles, createMuiTheme, ThemeProvider, Theme } from '@material-ui/core/styles'
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import { ChatContext } from './components/ChatContext'
 import './css/App.css'
 import { StorageContext } from './components/StorageContext'
@@ -24,18 +24,19 @@ const theme = createMuiTheme({
 interface StyleProps {
     opacity: number,
     top: number,
-    left: number
+    left: number,
+    blur: number
 }
 
-const useStyles = makeStyles<Theme, StyleProps>({
+const useStyles = makeStyles({
     wrapper: {
         width: fixedWidth,
         position: 'absolute',
-        top: props => props.top,
+        top: (props: StyleProps) => props.top,
         left: props => props.left,
         overflow: 'hidden',
         background: props => `rgba(20, 20, 20, ${props.opacity})`,
-        backdropFilter: 'blur(10px)',
+        backdropFilter: props => `blur(${props.blur}px)`,
         gridTemplateRows: '1fr',
         gridTemplateAreas: '"chat"',
         borderRadius: 5,
@@ -75,9 +76,9 @@ export const ShowAppContext = createContext<IShowAppContext>({} as IShowAppConte
 
 export const App: React.FC = () => {
 
-    const { storage: { opacity, top, left }, storageDispatch } = useContext(StorageContext)
+    const { storage: { opacity, top, left, blur }, storageDispatch } = useContext(StorageContext)
     const { chatList } = useContext(ChatContext)
-    const classes = useStyles({ opacity, top, left })
+    const classes = useStyles({ opacity, top, left, blur })
 
     const [isFullscreen, setIsFullscreen] = useState<boolean>(checkFullscreenState())
 
@@ -103,8 +104,8 @@ export const App: React.FC = () => {
             <ShowAppContext.Provider value={{ showApp }}>
                 <Movable
                     onMoveEnd={onMoveEndListener}
-                    // className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
-                    className={`${classes.wrapper} ${classes.show}`}>
+                    className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
+                    {/* className={`${classes.wrapper} ${classes.show}`}> */}
                     <ChatList className={classes.chatList} />
                     <Control className={classes.control} />
                 </Movable>

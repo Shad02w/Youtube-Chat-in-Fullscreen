@@ -1,21 +1,15 @@
 import React, { useContext, useEffect, useRef, useMemo } from 'react'
 import { ChatContext } from './ChatContext'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { StorageContext } from './StorageContext'
-
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 interface ChatListStyleProps {
     fontSize: number
-
 }
 
-
-
-
-// const useStyles = makeStyles<Theme, ChatListStyleProps>({
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => createStyles({
     container: {
         width: 'auto',
         height: 'auto',
@@ -41,18 +35,18 @@ const useStyles = makeStyles({
     },
     chatItem: {
         padding: '5px 10px',
-        fontSize: (props: ChatListStyleProps) => props.fontSize,
+        fontSize: (props: ChatListStyleProps) => theme.spacing(props.fontSize),
         display: 'grid',
         gridTemplateColumns: '25px 1fr',
         gridGap: 20
     },
     authorImage: {
         borderRadius: '50%',
-        height: 25,
-        width: 25,
+        width: props => theme.spacing(props.fontSize + 1.125),
+        height: props => theme.spacing(props.fontSize + 1.125),
     },
     authorName: {
-        marginRight: 10,
+        marginRight: (props) => theme.spacing(props.fontSize - 0.4),
         fontWeight: 800,
         display: 'inline-block',
         wordBreak: 'break-all'
@@ -61,14 +55,14 @@ const useStyles = makeStyles({
         color: 'green'
     },
     authorBadge: {
-        width: 20,
-        height: 20,
+        width: (props) => theme.spacing(props.fontSize + 0.5),
+        height: (props) => theme.spacing(props.fontSize + 0.5),
         marginRight: 5,
         display: 'inline-block',
         verticalAlign: 'middle'
     },
     emoji: {
-        width: 25,
+        width: (props) => theme.spacing(props.fontSize + 1.75),
     },
     chatMessage: {
         wordBreak: 'break-word'
@@ -89,7 +83,7 @@ const useStyles = makeStyles({
     downButtonShow: {
         bottom: 30,
     }
-})
+}))
 
 
 export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
@@ -98,9 +92,6 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
     const { chatList } = useContext(ChatContext)
     const { storage: { fontSize } } = useContext(StorageContext)
     const classes = useStyles({ fontSize })
-
-
-
 
     useEffect(() => {
         if (!containerRef.current) return

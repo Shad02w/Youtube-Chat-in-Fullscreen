@@ -3,10 +3,6 @@ import chromep from 'chrome-promise'
 import { StoragePreset } from './models/storage'
 import { CatchedLiveChatRequestMessage, ChatType } from './models/Request'
 
-
-
-
-
 const getLiveChatRequestFilter: chrome.webRequest.RequestFilter = {
     urls: ['https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
 }
