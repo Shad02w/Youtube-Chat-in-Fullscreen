@@ -49,7 +49,7 @@ export const ChatContextProvider: React.FC = ({ children }) => {
 
     const { update: updateChatList, reset: resetChatList, chatList } = useChatList([])
     const chatQueue = useChatQueue()
-    const { freeze: FreezeChatQueue } = chatQueue
+    const { freeze: freezeChatQueue, reset: resetChatQueue } = chatQueue
 
     const [mode, setMode] = useState<ChatType>('live-chat')
     const modeMemo = useMemo(() => mode, [mode])
@@ -100,7 +100,7 @@ export const ChatContextProvider: React.FC = ({ children }) => {
                 actions = replayActions
                     .filter(replayAction => replayAction.replayChatItemAction)
                     .map(replayAction => replayAction.replayChatItemAction)
-                    .map(({ actions, videoOffsetTimeMsec }) => { return { ...actions[0], videoOffsetTimeMsec: parseFloat(videoOffsetTimeMsec) } })
+                    .map(({ actions: liveActions, videoOffsetTimeMsec }) => { return { ...liveActions[0], videoOffsetTimeMsec: parseFloat(videoOffsetTimeMsec) } })
                 if (!actions || actions.length === 0) return
 
                 chatQueue.enqueue(
@@ -122,7 +122,12 @@ export const ChatContextProvider: React.FC = ({ children }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    useEffect(() => resetChatList(), [pageId, resetChatList])
+    useEffect(() => {
+        resetChatList()
+        resetChatQueue()
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageId])
 
     // When the chat queue is enable (Replay live page)
     useEffect(() => {
@@ -131,9 +136,7 @@ export const ChatContextProvider: React.FC = ({ children }) => {
     }, [chatQueue.dequeued, modeMemo, updateChatList])
 
 
-    useEffect(() => (playerState === YTPlayerState.PAUSED) ? FreezeChatQueue(true) : FreezeChatQueue(false), [playerState, FreezeChatQueue])
-
-
+    useEffect(() => (playerState === YTPlayerState.PAUSED) ? freezeChatQueue(true) : freezeChatQueue(false), [playerState, freezeChatQueue])
 
     const initContext: IChatContext = {
         chatList,
