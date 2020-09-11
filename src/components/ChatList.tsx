@@ -53,7 +53,7 @@ const useStyles = makeStyles({
     },
     authorName: {
         marginRight: 10,
-        fontWeight: 700,
+        fontWeight: 800,
         display: 'inline-block',
         wordBreak: 'break-all'
     },
@@ -71,7 +71,6 @@ const useStyles = makeStyles({
         width: 25,
     },
     chatMessage: {
-        display: 'inline-block',
         wordBreak: 'break-word'
     },
     downButton: {
@@ -134,7 +133,7 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
                         if (run.text)
                             return run.text
                         else if (run.emoji)
-                            return <img className={`${classes.authorBadge} ${classes.emoji}`} src={run.emoji.image.thumbnails[0].url} alt="emoji" />
+                            return <img key={(new Date().toString())} className={`${classes.authorBadge} ${classes.emoji}`} src={run.emoji.image.thumbnails[0].url} alt="emoji" />
                         return <></>
                     })
                 }
