@@ -1,60 +1,54 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { render } from 'react-dom'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { Switch, Fade, Typography } from '@material-ui/core'
 import './css/popup.css'
 import icon from './images/chat.png'
-import Switch from '@material-ui/core/Switch'
-import Fade from '@material-ui/core/Fade'
-import Typography from '@material-ui/core/Typography'
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
-import { ThemeProvider } from '@material-ui/core/styles'
 
 const theme = createMuiTheme()
 theme.typography.h6 = {
     fontSize: '1.1rem'
 }
+const normalPadding = 1
 
-const useStyle = makeStyles(theme => {
-    const normalPadding = 1
-    return createStyles({
-        container: {
-            width: '20rem',
-            height: 'auto',
-            minHeight: '5rem',
-            fontFamily: "'Noto Sans JP', sans-serif",
-        },
-        icon: {
-            // width: imageHeight + 'rem',
-            // height: imageHeight + 'rem',
-            width: theme.spacing(3),
-            height: theme.spacing(3),
-            paddingBottom: '0.2rem'
-        },
-        header: {
-            display: 'flex',
-            flexFlow: 'row nowrap',
-            alignItems: 'center',
-            padding: `${normalPadding}rem`,
-            borderBottom: '1px solid #e6e6e6'
-        },
-        appName: {
-            marginLeft: theme.spacing(2),
-        },
-        main: {
-            padding: `${normalPadding}rem`,
-        },
-        part: {
-            display: 'flex',
-            flexFlow: 'row nowrap',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-        },
-        subHeader: {
-            fontSize: '0.8rem',
-            fontWeight: 400,
-            color: '#424242'
-        }
-    })
+const useStyle = makeStyles({
+    container: {
+        width: '20rem',
+        height: 'auto',
+        minHeight: '5rem',
+        fontFamily: "'Noto Sans JP', sans-serif",
+    },
+    icon: {
+        // width: imageHeight + 'rem',
+        // height: imageHeight + 'rem',
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+        paddingBottom: '0.2rem'
+    },
+    header: {
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        alignItems: 'center',
+        padding: `${normalPadding}rem`,
+        borderBottom: '1px solid #e6e6e6'
+    },
+    appName: {
+        marginLeft: theme.spacing(2),
+    },
+    main: {
+        padding: `${normalPadding}rem`,
+    },
+    part: {
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    subHeader: {
+        fontSize: '0.8rem',
+        fontWeight: 400,
+        color: '#424242'
+    }
 })
 
 const App: React.FC = () => {

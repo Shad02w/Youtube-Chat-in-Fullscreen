@@ -3,14 +3,13 @@ Show Youtube live chat when in full screen mode
 
 ### Know Issues
 
-- Author name can not stick to one line if it is little bit long
-- Cannot show emoji, this can be serious, since if the first character is emoji, the comment will become empty
 - Can have performance issue, video suffered from frame drop when chat overlay appear (reason unknown, maybe related to render layer)
 - When replay the live chat, the time to next chat request is unknow
 
 ### Fixed
 
-
+- (Fixed) Emoji can be show
+- (Fixed) Improved chat message layout
 
 ### TODO
 
@@ -22,6 +21,7 @@ Show Youtube live chat when in full screen mode
 - [x] Able to resize and change font size without options page
 - [x] Save the size and position change to chrome storage
 - [x] Support live stream replay video page
+- [x] Support showing emoji
 - [ ] Show membership ticker and super chat
 - [ ] Turn on/off the chat list overlay directly temporarily without going to options page
 - [ ] Chat list remain unchanged when user exit autoscroll mode

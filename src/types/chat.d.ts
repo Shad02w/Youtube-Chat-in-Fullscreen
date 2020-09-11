@@ -204,7 +204,7 @@ declare namespace YTLiveChat {
     }
 
     export interface Image {
-        thumbnails: AuthorPhotoThumbnail[];
+        thumbnails: Thumbnail[];
         accessibility: Accessibility;
     }
 

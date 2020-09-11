@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext, useRef, useMemo } from 'react'
+import React, { createContext, useState, useEffect, useContext, useRef, useMemo, useCallback } from 'react'
 import { v4 as uuidV4 } from 'uuid'
 import { CatchedLiveChatRequestMessage, ChatType } from '../models/Request'
 import { FindObjectByKeyRecursively, ReplayRequest } from '../models/Function'
@@ -35,22 +35,21 @@ function filterChatActionsWithUndefinedValue(chatActions: AdvancedChatLiveAction
 const useChatList = (init: AdvancedChatLiveActions): IChatContext => {
     const [chatList, setChatList] = useState<AdvancedChatLiveActions>(init)
 
-    const update = (list: AdvancedChatLiveActions) => setChatList(pre => pre.concat(list).slice(-MaxChatsItem))
+    const update = useCallback((list: AdvancedChatLiveActions) => setChatList(pre => pre.concat(list).slice(-MaxChatsItem)), [setChatList])
 
-    const reset = () => setChatList([])
+    const reset = useCallback(() => setChatList([]), [setChatList])
 
     return { chatList, update, reset }
 }
 
 
 export const ChatContextProvider: React.FC = ({ children }) => {
-    const { update: updateChatList, reset: resetChatList, chatList } = useChatList([])
 
     const { pageId, playerState } = useContext(PageContext)
 
-    // const chatQueue = useContext(ChatQueue)
-
+    const { update: updateChatList, reset: resetChatList, chatList } = useChatList([])
     const chatQueue = useChatQueue()
+    const { freeze: FreezeChatQueue } = chatQueue
 
     const [mode, setMode] = useState<ChatType>('live-chat')
     const modeMemo = useMemo(() => mode, [mode])
@@ -60,9 +59,8 @@ export const ChatContextProvider: React.FC = ({ children }) => {
 
     function addLiveChats(chatActions: AdvancedChatLiveActions, timeUntilNextRequest: number) {
         // Gradually update the chat list
+        if (chatActions.length === 0) return
         const timeInterval = timeUntilNextRequest / chatActions.length
-        console.log('timeInterval', timeInterval)
-
         // Update the chat item to chat list
         chatActions.forEach((action, i) => setTimeout(() => {
             // check whether the chat action is come from previous page
@@ -86,7 +84,7 @@ export const ChatContextProvider: React.FC = ({ children }) => {
                 actions = (FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.LiveAction[] || actions)
                     .map(action => Object.assign(action, { videoOffsetTimeMsec: 0 }))
                 const timeUntilNextRequest = FindObjectByKeyRecursively(data as Response, 'timeoutMs') || DefaultChatRequestTimeout
-                if (!actions) return
+                if (!actions || actions.length === 0) return
 
                 addLiveChats(
                     filterChatActionsWithUndefinedValue(
@@ -98,11 +96,12 @@ export const ChatContextProvider: React.FC = ({ children }) => {
                 setMode('replay-live-chat')
                 const replayActions = FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.ReplayLiveAction[] || actions
                 // const timeUntilNextRequest = FindObjectByKeyRecursively(data as Response, 'timeUntilLastMessageMsec') || DefaultChatRequestTimeout
-                if (!replayActions) return
+                if (!replayActions || replayActions.length === 0) return
                 actions = replayActions
                     .filter(replayAction => replayAction.replayChatItemAction)
                     .map(replayAction => replayAction.replayChatItemAction)
                     .map(({ actions, videoOffsetTimeMsec }) => { return { ...actions[0], videoOffsetTimeMsec: parseFloat(videoOffsetTimeMsec) } })
+                if (!actions || actions.length === 0) return
 
                 chatQueue.enqueue(
                     filterChatActionsWithUndefinedValue(
@@ -120,19 +119,19 @@ export const ChatContextProvider: React.FC = ({ children }) => {
         return () => {
             chrome.runtime.onMessage.removeListener(LiveChatRequestListener)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    useEffect(() => resetChatList(), [pageId])
+    useEffect(() => resetChatList(), [pageId, resetChatList])
 
     // When the chat queue is enable (Replay live page)
     useEffect(() => {
-        if (chatQueue.dequeued && modeMemo)
+        if (chatQueue.dequeued && modeMemo === 'replay-live-chat')
             updateChatList(chatQueue.dequeued)
-    }, [chatQueue.dequeued, modeMemo])
+    }, [chatQueue.dequeued, modeMemo, updateChatList])
 
 
-    useEffect(() => (playerState == YTPlayerState.PAUSED) ? chatQueue.freeze(true) : chatQueue.freeze(false)
-        , [playerState])
+    useEffect(() => (playerState === YTPlayerState.PAUSED) ? FreezeChatQueue(true) : FreezeChatQueue(false), [playerState, FreezeChatQueue])
 
 
 

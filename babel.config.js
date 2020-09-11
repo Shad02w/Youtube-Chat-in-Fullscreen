@@ -3,9 +3,10 @@ const presets = [
         "@babel/preset-env",
         {
             "targets": {
-                "chrome": "60",
+                "node": "6.1",
+                "chrome": "78",
+                "esmodules": true
             }
-
         }
     ],
     "@babel/preset-typescript",
@@ -14,14 +15,21 @@ const presets = [
 
 const plugins = [
     [
-        'babel-plugin-import',
+        'babel-plugin-transform-imports',
         {
-            'libraryName': '@material-ui/core',
-            // Use "'libraryDirectory': ''," if your bundler does not support ES modules
-            'libraryDirectory': 'esm',
-            'camel2DashComponentName': false
-        },
-        'core'
+            '@material-ui/core': {
+                // Use "transform: '@material-ui/core/${member}'," if your bundler does not support ES modules
+                // eslint-disable-next-line no-template-curly-in-string
+                'transform': '@material-ui/core/esm/${member}',
+                'preventFullImport': true
+            },
+            '@material-ui/icons': {
+                // Use "transform: '@material-ui/icons/${member}'," if your bundler does not support ES modules
+                // eslint-disable-next-line no-template-curly-in-string
+                'transform': '@material-ui/icons/esm/${member}',
+                'preventFullImport': true
+            }
+        }
     ]
 ];
 

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useMemo } from 'react'
 import { ChatContext } from './ChatContext'
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { StorageContext } from './StorageContext'
 
 
@@ -8,9 +8,14 @@ interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 interface ChatListStyleProps {
     fontSize: number
+
 }
 
-const useStyles = makeStyles<Theme, ChatListStyleProps>({
+
+
+
+// const useStyles = makeStyles<Theme, ChatListStyleProps>({
+const useStyles = makeStyles({
     container: {
         width: 'auto',
         height: 'auto',
@@ -36,23 +41,21 @@ const useStyles = makeStyles<Theme, ChatListStyleProps>({
     },
     chatItem: {
         padding: '5px 10px',
-        fontSize: props => props.fontSize,
-        display: 'flex',
-        flexFlow: 'row nowrap',
-        alignItems: 'center'
+        fontSize: (props: ChatListStyleProps) => props.fontSize,
+        display: 'grid',
+        gridTemplateColumns: '25px 1fr',
+        gridGap: 20
     },
     authorImage: {
         borderRadius: '50%',
         height: 25,
         width: 25,
-        marginRight: 20
     },
     authorName: {
         marginRight: 10,
         fontWeight: 700,
-        display: 'flex',
-        flexFlow: 'row nowrap',
-        minWidth: 'min-conent',
+        display: 'inline-block',
+        wordBreak: 'break-all'
     },
     isMember: {
         color: 'green'
@@ -60,11 +63,16 @@ const useStyles = makeStyles<Theme, ChatListStyleProps>({
     authorBadge: {
         width: 20,
         height: 20,
-        marginRight: 10
+        marginRight: 5,
+        display: 'inline-block',
+        verticalAlign: 'middle'
+    },
+    emoji: {
+        width: 25,
     },
     chatMessage: {
-        overflowWrap: 'break-word',
-        wordWrap: 'break-word'
+        display: 'inline-block',
+        wordBreak: 'break-word'
     },
     downButton: {
         position: 'absolute',
@@ -88,7 +96,7 @@ const useStyles = makeStyles<Theme, ChatListStyleProps>({
 export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
 
     const containerRef = useRef<HTMLDivElement>(null)
-    const { chatList, update: UpdateChatList } = useContext(ChatContext)
+    const { chatList } = useContext(ChatContext)
     const { storage: { fontSize } } = useContext(StorageContext)
     const classes = useStyles({ fontSize })
 
@@ -118,23 +126,44 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
         }
     }
 
-    const ChatList = () => {
+    const createMessage = (message: YTLiveChat.Message) => {
+        return (
+            <span className={classes.chatMessage}>
+                {
+                    message.runs.map(run => {
+                        if (run.text)
+                            return run.text
+                        else if (run.emoji)
+                            return <img className={`${classes.authorBadge} ${classes.emoji}`} src={run.emoji.image.thumbnails[0].url} alt="emoji" />
+                        return <></>
+                    })
+                }
+            </span>
+        )
+    }
+
+
+    const createChatList = () => {
         let list;
         if (chatList.length === 0)
             list = <></>
         else {
             list = chatList
                 .map((action) => {
+                    const badges = action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorBadges
+                    const message = action.addChatItemAction!.item.liveChatTextMessageRenderer!.message
                     return (
                         <div className={classes.chatItem} key={action.uuid}>
-                            <img className={classes.authorImage}
+                            <img
+                                alt="Author icon"
+                                className={classes.authorImage}
                                 src={action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorPhoto.thumbnails[0].url}
-                                alt="author Image" />
-                            <div className={classes.authorName + ' ' +
-                                (action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorBadges === undefined ? '' : classes.isMember)}>{action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorName.simpleText}</div>
-                            {createBagde(action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorBadges)}
-                            <div
-                                className={classes.chatMessage}>{action.addChatItemAction!.item.liveChatTextMessageRenderer!.message.runs[0].text}</div>
+                            />
+                            <article>
+                                <div className={`${classes.authorName} ${(badges === undefined) ? '' : classes.isMember}`}>{action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorName.simpleText}</div>
+                                {createBagde(badges)}
+                                {createMessage(message)}
+                            </article>
                         </div>
                     )
                 })
@@ -146,7 +175,7 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
         )
     }
 
-    const ChatListMemo = useMemo(() => ChatList(), [chatList])
+    const ChatListMemo = useMemo(createChatList, [chatList])
 
     return (
         <div

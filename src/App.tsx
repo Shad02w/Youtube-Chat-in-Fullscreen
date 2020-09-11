@@ -63,7 +63,7 @@ const useStyles = makeStyles<Theme, StyleProps>({
 })
 
 
-const checkFullscreenState = () => document.fullscreenElement != undefined
+const checkFullscreenState = () => document.fullscreenElement !== null
 
 interface IShowAppContext {
     showApp: boolean
@@ -103,8 +103,8 @@ export const App: React.FC = () => {
             <ShowAppContext.Provider value={{ showApp }}>
                 <Movable
                     onMoveEnd={onMoveEndListener}
-                    className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
-                    {/* className={`${classes.wrapper} ${classes.show}`}> */}
+                    // className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
+                    className={`${classes.wrapper} ${classes.show}`}>
                     <ChatList className={classes.chatList} />
                     <Control className={classes.control} />
                 </Movable>

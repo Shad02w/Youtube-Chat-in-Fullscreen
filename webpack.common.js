@@ -9,18 +9,18 @@ module.exports = merge({}, {
         background: path.resolve(__dirname, "./src/background.ts"),
         popup: path.resolve(__dirname, './src/popup.tsx'),
         inject: path.resolve(__dirname, './src/index.tsx'),
-        pageInject: path.resolve(__dirname, './src/pageInject.ts')
+        pageInject: path.resolve(__dirname, './src/pageInject.ts'),
     },
     output: {
         filename: "[name].js",
-        chunkFilename: '[name].bundle.js',
+        // chunkFilename: '[name].bundle.js',
         path: path.resolve(__dirname, "build")
     },
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'ts-loader',
+                loader: 'babel-loader',
                 exclude: /node_modules/
             },
             {
@@ -30,10 +30,6 @@ module.exports = merge({}, {
             {
                 test: /\.png$/,
                 loader: 'url-loader',
-                options: {
-                    limit: 1000,
-                    fallback: 'file-loader'
-                }
             },
             {
                 test: /\.svg$/,
@@ -60,7 +56,5 @@ module.exports = merge({}, {
                 },
             ]
         })
-        // ,
-        // new BundleAnalyzerPlugin()
     ]
 })

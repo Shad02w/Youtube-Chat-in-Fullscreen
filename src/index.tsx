@@ -29,7 +29,9 @@ declare var window: MyWindow
         return
 
     // Dynamic import '@material-ui' to solve the issue of initilize multiple instance
-    const { App } = await import('./App')
+    // const AppSrc = chrome.runtime.getURL('App.js')
+
+    const { App } = await import(/* webpackMode: "eager" */'./App')
 
     console.log('liveChatRequestReplay.js injected')
 

@@ -1,7 +1,6 @@
-import React, { useState, createContext, useEffect, useMemo, useContext, useCallback, useRef } from 'react'
+import React, { useState, createContext, useEffect, useContext, useRef } from 'react'
 import { AdvancedChatLiveAction, AdvancedChatLiveActions } from '../models/Chat'
 import { PageContext } from './PageContext'
-import { InterceptedDataElementId } from '../models/intercept'
 
 /**
  * This need more work
@@ -37,19 +36,19 @@ export const ChatQueue = createContext<IChatQueueContext>({} as IChatQueueContex
 
 
 
-const CreateSignificantDurationChangeChecker = () => {
-    let lastPlayingTime = 0
-    return (currentTime: number) => {
-        if (lastPlayingTime === 0) lastPlayingTime = currentTime
-        const temp = lastPlayingTime
-        lastPlayingTime = currentTime
-        if (Math.abs(currentTime - temp) >= 1000 * 60)
-            return true
-        else return false
-    }
-}
+// const CreateSignificantDurationChangeChecker = () => {
+//     let lastPlayingTime = 0
+//     return (currentTime: number) => {
+//         if (lastPlayingTime === 0) lastPlayingTime = currentTime
+//         const temp = lastPlayingTime
+//         lastPlayingTime = currentTime
+//         if (Math.abs(currentTime - temp) >= 1000 * 60)
+//             return true
+//         else return false
+//     }
+// }
 
-const significantDurationChangeChecker = CreateSignificantDurationChangeChecker()
+// const significantDurationChangeChecker = CreateSignificantDurationChangeChecker()
 
 
 const Sec2MSec = (second: number) => second * 1000
@@ -64,15 +63,13 @@ export const useChatQueueState = () => {
 
 
     const setTimedChatQueueItems = (chats: AdvancedChatLiveAction[]): ChatQueue => {
-        const player = document.getElementsByClassName('html5-main-video')[0] as HTMLVideoElement
-        const currentTime = Sec2MSec(player.currentTime || 0)
         return chats.map(chat => {
-            const timeGap = chat.videoOffsetTimeMsec! - currentTime
+            const timeGap = chat.videoOffsetTimeMsec! - Sec2MSec(player.currentTime || 0)
             return {
                 ...chat,
                 timeoutId: setTimeout(() => {
                     const depueued = chatQueueRef.current.shift()
-                    depueued ? setDequeued([depueued]) : {}
+                    if (depueued) setChatQueue([depueued])
                 }, (timeGap <= 0) ? 0 : timeGap)
             }
         })
@@ -80,9 +77,7 @@ export const useChatQueueState = () => {
 
 
     const enqueue = (chats: AdvancedChatLiveAction[]) => {
-        // console.log('chats data when enqueue', chats)
-        // console.log('first element video offset Time', chats[0].videoOffsetTimeMsec)
-        if (chats[0].videoOffsetTimeMsec == 0 || chats[chats.length - 1].videoOffsetTimeMsec < Sec2MSec(player.currentTime)) {
+        if (chats[0].videoOffsetTimeMsec === 0 || chats[chats.length - 1].videoOffsetTimeMsec < Sec2MSec(player.currentTime)) {
             setDequeued(chats)
         } else {
             const newChatQueueItems = setTimedChatQueueItems(chats)
@@ -99,6 +94,7 @@ export const useChatQueueState = () => {
         console.log('isPaused', isPaused)
         if (isPaused) clearTimers()
         else resetTimers()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isPaused])
 
 
@@ -120,12 +116,15 @@ export const ChatQueueProvider: React.FC = ({ children }) => {
     const { pageId, playerState } = useContext(PageContext)
 
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { dequeued, enqueue, clear: clearQueue, isPaused, pause } = useChatQueueState()
 
-    useEffect(() => (playerState == YTPlayerState.PAUSED) ? pause(true) : pause(false), [playerState])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => (playerState === YTPlayerState.PAUSED) ? pause(true) : pause(false), [playerState])
 
     useEffect(() => {
         clearQueue()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageId])
 
 
