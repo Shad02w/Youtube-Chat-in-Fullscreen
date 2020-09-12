@@ -1,14 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
-import Modal from '@material-ui/core/Modal'
-import Typography from '@material-ui/core/Typography'
-import Slider from '@material-ui/core/Slider'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import IconButton from '@material-ui/core/IconButton'
-import Done from '@material-ui/icons/Done'
-import More from '@material-ui/icons/MoreHoriz'
-import PanTool from '@material-ui/icons/PanTool'
+import { Modal, Typography, Slider, Button, Paper, IconButton } from '@material-ui/core'
+import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons'
 import { StorageContext } from './StorageContext'
 import { MovableTrigger } from './Movable'
 import { ShowAppContext } from '../App'
@@ -27,12 +20,12 @@ const useStyles = makeStyles((theme) => createStyles({
         position: 'absolute',
         width: 300,
         height: 'auto',
-        padding: 50,
+        padding: 30,
         top: '50%',
         left: '50%',
         marginLeft: '-150px',
         marginTop: '-150px',
-        background: 'rgba(20, 20, 20, 0.8)',
+        // background: 'rgba(20, 20, 20, 0.8)',
         backdropFilter: 'blur(10px)',
         borderRadius: 20
     },
@@ -81,6 +74,7 @@ export const Control: React.FC<IControlProps> = (props) => {
                 <More />
             </IconButton>
             <Modal
+                hideBackdrop={true}
                 onClose={() => setShowModal(false)}
                 open={showApp && showModal}>
                 <Paper className={classes.settings}>
