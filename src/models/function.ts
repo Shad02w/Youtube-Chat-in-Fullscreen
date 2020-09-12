@@ -52,8 +52,18 @@ export function FindObjectByKeyRecursively(obj: Response, targetKey: string): an
         return obj[result]
     else if (typeof obj === 'object')
         for (const k of Object.keys(obj)) {
-            const result = FindObjectByKeyRecursively(obj[k], targetKey)
-            if (result !== undefined) return result
+            const r = FindObjectByKeyRecursively(obj[k], targetKey)
+            if (r !== undefined) return r
         }
     return undefined
 }
+
+export function debounce(wait: number, callback: Function) {
+    let timeoutId = 0
+    return function () {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => callback.apply(undefined, arguments), wait)
+    }
+}
+
+

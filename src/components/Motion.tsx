@@ -1,4 +1,7 @@
-import React, { useState, useRef, HTMLAttributes, DetailedHTMLProps, useEffect } from 'react'
+import React, { useState, useRef, HTMLAttributes, DetailedHTMLProps, useEffect, useContext } from 'react'
+import { debounce } from '../models/function'
+import { StorageContext } from './StorageContext'
+import { MinHeight, MinWidth } from '../models/storage'
 
 
 interface IMotionProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -17,6 +20,7 @@ export const Motion: React.FC<IMotionProps> = (props) => {
 
     const [initialDistance, setInitialDistance] = useState<Distance>({ x: 0, y: 0 })
     const [movable, setMovable] = useState<boolean>(false)
+    const { storageDispatch } = useContext(StorageContext)
     const containerRef = useRef<HTMLDivElement>(null)
     const movableRef = useRef<boolean>(movable)
     const initialDistanceRef = useRef<Distance>(initialDistance)
@@ -63,6 +67,33 @@ export const Motion: React.FC<IMotionProps> = (props) => {
     useEffect(() => {
         if (!containerRef.current) return
 
+        const Resize: (width: number, height: number) => void = debounce(150, function () {
+            if (!arguments || !arguments[0] || !arguments[1]) return
+            const width = arguments[0]
+            const height = arguments[1]
+            console.log('width', width, 'height', height)
+            storageDispatch({
+                type: 'changeOverlaySize',
+                size: {
+                    width: (width < MinWidth) ? MinWidth : width,
+                    height: (height < MinHeight) ? MinHeight : height,
+                }
+            })
+        })
+
+        const containerObserver = new MutationObserver((mutaions, observer) => {
+            const attributesMutation = mutaions.find(mutation => mutation.type === 'attributes' && mutation.attributeName === 'style')
+            if (!attributesMutation) return
+            // console.log('attributesMutations', attributesMutation, 'style.width', (attributesMutation.target as HTMLDivElement).style)
+            const target = attributesMutation.target as HTMLDivElement
+            const width = parseInt(target.style.width),
+                height = parseInt(target.style.height)
+            Resize(width, height)
+        })
+        containerObserver.observe(containerRef.current, { childList: true, attributes: true })
+        return () => containerObserver.disconnect()
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [containerRef])
 
     useEffect(() => {

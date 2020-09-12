@@ -7,6 +7,7 @@ import { StorageContext } from './components/StorageContext'
 import { Motion } from './components/Motion'
 import { ChatList } from './components/ChatList'
 import { Control } from './components/Control'
+import { MinHeight, MinWidth } from './models/storage'
 
 
 
@@ -46,6 +47,8 @@ const useStyles = makeStyles({
         display: 'grid',
         resize: 'both',
         padding: 10,
+        minHeight: MinHeight,
+        minWidth: MinWidth,
         height: props => props.height,
     },
     control: {
