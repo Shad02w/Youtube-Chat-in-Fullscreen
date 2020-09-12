@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => createStyles({
         left: '50%',
         marginLeft: '-150px',
         marginTop: '-150px',
-        // background: 'rgba(20, 20, 20, 0.8)',
-        backdropFilter: 'blur(10px)',
+        background: 'rgba(20, 20, 20, 0.8)',
+        // backdropFilter: 'blur(10px)',
         borderRadius: 20
     },
     doneButton: {
