@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react'
-import { StorageItems, StoragePreset } from '../models/storage'
+import { StorageItems, StoragePreset } from '../models/Storage'
 
 
 type StorageContextReducerActions =
@@ -16,11 +16,11 @@ type StorageContextReducerActions =
         type: 'changeOpacity', opacity: number
     } |
     {
-        type: 'changeBackgroundBlur', blur:number
+        type: 'changeBackgroundBlur', blur: number
     } |
     {
         type: 'updateStorageChangesToLocalContext', changes: Partial<StorageItems>
-    }  
+    }
 
 export interface IStorageContext {
     storage: StorageItems,
@@ -47,8 +47,8 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
             chrome.storage.sync.set({ 'height': action.size.height })
             return { ...preState, width: action.size.width, left: action.size.width }
         case 'changeBackgroundBlur':
-            chrome.storage.sync.set({'blur':action.blur})
-            return {...preState, blur:action.blur}
+            chrome.storage.sync.set({ 'blur': action.blur })
+            return { ...preState, blur: action.blur }
         case 'updateStorageChangesToLocalContext':
             return { ...preState, ...action.changes }
         default:

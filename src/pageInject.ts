@@ -1,4 +1,4 @@
-import { InterceptedDataElementId } from './models/intercept'
+import { InterceptedDataElementId } from './models/Intercept'
 
 console.log('This is page inject js , can touch youtube pp')
 

@@ -1,6 +1,6 @@
 import parse from 'url-parse'
 import chromep from 'chrome-promise'
-import { StoragePreset } from './models/storage'
+import { StoragePreset } from './models/Storage'
 import { CatchedLiveChatRequestMessage, ChatType } from './models/Request'
 
 const getLiveChatRequestFilter: chrome.webRequest.RequestFilter = {

@@ -1,7 +1,7 @@
 import React, { useState, useRef, HTMLAttributes, DetailedHTMLProps, useEffect, useContext } from 'react'
-import { debounce } from '../models/function'
+import { debounce } from '../models/Function'
 import { StorageContext } from './StorageContext'
-import { MinHeight, MinWidth } from '../models/storage'
+import { MinHeight, MinWidth } from '../models/Storage'
 
 
 interface IMotionProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

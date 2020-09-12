@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react'
 import { v4 as uuidV4 } from 'uuid'
 import { CatchedLiveChatRequestMessage } from '../models/Request'
-import { InterceptedDataElementId } from '../models/intercept'
+import { InterceptedDataElementId } from '../models/Intercept'
 
 export enum YTPlayerState {
     ENDED = 0,

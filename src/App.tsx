@@ -7,7 +7,7 @@ import { StorageContext } from './components/StorageContext'
 import { Motion } from './components/Motion'
 import { ChatList } from './components/ChatList'
 import { Control } from './components/Control'
-import { MinHeight, MinWidth } from './models/storage'
+import { MinHeight, MinWidth } from './models/Storage'
 
 
 
