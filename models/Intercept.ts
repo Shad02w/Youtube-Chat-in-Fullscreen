@@ -1,1 +1,0 @@
-export const InterceptedDataElementId = '__Intercepted_data_element_id_yt_player'
