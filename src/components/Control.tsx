@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { Modal, Typography, Slider, Button, Paper, IconButton } from '@material-ui/core'
 import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons'
 import { StorageContext } from './StorageContext'
-import { MovableTrigger } from './Movable'
+import { MovableTrigger } from './Motion'
 import { ShowAppContext } from '../App'
 
 export interface IControlProps extends React.HTMLAttributes<HTMLDivElement> { }

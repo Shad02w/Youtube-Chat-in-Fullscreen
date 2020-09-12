@@ -4,16 +4,12 @@ import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/sty
 import { ChatContext } from './components/ChatContext'
 import './css/App.css'
 import { StorageContext } from './components/StorageContext'
-import { Movable } from './components/Movable'
+import { Motion } from './components/Motion'
 import { ChatList } from './components/ChatList'
 import { Control } from './components/Control'
 
 
 
-const minHeight = 200,
-    minWidth = 400,
-    fixedHeight = 600,
-    fixedWidth = 400
 
 const theme = createMuiTheme({
     palette: {
@@ -26,14 +22,16 @@ interface StyleProps {
     top: number,
     left: number,
     blur: number
+    width: number,
+    height: number
 }
 
 const useStyles = makeStyles({
     wrapper: {
-        width: fixedWidth,
+        width: props => props.width,
         position: 'absolute',
-        top: (props: StyleProps) => props.top,
         left: props => props.left,
+        top: (props: StyleProps) => props.top,
         overflow: 'hidden',
         background: props => `rgba(20, 20, 20, ${props.opacity})`,
         backdropFilter: props => `blur(${props.blur}px)`,
@@ -42,16 +40,13 @@ const useStyles = makeStyles({
         borderRadius: 5,
     },
     hidden: {
-        minHeight: 0,
-        height: 0,
+        height: '0 !important',
     },
     show: {
         display: 'grid',
         resize: 'both',
         padding: 10,
-        minHeight,
-        minWidth,
-        height: fixedHeight,
+        height: props => props.height,
     },
     control: {
         position: 'absolute',
@@ -76,9 +71,9 @@ export const ShowAppContext = createContext<IShowAppContext>({} as IShowAppConte
 
 export const App: React.FC = () => {
 
-    const { storage: { opacity, top, left, blur }, storageDispatch } = useContext(StorageContext)
+    const { storage: { opacity, top, left, blur, width, height }, storageDispatch } = useContext(StorageContext)
     const { chatList } = useContext(ChatContext)
-    const classes = useStyles({ opacity, top, left, blur })
+    const classes = useStyles({ opacity, top, left, blur, width, height })
 
     const [isFullscreen, setIsFullscreen] = useState<boolean>(checkFullscreenState())
 
@@ -102,13 +97,13 @@ export const App: React.FC = () => {
 
         <ThemeProvider theme={theme}>
             <ShowAppContext.Provider value={{ showApp }}>
-                <Movable
+                <Motion
                     onMoveEnd={onMoveEndListener}
                     className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
                     {/* className={`${classes.wrapper} ${classes.show}`}> */}
                     <ChatList className={classes.chatList} />
                     <Control className={classes.control} />
-                </Movable>
+                </Motion>
             </ShowAppContext.Provider>
         </ThemeProvider>
     )

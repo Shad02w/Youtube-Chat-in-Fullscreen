@@ -1,7 +1,7 @@
-import React, { useState, createContext, useRef, HTMLAttributes, DetailedHTMLProps, useEffect, Children } from 'react'
+import React, { useState, useRef, HTMLAttributes, DetailedHTMLProps, useEffect } from 'react'
 
 
-interface IMovableProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface IMotionProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     onMoveEnd?: (x: number, y: number) => void
 }
 
@@ -13,7 +13,7 @@ interface Distance {
 const MovalbeTriggerId = 'movable-trigger-element'
 
 
-export const Movable: React.FC<IMovableProps> = (props) => {
+export const Motion: React.FC<IMotionProps> = (props) => {
 
     const [initialDistance, setInitialDistance] = useState<Distance>({ x: 0, y: 0 })
     const [movable, setMovable] = useState<boolean>(false)
@@ -23,6 +23,7 @@ export const Movable: React.FC<IMovableProps> = (props) => {
 
     movableRef.current = movable
     initialDistanceRef.current = initialDistance
+
 
     const onMouseMovingListener = ({ pageX: mouseX, pageY: mouseY }: MouseEvent) => {
         if (!movableRef.current || !containerRef.current) return
@@ -52,7 +53,6 @@ export const Movable: React.FC<IMovableProps> = (props) => {
     }
 
 
-
     useEffect(() => {
         document.addEventListener('mousemove', onMouseMovingListener)
         return () => {
@@ -61,15 +61,22 @@ export const Movable: React.FC<IMovableProps> = (props) => {
     }, [])
 
     useEffect(() => {
+        if (!containerRef.current) return
+
+    }, [containerRef])
+
+    useEffect(() => {
         if (!movable || !containerRef.current) return
-        document.addEventListener('mouseup', onMouseUpListener)
+        document.addEventListener('mouseup', onMouseUpListener, { once: true })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [movable])
 
 
     const { onMoveEnd, ...filteredProps } = props
 
     return (
-        <div {...filteredProps}
+        <div
+            {...filteredProps}
             onMouseDown={onMouseDownListener}
             ref={containerRef}
             className={`${props.className || ''} ${movable ? 'noselect' : ''}`}>
