@@ -4,19 +4,6 @@ import { StorageContextProvider } from './components/StorageContext'
 import { ChatContextProvider } from './components/ChatContext'
 import { PageContextProvider } from './components/PageContext'
 
-
-
-
-interface MyWindow extends Window {
-    injectHasRun: boolean
-    requestIdleCallback(callback: any, options?: any): number
-    cancelIdleCallback(handle: number): void
-}
-declare var window: MyWindow
-
-
-
-
 (async function () {
 
 
