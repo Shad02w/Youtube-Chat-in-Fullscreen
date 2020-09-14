@@ -7,7 +7,7 @@ interface Distance {
 }
 
 
-const useMoveEnd = () => {
+const useOnEventEnd = () => {
     const [count, setCount] = useState<number>(0)
     const set = () => setCount(pre => pre + 1)
     return { onMoveEnd: count, setOnMoveEnd: set }
@@ -20,7 +20,7 @@ export function useMovable(ref: React.RefObject<HTMLElement>) {
 
     const [initialDistance, setInitialDistance] = useState<Distance>({ x: 0, y: 0 })
     const [movable, setMovable] = useState<boolean>(false)
-    const { onMoveEnd, setOnMoveEnd } = useMoveEnd()
+    const { onMoveEnd, setOnMoveEnd } = useOnEventEnd()
 
     const movableRef = useRef<boolean>(movable)
     const initialDistanceRef = useRef<Distance>(initialDistance)

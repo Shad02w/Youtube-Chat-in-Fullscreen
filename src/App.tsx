@@ -71,8 +71,6 @@ interface IShowAppContext {
 
 export const ShowAppContext = createContext<IShowAppContext>({} as IShowAppContext)
 
-
-
 export const App: React.FC = () => {
 
     const containerRef = useRef<HTMLDivElement>(null)
@@ -85,7 +83,7 @@ export const App: React.FC = () => {
     const classes = useStyles({ opacity, top, left, blur, width, height })
 
     const { id, onMoveEnd, movable } = useMovable(containerRef)
-    useResizable(containerRef, (w, h) => storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } }))
+    const { OnResizeEnd } = useResizable(containerRef)
     const showApp = useMemo(() => (isFullscreen && chatList.length > 0), [chatList, isFullscreen])
 
     const fullscreenChangeListener = () => setIsFullscreen(checkFullscreenState())
@@ -106,9 +104,16 @@ export const App: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [onMoveEnd])
 
+    useEffect(() => {
+        if (!containerRef.current) return
+        const w = parseInt(containerRef.current.style.width)
+        const h = parseInt(containerRef.current.style.height)
+        storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [OnResizeEnd])
+
 
     return (
-
         <ThemeProvider theme={theme}>
             <ShowAppContext.Provider value={{ showApp }}>
                 <div
