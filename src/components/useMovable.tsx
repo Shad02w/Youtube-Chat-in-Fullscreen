@@ -6,22 +6,30 @@ interface Distance {
     y: number
 }
 
-// const MovalbeTriggerId = 'movable-trigger-element'
+
+const useMoveEnd = () => {
+    const [count, setCount] = useState<number>(0)
+    const set = () => setCount(pre => pre + 1)
+    return { onMoveEnd: count, setOnMoveEnd: set }
+}
 
 export function useMovable(ref: React.RefObject<HTMLElement>) {
 
-    const [id] = useState<string>(uuidV4())
+    const [id] = useState<string>(`A${uuidV4()}`)
     const trigger_id = useMemo(() => id, [id])
 
     const [initialDistance, setInitialDistance] = useState<Distance>({ x: 0, y: 0 })
     const [movable, setMovable] = useState<boolean>(false)
+    const { onMoveEnd, setOnMoveEnd } = useMoveEnd()
 
     const movableRef = useRef<boolean>(movable)
     const initialDistanceRef = useRef<Distance>(initialDistance)
     initialDistanceRef.current = initialDistance
+    movableRef.current = movable
 
     const moving = ({ pageX: mouseX, pageY: mouseY }: MouseEvent) => {
         if (!movableRef.current || !ref.current) return
+        // console.log('moving')
         const el = ref.current
         el.style.left = `${mouseX - initialDistanceRef.current.x}px`
         el.style.top = `${mouseY - initialDistanceRef.current.y}px`
@@ -39,25 +47,15 @@ export function useMovable(ref: React.RefObject<HTMLElement>) {
 
     const deactive = () => {
         setMovable(false)
-        // if (props.onMoveEnd && containerRef.current) {
-        //     const el = containerRef.current
-        //     const rect = el.getBoundingClientRect()
-        //     props.onMoveEnd(rect.x, rect.y)
-        // }
+        setOnMoveEnd()
     }
 
     useEffect(() => {
-
-    }, [ref])
-
-    useEffect(() => {
         if (!movable || !ref.current) return
-        const el = ref.current
-        el.addEventListener('mouseup', deactive, { once: true })
+        document.body.addEventListener('mouseup', deactive, { once: true })
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [movable])
-
 
     useEffect(() => {
         if (!ref.current) return
@@ -72,7 +70,7 @@ export function useMovable(ref: React.RefObject<HTMLElement>) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ref])
 
-    return { id: trigger_id }
+    return { id: trigger_id, onMoveEnd, movable }
 
 }
 

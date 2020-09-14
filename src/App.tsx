@@ -1,13 +1,14 @@
-import React, { useState, useEffect, createContext, useMemo, useContext } from 'react'
+import React, { useState, useEffect, createContext, useMemo, useContext, useRef } from 'react'
 
 import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import { ChatContext } from './components/ChatContext'
 import './css/App.css'
 import { StorageContext } from './components/StorageContext'
-import { Motion } from './components/Motion'
 import { ChatList } from './components/ChatList'
 import { Control } from './components/Control'
 import { MinHeight, MinWidth } from './models/Storage'
+import { useMovable } from './components/useMovable'
+import { useResizable } from './components/useResizable'
 
 
 
@@ -74,16 +75,20 @@ export const ShowAppContext = createContext<IShowAppContext>({} as IShowAppConte
 
 export const App: React.FC = () => {
 
-    const { storage: { opacity, top, left, blur, width, height }, storageDispatch } = useContext(StorageContext)
-    const { chatList } = useContext(ChatContext)
-    const classes = useStyles({ opacity, top, left, blur, width, height })
-
+    const containerRef = useRef<HTMLDivElement>(null)
     const [isFullscreen, setIsFullscreen] = useState<boolean>(checkFullscreenState())
 
+
+    const { storage: { opacity, top, left, blur, width, height }, storageDispatch } = useContext(StorageContext)
+    const { chatList } = useContext(ChatContext)
+
+    const classes = useStyles({ opacity, top, left, blur, width, height })
+
+    const { id, onMoveEnd, movable } = useMovable(containerRef)
+    useResizable(containerRef, (w, h) => storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } }))
     const showApp = useMemo(() => (isFullscreen && chatList.length > 0), [chatList, isFullscreen])
 
     const fullscreenChangeListener = () => setIsFullscreen(checkFullscreenState())
-    const onMoveEndListener = (x: number, y: number) => { if (isFullscreen) storageDispatch({ type: 'changeOverlayPosition', position: { top: y, left: x } }) }
 
 
     useEffect(() => {
@@ -93,22 +98,27 @@ export const App: React.FC = () => {
         }
     }, [])
 
-    // This mean the youtube page is change to another video page on current tab
+    useEffect(() => {
+        if (!containerRef.current) return
+        const t = parseInt(containerRef.current.style.top)
+        const l = parseInt(containerRef.current.style.left)
+        storageDispatch({ type: 'changeOverlayPosition', position: { top: t, left: l } })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [onMoveEnd])
 
 
     return (
 
         <ThemeProvider theme={theme}>
             <ShowAppContext.Provider value={{ showApp }}>
-                <Motion
-                    onMoveEnd={onMoveEndListener}
-                    className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden}`}>
-                    {/* className={`${classes.wrapper} ${classes.show}`}> */}
+                <div
+                    ref={containerRef}
+                    className={`${classes.wrapper} ${showApp ? classes.show : classes.hidden} ${movable ? 'noselect' : ''}`}>
+                    {/* className={`${classes.wrapper} ${classes.show} ${movable ? 'noselect' : ''}`}> */}
                     <ChatList className={classes.chatList} />
-                    <Control className={classes.control} />
-                </Motion>
+                    <Control className={classes.control} movableTriggerId={id} />
+                </div>
             </ShowAppContext.Provider>
         </ThemeProvider>
     )
 }
-

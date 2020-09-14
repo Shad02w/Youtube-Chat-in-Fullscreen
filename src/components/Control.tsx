@@ -1,12 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, HTMLAttributes, DetailedHTMLProps } from 'react'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { Modal, Typography, Slider, Button, Paper, IconButton } from '@material-ui/core'
 import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons'
 import { StorageContext } from './StorageContext'
-import { MovableTrigger } from './Motion'
 import { ShowAppContext } from '../App'
 
-export interface IControlProps extends React.HTMLAttributes<HTMLDivElement> { }
+export interface IControlProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+    movableTriggerId: string
+
+}
 
 const useStyles = makeStyles((theme) => createStyles({
     control: {
@@ -63,13 +65,13 @@ export const Control: React.FC<IControlProps> = (props) => {
 
     useEffect(() => { if (!showApp) setShowModal(false) }, [showApp])
 
+    const { movableTriggerId, className } = props
+
     return (
-        <Paper {...props} className={`${classes.control} ${props.className || ''}`} elevation={3}>
-            <MovableTrigger >
-                <IconButton aria-label='move' >
-                    <PanTool />
-                </IconButton>
-            </MovableTrigger>
+        <Paper className={`${className} ${classes.control} ${props.className || ''}`} elevation={3}>
+            <IconButton id={movableTriggerId} aria-label='move' >
+                <PanTool />
+            </IconButton>
             <IconButton aria-label='more' onClick={() => setShowModal(true)}>
                 <More />
             </IconButton>
