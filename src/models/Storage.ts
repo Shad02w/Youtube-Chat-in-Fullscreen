@@ -28,7 +28,7 @@ export const StoragePreset: StorageItems = {
     // use spacing to define font size
     fontSize: 2,
     opacity: 0.8,
-    blur: 10,
+    blur: 0,
     show: true
 }
 
