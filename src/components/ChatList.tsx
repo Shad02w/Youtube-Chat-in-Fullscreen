@@ -63,6 +63,9 @@ const useStyles = makeStyles(theme => createStyles({
     },
     emoji: {
         width: (props) => theme.spacing(props.fontSize + 1.75),
+        marginRight: 5,
+        display: 'inline-block',
+        verticalAlign: 'middle'
     },
     chatMessage: {
         wordBreak: 'break-word'
@@ -124,7 +127,7 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
                         if (run.text)
                             return run.text
                         else if (run.emoji)
-                            return <img key={i} className={`${classes.authorBadge} ${classes.emoji}`} src={run.emoji.image.thumbnails[0].url} alt="emoji" />
+                            return <img key={i} className={classes.emoji} src={run.emoji.image.thumbnails[0].url} alt="emoji" />
                         return <></>
                     })
                 }
