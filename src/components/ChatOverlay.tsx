@@ -1,13 +1,13 @@
-import React, { useRef, useContext, useEffect } from 'react'
+import React, { useRef, useContext, useEffect, useMemo } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { MinHeight, MinWidth } from '../models/Storage'
-import { StorageContext } from './StorageContext'
-import { useMovable } from './useMovable'
-import { useResizable } from './useResizable'
+import { StorageContext } from '../contexts/StorageContext'
+import { useMovable } from '../hooks/useMovable'
+import { useResizable } from '../hooks/useResizable'
 import { ChatList } from './ChatList'
 import { Control } from './Control'
-import { AppContext } from './AppContext'
+import { useFullscreenState } from '../hooks/useFullscreenState'
 
 interface StyleProps {
     opacity: number,
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
         top: (props: StyleProps) => props.top,
         overflow: 'hidden',
         background: props => `rgba(20, 20, 20, ${props.opacity})`,
-        backdropFilter: props => props.blur ? 'none' : `blur(${props.blur}px)`,
+        backdropFilter: props => (props.blur > 0) ? `blur(${props.blur}px)` : 'none',
         gridTemplateRows: '1fr',
         gridTemplateAreas: '"chat"',
         borderRadius: 5,
@@ -57,8 +57,9 @@ export const ChatOverlay: React.FC = ({ children }) => {
 
     const containerRef = useRef<HTMLDivElement>(null)
 
-    const { storage: { opacity, top, left, blur, width, height }, storageDispatch } = useContext(StorageContext)
-    const { show } = useContext(AppContext)
+    const { isFullscreen } = useFullscreenState()
+    const { storage: { opacity, top, left, blur, width, height, show }, storageDispatch } = useContext(StorageContext)
+    const showOverlay = useMemo(() => (show && isFullscreen), [show, isFullscreen])
 
     const classes = useStyles({ opacity, top, left, blur, width, height })
 
@@ -82,10 +83,11 @@ export const ChatOverlay: React.FC = ({ children }) => {
         storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [OnResizeEnd])
+
     return (
         <div
             ref={containerRef}
-            className={`${classes.wrapper} ${show ? classes.show : classes.hidden} ${movable ? 'noselect' : ''}`}>
+            className={`${classes.wrapper} ${showOverlay ? classes.show : classes.hidden} ${movable ? 'noselect' : ''}`}>
             <ChatList className={classes.chatList} />
             <Control className={classes.control} movableTriggerId={id} />
         </div >

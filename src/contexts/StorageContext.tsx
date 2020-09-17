@@ -20,6 +20,8 @@ type StorageContextReducerActions =
     } |
     {
         type: 'updateStorageChangesToLocalContext', changes: Partial<StorageItems>
+    } | {
+        type: 'showOverlayOrNot', show: boolean
     }
 
 export interface IStorageContext {
@@ -49,6 +51,9 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'changeBackgroundBlur':
             chrome.storage.sync.set({ 'blur': action.blur })
             return { ...preState, blur: action.blur }
+        case 'showOverlayOrNot':
+            chrome.storage.sync.set({ 'show': action.show })
+            return { ...preState, show: action.show }
         case 'updateStorageChangesToLocalContext':
             return { ...preState, ...action.changes }
         default:
@@ -62,14 +67,14 @@ export const StorageContextProvider: React.FC = ({ children }) => {
 
     const [storage, storageDispatch] = useReducer(storageContextReducer, StoragePreset)
 
-    const onStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
-        const newChanges = Object
-            .keys(changes)
-            .filter(key => changes[key].newValue)
-            .reduce((obj, key) => Object.assign(obj, { [key]: changes[key].newValue })
-                , {} as { [key: string]: any }) as Partial<StorageItems>
-        storageDispatch({ type: 'updateStorageChangesToLocalContext', changes: newChanges })
-    }
+    // const onStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
+    //     const newChanges = Object
+    //         .keys(changes)
+    //         .filter(key => changes[key].newValue)
+    //         .reduce((obj, key) => Object.assign(obj, { [key]: changes[key].newValue })
+    //             , {} as { [key: string]: any }) as Partial<StorageItems>
+    //     storageDispatch({ type: 'updateStorageChangesToLocalContext', changes: newChanges })
+    // }
 
     const getAllStorage = (items: any) => {
         console.log('storage items', items)
@@ -80,10 +85,10 @@ export const StorageContextProvider: React.FC = ({ children }) => {
 
     useEffect(() => {
         chrome.storage.sync.get(null, getAllStorage)
-        chrome.storage.onChanged.addListener(onStorageChange)
-        return () => {
-            chrome.storage.onChanged.removeListener(onStorageChange)
-        }
+        // chrome.storage.onChanged.addListener(onStorageChange)
+        // return () => {
+        //     chrome.storage.onChanged.removeListener(onStorageChange)
+        // }
     }, [])
 
     return (

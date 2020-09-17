@@ -41,7 +41,6 @@ module.exports = merge({}, {
         extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [
-        new CleanWebpackPlugin(),
         new HtmlWp({
             template: path.join(__dirname, './src/popup.html'),
             filename: "popup.html",

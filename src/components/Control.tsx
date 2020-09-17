@@ -1,9 +1,11 @@
-import React, { useState, useContext, useEffect, HTMLAttributes, DetailedHTMLProps } from 'react'
+import React, { useState, useContext, useEffect, HTMLAttributes, DetailedHTMLProps, useMemo } from 'react'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { Modal, Typography, Slider, Button, Paper, IconButton } from '@material-ui/core'
 import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons'
-import { StorageContext } from './StorageContext'
-import { AppContext } from './AppContext'
+import { StorageContext } from '../contexts/StorageContext'
+import { AppContext } from '../contexts/AppContext'
+import { useFullscreenState } from '../hooks/useFullscreenState'
+import { ChatContext } from '../contexts/ChatContext'
 
 export interface IControlProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     movableTriggerId: string
@@ -42,11 +44,12 @@ const useStyles = makeStyles((theme) => createStyles({
 
 export const Control: React.FC<IControlProps> = (props) => {
 
-    const { storage: { fontSize, opacity, blur }, storageDispatch } = useContext(StorageContext)
-    const { show: showApp } = useContext(AppContext)
+    const { storage: { fontSize, opacity, blur, show }, storageDispatch } = useContext(StorageContext)
     const [showModal, setShowModal] = useState<boolean>(false)
+    const { isFullscreen } = useFullscreenState()
 
     const classes = useStyles()
+    const showApp = useMemo(() => (show && isFullscreen), [isFullscreen, show])
 
 
     const FontValueOnChange = (event: any, newValue: number | number[]) => {

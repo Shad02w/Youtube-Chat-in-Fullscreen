@@ -1,6 +1,6 @@
 import { RefObject, useEffect } from 'react'
-import { debounce } from '../models/Function'
-import { useOnEventEnd } from './CustomHooks'
+import { debouncePromise } from '../models/Function'
+import { useOnEventEnd } from './useOnEventEnd'
 
 
 export const useResizable = (ref: RefObject<HTMLElement>) => {
@@ -9,12 +9,14 @@ export const useResizable = (ref: RefObject<HTMLElement>) => {
         if (!ref.current) return
 
         // const Resize = ResizeDebounce(250)
-        const Resize = debounce(250, () => setOnResizeEnd())
+        // const Resize = debounce(250, () => setOnResizeEnd())
+        const Resize = debouncePromise(250)
 
-        const containerObserver = new MutationObserver((mutaions) => {
+        const containerObserver = new MutationObserver(async (mutaions) => {
             const attributesMutation = mutaions.find(mutation => mutation.type === 'attributes' && mutation.attributeName === 'style')
             if (!attributesMutation) return
-            Resize()
+            await Resize()
+            setOnResizeEnd()
         })
         containerObserver.observe(ref.current, { childList: true, attributes: true })
         return () => containerObserver.disconnect()

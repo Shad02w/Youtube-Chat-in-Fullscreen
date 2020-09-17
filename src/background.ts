@@ -1,7 +1,7 @@
 import parse from 'url-parse'
 import chromep from 'chrome-promise'
 import { StoragePreset } from './models/Storage'
-import { CatchedLiveChatRequestMessage, ChatType } from './models/Request'
+import { CatchedLiveChatRequestMessage, PageType } from './models/Request'
 
 const getLiveChatRequestFilter: chrome.webRequest.RequestFilter = {
     urls: ['https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
@@ -38,13 +38,13 @@ function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDet
     }, () => {
         const message: CatchedLiveChatRequestMessage = {
             details,
-            type: 'video-page'
+            type: 'normal'
         }
         chrome.tabs.sendMessage(details.tabId, message)
     })
 }
 
-const getChatType = (url: string): ChatType => {
+const getChatType = (url: string): PageType => {
     if (parse(url).pathname.endsWith('get_live_chat')) return 'live-chat'
     return 'replay-live-chat'
 }

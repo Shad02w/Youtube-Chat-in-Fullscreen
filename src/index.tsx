@@ -1,8 +1,5 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { StorageContextProvider } from './components/StorageContext'
-import { ChatContextProvider } from './components/ChatContext'
-import { PageContextProvider } from './components/PageContext'
 
 (async function () {
 
@@ -40,13 +37,7 @@ import { PageContextProvider } from './components/PageContext'
 
             render(
                 <React.StrictMode>
-                    <StorageContextProvider>
-                        <PageContextProvider>
-                            <ChatContextProvider>
-                                <App />
-                            </ChatContextProvider>
-                        </PageContextProvider>
-                    </StorageContextProvider>
+                    <App />
                 </React.StrictMode>,
                 document.getElementById(chatListContainerId))
         }

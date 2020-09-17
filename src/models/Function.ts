@@ -7,25 +7,24 @@ interface Response { [key: string]: any }
 
 
 /* Replay the get_live_chat* xhr request to get the response */
-export async function ReplayRequest(url: string, requestBody?: JSON): Promise<Response | undefined> {
+export async function FetchData(url: string, requestBody?: JSON): Promise<Response | undefined> {
     // The request either be get or post
     // The type of return response can change overtime
-    let data: Response | undefined
+    let data: Response
     try {
         if (!requestBody) {
             const res = await axios.get(url)
             data = res.data as Response
-            // console.log('GET', data)
         } else {
             const res = await axios.post(url, requestBody, { responseType: 'json' })
             data = res.data as Response
-            console.log('POST', data)
         }
     } catch (error) {
         if (error.response)
             console.error(error.response.data)
         else
             console.error(error)
+        return undefined
     }
     return data
 }
@@ -60,10 +59,25 @@ export function FindObjectByKeyRecursively(obj: Response, targetKey: string): an
 
 export function debounce(wait: number, callback: Function) {
     let timeoutId = 0
-    return function () {
+    return <T extends any[]>(...args: T) => {
         clearTimeout(timeoutId)
-        timeoutId = setTimeout(() => callback.apply(undefined, arguments), wait)
+        timeoutId = setTimeout(() => callback.apply(undefined, args), wait)
     }
 }
 
+export const debouncePromise = (time: number) => {
+    let timer: number;
+    return <T extends any[]>(...args: T) => {
+        clearTimeout(timer)
+        return new Promise<typeof args>(resovle => {
+            timer = setTimeout(() => resovle(args), time)
+        })
+    }
+}
+
+export const handleError = <T extends any[]>(fn: (...args: T) => Promise<any>) => {
+    return (...args: T) => {
+        return fn(...args).catch(err => console.error(err))
+    }
+}
 

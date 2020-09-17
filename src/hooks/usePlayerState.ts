@@ -1,6 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react'
-import { v4 as uuidV4 } from 'uuid'
-import { CatchedLiveChatRequestMessage } from '../models/Request'
+import { useState, useEffect } from 'react'
 import { InterceptedDataElementId } from '../models/Intercept'
 
 export enum YTPlayerState {
@@ -11,20 +9,11 @@ export enum YTPlayerState {
     CUED = 5,
     UNSTARTED = -1
 }
+export const usePlayerState = () => {
 
-interface IPageContext {
-    pageId: string,
-    playerState: YTPlayerState
-}
-
-export const PageContext = createContext<IPageContext>({ pageId: 'undefined', playerState: YTPlayerState.UNSTARTED })
-
-export const PageContextProvider: React.FC = ({ children }) => {
-
-    const [pageId, setPageId] = useState<string>(uuidV4())
     const [interceptedExist, setInterceptedExist] = useState<boolean>(false)
     const [playerState, setPlayerState] = useState<YTPlayerState>(YTPlayerState.UNSTARTED)
-    const videoPageRequestListener = (message: CatchedLiveChatRequestMessage) => { if (message.type === 'video-page') setPageId(uuidV4()) }
+
 
     useEffect(() => {
         const interceptedObserver = new MutationObserver(() => {
@@ -54,20 +43,5 @@ export const PageContextProvider: React.FC = ({ children }) => {
         }
     }, [interceptedExist])
 
-    useEffect(() => {
-        chrome.runtime.onMessage.addListener(videoPageRequestListener)
-        return () => chrome.runtime.onMessage.removeListener(videoPageRequestListener)
-    }, [])
-
-    useEffect(() => {
-
-    })
-
-
-    return (
-        <PageContext.Provider value={{ pageId, playerState }}>
-            {children}
-        </PageContext.Provider>
-    )
+    return { playerState }
 }
-

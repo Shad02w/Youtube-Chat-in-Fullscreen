@@ -1,10 +1,10 @@
 import React from 'react'
-import { AppContextProvider } from './components/AppContext'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import './css/App.css'
 import { ChatOverlay } from './components/ChatOverlay'
-
-
+import { Minimize } from './components/Minimize'
+import { StorageContextProvider } from './contexts/StorageContext'
+import { AppContextProvider } from './contexts/AppContext'
 
 
 const theme = createMuiTheme({
@@ -17,10 +17,14 @@ export const App: React.FC = () => {
 
 
     return (
-        <ThemeProvider theme={theme}>
+        <StorageContextProvider>
             <AppContextProvider>
-                <ChatOverlay />
+                <ThemeProvider theme={theme}>
+
+                    {/* <Minimize /> */}
+                    <ChatOverlay />
+                </ThemeProvider>
             </AppContextProvider>
-        </ThemeProvider>
+        </StorageContextProvider>
     )
 }

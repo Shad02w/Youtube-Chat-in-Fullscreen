@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useMemo } from 'react'
-import { ChatContext } from './ChatContext'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
-import { StorageContext } from './StorageContext'
+import { StorageContext } from '../contexts/StorageContext'
+import { AppContext } from '../contexts/AppContext'
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -92,7 +92,7 @@ const useStyles = makeStyles(theme => createStyles({
 export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivElement>> = (props) => {
 
     const containerRef = useRef<HTMLDivElement>(null)
-    const { chatList } = useContext(ChatContext)
+    const { chatActions } = useContext(AppContext)
     const { storage: { fontSize } } = useContext(StorageContext)
     const classes = useStyles({ fontSize })
 
@@ -138,10 +138,10 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
 
     const createChatList = () => {
         let list;
-        if (chatList.length === 0)
+        if (chatActions.length === 0)
             list = <></>
         else {
-            list = chatList
+            list = chatActions
                 .map((action) => {
                     const badges = action.addChatItemAction!.item.liveChatTextMessageRenderer!.authorBadges
                     const message = action.addChatItemAction!.item.liveChatTextMessageRenderer!.message
@@ -168,7 +168,7 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
         )
     }
 
-    const ChatListMemo = useMemo(createChatList, [chatList])
+    const ChatListMemo = useMemo(createChatList, [chatActions])
 
     return (
         <div

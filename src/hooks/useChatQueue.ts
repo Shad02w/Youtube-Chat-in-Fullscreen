@@ -3,6 +3,7 @@
  */
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { AdvancedChatLiveActions } from '../models/Chat'
+import { usePlayerState, YTPlayerState } from './usePlayerState'
 
 
 const Sec2MSec = (second: number) => second * 1000
@@ -16,6 +17,8 @@ export const useChatQueue = () => {
     const [dequeued, setDequeued] = useState<AdvancedChatLiveActions>([])
     const [isFreeze, setFreeze] = useState<boolean>(false)
     const isFreezeMemo = useMemo(() => isFreeze, [isFreeze])
+    const { playerState } = usePlayerState()
+
     const resetQueue = useCallback(() => setQueue([]), [setQueue])
     const freeze = useCallback(setFreeze, [setFreeze])
 
@@ -23,11 +26,7 @@ export const useChatQueue = () => {
     queueRef.current = queue
 
     const enqueue = (chats: AdvancedChatLiveActions) => {
-        if (!isFreeze) setFreeze(false)
-        if (chats[0].videoOffsetTimeMsec === 0 || chats[chats.length - 1].videoOffsetTimeMsec < getPlayerCurrentTime())
-            setDequeued(chats)
-        else
-            setQueue(preQueue => [...preQueue, ...chats])
+        setQueue(preQueue => [...preQueue, ...chats])
     }
 
     useEffect(() => {
@@ -42,11 +41,14 @@ export const useChatQueue = () => {
         return () => clearInterval(id)
     }, [isFreezeMemo])
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => (playerState === YTPlayerState.PAUSED) ? freeze(true) : freeze(false), [playerState])
+
     // when the queue is reset or empty, stop the polling
     useEffect(() => {
         if (queue.length === 0) setFreeze(true)
     }, [queue])
 
 
-    return { enqueue, dequeued, freeze, reset: resetQueue }
+    return { enqueue, dequeued, reset: resetQueue }
 }
