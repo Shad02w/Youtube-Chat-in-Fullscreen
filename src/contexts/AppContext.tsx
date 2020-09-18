@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from 'react'
+import React, { createContext, useEffect, useReducer, useRef } from 'react'
 import { v4 as uuidV4 } from 'uuid'
 import { useFetchLiveChatData, useChatActions } from '../hooks/useChatActions'
 import { useChatQueue } from '../hooks/useChatQueue'
@@ -54,31 +54,37 @@ export const AppContextProvider: React.FC = ({ children }) => {
 
     const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([])
 
+    // use in replay live page
     const { enqueue: enqueueReplayLiveChatQueue, dequeued, reset: resetReplayLiveChatQueue } = useChatQueue()
+
+    const pageIdRef = useRef(pageId)
+    pageIdRef.current = pageId
 
 
     useEffect(() => {
-        chrome.runtime.onMessage.addListener((message: CatchedLiveChatRequestMessage) => {
-
-        })
+        const PageChangedListener = (message: CatchedLiveChatRequestMessage) => (message.type === 'normal') ? AppStateDispatch({ type: 'changePageType', pageType: 'normal' }) : {}
+        chrome.runtime.onMessage.addListener(PageChangedListener)
+        return () => chrome.runtime.onMessage.removeListener(PageChangedListener)
     }, [])
 
 
+    // side effect of page change
     useEffect(() => {
+        if (pageType !== 'normal') return
         resetChatList()
         resetReplayLiveChatQueue()
         AppStateDispatch({ type: 'changePageType', pageType: 'normal' })
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageId])
+    }, [pageType])
 
     // when a chats data is fetched
     useEffect(() => {
         if (pageType === 'live-chat') {
             fetchedChatActions.forEach((action, i) => setTimeout(() => {
-                if (action.pageId === pageId)
+                if (action.pageId === pageIdRef.current)
                     updateChatList([action])
-            }, i * action.timeUntilNextRequest))
+            }, action.videoOffsetTimeMsec))
         }
         else if (pageType === 'replay-live-chat') {
             //put chat action to queue instead   push it to  LiveChatList like live chat page
@@ -90,6 +96,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
 
     // only use when in replay live page
     useEffect(() => {
+        console.log('dequeue', dequeued, 'pageType', pageType)
         if (pageType !== 'replay-live-chat') return
         updateChatList(dequeued)
         // eslint-disable-next-line react-hooks/exhaustive-deps

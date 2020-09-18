@@ -13,12 +13,11 @@ function filterChatActionsWithUndefinedValue(chatActions: ChatLiveActionWithVide
         || action.addChatItemAction.item.liveChatTextMessageRenderer === undefined))
 }
 
-function createAdvanceChatLiveActions(chatActions: ChatLiveActionWithVideoOffsetTime[], pageId: string, next: number): AdvancedChatLiveActions {
+function createAdvanceChatLiveActions(chatActions: ChatLiveActionWithVideoOffsetTime[], pageId: string): AdvancedChatLiveActions {
     return chatActions.map((action): AdvancedChatLiveAction => ({
         ...action,
         uuid: uuidV4(),
         pageId,
-        timeUntilNextRequest: next
     }))
 }
 
@@ -50,11 +49,12 @@ export const useFetchLiveChatData = (pageId: string) => {
                 if (!data) return
                 if (message.type === 'live-chat') {
                     const timeUntilNextRequest = FindObjectByKeyRecursively(data as Response, 'timeoutMs') || DefaultChatRequestInterval
+                    const timeInterval = timeUntilNextRequest / actions.length
                     actions = (FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.LiveAction[] || actions)
-                        .map(action => Object.assign(action, { videoOffsetTimeMsec: 0 }))
+                        .map((action, i) => Object.assign(action, { videoOffsetTimeMsec: i * timeInterval }))
 
                     setChatActions(
-                        createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions), pageId, timeUntilNextRequest)
+                        createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions), pageId)
                     )
                 } else if (message.type === 'replay-live-chat') {
                     const replayActions = FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.ReplayLiveAction[] || actions
@@ -65,7 +65,7 @@ export const useFetchLiveChatData = (pageId: string) => {
                         .map(({ actions: liveActions, videoOffsetTimeMsec }) => { return { ...liveActions[0], videoOffsetTimeMsec: parseFloat(videoOffsetTimeMsec) } })
                     if (!actions || actions.length === 0) return
                     setChatActions(
-                        createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions), pageId, 0)
+                        createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions), pageId)
                     )
                 }
             } catch (error) {

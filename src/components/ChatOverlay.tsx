@@ -8,6 +8,7 @@ import { useResizable } from '../hooks/useResizable'
 import { ChatList } from './ChatList'
 import { Control } from './Control'
 import { useFullscreenState } from '../hooks/useFullscreenState'
+import { AppContext } from '../contexts/AppContext'
 
 interface StyleProps {
     opacity: number,
@@ -57,9 +58,10 @@ export const ChatOverlay: React.FC = ({ children }) => {
 
     const containerRef = useRef<HTMLDivElement>(null)
 
+    const { pageType } = useContext(AppContext)
     const { isFullscreen } = useFullscreenState()
     const { storage: { opacity, top, left, blur, width, height, show }, storageDispatch } = useContext(StorageContext)
-    const showOverlay = useMemo(() => (show && isFullscreen), [show, isFullscreen])
+    const showOverlay = useMemo(() => (show && isFullscreen && pageType !== 'normal'), [show, isFullscreen, pageType])
 
     const classes = useStyles({ opacity, top, left, blur, width, height })
 
@@ -88,6 +90,7 @@ export const ChatOverlay: React.FC = ({ children }) => {
         <div
             ref={containerRef}
             className={`${classes.wrapper} ${showOverlay ? classes.show : classes.hidden} ${movable ? 'noselect' : ''}`}>
+            {/* className={`${classes.wrapper} ${classes.show} ${movable ? 'noselect' : ''}`}> */}
             <ChatList className={classes.chatList} />
             <Control className={classes.control} movableTriggerId={id} />
         </div >
