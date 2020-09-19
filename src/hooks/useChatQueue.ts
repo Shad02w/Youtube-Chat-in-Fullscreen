@@ -31,7 +31,6 @@ export const useChatQueue = () => {
     useEffect(() => {
         if (isFreeze) return
         const id = setInterval(() => {
-            console.log('in queue', queueRef.current)
             const currentTime = getPlayerCurrentTime()
             const readyToBeDequeued = queueRef.current.filter(chat => chat.videoOffsetTimeMsec <= currentTime)
             const stay = queueRef.current.filter(chat => chat.videoOffsetTimeMsec > currentTime)

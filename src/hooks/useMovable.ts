@@ -6,6 +6,7 @@ interface Distance {
     y: number
 }
 
+type Point = Distance
 
 const useOnEventEnd = () => {
     const [count, setCount] = useState<number>(0)
@@ -18,37 +19,46 @@ export function useMovable(ref: React.RefObject<HTMLElement>) {
     const [id] = useState<string>(`A${uuidV4()}`)
     const trigger_id = useMemo(() => id, [id])
 
-    const [initialDistance, setInitialDistance] = useState<Distance>({ x: 0, y: 0 })
     const [movable, setMovable] = useState<boolean>(false)
     const { onMoveEnd, setOnMoveEnd } = useOnEventEnd()
+    const [initPoint, setInitPoint] = useState<Point>({ x: 0, y: 0 })
 
     const movableRef = useRef<boolean>(movable)
-    const initialDistanceRef = useRef<Distance>(initialDistance)
-    initialDistanceRef.current = initialDistance
     movableRef.current = movable
+    const initPointRef = useRef<Point>(initPoint)
+    initPointRef.current = initPoint
 
     const moving = ({ pageX: mouseX, pageY: mouseY }: MouseEvent) => {
         if (!movableRef.current || !ref.current) return
-        // console.log('moving')
         const el = ref.current
-        el.style.left = `${mouseX - initialDistanceRef.current.x}px`
-        el.style.top = `${mouseY - initialDistanceRef.current.y}px`
-        el.style.right = `auto`
-        el.style.bottom = `auto`
+        requestAnimationFrame(() => {
+            el.style.transform = `translate(${mouseX - initPointRef.current.x}px,${mouseY - initPointRef.current.y}px)`
+        })
     }
 
 
     const Trigger = ({ pageX: mouseX, pageY: mouseY, target }: MouseEvent) => {
         if (!ref.current || !(target as HTMLElement).closest(`#${id}`)) return
-        const rect = ref.current.getBoundingClientRect()
         setMovable(true)
-        setInitialDistance({ x: mouseX - rect.x, y: mouseY - rect.y })
+        setInitPoint({ x: mouseX, y: mouseY })
     }
 
     const deactive = () => {
         setMovable(false)
-        setOnMoveEnd()
+        if (ref.current) {
+            const el = ref.current
+            const rect = el.getBoundingClientRect()
+            requestAnimationFrame(() => {
+                el.style.top = rect.top + 'px'
+                el.style.left = rect.left + 'px'
+                el.style.bottom = 'auto'
+                el.style.right = 'auto'
+                el.style.transform = `translate(0px,0px)`
+                setOnMoveEnd()
+            })
+        }
     }
+
 
     useEffect(() => {
         if (!movable || !ref.current) return

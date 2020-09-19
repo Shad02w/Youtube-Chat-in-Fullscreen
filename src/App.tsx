@@ -2,7 +2,6 @@ import React from 'react'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import './css/App.css'
 import { ChatOverlay } from './components/ChatOverlay'
-import { Minimize } from './components/Minimize'
 import { StorageContextProvider } from './contexts/StorageContext'
 import { AppContextProvider } from './contexts/AppContext'
 
@@ -20,8 +19,6 @@ export const App: React.FC = () => {
         <StorageContextProvider>
             <AppContextProvider>
                 <ThemeProvider theme={theme}>
-
-                    {/* <Minimize /> */}
                     <ChatOverlay />
                 </ThemeProvider>
             </AppContextProvider>

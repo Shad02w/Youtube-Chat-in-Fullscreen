@@ -96,7 +96,6 @@ export const AppContextProvider: React.FC = ({ children }) => {
 
     // only use when in replay live page
     useEffect(() => {
-        console.log('dequeue', dequeued, 'pageType', pageType)
         if (pageType !== 'replay-live-chat') return
         updateChatList(dequeued)
         // eslint-disable-next-line react-hooks/exhaustive-deps

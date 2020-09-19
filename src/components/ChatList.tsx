@@ -99,7 +99,7 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
     useEffect(() => {
         if (!containerRef.current) return
         const el = containerRef.current
-        el.scrollTop = el.scrollHeight
+        requestAnimationFrame(() => el.scrollTop = el.scrollHeight)
     })
 
 
