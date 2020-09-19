@@ -13,8 +13,7 @@ Show Youtube live chat when in full screen mode
 
 ### TODO
 
-- [ ] Improve the drag and move performance
-- [ ] Turn on/off the chat list overlay directly temporarily without going to options page
+- [x] Turn on/off the chat list overlay directly temporarily without going to options page
 - [ ] Show membership ticker and super chat
 - [ ] Chat list remain unchanged when user exit autoscroll mode
 

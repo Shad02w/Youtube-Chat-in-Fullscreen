@@ -61,7 +61,7 @@ export function debounce(wait: number, callback: Function) {
     let timeoutId = 0
     return <T extends any[]>(...args: T) => {
         clearTimeout(timeoutId)
-        timeoutId = setTimeout(() => callback.apply(undefined, args), wait)
+        timeoutId = setTimeout(() => callback.call(undefined, ...args), wait)
     }
 }
 

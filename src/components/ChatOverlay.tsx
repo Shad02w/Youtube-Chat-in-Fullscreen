@@ -11,6 +11,7 @@ import { AppContext } from '../contexts/AppContext'
 import { ChatList } from './ChatList'
 import { Control } from './Control'
 import { Moving } from './Moving'
+import { useCtrlAltHotKey } from '../hooks/useHotkeys'
 
 interface StyleProps {
     opacity: number,
@@ -69,6 +70,7 @@ export const ChatOverlay: React.FC = ({ children }) => {
 
     const { id, onMoveEnd, movable } = useMovable(containerRef)
     const { OnResizeEnd } = useResizable(containerRef)
+    const { pressed: hotkeyPressed } = useCtrlAltHotKey('c')
 
 
 
@@ -87,6 +89,11 @@ export const ChatOverlay: React.FC = ({ children }) => {
         storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [OnResizeEnd])
+
+    useEffect(() => {
+        storageDispatch({ type: 'showOverlayOrNot', show: !showOverlay })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [hotkeyPressed])
 
     return (
         <div
