@@ -22,6 +22,11 @@ export function useMovable(ref: React.RefObject<HTMLElement>, onEnded: () => any
     const initPointRef = useRef<Point>(initPoint)
     initPointRef.current = initPoint
 
+    const enableMoving = (mouseX: number, mouseY: number) => {
+        setMovable(true)
+        setInitPoint({ x: mouseX, y: mouseY })
+    }
+
     const moving = ({ pageX: mouseX, pageY: mouseY }: MouseEvent) => {
         if (!movableRef.current || !ref.current) return
         const el = ref.current
@@ -31,10 +36,14 @@ export function useMovable(ref: React.RefObject<HTMLElement>, onEnded: () => any
     }
 
 
-    const Trigger = ({ pageX: mouseX, pageY: mouseY, target }: MouseEvent) => {
+    const trigger = ({ pageX: mouseX, pageY: mouseY, target }: MouseEvent) => {
         if (!ref.current || !(target as HTMLElement).closest(`#${id}`)) return
-        setMovable(true)
-        setInitPoint({ x: mouseX, y: mouseY })
+        enableMoving(mouseX, mouseY)
+    }
+
+    const keydownListener = ({ ctrlKey }: KeyboardEvent) => {
+        if (!ctrlKey || !ref.current) return
+        ref.current.addEventListener('mousedown', ({ pageX, pageY }) => enableMoving(pageX, pageY), { once: true })
     }
 
     const deactive = () => {
@@ -57,18 +66,18 @@ export function useMovable(ref: React.RefObject<HTMLElement>, onEnded: () => any
     useEffect(() => {
         if (!movable || !ref.current) return
         document.body.addEventListener('mouseup', deactive, { once: true })
-        return () => document.body.removeEventListener('mouseup', deactive)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [movable])
 
     useEffect(() => {
         if (!ref.current) return
         const el = ref.current
-        el.addEventListener('mousedown', Trigger)
+        el.addEventListener('mousedown', trigger)
         document.body.addEventListener('mousemove', moving)
+        document.addEventListener('keydown', keydownListener)
 
         return () => {
-            el.removeEventListener('mousedown', Trigger)
+            el.removeEventListener('mousedown', trigger)
             document.body.removeEventListener('mousemove', moving)
         }
 

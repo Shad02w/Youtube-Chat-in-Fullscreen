@@ -4,12 +4,8 @@ Show Youtube live chat when in full screen mode
 ### Know Issues
 
 - Can have performance issue, video suffered from frame drop when chat overlay appear (reason unknown, maybe related to render layer)
-- When replay the live chat, the time to next chat request is unknow
-
-### Fixed
-
-- (Fixed) Emoji can be show
-- (Fixed) Improved chat message layout
+- Moving and resizing the chat box can be laggy on replay live page.
+- Green screen when fresh the youtube page with chat overlay shown
 
 ### TODO
 
