@@ -49,9 +49,8 @@ export const useFetchLiveChatData = (pageId: string) => {
                 if (!data) return
                 if (message.type === 'live-chat') {
                     const timeUntilNextRequest = FindObjectByKeyRecursively(data as Response, 'timeoutMs') || DefaultChatRequestInterval
-                    const timeInterval = timeUntilNextRequest / actions.length
                     actions = (FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.LiveAction[] || actions)
-                        .map((action, i) => Object.assign(action, { videoOffsetTimeMsec: i * timeInterval }))
+                        .map((action, i, arr) => Object.assign(action, { videoOffsetTimeMsec: i * (timeUntilNextRequest / arr.length) }))
 
                     setChatActions(
                         createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions), pageId)
