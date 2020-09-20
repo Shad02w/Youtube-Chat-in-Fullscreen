@@ -21,7 +21,7 @@ type StorageContextReducerActions =
     {
         type: 'updateStorageChangesToLocalContext', changes: Partial<StorageItems>
     } | {
-        type: 'showOverlayOrNot', show: boolean
+        type: 'toggleOverlay'
     }
 
 export interface IStorageContext {
@@ -51,9 +51,9 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'changeBackgroundBlur':
             chrome.storage.sync.set({ 'blur': action.blur })
             return { ...preState, blur: action.blur }
-        case 'showOverlayOrNot':
-            chrome.storage.sync.set({ 'show': action.show })
-            return { ...preState, show: action.show }
+        case 'toggleOverlay':
+            chrome.storage.sync.set({ 'show': !preState.show })
+            return { ...preState, show: !preState.show }
         case 'updateStorageChangesToLocalContext':
             return { ...preState, ...action.changes }
         default:

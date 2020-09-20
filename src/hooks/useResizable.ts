@@ -1,10 +1,8 @@
 import { RefObject, useEffect } from 'react'
 import { debouncePromise } from '../models/Function'
-import { useOnEventEnd } from './useOnEventEnd'
 
 
-export const useResizable = (ref: RefObject<HTMLElement>) => {
-    const { OnEventEnd: OnResizeEnd, setEventEnd: setOnResizeEnd } = useOnEventEnd()
+export const useResizable = (ref: RefObject<HTMLElement>, ended: () => any) => {
     useEffect(() => {
         if (!ref.current) return
 
@@ -16,13 +14,11 @@ export const useResizable = (ref: RefObject<HTMLElement>) => {
             const attributesMutation = mutaions.find(mutation => mutation.type === 'attributes' && mutation.attributeName === 'style')
             if (!attributesMutation) return
             await Resize()
-            setOnResizeEnd()
+            ended()
         })
         containerObserver.observe(ref.current, { childList: true, attributes: true })
         return () => containerObserver.disconnect()
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ref])
-
-    return { OnResizeEnd }
 }

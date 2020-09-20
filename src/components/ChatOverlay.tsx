@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useEffect, useMemo } from 'react'
+import React, { useRef, useContext, useMemo, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { MinHeight, MinWidth } from '../models/Storage'
@@ -68,32 +68,34 @@ export const ChatOverlay: React.FC = ({ children }) => {
 
     const classes = useStyles({ opacity, top, left, blur, width, height })
 
-    const { id, onMoveEnd, movable } = useMovable(containerRef)
-    const { OnResizeEnd } = useResizable(containerRef)
-    const { pressed: hotkeyPressed } = useCtrlAltHotKey('c')
+    const { id, movable } = useMovable(containerRef, onMoveEnd)
+    useResizable(containerRef, onResizeEnd)
+    useCtrlAltHotKey('c', onHotkeyPressed)
 
 
-
-    useEffect(() => {
+    function onMoveEnd() {
         if (!containerRef.current) return
         const t = parseInt(containerRef.current.style.top)
         const l = parseInt(containerRef.current.style.left)
         storageDispatch({ type: 'changeOverlayPosition', position: { top: t, left: l } })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [onMoveEnd])
+    }
 
-    useEffect(() => {
+    function onResizeEnd() {
         if (!containerRef.current) return
         const w = parseInt(containerRef.current.style.width)
         const h = parseInt(containerRef.current.style.height)
         storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [OnResizeEnd])
+    }
+
+    function onHotkeyPressed() {
+        console.log('pressed')
+        storageDispatch({ type: 'toggleOverlay' })
+    }
 
     useEffect(() => {
-        storageDispatch({ type: 'showOverlayOrNot', show: !showOverlay })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [hotkeyPressed])
+        console.log('showOverlay', showOverlay, show)
+    }, [showOverlay, show])
+
 
     return (
         <div

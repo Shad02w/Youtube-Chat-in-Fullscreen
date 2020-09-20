@@ -8,19 +8,13 @@ interface Distance {
 
 type Point = Distance
 
-const useOnEventEnd = () => {
-    const [count, setCount] = useState<number>(0)
-    const set = () => setCount(pre => pre + 1)
-    return { onMoveEnd: count, setOnMoveEnd: set }
-}
 
-export function useMovable(ref: React.RefObject<HTMLElement>) {
+export function useMovable(ref: React.RefObject<HTMLElement>, onEnded: () => any) {
 
     const [id] = useState<string>(`A${uuidV4()}`)
     const trigger_id = useMemo(() => id, [id])
 
     const [movable, setMovable] = useState<boolean>(false)
-    const { onMoveEnd, setOnMoveEnd } = useOnEventEnd()
     const [initPoint, setInitPoint] = useState<Point>({ x: 0, y: 0 })
 
     const movableRef = useRef<boolean>(movable)
@@ -54,7 +48,7 @@ export function useMovable(ref: React.RefObject<HTMLElement>) {
                 el.style.bottom = 'auto'
                 el.style.right = 'auto'
                 el.style.transform = `translate(0px,0px)`
-                setOnMoveEnd()
+                onEnded()
             })
         }
     }
@@ -63,7 +57,7 @@ export function useMovable(ref: React.RefObject<HTMLElement>) {
     useEffect(() => {
         if (!movable || !ref.current) return
         document.body.addEventListener('mouseup', deactive, { once: true })
-
+        return () => document.body.removeEventListener('mouseup', deactive)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [movable])
 
@@ -74,13 +68,14 @@ export function useMovable(ref: React.RefObject<HTMLElement>) {
         document.body.addEventListener('mousemove', moving)
 
         return () => {
+            el.removeEventListener('mousedown', Trigger)
             document.body.removeEventListener('mousemove', moving)
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ref])
 
-    return { id: trigger_id, onMoveEnd, movable }
+    return { id: trigger_id, movable }
 
 }
 

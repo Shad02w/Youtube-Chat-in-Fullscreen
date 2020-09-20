@@ -82,6 +82,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
     useEffect(() => {
         if (pageType === 'live-chat') {
             fetchedChatActions.forEach((action, i) => setTimeout(() => {
+                console.log('add chat item, videoOffset', action.videoOffsetTimeMsec)
                 if (action.pageId === pageIdRef.current)
                     updateChatList([action])
             }, action.videoOffsetTimeMsec))
