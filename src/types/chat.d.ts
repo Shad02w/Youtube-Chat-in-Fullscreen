@@ -265,14 +265,14 @@ declare namespace YTLiveChat {
     }
 
     export interface LiveChatPaidMessageRenderer extends LiveChatRenderer {
-        purchaseAmountText: text
+        purchaseAmountText: Text
         headerBackgroundColor: number,
         headerTextColor: number,
         bodyBackgroundColor: number,
         bodyTextColor: number,
         authorNameTextColor: number
         timestampColor: number
-        message: Message
+        message?: Message
     }
 
 

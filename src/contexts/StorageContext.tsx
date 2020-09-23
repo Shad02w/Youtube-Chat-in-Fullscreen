@@ -77,7 +77,6 @@ export const StorageContextProvider: React.FC = ({ children }) => {
     // }
 
     const getAllStorage = (items: any) => {
-        console.log('storage items', items)
         storageDispatch({ type: 'updateStorageChangesToLocalContext', changes: items as StorageItems })
     }
 

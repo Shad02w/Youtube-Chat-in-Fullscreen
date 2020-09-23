@@ -1,9 +1,9 @@
 import React from 'react'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles'
 import './css/App.css'
-import { ChatOverlay } from './components/ChatOverlay'
-import { StorageContextProvider } from './contexts/StorageContext'
-import { AppContextProvider } from './contexts/AppContext'
+import {ChatOverlay} from './components/ChatOverlay'
+import {StorageContextProvider} from './contexts/StorageContext'
+import {AppContextProvider} from './contexts/AppContext'
 
 
 const theme = createMuiTheme({
@@ -14,12 +14,11 @@ const theme = createMuiTheme({
 
 export const App: React.FC = () => {
 
-
     return (
         <StorageContextProvider>
             <AppContextProvider>
                 <ThemeProvider theme={theme}>
-                    <ChatOverlay />
+                    <ChatOverlay/>
                 </ThemeProvider>
             </AppContextProvider>
         </StorageContextProvider>

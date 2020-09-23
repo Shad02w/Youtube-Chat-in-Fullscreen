@@ -8,7 +8,8 @@
     "description": "A chrome extension to show the youtube live chat in fullscreen mode",
     "scripts": {
         "start": "webpack --config webpack.dev.js",
-        "build": "webpack --config webpack.prod.js"
+        "build": "webpack --config webpack.prod.js",
+        "test": "webpack-dev-server --config webpack.test.js"
     },
     "devDependencies": {
         "@babel/core": "^7.11.6",
@@ -58,6 +59,7 @@
         "webpack-bundle-analyzer": "^3.8.0",
         "webpack-cli": "^3.3.12",
         "webpack-common-shake": "^2.1.0",
+        "webpack-dev-server": "^3.11.0",
         "webpack-merge": "^5.0.9"
     },
     "dependencies": {}

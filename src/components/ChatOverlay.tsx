@@ -88,14 +88,8 @@ export const ChatOverlay: React.FC = ({ children }) => {
     }
 
     function onHotkeyPressed() {
-        console.log('pressed')
         storageDispatch({ type: 'toggleOverlay' })
     }
-
-    useEffect(() => {
-        console.log('showOverlay', showOverlay, show)
-    }, [showOverlay, show])
-
 
     return (
         <div

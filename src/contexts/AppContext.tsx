@@ -30,6 +30,8 @@ const initAppState: AppState = {
     chatActions: []
 }
 
+export const returnFuntion = (fn: () => any) => fn
+
 
 export const AppContext = createContext<IAppContext>({} as IAppContext)
 
@@ -52,7 +54,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const { pageId } = AppState
     const { chatActions: fetchedChatActions, pageType } = useFetchLiveChatData(pageId)
 
-    const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([])
+    const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], 100)
 
     // use in replay live page
     const { enqueue: enqueueReplayLiveChatQueue, dequeued, reset: resetReplayLiveChatQueue } = useChatQueue()
@@ -82,7 +84,6 @@ export const AppContextProvider: React.FC = ({ children }) => {
     useEffect(() => {
         if (pageType === 'live-chat') {
             fetchedChatActions.forEach((action, i) => setTimeout(() => {
-                console.log('add chat item, videoOffset', action.videoOffsetTimeMsec)
                 if (action.pageId === pageIdRef.current)
                     updateChatList([action])
             }, action.videoOffsetTimeMsec))

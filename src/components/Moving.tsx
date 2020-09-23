@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => createStyles(
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            fontSize: ({ fontSize }: StyleProps) => theme.spacing(fontSize + 4),
+            fontSize: 30,
             fontWeight: 1000,
             opacity: 0.4
         }

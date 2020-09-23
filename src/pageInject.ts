@@ -1,9 +1,5 @@
 import { InterceptedDataElementId } from './models/Intercept'
 
-console.log('This is page inject js , can touch youtube pp')
-
-
-
 // Create a container element for holding intercepted current player time of the youtube player 
 const interceptedElement = document.createElement('div')
 interceptedElement.id = InterceptedDataElementId

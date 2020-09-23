@@ -3,9 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { Modal, Typography, Slider, Button, Paper, IconButton } from '@material-ui/core'
 import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons'
 import { StorageContext } from '../contexts/StorageContext'
-import { AppContext } from '../contexts/AppContext'
 import { useFullscreenState } from '../hooks/useFullscreenState'
-import { ChatContext } from '../contexts/ChatContext'
 
 export interface IControlProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     movableTriggerId: string
@@ -85,9 +83,9 @@ export const Control: React.FC<IControlProps> = (props) => {
                 <Paper className={classes.settings}>
                     <Typography gutterBottom color='textPrimary' variant='h5'>Font Size</Typography>
                     <Slider
-                        min={1}
-                        max={4}
-                        step={0.1}
+                        min={3}
+                        max={35}
+                        step={1}
                         value={fontSize}
                         defaultValue={fontSize}
                         valueLabelDisplay='auto'

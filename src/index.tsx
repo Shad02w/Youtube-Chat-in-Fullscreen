@@ -25,7 +25,6 @@ import { render } from 'react-dom'
             .find(el => el.className.includes('ytd-watch-flexy'))
 
         if (chatOverlayContainer) {
-            console.log('have play container')
             observer.disconnect()
             const chatListContainer = document.createElement('div')
             chatListContainer.id = chatListContainerId

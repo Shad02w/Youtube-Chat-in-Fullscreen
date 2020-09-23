@@ -80,4 +80,3 @@ export const handleError = <T extends any[]>(fn: (...args: T) => Promise<any>) =
         return fn(...args).catch(err => console.error(err))
     }
 }
-

@@ -8,9 +8,10 @@ const DefaultChatRequestInterval = 5000
 const MaxChatsItem = 250
 
 function filterChatActionsWithUndefinedValue(chatActions: ChatLiveActionWithVideoOffsetTime[]): ChatLiveActionWithVideoOffsetTime[] {
-    return chatActions.filter(action => !(action.addChatItemAction === undefined
-        || action.addChatItemAction.item === undefined
-        || action.addChatItemAction.item.liveChatTextMessageRenderer === undefined))
+    return chatActions.filter(action => action.addChatItemAction && action.addChatItemAction.item)
+        .filter(({ addChatItemAction }) => addChatItemAction!.item.liveChatTextMessageRenderer
+            || addChatItemAction!.item.liveChatPaidMessageRenderer
+            || addChatItemAction!.item.liveChatMembershipItemRenderer)
 }
 
 function createAdvanceChatLiveActions(chatActions: ChatLiveActionWithVideoOffsetTime[], pageId: string): AdvancedChatLiveActions {
@@ -21,10 +22,10 @@ function createAdvanceChatLiveActions(chatActions: ChatLiveActionWithVideoOffset
     }))
 }
 
-export const useChatActions = (init: AdvancedChatLiveActions) => {
+export const useChatActions = (init: AdvancedChatLiveActions, max: number) => {
     const [chatActions, setChatActioins] = useState<AdvancedChatLiveActions>(init)
 
-    const update = useCallback((list: AdvancedChatLiveActions) => setChatActioins(pre => pre.concat(list).slice(-MaxChatsItem)), [setChatActioins])
+    const update = useCallback((list: AdvancedChatLiveActions) => setChatActioins(pre => pre.concat(list).slice(-max)), [setChatActioins, max])
 
     const reset = useCallback(() => setChatActioins([]), [setChatActioins])
 
