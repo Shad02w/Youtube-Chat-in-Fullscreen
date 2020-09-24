@@ -67,15 +67,6 @@ export const StorageContextProvider: React.FC = ({ children }) => {
 
     const [storage, storageDispatch] = useReducer(storageContextReducer, StoragePreset)
 
-    // const onStorageChange = (changes: { [key: string]: chrome.storage.StorageChange }) => {
-    //     const newChanges = Object
-    //         .keys(changes)
-    //         .filter(key => changes[key].newValue)
-    //         .reduce((obj, key) => Object.assign(obj, { [key]: changes[key].newValue })
-    //             , {} as { [key: string]: any }) as Partial<StorageItems>
-    //     storageDispatch({ type: 'updateStorageChangesToLocalContext', changes: newChanges })
-    // }
-
     const getAllStorage = (items: any) => {
         storageDispatch({ type: 'updateStorageChangesToLocalContext', changes: items as StorageItems })
     }
@@ -84,10 +75,6 @@ export const StorageContextProvider: React.FC = ({ children }) => {
 
     useEffect(() => {
         chrome.storage.sync.get(null, getAllStorage)
-        // chrome.storage.onChanged.addListener(onStorageChange)
-        // return () => {
-        //     chrome.storage.onChanged.removeListener(onStorageChange)
-        // }
     }, [])
 
     return (

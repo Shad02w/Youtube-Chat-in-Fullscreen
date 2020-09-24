@@ -9,7 +9,7 @@ import { useFullscreenState } from '../hooks/useFullscreenState'
 import { AppContext } from '../contexts/AppContext'
 
 import { ChatList } from './ChatList'
-import { Control } from './Control'
+import { ToolBar } from './Toolbar'
 import { Moving } from './Moving'
 import { useCtrlAltHotKey } from '../hooks/useHotkeys'
 
@@ -103,7 +103,7 @@ export const ChatOverlay: React.FC = ({ children }) => {
                     <ChatList className={classes.chatList} />
 
             }
-            <Control className={classes.control} movableTriggerId={id} />
+            <ToolBar className={classes.control} movableTriggerId={id} />
         </div >
     )
 

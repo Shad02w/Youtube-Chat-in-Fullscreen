@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { render } from 'react-dom'
-import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import { Switch, Fade, Typography } from '@material-ui/core'
+import React, {useState, useEffect} from 'react'
+import {render} from 'react-dom'
+import {makeStyles, createMuiTheme, ThemeProvider} from '@material-ui/core/styles'
+import {Fade, IconButton, Typography} from '@material-ui/core'
+import {MySwitch} from "./components/MySwitch"
 import './css/popup.css'
 import icon from './images/chat.png'
+import {GitHub} from "@material-ui/icons"
+
+const githubPage = 'https://github.com/Shad02w/Youtube-Chat-in-Fullscreen'
 
 const theme = createMuiTheme()
 theme.typography.h6 = {
@@ -19,8 +23,6 @@ const useStyle = makeStyles({
         fontFamily: "'Noto Sans JP', sans-serif",
     },
     icon: {
-        // width: imageHeight + 'rem',
-        // height: imageHeight + 'rem',
         width: theme.spacing(3),
         height: theme.spacing(3),
         paddingBottom: '0.2rem'
@@ -45,10 +47,16 @@ const useStyle = makeStyles({
         alignItems: 'center',
     },
     subHeader: {
-        fontSize: '0.8rem',
-        fontWeight: 400,
-        color: '#424242'
-    }
+        fontWeight: 600,
+    },
+    footer: {
+        borderTop: '1px solid #e6e6e6',
+        padding: `0.4rem ${normalPadding}rem`,
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
+        alignItems: 'center'
+    },
 })
 
 const App: React.FC = () => {
@@ -56,7 +64,7 @@ const App: React.FC = () => {
     const [isReady, setReady] = useState<boolean>(false)
     const classes = useStyle()
 
-    const storageListener = (changes: { [key: string]: chrome.storage.StorageChange }, area: string) => {
+    const storageListener = (changes: { [key: string]: chrome.storage.StorageChange }) => {
         if (changes['on'])
             setExtEnable(changes['on'].newValue)
     }
@@ -82,20 +90,33 @@ const App: React.FC = () => {
             <Fade in={isReady} timeout={700}>
                 <div className={classes.container}>
                     <header className={classes.header}>
-                        <img className={classes.icon} src={icon} alt="App icon" />
-                        <Typography className={classes.appName} variant='h6' color='textPrimary'>Youtube Chat in Fullscreen</Typography>
+                        <img className={classes.icon} src={icon} alt="App icon"/>
+                        <Typography className={classes.appName} variant='h6' color='textPrimary'>Youtube Chat in
+                            Fullscreen</Typography>
                     </header>
                     <main className={classes.main}>
                         <article className={classes.part} aria-label="">
-                            <Typography variant='subtitle1' color='textSecondary'>Show chat overlay</Typography>
-                            <Switch checked={isExtEnable} onChange={() => chrome.storage.sync.set({ on: !isExtEnable })} />
+                            <article>
+                                <Typography className={classes.subHeader} variant='body1' color='textSecondary'>Show
+                                    chat overlay</Typography>
+                                <Typography style={{fontSize: '0.8rem'}} variant='subtitle2' color='textSecondary'>Refresh
+                                    is needed</Typography>
+                            </article>
+                            <MySwitch checked={isExtEnable}
+                                      onChange={() => chrome.storage.sync.set({on: !isExtEnable})}/>
                         </article>
                     </main>
-                    <footer></footer>
+                    <footer className={classes.footer}>
+                        <IconButton
+                            onClick={()=>chrome.tabs.create({url:githubPage})}
+                            aria-label='github page of author'>
+                            <GitHub fontSize={'default'}/>
+                        </IconButton>
+                    </footer>
                 </div>
             </Fade>
         </ThemeProvider>
     )
 }
 
-render(<App />, document.getElementById('root'))
+render(<App/>, document.getElementById('root'))

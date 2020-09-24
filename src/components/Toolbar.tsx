@@ -4,6 +4,8 @@ import { Modal, Typography, Slider, Button, Paper, IconButton } from '@material-
 import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons'
 import { StorageContext } from '../contexts/StorageContext'
 import { useFullscreenState } from '../hooks/useFullscreenState'
+import { MySlider } from './MySlider'
+import { MyButton } from './MyButton'
 
 export interface IControlProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     movableTriggerId: string
@@ -28,8 +30,7 @@ const useStyles = makeStyles((theme) => createStyles({
         marginLeft: '-150px',
         marginTop: '-150px',
         background: 'rgba(20, 20, 20, 0.8)',
-        // backdropFilter: 'blur(10px)',
-        borderRadius: 20
+        borderRadius: 20,
     },
     doneButton: {
         marginTop: theme.spacing(2),
@@ -40,11 +41,14 @@ const useStyles = makeStyles((theme) => createStyles({
     },
 }))
 
-export const Control: React.FC<IControlProps> = (props) => {
+export const ToolBar: React.FC<IControlProps> = (props) => {
 
     const { storage: { fontSize, opacity, blur, show }, storageDispatch } = useContext(StorageContext)
     const [showModal, setShowModal] = useState<boolean>(false)
     const { isFullscreen } = useFullscreenState()
+    const maxFontSize = 28,
+        minFontSize = 8
+
 
     const classes = useStyles()
     const showApp = useMemo(() => (show && isFullscreen), [isFullscreen, show])
@@ -58,7 +62,7 @@ export const Control: React.FC<IControlProps> = (props) => {
         storageDispatch({ type: 'changeOpacity', opacity: newValue as number })
     }
 
-    const BlurValueOnChanage = (_: any, newValue: number | number[]) => {
+    const BlurValueOnChange = (_: any, newValue: number | number[]) => {
         storageDispatch({ type: 'changeBackgroundBlur', blur: newValue as number })
 
     }
@@ -82,38 +86,35 @@ export const Control: React.FC<IControlProps> = (props) => {
                 open={showApp && showModal}>
                 <Paper className={classes.settings}>
                     <Typography gutterBottom color='textPrimary' variant='h5'>Font Size</Typography>
-                    <Slider
-                        min={3}
-                        max={35}
+                    <MySlider
+                        min={minFontSize}
+                        max={maxFontSize}
                         step={1}
                         value={fontSize}
-                        defaultValue={fontSize}
                         valueLabelDisplay='auto'
                         onChange={FontValueOnChange} />
                     <Typography gutterBottom color='textPrimary' variant='h5'>Opacity</Typography>
-                    <Slider
+                    <MySlider
                         min={0}
                         max={1}
                         step={0.01}
                         value={opacity}
-                        defaultValue={opacity}
                         valueLabelDisplay='auto'
                         onChange={OpacityValueOnChange} />
                     <Typography gutterBottom color='textPrimary' variant='h5'>Blur</Typography>
-                    <Slider
+                    <MySlider
                         min={0}
                         max={30}
                         step={1}
                         value={blur}
-                        defaultValue={blur}
                         valueLabelDisplay='auto'
-                        onChange={BlurValueOnChanage} />
-                    <Button className={classes.doneButton}
+                        onChange={BlurValueOnChange} />
+                    <MyButton className={classes.doneButton}
                         startIcon={<Done />}
                         variant='contained'
                         color='primary'
                         size='large'
-                        onClick={() => { setShowModal(false) }}>Done</Button>
+                        onClick={() => { setShowModal(false) }}>Done</MyButton>
                 </Paper>
             </Modal>
         </Paper>

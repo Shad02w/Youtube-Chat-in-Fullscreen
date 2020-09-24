@@ -24,9 +24,6 @@ export const LiveChatPaidMessage: React.FC<LiveChatPaidMessageProps> = ({ render
     }
 
 
-
-
-
     return (
         <Paper elevation={2} className={classes.card} style={bodyStyle} >
             <article className={classes.cardHeader} style={headerStyle}>

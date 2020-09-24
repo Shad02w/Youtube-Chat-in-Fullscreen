@@ -6,6 +6,11 @@ import { LiveChatPaidMessage } from '../components/LiveChatPaidMessage'
 import { useLiveChatMessageStyle } from '../styles/ChatList.style'
 import { LiveChatTextMessage } from '../components/LiveChatTextMessage'
 import { LiveChatMembershipItem } from '../components/LiveChatMembershipItem'
+import { Container } from '@material-ui/core'
+import { MySlider } from '../components/MySlider'
+import { MyButton } from '../components/MyButton'
+import { Done } from '@material-ui/icons'
+import {MySwitch} from '../components/MySwitch'
 
 const useStyles = makeStyles(theme => createStyles({
     container: {
@@ -19,6 +24,7 @@ const useStyles = makeStyles(theme => createStyles({
 
 const App: React.FC = () => {
     const [fontSize, setFontSize] = useState<number>(16)
+    const [checked, setCheck] = useState<boolean>(false)
     const data = paidDummyData as YTLiveChat.LiveAction[]
     const classes = useLiveChatMessageStyle({ fontSize: 16 })
     const containerClasses = useStyles({ fontSize })
@@ -42,6 +48,22 @@ const App: React.FC = () => {
                     })
                 }
             </div>
+            <Container maxWidth={"sm"}>
+                <MySlider
+                    min={8}
+                    max={30}
+                    defaultValue={16}
+                    onChange={(event, value) => setFontSize(value as number)}
+                    valueLabelDisplay={'auto'}>
+                </MySlider>
+            </Container>
+            <MyButton
+                startIcon={<Done />}
+                variant='contained'
+                color='primary'
+                size='large'
+            >Done</MyButton>
+            <MySwitch checked={checked} onClick={()=>setCheck(pre => !pre)} />
         </>
     )
 
