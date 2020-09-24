@@ -1,28 +1,33 @@
 {
-    "name": "Youtube Chat in Fullscreen",
-    "description": "Show Youtube live chat when entering full screen mode",
-    "version": "1.0",
-    "manifest_version": 2,
-    "background": {
-        "scripts": [
-            "background.js"
-        ],
-        "persistent": true
-    },
-    "browser_action": {
-        "default_popup": "popup.html",
-        "default_icon": "/images/chat.png"
-    },
-    "permissions": [
-        "storage",
-        "tabs",
-        "webRequest",
-        "webNavigation",
-        "*://*.youtube.com/"
+  "name": "Youtube Chat in Fullscreen",
+  "description": "Show Youtube live chat when entering full screen mode",
+  "version": "1.0",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+      "background.js"
     ],
-    "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
-    "web_accessible_resources": [
-        "pageInject.js",
-        "App.js"
-    ]
+    "persistent": true
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "./images/chat128.png"
+  },
+  "icons": {
+    "16": "./images/chat16.png",
+    "48": "./images/chat48.png",
+    "128": "./images/chat128.png"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "webRequest",
+    "webNavigation",
+    "*://*.youtube.com/"
+  ],
+  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
+  "web_accessible_resources": [
+    "pageInject.js",
+    "App.js"
+  ]
 }

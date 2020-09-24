@@ -1,8 +1,7 @@
 const HtmlWp = require('html-webpack-plugin')
 const CopyWp = require('copy-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path')
-const { merge } = require('webpack-merge')
+const {merge} = require('webpack-merge')
 
 module.exports = merge({}, {
     entry: {

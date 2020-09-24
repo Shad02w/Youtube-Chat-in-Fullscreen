@@ -4,7 +4,7 @@ import {makeStyles, createMuiTheme, ThemeProvider} from '@material-ui/core/style
 import {Fade, IconButton, Typography} from '@material-ui/core'
 import {MySwitch} from "./components/MySwitch"
 import './css/popup.css'
-import icon from './images/chat.png'
+import icon from './images/chat128.png'
 import {GitHub} from "@material-ui/icons"
 
 const githubPage = 'https://github.com/Shad02w/Youtube-Chat-in-Fullscreen'
