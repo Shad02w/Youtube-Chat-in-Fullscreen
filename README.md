@@ -18,15 +18,17 @@ A chrome extension creates a overlay to show Youtube live chat when in full scre
 - Unable to catch first chat request after the page loaded
 - When you holding resize for long time, the overlay may suddenly move its position
 
+ *If you have and issues and suggestions please feel free to create a issue.*
+
 ## Screenshoot
 
-![Chat overlay screenshoot](./sample/sample.png)
+![Chat overlay screenshoot](./sample/sample.png )
+
+*Chat overlay on Youtube Live Replay*
 
 ![Chat overlay screenshoot](./sample/sample2.png)
 
-
-
-**If you have and issues and suggestions please feel free to create a issue. **
+*Chat overlay on Youtube Live*
 
 
 
