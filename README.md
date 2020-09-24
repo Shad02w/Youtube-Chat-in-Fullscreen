@@ -20,7 +20,7 @@ A chrome extension creates a overlay to show Youtube live chat when in full scre
 
  *If you have and issues and suggestions please feel free to create a issue.*
 
-## Screenshoot
+## Screenshot
 
 ![Chat overlay screenshoot](./sample/sample.png )
 
