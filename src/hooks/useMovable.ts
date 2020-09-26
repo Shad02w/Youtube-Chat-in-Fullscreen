@@ -8,7 +8,6 @@ interface Distance {
 
 type Point = Distance
 
-
 export function useMovable(ref: React.RefObject<HTMLElement>, onEnded: () => any) {
 
     const [id] = useState<string>(`A${uuidV4()}`)
@@ -17,7 +16,9 @@ export function useMovable(ref: React.RefObject<HTMLElement>, onEnded: () => any
     const [movable, setMovable] = useState<boolean>(false)
     const [initPoint, setInitPoint] = useState<Point>({ x: 0, y: 0 })
 
-    const movableRef = useRef<boolean>(movable)
+    const CtrlAltPressed = useRef<boolean>(false)
+
+    const movableRef = useRef<boolean>(false)
     movableRef.current = movable
     const initPointRef = useRef<Point>(initPoint)
     initPointRef.current = initPoint
@@ -25,6 +26,10 @@ export function useMovable(ref: React.RefObject<HTMLElement>, onEnded: () => any
     const enableMoving = (mouseX: number, mouseY: number) => {
         setMovable(true)
         setInitPoint({ x: mouseX, y: mouseY })
+    }
+
+    const disableMoving = () => {
+        setMovable(false)
     }
 
     const moving = ({ pageX: mouseX, pageY: mouseY }: MouseEvent) => {
@@ -37,17 +42,19 @@ export function useMovable(ref: React.RefObject<HTMLElement>, onEnded: () => any
 
 
     const trigger = ({ pageX: mouseX, pageY: mouseY, target }: MouseEvent) => {
-        if (!ref.current || !(target as HTMLElement).closest(`#${id}`)) return
-        enableMoving(mouseX, mouseY)
+        if ((ref.current && (target as HTMLElement).closest(`#${id}`)) || CtrlAltPressed.current)
+            enableMoving(mouseX, mouseY)
     }
 
-    const keydownListener = ({ ctrlKey }: KeyboardEvent) => {
-        if (!ctrlKey || !ref.current) return
-        ref.current.addEventListener('mousedown', ({ pageX, pageY }) => enableMoving(pageX, pageY), { once: true })
+    const keydownListener = ({ ctrlKey, altKey, repeat }: KeyboardEvent) => {
+        if (ctrlKey && altKey && !repeat) {
+            CtrlAltPressed.current = true
+            document.addEventListener('keyup', () => CtrlAltPressed.current = false, { once: true })
+        }
     }
 
     const deactive = () => {
-        setMovable(false)
+        disableMoving()
         if (ref.current) {
             const el = ref.current
             const rect = el.getBoundingClientRect()
@@ -63,6 +70,7 @@ export function useMovable(ref: React.RefObject<HTMLElement>, onEnded: () => any
     }
 
 
+    // when movable is enable
     useEffect(() => {
         if (!movable || !ref.current) return
         document.body.addEventListener('mouseup', deactive, { once: true })
@@ -72,9 +80,13 @@ export function useMovable(ref: React.RefObject<HTMLElement>, onEnded: () => any
     useEffect(() => {
         if (!ref.current) return
         const el = ref.current
+        //button trigger
         el.addEventListener('mousedown', trigger)
-        document.body.addEventListener('mousemove', moving)
+
+        // ctrl keydown trigger
         document.addEventListener('keydown', keydownListener)
+
+        document.body.addEventListener('mousemove', moving)
 
         return () => {
             el.removeEventListener('mousedown', trigger)

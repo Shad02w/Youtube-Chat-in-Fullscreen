@@ -10,7 +10,7 @@ export const MySlider = withStyles({
     thumb: {
         width: 24,
         height: 24,
-        marginTop: -(24/2 -3),
+        marginTop: -(24 / 2 - 3),
         marginLeft: -12,
         backgroundColor: `#${ThemeColor[300]}`,
         '&:focus, &:hover, &$active': {
@@ -28,7 +28,7 @@ export const MySlider = withStyles({
         backgroundColor: `#${ThemeColor[100]}`
     },
     valueLabel: {
-        fontSize:14,
+        fontSize: 14,
         left: `calc(-50% + 8px)`,
     },
 })(Slider)

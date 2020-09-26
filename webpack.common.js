@@ -48,6 +48,7 @@ module.exports = merge({}, {
         new CopyWp({
             patterns: [
                 path.resolve(__dirname, './src/manifest.json'),
+                path.resolve(__dirname, './src/logo.png'),
                 {
                     from: path.resolve(__dirname, './src/images'),
                     to: path.resolve(__dirname, 'build', 'images')

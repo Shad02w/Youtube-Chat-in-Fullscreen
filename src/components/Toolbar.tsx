@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, HTMLAttributes, DetailedHTMLProps, useMemo } from 'react'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
-import { Modal, Typography, Slider, Button, Paper, IconButton } from '@material-ui/core'
+import { Modal, Typography, Paper, IconButton } from '@material-ui/core'
 import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons'
 import { StorageContext } from '../contexts/StorageContext'
 import { useFullscreenState } from '../hooks/useFullscreenState'

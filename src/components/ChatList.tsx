@@ -35,9 +35,9 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
                         return <LiveChatTextMessage renderer={liveChatTextMessageRenderer} classes={liveChatTextMessageClasses}
                             key={action.uuid} />
                     else if (liveChatPaidMessageRenderer)
-                        return <LiveChatPaidMessage renderer={liveChatPaidMessageRenderer} classes={liveChatTextMessageClasses} />
+                        return <LiveChatPaidMessage key={action.uuid} renderer={liveChatPaidMessageRenderer} classes={liveChatTextMessageClasses} />
                     else if (liveChatMembershipItemRenderer)
-                        return <LiveChatMembershipItem renderer={liveChatMembershipItemRenderer} classes={liveChatTextMessageClasses} />
+                        return <LiveChatMembershipItem key={action.uuid} renderer={liveChatMembershipItemRenderer} classes={liveChatTextMessageClasses} />
                     else
                         return <React.Fragment key={action.uuid} />
                 })

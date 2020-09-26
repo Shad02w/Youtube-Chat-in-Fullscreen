@@ -36,6 +36,7 @@ function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDet
         file: 'inject.js',
         runAt: 'document_idle'
     }, () => {
+        console.log('content script added ===========')
         const message: CatchedLiveChatRequestMessage = {
             details,
             type: 'normal'
@@ -52,7 +53,7 @@ const getChatType = (url: string): PageType => {
 
 function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDetails) {
 
-    // The replay request will sent from frame id 0, block the replayed requset from content script to prevent looping
+    // The replay request will sent from frame id 0, block the replayed request from content script to prevent looping
     if (details.frameId === 0) return
     console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
     let requestBody: JSON | undefined
@@ -86,7 +87,8 @@ function removeListeners() {
 
 //Run when extension just installed and reloaded
 chrome.runtime.onInstalled.addListener(async () => {
-    chromep.storage.sync.set(StoragePreset)
+    await chromep.storage.sync.set(StoragePreset)
+    console.log('storage sync onInstall')
 })
 
 
@@ -98,7 +100,7 @@ chrome.storage.sync.get(['on'], (result) => {
 
 
 chrome.storage.onChanged.addListener((changes) => {
-    //Remove all webrequest listener on background script
+    //Remove all Web Request listener on background script
     if (changes['on']) {
         const isOn = changes['on'].newValue as boolean
         if (isOn) attachListeners()
