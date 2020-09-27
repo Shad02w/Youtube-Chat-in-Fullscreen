@@ -54,7 +54,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const { pageId } = AppState
     const { chatActions: fetchedChatActions, pageType } = useFetchLiveChatData(pageId)
 
-    const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], 100)
+    const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], 50)
 
     // use in replay live page
     const { enqueue: enqueueReplayLiveChatQueue, dequeued, reset: resetReplayLiveChatQueue } = useChatQueue()
@@ -84,8 +84,8 @@ export const AppContextProvider: React.FC = ({ children }) => {
     useEffect(() => {
         if (pageType === 'live-chat') {
             fetchedChatActions.forEach((action, i) => setTimeout(() => {
-                if (action.pageId === pageIdRef.current)
-                    updateChatList([action])
+                if (action.pageId !== pageIdRef.current) return
+                updateChatList([action])
             }, action.videoOffsetTimeMsec))
         }
         else if (pageType === 'replay-live-chat') {
@@ -93,7 +93,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
             enqueueReplayLiveChatQueue(fetchedChatActions)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchedChatActions, pageType])
+    }, [fetchedChatActions])
 
 
     // only use when in replay live page

@@ -29,11 +29,10 @@ export const ChatList: React.FC<IChatListProps & React.HTMLAttributes<HTMLDivEle
         let list: JSX.Element | JSX.Element[] = <></>
         try {
             list = chatActions
-                .map((action) => {
+                .map((action, i) => {
                     const { liveChatMembershipItemRenderer, liveChatTextMessageRenderer, liveChatPaidMessageRenderer } = action.addChatItemAction!.item
                     if (liveChatTextMessageRenderer)
-                        return <LiveChatTextMessage renderer={liveChatTextMessageRenderer} classes={liveChatTextMessageClasses}
-                            key={action.uuid} />
+                        return <LiveChatTextMessage key={action.uuid} renderer={liveChatTextMessageRenderer} classes={liveChatTextMessageClasses} />
                     else if (liveChatPaidMessageRenderer)
                         return <LiveChatPaidMessage key={action.uuid} renderer={liveChatPaidMessageRenderer} classes={liveChatTextMessageClasses} />
                     else if (liveChatMembershipItemRenderer)

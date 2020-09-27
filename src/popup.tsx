@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from 'react'
-import {render} from 'react-dom'
-import {makeStyles, createMuiTheme, ThemeProvider} from '@material-ui/core/styles'
-import {Fade, IconButton, Typography} from '@material-ui/core'
-import {MySwitch} from "./components/MySwitch"
+import React, { useState, useEffect } from 'react'
+import { render } from 'react-dom'
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { Fade, IconButton, Snackbar, Tooltip, Typography } from '@material-ui/core'
+import { MySwitch } from "./components/MySwitch"
 import './css/popup.css'
 import icon from './images/chat128.png'
-import {GitHub} from "@material-ui/icons"
+import { GitHub, Replay } from "@material-ui/icons"
+import { Alert } from '@material-ui/lab'
+import { StoragePreset } from './models/Storage'
 
 const githubPage = 'https://github.com/Shad02w/Youtube-Chat-in-Fullscreen'
 
@@ -17,7 +19,7 @@ const normalPadding = 1
 
 const useStyle = makeStyles({
     container: {
-        width: '20rem',
+        width: '25rem',
         height: 'auto',
         minHeight: '5rem',
         fontFamily: "'Noto Sans JP', sans-serif",
@@ -45,8 +47,9 @@ const useStyle = makeStyles({
         flexFlow: 'row nowrap',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginTop: '0.6rem'
     },
-    subHeader: {
+    partName: {
         fontWeight: 600,
     },
     footer: {
@@ -62,6 +65,8 @@ const useStyle = makeStyles({
 const App: React.FC = () => {
     const [isExtEnable, setExtEnable] = useState<boolean>(false)
     const [isReady, setReady] = useState<boolean>(false)
+    const [storageReset, setStorageReset] = useState<boolean>(false)
+
     const classes = useStyle()
 
     const storageListener = (changes: { [key: string]: chrome.storage.StorageChange }) => {
@@ -90,27 +95,48 @@ const App: React.FC = () => {
             <Fade in={isReady} timeout={700}>
                 <div className={classes.container}>
                     <header className={classes.header}>
-                        <img className={classes.icon} src={icon} alt="App icon"/>
+                        <img className={classes.icon} src={icon} alt="App icon" />
                         <Typography className={classes.appName} variant='h6' color='textPrimary'>Youtube Chat in
                             Fullscreen</Typography>
                     </header>
                     <main className={classes.main}>
-                        <article className={classes.part} aria-label="">
+                        <article className={classes.part}>
                             <article>
-                                <Typography className={classes.subHeader} variant='body1' color='textSecondary'>Show
+                                <Typography className={classes.partName} variant='body1' color='textSecondary'>Show
                                     chat overlay</Typography>
-                                <Typography style={{fontSize: '0.8rem'}} variant='subtitle2' color='textSecondary'>Refresh
+                                <Typography style={{ fontSize: '0.8rem' }} variant='subtitle2' color='textSecondary'>Refresh
                                     is needed</Typography>
                             </article>
                             <MySwitch checked={isExtEnable}
-                                      onChange={() => chrome.storage.sync.set({on: !isExtEnable})}/>
+                                onChange={() => chrome.storage.sync.set({ on: !isExtEnable })} />
+                        </article>
+                        <article className={classes.part}>
+                            <Typography className={classes.partName} variant='body1' color='textSecondary'>Reset Overlay</Typography>
+                            <Tooltip title={'Reset'}>
+                                <IconButton
+                                    onClick={() => chrome.storage.sync.set(StoragePreset, () => setStorageReset(true))}
+                                    aria-label='reset'>
+                                    <Replay />
+                                </IconButton>
+                            </Tooltip>
+                            <Snackbar
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right'
+                                }}
+                                // message={'Successfully reset'}
+                                open={storageReset}
+                                autoHideDuration={3000}
+                                onClose={() => setStorageReset(false)} >
+                                <Alert elevation={5} variant='standard' severity='success'>Successfully reset</Alert>
+                            </Snackbar>
                         </article>
                     </main>
                     <footer className={classes.footer}>
                         <IconButton
-                            onClick={()=>chrome.tabs.create({url:githubPage})}
+                            onClick={() => chrome.tabs.create({ url: githubPage })}
                             aria-label='github page of author'>
-                            <GitHub fontSize={'default'}/>
+                            <GitHub />
                         </IconButton>
                     </footer>
                 </div>
@@ -119,4 +145,4 @@ const App: React.FC = () => {
     )
 }
 
-render(<App/>, document.getElementById('root'))
+render(<App />, document.getElementById('root'))

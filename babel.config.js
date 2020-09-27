@@ -28,6 +28,12 @@ const plugins = [
                 // eslint-disable-next-line no-template-curly-in-string
                 'transform': '@material-ui/icons/esm/${member}',
                 'preventFullImport': true
+            },
+            '@material-ui/lab': {
+                // Use "transform: '@material-ui/icons/${member}'," if your bundler does not support ES modules
+                // eslint-disable-next-line no-template-curly-in-string
+                'transform': '@material-ui/lab/esm/${member}',
+                'preventFullImport': true
             }
         }
     ]

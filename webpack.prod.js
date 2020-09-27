@@ -9,11 +9,12 @@ module.exports = merge(common, {
         minimize: true,
         minimizer: [new TerserPlugin({
             extractComments: false
-        })]
+        })],
     },
     performance: {
         hints: false,
         maxEntrypointSize: 512000
+
     },
     plugins: [
         // ...common.plugins,

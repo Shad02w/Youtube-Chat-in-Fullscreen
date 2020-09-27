@@ -5,7 +5,6 @@ import { FetchData, FindObjectByKeyRecursively } from '../models/Function'
 import { v4 as uuidV4 } from 'uuid'
 
 const DefaultChatRequestInterval = 5000
-const MaxChatsItem = 250
 
 function filterChatActionsWithUndefinedValue(chatActions: ChatLiveActionWithVideoOffsetTime[]): ChatLiveActionWithVideoOffsetTime[] {
     return chatActions.filter(action => action.addChatItemAction && action.addChatItemAction.item)
@@ -50,8 +49,8 @@ export const useFetchLiveChatData = (pageId: string) => {
                 if (!data) return
                 if (message.type === 'live-chat') {
                     const timeUntilNextRequest = FindObjectByKeyRecursively(data as Response, 'timeoutMs') || DefaultChatRequestInterval
-                    actions = (FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.LiveAction[] || actions)
-                        .map((action, i, arr) => Object.assign(action, { videoOffsetTimeMsec: i * (timeUntilNextRequest / arr.length) }))
+                    actions = [...(FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.LiveAction[] || actions)]
+                        .map((action, i, arr) => Object.assign(action, { videoOffsetTimeMsec: (i + 1) * (timeUntilNextRequest / arr.length) }))
 
                     setChatActions(
                         createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions), pageId)
