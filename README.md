@@ -10,8 +10,8 @@ A chrome extension creates an overlay to show Youtube live chat when in full scr
 
 ## Usages
 
-- Use `Ctrl+alt+c` to toggle overlay
-- Press and hold `Ctrl`, then drag to move the position of overlay
+- Use `Ctrl+Alt+c` to toggle overlay
+- Press and hold `Ctrl+Alt`, then drag to move the position of overlay
 
 ## Known issue
 
