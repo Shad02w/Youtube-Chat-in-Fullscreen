@@ -1,11 +1,4 @@
-import React, {
-    useState,
-    useContext,
-    useEffect,
-    HTMLAttributes,
-    DetailedHTMLProps,
-    useMemo,
-} from 'react'
+import React, { useState, useContext, useEffect, HTMLAttributes, DetailedHTMLProps, useMemo } from 'react'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { Modal, Typography, Paper, IconButton } from '@material-ui/core'
 import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons'
@@ -14,8 +7,7 @@ import { useFullscreenState } from '../hooks/useFullscreenState'
 import { MySlider } from './MySlider'
 import { MyButton } from './MyButton'
 
-export interface IControlProps
-    extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+export interface IControlProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     movableTriggerId: string
 }
 
@@ -88,29 +80,24 @@ export const ToolBar: React.FC<IControlProps> = (props) => {
     const { movableTriggerId, className } = props
 
     return (
-        <Paper
-            className={`${className} ${classes.control} ${
-                props.className || ''
-            }`}
-            elevation={3}
-        >
+        <Paper className={`${className} ${classes.control} ${props.className || ''}`}
+            elevation={3}>
             <IconButton id={movableTriggerId}
-aria-label="move">
+                aria-label="move">
                 <PanTool />
             </IconButton>
-            <IconButton aria-label="more"
-onClick={() => setShowModal(true)}>
+            <IconButton
+                aria-label="more"
+                onClick={() => setShowModal(true)}>
                 <More />
             </IconButton>
-            <Modal
-                hideBackdrop={true}
+            <Modal hideBackdrop={true}
                 onClose={() => setShowModal(false)}
-                open={showApp && showModal}
-            >
+                open={showApp && showModal}>
                 <Paper className={classes.settings}>
                     <Typography gutterBottom
-color="textPrimary"
-variant="h5">
+                        color="textPrimary"
+                        variant="h5">
                         Font Size
                     </Typography>
                     <MySlider
@@ -122,8 +109,8 @@ variant="h5">
                         onChange={FontValueOnChange}
                     />
                     <Typography gutterBottom
-color="textPrimary"
-variant="h5">
+                        color="textPrimary"
+                        variant="h5">
                         Opacity
                     </Typography>
                     <MySlider
@@ -135,8 +122,8 @@ variant="h5">
                         onChange={OpacityValueOnChange}
                     />
                     <Typography gutterBottom
-color="textPrimary"
-variant="h5">
+                        color="textPrimary"
+                        variant="h5">
                         Blur
                     </Typography>
                     <MySlider
