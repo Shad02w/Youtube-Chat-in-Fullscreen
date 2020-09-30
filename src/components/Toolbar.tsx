@@ -1,14 +1,14 @@
-import React, { useState, useContext, useEffect, HTMLAttributes, DetailedHTMLProps, useMemo } from 'react'
-import { makeStyles, createStyles } from '@material-ui/core/styles'
-import { Modal, Typography, Paper, IconButton } from '@material-ui/core'
-import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons'
-import { StorageContext } from '../contexts/StorageContext'
-import { useFullscreenState } from '../hooks/useFullscreenState'
-import { MySlider } from './MySlider'
-import { MyButton } from './MyButton'
+import React, { useState, useContext, useEffect, HTMLAttributes, DetailedHTMLProps, useMemo } from 'react';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { Modal, Typography, Paper, IconButton } from '@material-ui/core';
+import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons';
+import { StorageContext } from '../contexts/StorageContext';
+import { useFullscreenState } from '../hooks/useFullscreenState';
+import { MySlider } from './MySlider';
+import { MyButton } from './MyButton';
 
 export interface IControlProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-    movableTriggerId: string
+    movableTriggerId: string;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -36,48 +36,43 @@ const useStyles = makeStyles((theme) =>
             marginTop: theme.spacing(2),
             fontSize: '1.3rem',
         },
-        margin: {
-            margin: theme.spacing(1),
-        },
+        margin: { margin: theme.spacing(1), },
     })
-)
+);
 
 export const ToolBar: React.FC<IControlProps> = (props) => {
-    const {
-        storage: { fontSize, opacity, blur, show },
-        storageDispatch,
-    } = useContext(StorageContext)
-    const [showModal, setShowModal] = useState<boolean>(false)
-    const { isFullscreen } = useFullscreenState()
+    const { storage: { fontSize, opacity, blur, show }, storageDispatch, } = useContext(StorageContext);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const { isFullscreen } = useFullscreenState();
     const maxFontSize = 28,
-        minFontSize = 8
+        minFontSize = 8;
 
-    const classes = useStyles()
-    const showApp = useMemo(() => show && isFullscreen, [isFullscreen, show])
+    const classes = useStyles();
+    const showApp = useMemo(() => show && isFullscreen, [isFullscreen, show]);
 
     const FontValueOnChange = (event: any, newValue: number | number[]) => {
         storageDispatch({
             type: 'changeFontSize',
             fontSize: newValue as number,
-        })
-    }
+        });
+    };
 
     const OpacityValueOnChange = (event: any, newValue: number | number[]) => {
-        storageDispatch({ type: 'changeOpacity', opacity: newValue as number })
-    }
+        storageDispatch({ type: 'changeOpacity', opacity: newValue as number });
+    };
 
     const BlurValueOnChange = (_: any, newValue: number | number[]) => {
         storageDispatch({
             type: 'changeBackgroundBlur',
             blur: newValue as number,
-        })
-    }
+        });
+    };
 
     useEffect(() => {
-        if (!showApp) setShowModal(false)
-    }, [showApp])
+        if (!showApp) setShowModal(false);
+    }, [showApp]);
 
-    const { movableTriggerId, className } = props
+    const { movableTriggerId, className } = props;
 
     return (
         <Paper className={`${className} ${classes.control} ${props.className || ''}`}
@@ -86,8 +81,7 @@ export const ToolBar: React.FC<IControlProps> = (props) => {
                 aria-label="move">
                 <PanTool />
             </IconButton>
-            <IconButton
-                aria-label="more"
+            <IconButton aria-label="more"
                 onClick={() => setShowModal(true)}>
                 <More />
             </IconButton>
@@ -134,6 +128,17 @@ export const ToolBar: React.FC<IControlProps> = (props) => {
                         valueLabelDisplay="auto"
                         onChange={BlurValueOnChange}
                     />
+                    <br />
+                    <Typography
+                        gutterBottom
+                        variant='h6'>
+                        Use <code>Ctrl+Alt+c</code> to toggle overlay
+                    </Typography>
+                    <Typography
+                        gutterBottom
+                        variant='h6'>
+                        Press <code>Ctrl+Alt</code> then drag to move overlay
+                    </Typography>
                     <MyButton
                         className={classes.doneButton}
                         startIcon={<Done />}
@@ -141,7 +146,7 @@ export const ToolBar: React.FC<IControlProps> = (props) => {
                         color="primary"
                         size="large"
                         onClick={() => {
-                            setShowModal(false)
+                            setShowModal(false);
                         }}
                     >
                         Done
@@ -149,5 +154,5 @@ export const ToolBar: React.FC<IControlProps> = (props) => {
                 </Paper>
             </Modal>
         </Paper>
-    )
-}
+    );
+};
