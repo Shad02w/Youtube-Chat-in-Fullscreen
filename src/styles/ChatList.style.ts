@@ -1,38 +1,6 @@
-import { createStyles, makeStyles } from '@material-ui/core/styles'
-
-interface StyleProps {
-    fontSize: number
-}
+import { makeStyles } from '@material-ui/core/styles'
 
 export type LiveChatMessageStyleType = ReturnType<typeof useLiveChatMessageStyle>
-
-export const useChatListStyles = makeStyles(theme => createStyles(
-    {
-        container: {
-            width: 'auto',
-            height: 'auto',
-            overflowY: 'auto',
-            overflowX: 'hidden',
-            fontSize: (props: StyleProps) => `${props.fontSize}px`,
-            'scrollbar-width': 'thin',
-            'scrollbar-color': 'rgba(240, 240, 240, 0.3) transparent',
-            '&::-webkit-scrollbar': {
-                width: '5px',
-                height: '5px'
-            },
-            '&::-webkit-scrollbar-track': {
-                borderRadius: '10px'
-            },
-            '&::-webkit-scrollbar-thumb': {
-                background: 'rgba(240, 240, 240, 0.3)',
-                borderRadius: '10px'
-            }
-        },
-        chatListContainer: {
-            padding: 10,
-            maxHeight: '100%'
-        },
-    }))
 
 export const useLiveChatMessageStyle = makeStyles({
     textMessage: {

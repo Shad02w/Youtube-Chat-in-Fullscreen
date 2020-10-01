@@ -75,7 +75,7 @@ const App: React.FC = () => {
     }
 
     useEffect(() => {
-        chrome.storage.sync.get(['on'], (result) => {
+        chrome.storage.local.get(['on'], (result) => {
             if (result['on'] !== undefined) {
                 setExtEnable(result['on'] as boolean)
                 setReady(true)
@@ -92,29 +92,40 @@ const App: React.FC = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Fade in={isReady} timeout={700}>
+            <Fade in={isReady}
+                timeout={700}>
                 <div className={classes.container}>
                     <header className={classes.header}>
-                        <img className={classes.icon} src={icon} alt="App icon" />
-                        <Typography className={classes.appName} variant='h6' color='textPrimary'>Youtube Chat in
+                        <img className={classes.icon}
+                            src={icon}
+                            alt="App icon" />
+                        <Typography className={classes.appName}
+                            variant='h6'
+                            color='textPrimary'>Youtube Chat in
                             Fullscreen</Typography>
                     </header>
                     <main className={classes.main}>
                         <article className={classes.part}>
                             <article>
-                                <Typography className={classes.partName} variant='body1' color='textSecondary'>Show
+                                <Typography className={classes.partName}
+                                    variant='body1'
+                                    color='textSecondary'>Show
                                     chat overlay</Typography>
-                                <Typography style={{ fontSize: '0.8rem' }} variant='subtitle2' color='textSecondary'>Refresh
+                                <Typography style={{ fontSize: '0.8rem' }}
+                                    variant='subtitle2'
+                                    color='textSecondary'>Refresh
                                     is needed</Typography>
                             </article>
                             <MySwitch checked={isExtEnable}
-                                onChange={() => chrome.storage.sync.set({ on: !isExtEnable })} />
+                                onChange={() => chrome.storage.local.set({ on: !isExtEnable })} />
                         </article>
                         <article className={classes.part}>
-                            <Typography className={classes.partName} variant='body1' color='textSecondary'>Reset Overlay</Typography>
+                            <Typography className={classes.partName}
+                                variant='body1'
+                                color='textSecondary'>Reset Overlay</Typography>
                             <Tooltip title={'Reset'}>
                                 <IconButton
-                                    onClick={() => chrome.storage.sync.set(StoragePreset, () => setStorageReset(true))}
+                                    onClick={() => chrome.storage.local.set(StoragePreset, () => setStorageReset(true))}
                                     aria-label='reset'>
                                     <Replay />
                                 </IconButton>
@@ -128,7 +139,9 @@ const App: React.FC = () => {
                                 open={storageReset}
                                 autoHideDuration={3000}
                                 onClose={() => setStorageReset(false)} >
-                                <Alert elevation={5} variant='standard' severity='success'>Successfully reset</Alert>
+                                <Alert elevation={5}
+                                    variant='standard'
+                                    severity='success'>Successfully reset</Alert>
                             </Snackbar>
                         </article>
                     </main>

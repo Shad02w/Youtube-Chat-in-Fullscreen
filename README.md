@@ -20,6 +20,14 @@ A chrome extension creates an overlay to show Youtube live chat when in full scr
 
  *If you have and issues and suggestions please feel free to create a issue.*
 
+## Update
+
+v1.0.0.2
+
+- Able stop auto scroll down by scroll up
+- Much clear instructions on settings panel
+- Settings of overlay do not sync between device any more (prevent settings conflict)
+
 ## Screenshot
 
 ![Chat overlay screenshot](./sample/sample.png )

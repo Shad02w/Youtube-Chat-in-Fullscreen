@@ -3,6 +3,7 @@ import { Badges } from './Badges'
 import { Message } from './Message'
 import { LiveChatMessageStyleType } from '../styles/ChatList.style'
 
+
 interface LiveChatTextMessageProps {
     classes: LiveChatMessageStyleType
     renderer: YTLiveChat.LiveChatTextMessageRenderer
@@ -14,7 +15,8 @@ export const LiveChatTextMessage: React.FC<LiveChatTextMessageProps> = ({ render
     const message = renderer.message
 
     return (
-        <div className={classes.textMessage}>
+        <div
+            className={classes.textMessage}>
             <img
                 alt="Author icon"
                 className={classes.authorImage}
@@ -22,8 +24,10 @@ export const LiveChatTextMessage: React.FC<LiveChatTextMessageProps> = ({ render
             />
             <article>
                 <div className={`${classes.authorName} ${(!badges) ? '' : classes.isMember}`}>{renderer.authorName.simpleText}</div>
-                {badges ? <Badges badges={badges} classes={classes} /> : <></>}
-                {message ? <Message message={message} classes={classes} /> : <></>}
+                {badges ? <Badges badges={badges}
+                    classes={classes} /> : <></>}
+                {message ? <Message message={message}
+                    classes={classes} /> : <></>}
             </article>
         </div>
     )

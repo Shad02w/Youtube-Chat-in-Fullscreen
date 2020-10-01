@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer, useRef } from 'react'
+import React, { createContext, useEffect, useReducer, useRef, useState } from 'react'
 import { v4 as uuidV4 } from 'uuid'
 import { useFetchLiveChatData, useChatActions } from '../hooks/useChatActions'
 import { useChatQueue } from '../hooks/useChatQueue'
@@ -30,11 +30,8 @@ const initAppState: AppState = {
     chatActions: []
 }
 
-export const returnFuntion = (fn: () => any) => fn
-
 
 export const AppContext = createContext<IAppContext>({} as IAppContext)
-
 
 export const AppcContextReducer: React.Reducer<AppState, AppStateReducerAction> = (preState, action) => {
     switch (action.type) {
@@ -50,11 +47,12 @@ export const AppcContextReducer: React.Reducer<AppState, AppStateReducerAction> 
 export const AppContextProvider: React.FC = ({ children }) => {
 
 
+    const [maxChatList] = useState<number>(70)
     const [AppState, AppStateDispatch] = useReducer(AppcContextReducer, initAppState)
     const { pageId } = AppState
     const { chatActions: fetchedChatActions, pageType } = useFetchLiveChatData(pageId)
 
-    const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], 50)
+    const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], maxChatList)
 
     // use in replay live page
     const { enqueue: enqueueReplayLiveChatQueue, dequeued, reset: resetReplayLiveChatQueue } = useChatQueue()

@@ -32,7 +32,7 @@ export const Moving: React.FC<IMoving> = ({ className }) => {
     const classes = useStyles({ fontSize })
     return (
         <div className={`${className} ${classes.container}`}>
-            Moving
+            Drag to Move
         </div>
     )
 }

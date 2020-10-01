@@ -35,24 +35,24 @@ export const StorageContext = createContext<IStorageContext>({ storage: StorageP
 const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerActions> = (preState, action) => {
     switch (action.type) {
         case 'changeFontSize':
-            chrome.storage.sync.set({ 'fontSize': action.fontSize })
+            chrome.storage.local.set({ 'fontSize': action.fontSize })
             return { ...preState, fontSize: action.fontSize }
         case 'changeOpacity':
-            chrome.storage.sync.set({ 'opacity': action.opacity })
+            chrome.storage.local.set({ 'opacity': action.opacity })
             return { ...preState, opacity: action.opacity }
         case 'changeOverlayPosition':
-            chrome.storage.sync.set({ 'top': action.position.top })
-            chrome.storage.sync.set({ 'left': action.position.left })
+            chrome.storage.local.set({ 'top': action.position.top })
+            chrome.storage.local.set({ 'left': action.position.left })
             return { ...preState, top: action.position.top, left: action.position.left }
         case 'changeOverlaySize':
-            chrome.storage.sync.set({ 'width': action.size.width })
-            chrome.storage.sync.set({ 'height': action.size.height })
+            chrome.storage.local.set({ 'width': action.size.width })
+            chrome.storage.local.set({ 'height': action.size.height })
             return { ...preState, width: action.size.width, left: action.size.width }
         case 'changeBackgroundBlur':
-            chrome.storage.sync.set({ 'blur': action.blur })
+            chrome.storage.local.set({ 'blur': action.blur })
             return { ...preState, blur: action.blur }
         case 'toggleOverlay':
-            chrome.storage.sync.set({ 'show': !preState.show })
+            chrome.storage.local.set({ 'show': !preState.show })
             return { ...preState, show: !preState.show }
         case 'updateStorageChangesToLocalContext':
             return { ...preState, ...action.changes }
@@ -74,7 +74,7 @@ export const StorageContextProvider: React.FC = ({ children }) => {
 
 
     useEffect(() => {
-        chrome.storage.sync.get(null, getAllStorage)
+        chrome.storage.local.get(null, getAllStorage)
     }, [])
 
     return (

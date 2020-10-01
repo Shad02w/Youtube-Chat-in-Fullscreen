@@ -12,6 +12,8 @@ const watchPageRequestFilter: chrome.webRequest.RequestFilter = {
 }
 
 
+// TODO: close overlay when user turn of in popup meun
+
 // reference to https://gist.github.com/72lions/4528834
 export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[]): JSON {
     // combine the raw data array
@@ -87,13 +89,13 @@ function removeListeners() {
 
 //Run when extension just installed and reloaded
 chrome.runtime.onInstalled.addListener(async () => {
-    await chromep.storage.sync.set(StoragePreset)
+    await chromep.storage.local.set(StoragePreset)
     console.log('storage sync onInstall')
 })
 
 
 // Get the variable 'on' in storage to check whether the extension is on or not
-chrome.storage.sync.get(['on'], (result) => {
+chrome.storage.local.get(['on'], (result) => {
     if (result.on) attachListeners()
 })
 

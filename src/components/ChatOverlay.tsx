@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useMemo, useEffect } from 'react'
+import React, { useRef, useContext, useMemo } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { MinHeight, MinWidth } from '../models/Storage'
@@ -63,7 +63,8 @@ export const ChatOverlay: React.FC = ({ children }) => {
 
     const { pageType } = useContext(AppContext)
     const { isFullscreen } = useFullscreenState()
-    const { storage: { opacity, top, left, blur, width, height, show: showOverlay }, storageDispatch } = useContext(StorageContext)
+    const { storage: { opacity, fontSize, top, left, blur, width, height, show: showOverlay }, storageDispatch } = useContext(StorageContext)
+    const { chatActions } = useContext(AppContext)
     const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal'), [showOverlay, isFullscreen, pageType])
 
     const classes = useStyles({ opacity, top, left, blur, width, height })
@@ -98,12 +99,16 @@ export const ChatOverlay: React.FC = ({ children }) => {
             {/* className={`${classes.wrapper} ${classes.show} ${movable ? 'noselect' : ''}`}> */}
             {
                 movable ?
-                    <Moving />
+                    <Moving className={classes.chatList} />
                     :
-                    <ChatList className={classes.chatList} />
+                    <ChatList
+                        chatActions={chatActions}
+                        fontSize={fontSize}
+                        className={classes.chatList} />
 
             }
-            <ToolBar className={classes.control} movableTriggerId={id} />
+            <ToolBar className={classes.control}
+                movableTriggerId={id} />
         </div >
     )
 
