@@ -17,14 +17,16 @@ interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
 
 
 interface StyleProps {
-    fontSize: number
+    fontSize: number,
+    autoScroll: boolean
 }
 
-const SvgIconButton = withStyles({
+const CircleButtonBase = withStyles({
     root: {
         borderRadius: '50%'
     }
 })(ButtonBase)
+
 export const useStyles = makeStyles(theme =>
     createStyles({
         container: {
@@ -32,6 +34,7 @@ export const useStyles = makeStyles(theme =>
             height: 'auto',
             overflowY: 'auto',
             overflowX: 'hidden',
+            scrollBehavior: 'smooth',
             // padding: '20px 10px',
             fontSize: (props: StyleProps) => `${props.fontSize}px`,
             'scrollbar-width': 'thin',
@@ -46,6 +49,18 @@ export const useStyles = makeStyles(theme =>
             '&::-webkit-scrollbar-thumb': {
                 background: 'rgba(240, 240, 240, 0.3)',
                 borderRadius: '10px'
+            }
+        },
+        showScrollbar: {
+            'scrollbar-color': 'rgba(240, 240, 240, 0.3) transparent',
+            '&::-webkit-scrollbar-thumb': {
+                background: 'rgba(240, 240, 240, 0.3)',
+            }
+        },
+        hideScrollbar: {
+            'scrollbar-color': 'transparent',
+            '&::-webkit-scrollbar-thumb': {
+                background: 'transparent',
             }
         },
         downButtonContainer: {
@@ -67,13 +82,21 @@ export const useStyles = makeStyles(theme =>
         downButton: {
             width: 30,
             height: 30
+        },
+        notAnchor: {
+            // overflowAnchor: 'none'
+        },
+        anchor: {
+            // overflowAnchor: 'auto',
+            height: 1
         }
     })
 )
 
 
 const ScrollToBottom = (el: HTMLElement) => {
-    el.scrollTop = el.scrollHeight - el.clientHeight
+    // el.scrollTop = el.scrollHeight - el.clientHeight
+    el.scrollTop = el.scrollHeight
 }
 
 
@@ -81,10 +104,7 @@ const isScrollUpDetector = isScrollUpDetectorCreator(5)
 
 export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, className }) => {
 
-    // const { chatActions } = useContext(AppContext)
-    // const { storage: { fontSize } } = useContext(StorageContext)
 
-    const classes = useStyles({ fontSize })
     const liveChatTextMessageClasses = useLiveChatMessageStyle()
 
     const [autoScroll, setAutoScroll] = useState<boolean>(true)
@@ -95,13 +115,17 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
     const autoScrollRef = useRef<boolean>(autoScroll)
     autoScrollRef.current = autoScroll
 
+    const classes = useStyles({ fontSize, autoScroll })
 
     // TODO: Auto scroll, when user scroll up, it stop, when back to buttom, it continous
     useEffect(() => {
         if (!containerRef.current || !listRef.current) return
         const listObserver = new MutationObserver(() => {
             const el = containerRef.current!
-            requestAnimationFrame(() => (autoScrollRef.current) && (ScrollToBottom(el)))
+            requestAnimationFrame(() => {
+                if (!autoScrollRef.current) return
+                ScrollToBottom(el)
+            })
         })
         listObserver.observe(listRef.current, { childList: true })
         return () => listObserver.disconnect()
@@ -152,22 +176,29 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
     const ScrollListener = (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
         const container = event.currentTarget!
         const { clientHeight, scrollTop, scrollHeight } = container
+        // console.log('clientHeight', clientHeight, 'scrollTop', scrollTop, 'sum', clientHeight + scrollTop, 'scrollHeight', scrollHeight);
         requestAnimationFrame(() => {
             if (!autoScroll) return
             const isUp = isScrollUpDetector(scrollTop, clientHeight, scrollHeight)
+            console.log('clientHeight', clientHeight, 'scrollTop', scrollTop, 'sum', clientHeight + scrollTop, 'scrollHeight', scrollHeight, 'isUp', isUp);
             setAutoScroll(!isUp)
         })
     }
 
+    const onWheelListener = (event: React.WheelEvent<HTMLDivElement>) => {
+        setAutoScroll(false)
+    }
+
     return (
         <div
-            onScroll={ScrollListener}
+            // onScroll={ScrollListener}
+            onWheel={onWheelListener}
             ref={containerRef}
-            className={`${className || ''} ${classes.container}`}
+            className={`${className || ''} ${classes.container} ${autoScroll ? classes.hideScrollbar : classes.showScrollbar}`}
         >
             {ChatListMemo}
             <div className={`${classes.downButtonContainer} ${autoScroll ? classes.hide : classes.show}`} >
-                <SvgIconButton
+                <CircleButtonBase
                     focusRipple
                     onClick={() => setAutoScroll(true)}
                 >
@@ -176,7 +207,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
                         src={down}
                         alt="resume autoscroll"
                     />
-                </SvgIconButton>
+                </CircleButtonBase>
             </div>
         </div>
     )

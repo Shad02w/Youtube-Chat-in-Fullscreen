@@ -17,6 +17,7 @@ A chrome extension creates an overlay to show Youtube live chat when in full scr
 
 - Unable to catch first chat request after the page loaded
 - When you holding resize for long time, the overlay may suddenly move its position
+- overlay will move position while resizing
 
  *If you have and issues and suggestions please feel free to create a issue.*
 
@@ -24,9 +25,13 @@ A chrome extension creates an overlay to show Youtube live chat when in full scr
 
 v1.0.0.2
 
-- Able stop auto scroll down by scroll up
+- Able to stop auto scroll down by scroll up
 - Much clear instructions on settings panel
 - Settings of overlay do not sync between device any more (prevent settings conflict)
+
+v1.0.0.3
+
+- fix autoscroll bug
 
 ## Screenshot
 
