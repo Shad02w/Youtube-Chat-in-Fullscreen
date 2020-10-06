@@ -1,12 +1,13 @@
 # Youtube-Chat-in-Fullscreen
 A chrome extension creates an overlay to show Youtube live chat when in full screen
 
+<a href><img width='250' src="./src/images/ChromeWebStore_Badge_v2_496x150.png"/></a>
+
 ## Key Features
 
 - Show a live chat overlay when you are watching Youtube live stream in full screen
-- Support video pages with chat replay
-- Move and resize the overlay as you want
-- Adjustable font size and background opacity
+- Also support video pages with chat replay
+- You can adjust position, opacity, size, and font size of the overlay as you wish
 
 ## Usages
 
@@ -15,9 +16,7 @@ A chrome extension creates an overlay to show Youtube live chat when in full scr
 
 ## Known issue
 
-- Unable to catch first chat request after the page loaded
-- When you holding resize for long time, the overlay may suddenly move its position
-- overlay will move position while resizing
+- Unable to catch first chat request after the page loaded (maybe the first live chat request come before the page is loaded)
 
  *If you have any issues and suggestions please feel free to create a issue.*
 
@@ -29,9 +28,14 @@ v1.0.0.2
 - Much clear instructions on settings panel
 - Settings of overlay do not sync between device any more (prevent settings conflict)
 
-v1.0.0.3
+v1.0.0.3 `4-Oct-2020`
 
-- fix autoscroll bug
+- fix auto scroll bug
+
+v1.0.0.4 `7-Oct-2020`
+
+- fixed unpredictable resizing issue
+- scroll to bottom when re-enter full screen mode (If auto scroll is still enable)
 
 ## Screenshot
 
@@ -42,6 +46,12 @@ v1.0.0.3
 ![Chat overlay screenshot](./sample/sample2.png)
 
 *Chat overlay on Youtube Live*
+
+## License
+
+<a href="/Shad02w/Youtube-Chat-in-Fullscreen/blob/master/LICENSE">GNU General Public License v3.0</a>
+
+
 
 
 
