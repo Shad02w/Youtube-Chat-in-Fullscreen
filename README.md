@@ -19,7 +19,7 @@ A chrome extension creates an overlay to show Youtube live chat when in full scr
 - When you holding resize for long time, the overlay may suddenly move its position
 - overlay will move position while resizing
 
- *If you have and issues and suggestions please feel free to create a issue.*
+ *If you have any issues and suggestions please feel free to create a issue.*
 
 ## Update
 

@@ -9,6 +9,7 @@ import { ButtonBase } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import down from '../assets/images/down.svg'
 import { AdvancedChatLiveActions } from '../models/Chat'
+import { useFullscreenState } from '../hooks/useFullscreenState';
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     chatActions: AdvancedChatLiveActions,
@@ -116,6 +117,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
     autoScrollRef.current = autoScroll
 
     const classes = useStyles({ fontSize, autoScroll })
+    const { isFullscreen } = useFullscreenState()
 
     // TODO: Auto scroll, when user scroll up, it stop, when back to buttom, it continous
     useEffect(() => {
@@ -133,9 +135,9 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
     }, [containerRef])
 
     useEffect(() => {
-        if (autoScroll && containerRef.current) ScrollToBottom(containerRef.current)
-    }, [autoScroll])
-
+        if (!autoScroll || !containerRef.current || !isFullscreen) return
+        ScrollToBottom(containerRef.current)
+    }, [autoScroll, isFullscreen])
 
     const createChatList = () => {
         let list: JSX.Element | JSX.Element[] = <></>
