@@ -6,8 +6,6 @@ export const useResizable = (ref: RefObject<HTMLElement>, ended: () => any) => {
     useEffect(() => {
         if (!ref.current) return
 
-        // const Resize = ResizeDebounce(250)
-        // const Resize = debounce(250, () => setOnResizeEnd())
         const Resize = debouncePromise(250)
 
         const containerObserver = new MutationObserver(async (mutaions) => {

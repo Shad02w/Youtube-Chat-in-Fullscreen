@@ -7,7 +7,6 @@ import { useMovable } from '../hooks/useMovable'
 import { useResizable } from '../hooks/useResizable'
 import { useFullscreenState } from '../hooks/useFullscreenState'
 import { AppContext } from '../contexts/AppContext'
-
 import { ChatList } from './ChatList'
 import { ToolBar } from './Toolbar'
 import { Moving } from './Moving'
@@ -58,14 +57,16 @@ const useStyles = makeStyles({
 })
 
 
-export const ChatOverlay: React.FC = ({ children }) => {
+export const ChatOverlay: React.FC = () => {
 
     const containerRef = useRef<HTMLDivElement>(null)
 
-    const { pageType } = useContext(AppContext)
+
+    const { storage, storageDispatch } = useContext(StorageContext)
+    const { opacity, fontSize, top, left, blur, width, height, show: showOverlay } = storage
+    const { chatActions, pageType } = useContext(AppContext)
+
     const { isFullscreen } = useFullscreenState()
-    const { storage: { opacity, fontSize, top, left, blur, width, height, show: showOverlay }, storageDispatch } = useContext(StorageContext)
-    const { chatActions } = useContext(AppContext)
     const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal'), [showOverlay, isFullscreen, pageType])
 
     const classes = useStyles({ opacity, top, left, blur, width, height })
@@ -77,6 +78,7 @@ export const ChatOverlay: React.FC = ({ children }) => {
 
     function onMoveEnd() {
         if (!containerRef.current) return
+        console.log('onMoveEnd');
         const t = parseInt(containerRef.current.style.top)
         const l = parseInt(containerRef.current.style.left)
         storageDispatch({ type: 'changeOverlayPosition', position: { top: t, left: l } })
@@ -84,6 +86,7 @@ export const ChatOverlay: React.FC = ({ children }) => {
 
     function onResizeEnd() {
         if (!containerRef.current) return
+        console.log('onResizeEnd');
         const w = parseInt(containerRef.current.style.width)
         const h = parseInt(containerRef.current.style.height)
         storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } })

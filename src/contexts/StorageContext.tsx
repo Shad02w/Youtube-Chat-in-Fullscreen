@@ -47,7 +47,7 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'changeOverlaySize':
             chrome.storage.local.set({ 'width': action.size.width })
             chrome.storage.local.set({ 'height': action.size.height })
-            return { ...preState, width: action.size.width, left: action.size.width }
+            return { ...preState, width: action.size.width, height: action.size.height }
         case 'changeBackgroundBlur':
             chrome.storage.local.set({ 'blur': action.blur })
             return { ...preState, blur: action.blur }
