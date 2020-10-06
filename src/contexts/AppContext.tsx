@@ -4,7 +4,6 @@ import { useFetchedLiveChatData, useChatActions } from '../hooks/useChatActions'
 import { useChatQueue } from '../hooks/useChatQueue'
 import { usePlayerState, YTPlayerState } from '../hooks/usePlayerState'
 import { AdvancedChatLiveActions } from '../models/Chat'
-import { getCurrentPlayerTime } from '../models/Player'
 import { PageType } from '../models/Request'
 
 export interface AppState {
