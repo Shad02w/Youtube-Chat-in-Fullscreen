@@ -4,7 +4,7 @@ import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/sty
 import { Fade, IconButton, Snackbar, Tooltip, Typography } from '@material-ui/core'
 import { MySwitch } from "./components/MySwitch"
 import './css/popup.css'
-import icon from './images/chat128.png'
+import icon from './icons/chat128.png'
 import { GitHub, Replay } from "@material-ui/icons"
 import { Alert } from '@material-ui/lab'
 import { StoragePreset } from './models/Storage'
