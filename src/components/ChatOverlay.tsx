@@ -34,6 +34,7 @@ const useStyles = makeStyles({
         gridTemplateRows: '1fr',
         gridTemplateAreas: '"chat"',
         borderRadius: 5,
+        zIndex: 10
     },
     hidden: {
         height: '0 !important',

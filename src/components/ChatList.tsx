@@ -119,7 +119,6 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
     const classes = useStyles({ fontSize, autoScroll })
     const { isFullscreen } = useFullscreenState()
 
-    // TODO: Auto scroll, when user scroll up, it stop, when back to buttom, it continous
     useEffect(() => {
         if (!containerRef.current || !listRef.current) return
         const listObserver = new MutationObserver(() => {

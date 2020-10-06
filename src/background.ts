@@ -12,8 +12,6 @@ const watchPageRequestFilter: chrome.webRequest.RequestFilter = {
 }
 
 
-// TODO: close overlay when user turn of in popup meun
-
 // reference to https://gist.github.com/72lions/4528834
 export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[]): JSON {
     // combine the raw data array

@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { AdvancedChatLiveActions, AdvancedChatLiveAction, ChatLiveActionWithVideoOffsetTime } from '../models/Chat'
-import { CatchedLiveChatRequestMessage, PageType } from '../models/Request'
+import { CatchedLiveChatRequestMessage, ChatType, PageType } from '../models/Request'
 import { FetchData, FindObjectByKeyRecursively } from '../models/Function'
 import { v4 as uuidV4 } from 'uuid'
+import { getCurrentPlayerTime } from '../models/Player'
 
 const DefaultChatRequestInterval = 5000
 
@@ -31,14 +32,14 @@ export const useChatActions = (init: AdvancedChatLiveActions, max: number) => {
     return { chatActions, update, reset }
 }
 
-export const useFetchLiveChatData = (pageId: string) => {
+export const useFetchedLiveChatData = (pageId: string) => {
     const [chatActions, setChatActions] = useState<AdvancedChatLiveActions>([])
     const [pageType, setPageType] = useState<PageType>('normal')
 
 
     useEffect(() => {
 
-        const LiveChatRequestListener = async (message: CatchedLiveChatRequestMessage) => {
+        const WebRequestListener = async (message: CatchedLiveChatRequestMessage) => {
             setPageType(message.type)
             if (message.type === 'normal') return
 
@@ -48,34 +49,32 @@ export const useFetchLiveChatData = (pageId: string) => {
                 const data = await FetchData(url, requestBody)
                 if (!data) return
                 if (message.type === 'live-chat') {
-                    const timeUntilNextRequest = FindObjectByKeyRecursively(data as Response, 'timeoutMs') || DefaultChatRequestInterval
+                    const timeUntilNextRequest = parseFloat(FindObjectByKeyRecursively(data as Response, 'timeoutMs')) || DefaultChatRequestInterval
+                    const currentPlayerTime = getCurrentPlayerTime()
                     actions = [...(FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.LiveAction[] || actions)]
-                        .map((action, i, arr) => Object.assign(action, { videoOffsetTimeMsec: (i + 1) * (timeUntilNextRequest / arr.length) }))
+                        // .map((action, i, arr) => Object.assign(action, { videoOffsetTimeMsec: (i + 1) * (timeUntilNextRequest / arr.length) }))
+                        .map((action, i, arr) => Object.assign(action, { videoOffsetTimeMsec: currentPlayerTime + i * (timeUntilNextRequest / arr.length) }))
 
-                    setChatActions(
-                        createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions), pageId)
-                    )
                 } else if (message.type === 'replay-live-chat') {
                     const replayActions = FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.ReplayLiveAction[] || actions
                     if (!replayActions || replayActions.length === 0) return
                     actions = replayActions
                         .filter(replayAction => replayAction.replayChatItemAction)
                         .map(replayAction => replayAction.replayChatItemAction)
-                        .map(({ actions: liveActions, videoOffsetTimeMsec }) => { return { ...liveActions[0], videoOffsetTimeMsec: parseFloat(videoOffsetTimeMsec) } })
-                    if (!actions || actions.length === 0) return
-                    setChatActions(
-                        createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions), pageId)
-                    )
+                        .map(({ actions: liveActions, videoOffsetTimeMsec }) => { return { ...liveActions[0], videoOffsetTimeMsec: parseFloat(videoOffsetTimeMsec) || 0 } })
                 }
+                setChatActions(
+                    createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions), pageId)
+                )
             } catch (error) {
                 console.error(error)
                 return
             }
         }
 
-        chrome.runtime.onMessage.addListener(LiveChatRequestListener)
+        chrome.runtime.onMessage.addListener(WebRequestListener)
         return () => {
-            chrome.runtime.onMessage.removeListener(LiveChatRequestListener)
+            chrome.runtime.onMessage.removeListener(WebRequestListener)
         }
     }, [pageId])
 
