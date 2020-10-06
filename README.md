@@ -1,7 +1,7 @@
 # Youtube-Chat-in-Fullscreen
 A chrome extension creates an overlay to show Youtube live chat when in full screen
 
-<a href><img width='250' src="./src/images/ChromeWebStore_Badge_v2_496x150.png"/></a>
+<a href="https://chrome.google.com/webstore/detail/youtube-chat-in-fullscree/kmhclnjhlejdjlkgeebolkigafpaijkp"><img width='250' src="./src/images/ChromeWebStore_Badge_v2_496x150.png"/></a>
 
 ## Key Features
 
