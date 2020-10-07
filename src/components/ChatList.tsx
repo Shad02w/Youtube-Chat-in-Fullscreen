@@ -4,13 +4,11 @@ import { LiveChatTextMessage } from './LiveChatTextMessage'
 import { LiveChatPaidMessage } from './LiveChatPaidMessage'
 import { LiveChatMembershipItem } from './LiveChatMembershipItem'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
-import { isScrollUpDetectorCreator } from '../models/Scroll'
 import { ButtonBase } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import down from '../assets/images/down.svg'
 import { AdvancedChatLiveActions } from '../models/Chat'
 import { useFullscreenState } from '../hooks/useFullscreenState';
-import { Fullscreen } from '@material-ui/icons'
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     chatActions: AdvancedChatLiveActions,
@@ -101,7 +99,6 @@ const ScrollToBottom = (el: HTMLElement) => {
 }
 
 
-const isScrollUpDetector = isScrollUpDetectorCreator(5)
 
 export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, className }) => {
 
@@ -172,19 +169,6 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
     }
 
     const ChatListMemo = useMemo(createChatList, [chatActions])
-
-
-    const ScrollListener = (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
-        const container = event.currentTarget!
-        const { clientHeight, scrollTop, scrollHeight } = container
-        // console.log('clientHeight', clientHeight, 'scrollTop', scrollTop, 'sum', clientHeight + scrollTop, 'scrollHeight', scrollHeight);
-        requestAnimationFrame(() => {
-            if (!autoScroll) return
-            const isUp = isScrollUpDetector(scrollTop, clientHeight, scrollHeight)
-            console.log('clientHeight', clientHeight, 'scrollTop', scrollTop, 'sum', clientHeight + scrollTop, 'scrollHeight', scrollHeight, 'isUp', isUp);
-            setAutoScroll(!isUp)
-        })
-    }
 
     const onWheelListener = (event: React.WheelEvent<HTMLDivElement>) => {
         setAutoScroll(false)
