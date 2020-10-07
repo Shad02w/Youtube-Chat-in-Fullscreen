@@ -1,6 +1,6 @@
 import parse from 'url-parse'
 import chromep from 'chrome-promise'
-import { StoragePreset } from './models/Storage'
+import { StoragePreset, StorageItems } from './models/Storage'
 import { CatchedLiveChatRequestMessage, PageType } from './models/Request'
 
 const getLiveChatRequestFilter: chrome.webRequest.RequestFilter = {
@@ -31,7 +31,7 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
 
 
 function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDetails) {
-    console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
+    // console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
     chrome.tabs.executeScript(details.tabId, {
         file: 'inject.js',
         runAt: 'document_idle'
@@ -55,7 +55,7 @@ function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDet
 
     // The replay request will sent from frame id 0, block the replayed request from content script to prevent looping
     if (details.frameId === 0) return
-    console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
+    // console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
     let requestBody: JSON | undefined
     if (!details.requestBody.raw) requestBody = undefined
     else {
@@ -87,8 +87,14 @@ function removeListeners() {
 
 //Run when extension just installed and reloaded
 chrome.runtime.onInstalled.addListener(async () => {
-    await chromep.storage.local.set(StoragePreset)
-    console.log('storage sync onInstall')
+    const storage = await chromep.storage.local.get(null) as Partial<StorageItems>
+    if (storage.on === undefined) {
+        await chromep.storage.local.set(StoragePreset)
+        console.log('fresh install')
+    } else {
+        console.log('updated');
+
+    }
 })
 
 
