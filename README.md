@@ -40,6 +40,10 @@ v1.0.0.4 `7-Oct-2020`
 - fixed unpredictable resizing issue
 - scroll to bottom when re-enter full screen mode (If auto scroll is still enable)
 
+v1.0.0.5 `8-Oct-2020`
+
+- fixed auto scroll bugs when re-enter full screen mode 
+
 ## Screenshot
 
 *Chat overlay on Youtube Live Replay*
