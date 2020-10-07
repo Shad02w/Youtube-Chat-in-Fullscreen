@@ -58,4 +58,4 @@ v1.0.0.4 `7-Oct-2020`
 
 ## License
 
-<a href="/Shad02w/Youtube-Chat-in-Fullscreen/blob/master/LICENSE">GNU General Public License v3.0</a>
+<a href="/LICENSE">GNU General Public License v3.0</a>
