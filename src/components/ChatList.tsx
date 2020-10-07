@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles'
 import down from '../assets/images/down.svg'
 import { AdvancedChatLiveActions } from '../models/Chat'
 import { useFullscreenState } from '../hooks/useFullscreenState';
+import { Fullscreen } from '@material-ui/icons'
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     chatActions: AdvancedChatLiveActions,
@@ -96,7 +97,6 @@ export const useStyles = makeStyles(theme =>
 
 
 const ScrollToBottom = (el: HTMLElement) => {
-    // el.scrollTop = el.scrollHeight - el.clientHeight
     el.scrollTop = el.scrollHeight
 }
 
@@ -135,7 +135,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
 
     useEffect(() => {
         if (!autoScroll || !containerRef.current || !isFullscreen) return
-        ScrollToBottom(containerRef.current)
+        requestAnimationFrame(() => ScrollToBottom(containerRef.current!))
     }, [autoScroll, isFullscreen])
 
     const createChatList = () => {
