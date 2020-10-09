@@ -4,19 +4,32 @@ export type ScrollDirection = 'UP' | 'DOWN'
 
 interface Response { [key: string]: any }
 
+const getHeader = (name: string, requestHeaders: chrome.webRequest.HttpHeader[] | undefined): string | undefined => {
+    if (!requestHeaders) return undefined
+    const header = requestHeaders.find(h => h.name === name)
+    if (!header) return undefined
+    return header.value
+}
+
 
 
 /* Replay the get_live_chat* xhr request to get the response */
-export async function FetchData(url: string, requestBody?: JSON): Promise<Response | undefined> {
+export async function FetchData(url: string, requestBody?: JSON, requestHeaders?: chrome.webRequest.HttpHeader[]): Promise<Response | undefined> {
     // The request either be get or post
     // The type of return response can change overtime
     let data: Response
+    const token = getHeader('Authorization', requestHeaders)
     try {
         if (!requestBody) {
             const res = await axios.get(url)
             data = res.data as Response
         } else {
-            const res = await axios.post(url, requestBody, { responseType: 'json' })
+            const res = await axios.post(url,
+                requestBody,
+                {
+                    responseType: 'json',
+                    headers: (token) ? { 'Authorization': token } : {}
+                })
             data = res.data as Response
         }
     } catch (error) {

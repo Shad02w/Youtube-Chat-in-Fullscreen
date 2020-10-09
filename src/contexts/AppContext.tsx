@@ -84,6 +84,10 @@ export const AppContextProvider: React.FC = ({ children }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchedChatActions])
 
+    useEffect(() => {
+        console.log('pageType', pageType)
+    }, [pageType])
+
     useEffect(() => (playerState === YTPlayerState.PAUSED && pageType === 'replay-live-chat')
         ? freezeChatQueue(true)
         : freezeChatQueue(false)

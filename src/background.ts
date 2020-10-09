@@ -3,6 +3,29 @@ import chromep from 'chrome-promise'
 import { StoragePreset, StorageItems } from './models/Storage'
 import { CatchedLiveChatRequestMessage, PageType } from './models/Request'
 
+type MessagesStore = CatchedLiveChatRequestMessage[]
+
+const createMessageMap = () => {
+    let messageStore: MessagesStore = []
+    const add = (requestId: string, message: CatchedLiveChatRequestMessage) => {
+        if (messageStore.some(m => m.details.requestId === requestId)) return
+        messageStore.push(message)
+
+    }
+    const get = (requestId: string) => {
+        const results = messageStore.filter(m => m.details.requestId === requestId)
+        return results[0]
+    }
+
+    const clear = () => messageStore = []
+    const hasRequestId = (requestId: string) => Object.keys(messageStore).some(id => id === requestId)
+
+    return { store: messageStore, add, get, clear, hasRequestId }
+}
+
+const messageStore = createMessageMap()
+
+
 const getLiveChatRequestFilter: chrome.webRequest.RequestFilter = {
     urls: ['https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
 }
@@ -23,8 +46,6 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
         view.set(new Uint8Array(raw[currIndex].bytes!), pre)
         return curr
     }, 0)
-
-
     const jsonString = decodeURIComponent(String.fromCharCode.apply(null, Array.from(view)))
     return JSON.parse(jsonString)
 }
@@ -51,37 +72,55 @@ const getChatType = (url: string): PageType => {
 }
 
 
-function getLiveChatRequestListener(details: chrome.webRequest.WebRequestBodyDetails) {
+function getLiveChatRequestBodyListener(details: chrome.webRequest.WebRequestBodyDetails) {
 
     // The replay request will sent from frame id 0, block the replayed request from content script to prevent looping
     if (details.frameId === 0) return
-    // console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
+    // console.log('onBeforeRequest', parse(details.url).pathname, 'tab id:', details.tabId, details)
     let requestBody: JSON | undefined
     if (!details.requestBody.raw) requestBody = undefined
-    else {
+    else
         // Since arraybuffer can not send through message passing, need to parse the request body first
         requestBody = RequestBodyArrayBuffer2json(details.requestBody.raw)
-    }
-    const message: CatchedLiveChatRequestMessage = {
-        details,
-        requestBody,
-        type: getChatType(details.url)
-    }
+    messageStore.add(details.requestId,
+        {
+            details,
+            requestBody,
+            type: getChatType(details.url)
+        }
+    )
+}
+
+function getLiveChatRequestHeadersListener(details: chrome.webRequest.WebRequestHeadersDetails) {
+    if (details.frameId === 0) return
+    // console.log('onBeforeSendHeaders', parse(details.url).pathname, 'tab id:', details.tabId, details)
+    const message = messageStore.get(details.requestId)
+    if (message)
+        message.requestHeaders = details.requestHeaders
+
+    console.log('message', message)
+
     chrome.tabs.sendMessage(details.tabId, message)
 }
+
+
 
 function attachListeners() {
     if (!chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
         chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
-    if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestListener))
-        chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestListener, getLiveChatRequestFilter, ['requestBody'])
+    if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestBodyListener))
+        chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestBodyListener, getLiveChatRequestFilter, ['requestBody'])
+    if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestHeadersListener))
+        chrome.webRequest.onBeforeSendHeaders.addListener(getLiveChatRequestHeadersListener, getLiveChatRequestFilter, ['requestHeaders'])
 }
 
 function removeListeners() {
     if (chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
         chrome.webRequest.onCompleted.removeListener(watchPageRequestListener)
-    if (chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestListener))
-        chrome.webRequest.onBeforeRequest.removeListener(getLiveChatRequestListener)
+    if (chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestBodyListener))
+        chrome.webRequest.onBeforeRequest.removeListener(getLiveChatRequestBodyListener)
+    if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestHeadersListener))
+        chrome.webRequest.onBeforeSendHeaders.removeListener(getLiveChatRequestHeadersListener)
 
 }
 
