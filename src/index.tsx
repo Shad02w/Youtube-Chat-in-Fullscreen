@@ -1,6 +1,11 @@
 import React from 'react'
 import { render } from 'react-dom'
 
+interface MyWindows extends Window {
+    injectHasRun: boolean
+}
+
+declare var window: MyWindows
 (async function () {
 
 
@@ -9,8 +14,8 @@ import { render } from 'react-dom'
 
     const chatListContainerId = '_youtube-chat-in-fullscreen-app'
 
-    if (document.getElementById(chatListContainerId))
-        return
+    if (window.injectHasRun) return
+    window.injectHasRun = true
 
     // Dynamic import '@material-ui' to solve the issue of initilize multiple instance
     // const AppSrc = chrome.runtime.getURL('App.js')

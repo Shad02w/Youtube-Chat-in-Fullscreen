@@ -57,7 +57,6 @@ function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDet
         file: 'inject.js',
         runAt: 'document_idle'
     }, () => {
-        console.log('content script added ===========')
         const message: CatchedLiveChatRequestMessage = {
             details,
             type: 'normal'
@@ -76,7 +75,6 @@ function getLiveChatRequestBodyListener(details: chrome.webRequest.WebRequestBod
 
     // The replay request will sent from frame id 0, block the replayed request from content script to prevent looping
     if (details.frameId === 0) return
-    // console.log('onBeforeRequest', parse(details.url).pathname, 'tab id:', details.tabId, details)
     let requestBody: JSON | undefined
     if (!details.requestBody.raw) requestBody = undefined
     else
@@ -93,12 +91,9 @@ function getLiveChatRequestBodyListener(details: chrome.webRequest.WebRequestBod
 
 function getLiveChatRequestHeadersListener(details: chrome.webRequest.WebRequestHeadersDetails) {
     if (details.frameId === 0) return
-    // console.log('onBeforeSendHeaders', parse(details.url).pathname, 'tab id:', details.tabId, details)
     const message = messageStore.get(details.requestId)
     if (message)
         message.requestHeaders = details.requestHeaders
-
-    console.log('message', message)
 
     chrome.tabs.sendMessage(details.tabId, message)
 }
