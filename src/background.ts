@@ -34,6 +34,15 @@ const watchPageRequestFilter: chrome.webRequest.RequestFilter = {
     urls: ['https://www.youtube.com/watch*']
 }
 
+const watchPageNavigationFilter: chrome.webNavigation.WebNavigationEventFilter = {
+    url: [
+        {
+            hostSuffix: 'youtube.com',
+            pathContains: 'watch'
+        }
+    ]
+}
+
 
 // reference to https://gist.github.com/72lions/4528834
 export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[]): JSON {
@@ -80,7 +89,9 @@ function getLiveChatRequestBodyListener(details: chrome.webRequest.WebRequestBod
     else
         // Since arraybuffer can not send through message passing, need to parse the request body first
         requestBody = RequestBodyArrayBuffer2json(details.requestBody.raw)
-    messageStore.add(details.requestId,
+
+    messageStore.add(
+        details.requestId,
         {
             details,
             requestBody,
@@ -98,24 +109,43 @@ function getLiveChatRequestHeadersListener(details: chrome.webRequest.WebRequest
     chrome.tabs.sendMessage(details.tabId, message)
 }
 
+function pageHistoryChangeListener(details: chrome.webNavigation.WebNavigationTransitionCallbackDetails) {
+    // console.log('onHistory change', details)
+    const message: CatchedLiveChatRequestMessage = {
+        details: {} as chrome.webRequest.WebRequestDetails,
+        type: 'normal'
+    }
+    chrome.tabs.sendMessage(details.tabId, message)
+}
+
 
 
 function attachListeners() {
     if (!chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
         chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
+
     if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestBodyListener))
         chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestBodyListener, getLiveChatRequestFilter, ['requestBody'])
-    if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestHeadersListener))
+
+    if (!chrome.webRequest.onBeforeSendHeaders.hasListener(getLiveChatRequestHeadersListener))
         chrome.webRequest.onBeforeSendHeaders.addListener(getLiveChatRequestHeadersListener, getLiveChatRequestFilter, ['requestHeaders'])
+
+    if (!chrome.webNavigation.onHistoryStateUpdated.hasListener(pageHistoryChangeListener))
+        chrome.webNavigation.onHistoryStateUpdated.addListener(pageHistoryChangeListener, watchPageNavigationFilter)
 }
 
 function removeListeners() {
     if (chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
         chrome.webRequest.onCompleted.removeListener(watchPageRequestListener)
+
     if (chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestBodyListener))
         chrome.webRequest.onBeforeRequest.removeListener(getLiveChatRequestBodyListener)
-    if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestHeadersListener))
+
+    if (chrome.webRequest.onBeforeSendHeaders.hasListener(getLiveChatRequestHeadersListener))
         chrome.webRequest.onBeforeSendHeaders.removeListener(getLiveChatRequestHeadersListener)
+
+    if (chrome.webNavigation.onHistoryStateUpdated.hasListener(pageHistoryChangeListener))
+        chrome.webNavigation.onHistoryStateUpdated.removeListener(pageHistoryChangeListener)
 
 }
 
@@ -127,7 +157,6 @@ chrome.runtime.onInstalled.addListener(async () => {
         console.log('fresh install')
     } else {
         console.log('updated');
-
     }
 })
 

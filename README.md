@@ -44,6 +44,10 @@ v1.0.0.5 `8-Oct-2020`
 
 - fixed auto scroll bugs when re-enter full screen mode 
 
+v1.0.0.6 `11-Oct-2020`
+
+- fixed the authentication request issue when using brand account
+
 ## Screenshot
 
 *Chat overlay on Youtube Live Replay*

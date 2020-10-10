@@ -67,7 +67,7 @@ export const ChatOverlay: React.FC = () => {
     const { chatActions, pageType } = useContext(AppContext)
 
     const { isFullscreen } = useFullscreenState()
-    const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal'), [showOverlay, isFullscreen, pageType])
+    const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal' && chatActions.length > 0), [chatActions, showOverlay, isFullscreen, pageType])
 
     const classes = useStyles({ opacity, top, left, blur, width, height })
 
@@ -98,7 +98,6 @@ export const ChatOverlay: React.FC = () => {
         <div
             ref={containerRef}
             className={`${classes.wrapper} ${show ? classes.show : classes.hidden} ${movable ? 'noselect' : ''}`}>
-            {/* className={`${classes.wrapper} ${classes.show} ${movable ? 'noselect' : ''}`}> */}
             {
                 movable ?
                     <Moving className={classes.chatList} />
