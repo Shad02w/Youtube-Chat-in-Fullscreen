@@ -110,18 +110,13 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
     const { isFullscreen } = useFullscreenState()
 
     useEffect(() => {
-        if (!containerRef.current || !listRef.current) return
-        const listObserver = new MutationObserver(() => {
-            const el = containerRef.current!
-            requestAnimationFrame(() => {
-                if (!autoScrollRef.current) return
-                ScrollToBottom(el)
-            })
+        if (!containerRef.current) return
+        const el = containerRef.current
+        requestAnimationFrame(() => {
+            if (!autoScrollRef.current) return
+            ScrollToBottom(el)
         })
-        listObserver.observe(listRef.current, { childList: true })
-        return () => listObserver.disconnect()
-
-    }, [containerRef])
+    })
 
     useEffect(() => {
         if (!autoScroll || !containerRef.current || !isFullscreen) return
@@ -154,7 +149,9 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
         }
         return (
             <>
-                <div ref={listRef}>
+                <div
+                    style={{ paddingTop: 50 }}
+                    ref={listRef}>
                     {list}
                 </div>
             </>
