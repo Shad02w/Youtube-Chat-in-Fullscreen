@@ -10,7 +10,7 @@ import { Container } from '@material-ui/core'
 import { MySlider } from '../components/MySlider'
 import { MyButton } from '../components/MyButton'
 import { Done } from '@material-ui/icons'
-import {MySwitch} from '../components/MySwitch'
+import { MySwitch } from '../components/MySwitch'
 
 const useStyles = makeStyles(theme => createStyles({
     container: {
@@ -38,11 +38,17 @@ const App: React.FC = () => {
                     data.map((action, i) => {
                         const { liveChatPaidMessageRenderer, liveChatTextMessageRenderer, liveChatMembershipItemRenderer } = action.addChatItemAction!.item
                         if (liveChatPaidMessageRenderer)
-                            return <LiveChatPaidMessage key={i} renderer={liveChatPaidMessageRenderer} classes={classes} />
+                            return <LiveChatPaidMessage key={i}
+                                renderer={liveChatPaidMessageRenderer}
+                                classes={classes} />
                         else if (liveChatTextMessageRenderer)
-                            return <LiveChatTextMessage key={i} renderer={liveChatTextMessageRenderer} classes={classes} />
+                            return <LiveChatTextMessage key={i}
+                                renderer={liveChatTextMessageRenderer}
+                                classes={classes} />
                         else if (liveChatMembershipItemRenderer)
-                            return <LiveChatMembershipItem key={i} renderer={liveChatMembershipItemRenderer} classes={classes} />
+                            return <LiveChatMembershipItem key={i}
+                                renderer={liveChatMembershipItemRenderer}
+                                classes={classes} />
                         else
                             return <React.Fragment key={i} />
                     })
@@ -63,7 +69,8 @@ const App: React.FC = () => {
                 color='primary'
                 size='large'
             >Done</MyButton>
-            <MySwitch checked={checked} onClick={()=>setCheck(pre => !pre)} />
+            <MySwitch checked={checked}
+                onClick={() => setCheck(pre => !pre)} />
         </>
     )
 

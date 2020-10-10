@@ -4,15 +4,15 @@ const HtmlWepack = require('html-webpack-plugin')
 
 module.exports = merge({}, {
     entry: {
-        index: './src/testing/App.test.tsx'
+        index: './src/ui-testing/App.test.tsx'
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'test')
+        path: path.resolve(__dirname, 'ui-test')
     },
     mode: 'development',
     devServer: {
-        contentBase: path.join(__dirname, 'test'),
+        contentBase: path.join(__dirname, 'ui-test'),
         hot: true
     },
     module: {

@@ -8,7 +8,6 @@ interface MyWindows extends Window {
 declare var window: MyWindows
 (async function () {
 
-
     // Since Youtube get new video page without reload, so the injected script is still there  when go to next video page
     // This prevent same  script run multiple time in one tab
 

@@ -82,13 +82,6 @@ export const useStyles = makeStyles(theme =>
         downButton: {
             width: 30,
             height: 30
-        },
-        notAnchor: {
-            // overflowAnchor: 'none'
-        },
-        anchor: {
-            // overflowAnchor: 'auto',
-            height: 1
         }
     })
 )
@@ -176,7 +169,6 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
 
     return (
         <div
-            // onScroll={ScrollListener}
             onWheel={onWheelListener}
             ref={containerRef}
             className={`${className || ''} ${classes.container} ${autoScroll ? classes.hideScrollbar : classes.showScrollbar}`}
