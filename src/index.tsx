@@ -1,16 +1,20 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-(async function () {
+interface MyWindows extends Window {
+    injectHasRun: boolean
+}
 
+declare var window: MyWindows
+(async function () {
 
     // Since Youtube get new video page without reload, so the injected script is still there  when go to next video page
     // This prevent same  script run multiple time in one tab
 
     const chatListContainerId = '_youtube-chat-in-fullscreen-app'
 
-    if (document.getElementById(chatListContainerId))
-        return
+    if (window.injectHasRun) return
+    window.injectHasRun = true
 
     // Dynamic import '@material-ui' to solve the issue of initilize multiple instance
     // const AppSrc = chrome.runtime.getURL('App.js')

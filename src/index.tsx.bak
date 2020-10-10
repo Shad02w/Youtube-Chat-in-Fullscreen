@@ -1,0 +1,26 @@
+import { CatchedLiveChatRequestMessage } from './models/Request'
+import { FetchData } from './models/Fetch'
+
+interface MyWindow extends Window {
+    hasRun: boolean
+}
+
+declare const window: MyWindow
+
+
+(async function () {
+    console.log('test inject js')
+    if (window.hasRun) return
+    window.hasRun = true
+    chrome.runtime.onMessage.addListener(async (message: CatchedLiveChatRequestMessage) => {
+        console.log(message)
+        const { details, requestBody, requestHeaders } = message
+        if (!requestHeaders) return
+        const response = await FetchData(details.url, requestBody, requestHeaders)
+        console.log('response', response)
+    })
+})()
+
+
+
+

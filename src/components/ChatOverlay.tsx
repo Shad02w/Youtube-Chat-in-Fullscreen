@@ -67,7 +67,7 @@ export const ChatOverlay: React.FC = () => {
     const { chatActions, pageType } = useContext(AppContext)
 
     const { isFullscreen } = useFullscreenState()
-    const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal'), [showOverlay, isFullscreen, pageType])
+    const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal' && chatActions.length > 0), [chatActions, showOverlay, isFullscreen, pageType])
 
     const classes = useStyles({ opacity, top, left, blur, width, height })
 
@@ -78,7 +78,6 @@ export const ChatOverlay: React.FC = () => {
 
     function onMoveEnd() {
         if (!containerRef.current) return
-        console.log('onMoveEnd');
         const t = parseInt(containerRef.current.style.top)
         const l = parseInt(containerRef.current.style.left)
         storageDispatch({ type: 'changeOverlayPosition', position: { top: t, left: l } })
@@ -86,7 +85,6 @@ export const ChatOverlay: React.FC = () => {
 
     function onResizeEnd() {
         if (!containerRef.current) return
-        console.log('onResizeEnd');
         const w = parseInt(containerRef.current.style.width)
         const h = parseInt(containerRef.current.style.height)
         storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } })
@@ -100,7 +98,6 @@ export const ChatOverlay: React.FC = () => {
         <div
             ref={containerRef}
             className={`${classes.wrapper} ${show ? classes.show : classes.hidden} ${movable ? 'noselect' : ''}`}>
-            {/* className={`${classes.wrapper} ${classes.show} ${movable ? 'noselect' : ''}`}> */}
             {
                 movable ?
                     <Moving className={classes.chatList} />

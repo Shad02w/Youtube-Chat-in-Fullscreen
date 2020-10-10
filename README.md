@@ -44,6 +44,11 @@ v1.0.0.5 `8-Oct-2020`
 
 - fixed auto scroll bugs when re-enter full screen mode 
 
+v1.0.0.6 `12-Oct-2020`
+
+- fixed the authentication request issue when using brand account
+- fixed the problem that the chat overlay is still showing unrelated chat and visible when navigate video page
+
 ## Screenshot
 
 *Chat overlay on Youtube Live Replay*

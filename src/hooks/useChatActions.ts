@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { AdvancedChatLiveActions, AdvancedChatLiveAction, ChatLiveActionWithVideoOffsetTime } from '../models/Chat'
 import { CatchedLiveChatRequestMessage, PageType } from '../models/Request'
-import { FetchData, FindObjectByKeyRecursively } from '../models/Function'
+import { FetchData, FindObjectByKeyRecursively } from '../models/Fetch'
 import { v4 as uuidV4 } from 'uuid'
 import { getCurrentPlayerTime } from '../models/Player'
 
@@ -42,11 +42,10 @@ export const useFetchedLiveChatData = (pageId: string) => {
         const WebRequestListener = async (message: CatchedLiveChatRequestMessage) => {
             setPageType(message.type)
             if (message.type === 'normal') return
-
             try {
                 let actions: ChatLiveActionWithVideoOffsetTime[] = []
-                const { details: { url }, requestBody } = message
-                const data = await FetchData(url, requestBody)
+                const { details: { url }, requestBody, requestHeaders } = message
+                const data = await FetchData(url, requestBody, requestHeaders)
                 if (!data) return
                 if (message.type === 'live-chat') {
                     const timeUntilNextRequest = parseFloat(FindObjectByKeyRecursively(data as Response, 'timeoutMs')) || DefaultChatRequestInterval
