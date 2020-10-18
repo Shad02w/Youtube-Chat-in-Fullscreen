@@ -1,7 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { useFetchedLiveChatData, useChatActions } from '../components/hooks/useChatActions'
 import { useChatQueue } from '../components/hooks/useChatQueue'
-import { usePlayerState, YTPlayerState } from '../components/hooks/usePlayerState'
+import { usePlayerState } from '../components/hooks/usePlayerState'
+import { YTPlayerState } from '../models/Player'
 import { AdvancedChatLiveActions } from '../models/Chat'
 import { PageType } from '../models/Request'
 
