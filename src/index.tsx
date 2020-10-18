@@ -1,11 +1,15 @@
 import React from 'react'
 import { render } from 'react-dom'
+import { CatchedLiveChatRequestMessage } from './models/Request'
+import { ContentScriptWindow } from './models/Window'
 
-interface MyWindows extends Window {
-    injectHasRun: boolean
+declare var window: ContentScriptWindow
+const setGlobalVariables = () => {
+    window.injectHasRun = true
+    window.ready = false
+    window.messageQueue = []
 }
 
-declare var window: MyWindows
 (async function () {
 
     // Since Youtube get new video page without reload, so the injected script is still there  when go to next video page
@@ -14,7 +18,7 @@ declare var window: MyWindows
     const chatListContainerId = '_youtube-chat-in-fullscreen-app'
 
     if (window.injectHasRun) return
-    window.injectHasRun = true
+    setGlobalVariables()
 
     // Dynamic import '@material-ui' to solve the issue of initilize multiple instance
     // const AppSrc = chrome.runtime.getURL('App.js')
@@ -22,6 +26,11 @@ declare var window: MyWindows
     const { App } = await import(/* webpackMode: "eager" */'./App')
 
     console.log('liveChatRequestReplay.js injected')
+
+    chrome.runtime.onMessage.addListener((message: CatchedLiveChatRequestMessage) => {
+        if (message.type === 'normal' || window.ready) return
+        window.messageQueue.push(message)
+    })
 
     const observer = new MutationObserver(() => {
         const chatOverlayContainer = Array

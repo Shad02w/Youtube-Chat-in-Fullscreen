@@ -4,7 +4,6 @@ export interface ContentScriptWindow extends Window {
     injectHasRun: boolean,
     messageQueue: CatchedLiveChatRequestMessage[]
     ready: boolean
-
 }
 
 export interface LiveChatIframeWindow extends Window {

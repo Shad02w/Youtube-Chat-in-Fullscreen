@@ -4,6 +4,9 @@ import { CatchedLiveChatRequestMessage, PageType } from '../../models/Request'
 import { FetchData, FindObjectByKeyRecursively } from '../../models/Fetch'
 import { v4 as uuidV4 } from 'uuid'
 import { getCurrentPlayerTime } from '../../models/Player'
+import { ContentScriptWindow } from '../../models/Window'
+
+declare const window: ContentScriptWindow
 
 const DefaultChatRequestInterval = 5000
 
@@ -36,12 +39,18 @@ export const useFetchedLiveChatData = (pageId: string) => {
     const [chatActions, setChatActions] = useState<AdvancedChatLiveActions>([])
     const [pageType, setPageType] = useState<PageType>('normal')
 
+    useEffect(() => {
+        window.ready = true
+    }, [])
+
 
     useEffect(() => {
 
         const WebRequestListener = async (message: CatchedLiveChatRequestMessage) => {
             setPageType(message.type)
             if (message.type === 'normal') return
+            if (message.type === 'init-live-chat' || message.type === 'init-replay-live-chat') return
+
             try {
                 let actions: ChatLiveActionWithVideoOffsetTime[] = []
                 const { details: { url }, requestBody, requestHeaders } = message
