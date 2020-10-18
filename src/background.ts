@@ -1,7 +1,6 @@
-import parse from 'url-parse'
 import chromep from 'chrome-promise'
 import { StoragePreset, StorageItems } from './models/Storage'
-import { CatchedLiveChatRequestMessage, PageType } from './models/Request'
+import { CatchedLiveChatRequestMessage, getPageType } from './models/Request'
 
 type MessagesStore = CatchedLiveChatRequestMessage[]
 
@@ -68,15 +67,19 @@ function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDet
     }, () => {
         const message: CatchedLiveChatRequestMessage = {
             details,
-            type: 'normal'
+            type: getPageType(details.url)
         }
         chrome.tabs.sendMessage(details.tabId, message)
     })
 }
 
-const getChatType = (url: string): PageType => {
-    if (parse(url).pathname.endsWith('get_live_chat')) return 'live-chat'
-    return 'replay-live-chat'
+function pageHistoryChangeListener(details: chrome.webNavigation.WebNavigationTransitionCallbackDetails) {
+    // console.log('onHistory change', details)
+    const message: CatchedLiveChatRequestMessage = {
+        details: {} as chrome.webRequest.WebRequestDetails,
+        type: getPageType(details.url)
+    }
+    chrome.tabs.sendMessage(details.tabId, message)
 }
 
 
@@ -95,7 +98,7 @@ function getLiveChatRequestBodyListener(details: chrome.webRequest.WebRequestBod
         {
             details,
             requestBody,
-            type: getChatType(details.url)
+            type: getPageType(details.url)
         }
     )
 }
@@ -108,17 +111,6 @@ function getLiveChatRequestHeadersListener(details: chrome.webRequest.WebRequest
 
     chrome.tabs.sendMessage(details.tabId, message)
 }
-
-function pageHistoryChangeListener(details: chrome.webNavigation.WebNavigationTransitionCallbackDetails) {
-    // console.log('onHistory change', details)
-    const message: CatchedLiveChatRequestMessage = {
-        details: {} as chrome.webRequest.WebRequestDetails,
-        type: 'normal'
-    }
-    chrome.tabs.sendMessage(details.tabId, message)
-}
-
-
 
 function attachListeners() {
     if (!chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
