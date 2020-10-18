@@ -8,7 +8,7 @@ import { ButtonBase } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import down from '../assets/images/down.svg'
 import { AdvancedChatLiveActions } from '../models/Chat'
-import { useFullscreenState } from '../hooks/useFullscreenState';
+import { useFullscreenState } from './hooks/useFullscreenState';
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     chatActions: AdvancedChatLiveActions,

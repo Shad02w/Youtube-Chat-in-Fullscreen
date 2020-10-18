@@ -1,5 +1,5 @@
 import { RefObject, useEffect } from 'react'
-import { debouncePromise } from '../models/Function'
+import { debouncePromise } from '../../models/Function'
 
 
 export const useResizable = (ref: RefObject<HTMLElement>, ended: () => any) => {

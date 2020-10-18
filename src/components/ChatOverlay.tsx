@@ -3,14 +3,14 @@ import React, { useRef, useContext, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { MinHeight, MinWidth } from '../models/Storage'
 import { StorageContext } from '../contexts/StorageContext'
-import { useMovable } from '../hooks/useMovable'
-import { useResizable } from '../hooks/useResizable'
-import { useFullscreenState } from '../hooks/useFullscreenState'
+import { useMovable } from './hooks/useMovable'
+import { useResizable } from './hooks/useResizable'
+import { useFullscreenState } from './hooks/useFullscreenState'
 import { AppContext } from '../contexts/AppContext'
 import { ChatList } from './ChatList'
 import { ToolBar } from './Toolbar'
 import { Moving } from './Moving'
-import { useCtrlAltHotKey } from '../hooks/useHotkeys'
+import { useCtrlAltHotKey } from './hooks/useHotkeys'
 
 interface StyleProps {
     opacity: number,

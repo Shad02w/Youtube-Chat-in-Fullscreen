@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Modal, Typography, Paper, IconButton } from '@material-ui/core';
 import { Done, MoreHoriz as More, PanTool } from '@material-ui/icons';
 import { StorageContext } from '../contexts/StorageContext';
-import { useFullscreenState } from '../hooks/useFullscreenState';
+import { useFullscreenState } from './hooks/useFullscreenState';
 import { MySlider } from './MySlider';
 import { MyButton } from './MyButton';
 

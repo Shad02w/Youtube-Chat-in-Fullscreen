@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useReducer, useRef, useState } from 'react'
 import { v4 as uuidV4 } from 'uuid'
-import { useFetchedLiveChatData, useChatActions } from '../hooks/useChatActions'
-import { useChatQueue } from '../hooks/useChatQueue'
-import { usePlayerState, YTPlayerState } from '../hooks/usePlayerState'
+import { useFetchedLiveChatData, useChatActions } from '../components/hooks/useChatActions'
+import { useChatQueue } from '../components/hooks/useChatQueue'
+import { usePlayerState, YTPlayerState } from '../components/hooks/usePlayerState'
 import { AdvancedChatLiveActions } from '../models/Chat'
 import { PageType } from '../models/Request'
 
