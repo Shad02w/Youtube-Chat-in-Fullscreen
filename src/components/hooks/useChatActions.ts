@@ -1,29 +1,10 @@
 import { useState, useEffect, useCallback } from 'react'
-import { AdvancedChatLiveActions, AdvancedChatLiveAction, ChatLiveActionWithVideoOffsetTime } from '../../models/Chat'
+import { AdvancedChatLiveActions, getLiveChatReplayActions, getLiveChatActions } from '../../models/Chat'
 import { CatchedLiveChatRequestMessage, PageType } from '../../models/Request'
-import { FetchData, FindObjectByKeyRecursively } from '../../models/Fetch'
-import { v4 as uuidV4 } from 'uuid'
-import { getCurrentPlayerTime } from '../../models/Player'
+import { FetchData } from '../../models/Fetch'
 import { ContentScriptWindow } from '../../models/Window'
 
 declare const window: ContentScriptWindow
-
-const DefaultChatRequestInterval = 5000
-
-function filterChatActionsWithUndefinedValue(chatActions: ChatLiveActionWithVideoOffsetTime[]): ChatLiveActionWithVideoOffsetTime[] {
-    return chatActions.filter(action => action.addChatItemAction && action.addChatItemAction.item)
-        .filter(({ addChatItemAction }) => addChatItemAction!.item.liveChatTextMessageRenderer
-            || addChatItemAction!.item.liveChatPaidMessageRenderer
-            || addChatItemAction!.item.liveChatMembershipItemRenderer)
-}
-
-function createAdvanceChatLiveActions(chatActions: ChatLiveActionWithVideoOffsetTime[], pageId: string): AdvancedChatLiveActions {
-    return chatActions.map((action): AdvancedChatLiveAction => ({
-        ...action,
-        uuid: uuidV4(),
-        pageId,
-    }))
-}
 
 export const useChatActions = (init: AdvancedChatLiveActions, max: number) => {
     const [chatActions, setChatActioins] = useState<AdvancedChatLiveActions>(init)
@@ -35,7 +16,7 @@ export const useChatActions = (init: AdvancedChatLiveActions, max: number) => {
     return { chatActions, update, reset }
 }
 
-export const useFetchedLiveChatData = (pageId: string) => {
+export const useFetchedLiveChatData = () => {
     const [chatActions, setChatActions] = useState<AdvancedChatLiveActions>([])
     const [pageType, setPageType] = useState<PageType>('normal')
 
@@ -50,30 +31,14 @@ export const useFetchedLiveChatData = (pageId: string) => {
             setPageType(message.type)
             if (message.type === 'normal') return
             if (message.type === 'init-live-chat' || message.type === 'init-replay-live-chat') return
-
+            const { details: { url }, requestBody, requestHeaders } = message
             try {
-                let actions: ChatLiveActionWithVideoOffsetTime[] = []
-                const { details: { url }, requestBody, requestHeaders } = message
-                const data = await FetchData(url, requestBody, requestHeaders)
-                if (!data) return
-                if (message.type === 'live-chat') {
-                    const timeUntilNextRequest = parseFloat(FindObjectByKeyRecursively(data as Response, 'timeoutMs')) || DefaultChatRequestInterval
-                    const currentPlayerTime = getCurrentPlayerTime()
-                    actions = [...(FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.LiveAction[] || actions)]
-                        // .map((action, i, arr) => Object.assign(action, { videoOffsetTimeMsec: (i + 1) * (timeUntilNextRequest / arr.length) }))
-                        .map((action, i, arr) => Object.assign(action, { videoOffsetTimeMsec: currentPlayerTime + i * (timeUntilNextRequest / arr.length) }))
-
-                } else if (message.type === 'replay-live-chat') {
-                    const replayActions = FindObjectByKeyRecursively(data as Response, 'actions') as YTLiveChat.ReplayLiveAction[] || actions
-                    if (!replayActions || replayActions.length === 0) return
-                    actions = replayActions
-                        .filter(replayAction => replayAction.replayChatItemAction)
-                        .map(replayAction => replayAction.replayChatItemAction)
-                        .map(({ actions: liveActions, videoOffsetTimeMsec }) => { return { ...liveActions[0], videoOffsetTimeMsec: parseFloat(videoOffsetTimeMsec) || 0 } })
-                }
-                setChatActions(
-                    createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions), pageId)
-                )
+                const liveChatResponse = await FetchData(url, requestBody, requestHeaders)
+                if (!liveChatResponse) return
+                if (message.type === 'live-chat')
+                    setChatActions(getLiveChatActions(liveChatResponse))
+                else if (message.type === 'replay-live-chat')
+                    setChatActions(getLiveChatReplayActions(liveChatResponse))
             } catch (error) {
                 console.error(error)
                 return
@@ -84,7 +49,7 @@ export const useFetchedLiveChatData = (pageId: string) => {
         return () => {
             chrome.runtime.onMessage.removeListener(WebRequestListener)
         }
-    }, [pageId])
+    }, [])
 
     return { chatActions, pageType }
 }

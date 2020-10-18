@@ -23,3 +23,16 @@ export const handleError = <T extends any[]>(fn: (...args: T) => Promise<any>) =
         return fn(...args).catch(err => console.error(err))
     }
 }
+
+
+export function FindObjectByKeyRecursively(obj: LiveChatResponse, targetKey: string): any | undefined {
+    const result = Object.keys(obj).find(k => k === targetKey)
+    if (result)
+        return obj[result]
+    else if (typeof obj === 'object')
+        for (const k of Object.keys(obj)) {
+            const r = FindObjectByKeyRecursively(obj[k], targetKey)
+            if (r !== undefined) return r
+        }
+    return undefined
+}

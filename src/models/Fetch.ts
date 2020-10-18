@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-interface Response { [key: string]: any }
 
 const forbiddenRequestHeaders = [
     // from w3c spec :https://fetch.spec.whatwg.org/#forbidden-header-name
@@ -31,6 +30,7 @@ const forbiddenRequestHeaders = [
     // Added
 ]
 
+export interface LiveChatResponse { [key: string]: any }
 
 export const createHeadersObject = (requestHeaders: chrome.webRequest.HttpHeader[] | undefined) => {
     if (!requestHeaders) return undefined
@@ -44,14 +44,14 @@ export const createHeadersObject = (requestHeaders: chrome.webRequest.HttpHeader
 
 
 /* Replay the get_live_chat* xhr request to get the response */
-export async function FetchData(url: string, requestBody?: JSON, requestHeaders?: chrome.webRequest.HttpHeader[]): Promise<Response | undefined> {
+export async function FetchData(url: string, requestBody?: JSON, requestHeaders?: chrome.webRequest.HttpHeader[]): Promise<LiveChatResponse | undefined> {
     // The request either be get or post
     // The type of return response can change overtime
-    let data: Response
+    let data: LiveChatResponse
     try {
         if (!requestBody) {
             const res = await axios.get(url)
-            data = res.data as Response
+            data = res.data as LiveChatResponse
         } else {
             const headers = createHeadersObject(requestHeaders)
             const res = await axios.post(url,
@@ -60,7 +60,7 @@ export async function FetchData(url: string, requestBody?: JSON, requestHeaders?
                     responseType: 'json',
                     headers: (headers) ? headers : {}
                 })
-            data = res.data as Response
+            data = res.data as LiveChatResponse
         }
     } catch (error) {
         if (error.response)
@@ -70,16 +70,4 @@ export async function FetchData(url: string, requestBody?: JSON, requestHeaders?
         return undefined
     }
     return data
-}
-
-export function FindObjectByKeyRecursively(obj: Response, targetKey: string): any | undefined {
-    const result = Object.keys(obj).find(k => k === targetKey)
-    if (result)
-        return obj[result]
-    else if (typeof obj === 'object')
-        for (const k of Object.keys(obj)) {
-            const r = FindObjectByKeyRecursively(obj[k], targetKey)
-            if (r !== undefined) return r
-        }
-    return undefined
 }

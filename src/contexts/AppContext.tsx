@@ -1,5 +1,4 @@
-import React, { createContext, useEffect, useReducer, useRef, useState } from 'react'
-import { v4 as uuidV4 } from 'uuid'
+import React, { createContext, useEffect, useState } from 'react'
 import { useFetchedLiveChatData, useChatActions } from '../components/hooks/useChatActions'
 import { useChatQueue } from '../components/hooks/useChatQueue'
 import { usePlayerState, YTPlayerState } from '../components/hooks/usePlayerState'
@@ -7,51 +6,22 @@ import { AdvancedChatLiveActions } from '../models/Chat'
 import { PageType } from '../models/Request'
 
 export interface AppState {
-    pageId: string
     pageType: PageType
     chatActions: AdvancedChatLiveActions
 }
 
-export interface IAppContext extends AppState {
-    AppStateDispatch: React.Dispatch<AppStateReducerAction>,
-}
 
-export type AppStateReducerAction =
-    {
-        type: 'changePageId', pageId: string
-    } |
-    {
-        type: 'changePageType', pageType: PageType
-    }
-
-
-const initAppState: AppState = {
-    pageId: uuidV4(),
+export const AppContext = createContext<AppState>({
     pageType: 'normal',
     chatActions: []
-}
+})
 
-
-export const AppContext = createContext<IAppContext>({} as IAppContext)
-
-export const AppcContextReducer: React.Reducer<AppState, AppStateReducerAction> = (preState, action) => {
-    switch (action.type) {
-        case 'changePageId':
-            return { ...preState, pageId: action.pageId }
-        case 'changePageType':
-            return { ...preState, pageType: action.pageType }
-        default:
-            return preState
-    }
-}
 
 export const AppContextProvider: React.FC = ({ children }) => {
 
 
     const [maxChatList] = useState<number>(70)
-    const [AppState, AppStateDispatch] = useReducer(AppcContextReducer, initAppState)
-    const { pageId } = AppState
-    const { chatActions: fetchedChatActions, pageType } = useFetchedLiveChatData(pageId)
+    const { chatActions: fetchedChatActions, pageType } = useFetchedLiveChatData()
 
     const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], maxChatList)
     const { playerState } = usePlayerState()
@@ -59,8 +29,6 @@ export const AppContextProvider: React.FC = ({ children }) => {
     // use in replay live page
     const { enqueue: enqueueChatQueue, dequeued, reset: resetChatQueue, freeze: freezeChatQueue } = useChatQueue()
 
-    const pageIdRef = useRef(pageId)
-    pageIdRef.current = pageId
 
     // side effect of page change
     useEffect(() => {
@@ -72,8 +40,6 @@ export const AppContextProvider: React.FC = ({ children }) => {
         else {
             freezeChatQueue(false)
         }
-
-        AppStateDispatch({ type: 'changePageType', pageType })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageType])
 
@@ -95,10 +61,8 @@ export const AppContextProvider: React.FC = ({ children }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dequeued])
 
-
-
     return (
-        <AppContext.Provider value={{ pageId, pageType, chatActions, AppStateDispatch }}>
+        <AppContext.Provider value={{ pageType, chatActions }}>
             {children}
         </AppContext.Provider>
     )
