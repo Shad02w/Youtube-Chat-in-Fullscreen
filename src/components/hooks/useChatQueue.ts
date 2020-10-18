@@ -2,8 +2,8 @@
  * This is the polling version of the chat queue
  */
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { AdvancedChatLiveActions } from '../models/Chat'
-import { getCurrentPlayerTime } from '../models/Player'
+import { AdvancedChatLiveActions } from '../../models/Chat'
+import { getCurrentPlayerTime } from '../../models/Player'
 
 
 const PollingDuration = 500

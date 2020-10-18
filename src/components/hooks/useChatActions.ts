@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
-import { AdvancedChatLiveActions, AdvancedChatLiveAction, ChatLiveActionWithVideoOffsetTime } from '../models/Chat'
-import { CatchedLiveChatRequestMessage, PageType } from '../models/Request'
-import { FetchData, FindObjectByKeyRecursively } from '../models/Fetch'
+import { AdvancedChatLiveActions, AdvancedChatLiveAction, ChatLiveActionWithVideoOffsetTime } from '../../models/Chat'
+import { CatchedLiveChatRequestMessage, PageType } from '../../models/Request'
+import { FetchData, FindObjectByKeyRecursively } from '../../models/Fetch'
 import { v4 as uuidV4 } from 'uuid'
-import { getCurrentPlayerTime } from '../models/Player'
+import { getCurrentPlayerTime } from '../../models/Player'
 
 const DefaultChatRequestInterval = 5000
 

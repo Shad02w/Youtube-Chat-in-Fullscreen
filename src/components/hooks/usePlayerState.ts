@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { InterceptedDataElementId } from '../models/Intercept'
+import { InterceptedDataElementId } from '../../models/Intercept'
 
 export enum YTPlayerState {
     ENDED = 0,
