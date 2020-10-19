@@ -1,5 +1,4 @@
 import { YTPlayerState } from '../models/Player'
-import { PageType } from './Request'
 
 export const InterceptedDataElementId_PlayerState = '__Intercepted_data_element_id_yt_player'
 export const InterceptedDataElementId_InitLiveChat = '__Intercepted_data_element_id_init_live_chat'

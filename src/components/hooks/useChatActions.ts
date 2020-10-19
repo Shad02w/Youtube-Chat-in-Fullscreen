@@ -5,7 +5,6 @@ import { FetchData } from '../../models/Fetch'
 import { ContentScriptWindow } from '../../models/Window'
 import { useInterceptElementState } from './useElementState'
 import { InterceptedDataElementId_InitLiveChat, InitLiveChatRequestAction } from '../../models/Intercept'
-import { FindObjectByKeyRecursively } from '../../models/Function'
 
 declare const window: ContentScriptWindow
 
