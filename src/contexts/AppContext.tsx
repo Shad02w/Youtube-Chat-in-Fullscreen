@@ -5,7 +5,9 @@ import { usePlayerState } from '../components/hooks/usePlayerState'
 import { YTPlayerState } from '../models/Player'
 import { AdvancedChatLiveActions } from '../models/Chat'
 import { PageType } from '../models/Request'
+import { ContentScriptWindow } from '../models/Window'
 
+declare const window: ContentScriptWindow
 export interface AppState {
     pageType: PageType
     chatActions: AdvancedChatLiveActions
@@ -34,9 +36,11 @@ export const AppContextProvider: React.FC = ({ children }) => {
     // side effect of page change
     useEffect(() => {
         if (pageType === 'normal') {
+            console.log('clear')
             resetChatList()
             resetChatQueue()
             freezeChatQueue(true)
+            window.messageQueue = []
         }
         else {
             freezeChatQueue(false)
@@ -47,6 +51,8 @@ export const AppContextProvider: React.FC = ({ children }) => {
     // when a chats data is fetched
     useEffect(() => {
         // both the live page and live replay page will use the polling chat queue
+        if (pageType === 'normal') return
+        console.log('fetchedChatActions', fetchedChatActions)
         enqueueChatQueue(fetchedChatActions)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchedChatActions])

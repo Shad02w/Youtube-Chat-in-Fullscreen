@@ -30,6 +30,7 @@ export const useChatQueue = () => {
             const currentTime = getCurrentPlayerTime()
             const readyToBeDequeued = queueRef.current.filter(chat => chat.videoOffsetTimeMsec <= currentTime)
             const stay = queueRef.current.filter(chat => chat.videoOffsetTimeMsec > currentTime)
+            if (readyToBeDequeued.length === 0) return
             setQueue(stay)
             setDequeued(readyToBeDequeued)
         }, PollingDuration)

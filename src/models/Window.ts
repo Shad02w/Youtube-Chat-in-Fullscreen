@@ -4,10 +4,9 @@ export interface ContentScriptWindow extends Window {
     injectHasRun: boolean,
     messageQueue: CatchedLiveChatRequestMessage[]
     ready: boolean
+    ytInitialData: YTLiveChat.Response,
+    myInitialData: YTLiveChat.Response
 }
 
-export interface LiveChatIframeWindow extends Window {
-    ytInitData: YTLiveChat.Response
-}
 
 

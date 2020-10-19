@@ -20,6 +20,8 @@ A chrome extension creates an overlay to show Youtube live chat when in full scr
 ## Known issue
 
 - Unable to catch first chat request after the page loaded (maybe the first live chat request come before the page is loaded)
+- Freeze when go from a live page to a none-live-page
+- chats queue are not clear
 
  *If you have any issues and suggestions please feel free to create a issue.*
 

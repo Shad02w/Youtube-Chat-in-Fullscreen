@@ -29,8 +29,11 @@ const getLiveChatRequestFilter: chrome.webRequest.RequestFilter = {
     urls: ['https://www.youtube.com/*/get_live_chat?*', 'https://www.youtube.com/*/get_live_chat_replay?*']
 }
 
-const watchPageRequestFilter: chrome.webRequest.RequestFilter = {
-    urls: ['https://www.youtube.com/watch*']
+const LiveChatRequestFilter: chrome.webRequest.RequestFilter = {
+    urls: [
+        'https://www.youtube.com/live_chat*',
+        'https://www.youtube.com/live_chat_replay*',
+    ]
 }
 
 const watchPageNavigationFilter: chrome.webNavigation.WebNavigationEventFilter = {
@@ -59,7 +62,7 @@ export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[])
 }
 
 
-function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDetails) {
+function liveChatRequestListener(details: chrome.webRequest.WebResponseCacheDetails) {
     // console.log(parse(details.url).pathname, 'tab id:', details.tabId, details)
     chrome.tabs.executeScript(details.tabId, {
         file: 'inject.js',
@@ -74,7 +77,6 @@ function watchPageRequestListener(details: chrome.webRequest.WebResponseCacheDet
 }
 
 function pageHistoryChangeListener(details: chrome.webNavigation.WebNavigationTransitionCallbackDetails) {
-    // console.log('onHistory change', details)
     const message: CatchedLiveChatRequestMessage = {
         details: {} as chrome.webRequest.WebRequestDetails,
         type: getPageType(details.url)
@@ -113,8 +115,8 @@ function getLiveChatRequestHeadersListener(details: chrome.webRequest.WebRequest
 }
 
 function attachListeners() {
-    if (!chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
-        chrome.webRequest.onCompleted.addListener(watchPageRequestListener, watchPageRequestFilter)
+    if (!chrome.webRequest.onCompleted.hasListener(liveChatRequestListener))
+        chrome.webRequest.onCompleted.addListener(liveChatRequestListener, LiveChatRequestFilter)
 
     if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestBodyListener))
         chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestBodyListener, getLiveChatRequestFilter, ['requestBody'])
@@ -127,8 +129,8 @@ function attachListeners() {
 }
 
 function removeListeners() {
-    if (chrome.webRequest.onCompleted.hasListener(watchPageRequestListener))
-        chrome.webRequest.onCompleted.removeListener(watchPageRequestListener)
+    if (chrome.webRequest.onCompleted.hasListener(liveChatRequestListener))
+        chrome.webRequest.onCompleted.removeListener(liveChatRequestListener)
 
     if (chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestBodyListener))
         chrome.webRequest.onBeforeRequest.removeListener(getLiveChatRequestBodyListener)
