@@ -11,6 +11,7 @@ import { MySlider } from '../components/MySlider'
 import { MyButton } from '../components/MyButton'
 import { Done } from '@material-ui/icons'
 import { MySwitch } from '../components/MySwitch'
+import { ChatOverlay } from '../components/ChatOverlay'
 
 const useStyles = makeStyles(theme => createStyles({
     container: {
@@ -21,6 +22,8 @@ const useStyles = makeStyles(theme => createStyles({
         fontSize: (props: { fontSize: number }) => `${props.fontSize}px`
     },
 }))
+
+
 
 const App: React.FC = () => {
     const [fontSize, setFontSize] = useState<number>(16)

@@ -19,13 +19,22 @@ module.exports = merge({}, {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+                exclude: /node_modules/
             },
             {
                 test: /\.css$/,
                 use: ["style-loader", "css-loader"]
             },
-        ],
+            {
+                test: /\.png$/,
+                loader: 'url-loader',
+            },
+            {
+                test: /\.svg$/,
+                loader: 'svg-url-loader'
+            }
+        ]
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
@@ -33,7 +42,7 @@ module.exports = merge({}, {
     plugins: [
         new HtmlWepack({
             filename: 'index.html',
-            template: './src/testing/index.html',
+            template: './src/ui-testing/index.html',
             chunks: ['index']
         })
     ]

@@ -5,7 +5,6 @@ import {
     PlayerStateData,
     InitLiveChatRequestAction
 } from './models/Intercept'
-import { getPageType, PageType } from './models/Request'
 import { ContentScriptWindow } from './models/Window'
 
 declare const window: ContentScriptWindow
