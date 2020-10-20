@@ -35,21 +35,27 @@ v1.0.0.2
 
 v1.0.0.3 `4-Oct-2020`
 
-- fix auto scroll bug
+- Fixed auto scroll bug
 
 v1.0.0.4 `7-Oct-2020`
 
-- fixed unpredictable resizing issue
+- Fixed unpredictable resizing issue
 - scroll to bottom when re-enter full screen mode (If auto scroll is still enable)
 
 v1.0.0.5 `8-Oct-2020`
 
-- fixed auto scroll bugs when re-enter full screen mode 
+- Fixed auto scroll bugs when re-enter full screen mode 
 
 v1.0.0.6 `12-Oct-2020`
 
-- fixed the authentication request issue when using brand account
-- fixed the problem that the chat overlay is still showing unrelated chat and visible when navigate video page
+- Fixed the authentication request issue when using brand account
+- Fixed the problem that the chat overlay is still showing unrelated chat and visible when navigate video page
+
+v1.0.0.7 `23-Oct-2020`
+
+- Show initial chat records in chat box
+- Fixed the freezing issue when go from a live streaming page to a normal video page 
+- 
 
 ## Screenshot
 
