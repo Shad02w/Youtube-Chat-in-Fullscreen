@@ -48,8 +48,8 @@ const useStyles = makeStyles({
     },
     control: {
         position: 'absolute',
-        right: 20,
-        top: 20,
+        top: 0,
+        right: 0
     },
     chatList: {
         gridArea: 'chat'
