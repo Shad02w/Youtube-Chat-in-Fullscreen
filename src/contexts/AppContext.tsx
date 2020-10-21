@@ -1,9 +1,9 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useRef, useState } from 'react'
 import { useFetchedLiveChatData, useChatActions } from '../components/hooks/useChatActions'
 import { useChatQueue } from '../components/hooks/useChatQueue'
 import { usePlayerState } from '../components/hooks/usePlayerState'
 import { YTPlayerState } from '../models/Player'
-import { AdvancedChatLiveActions } from '../models/Chat'
+import { AdvancedChatLiveActions, EqualAdvancedChatLiveActions } from '../models/Chat'
 import { PageType } from '../models/Request'
 import { ContentScriptWindow } from '../models/Window'
 
@@ -29,6 +29,8 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], maxChatList)
     const { playerState } = usePlayerState()
 
+    const lastFetchedChatActions = useRef([] as AdvancedChatLiveActions)
+
     // use in replay live page
     const { enqueue: enqueueChatQueue, dequeued, reset: resetChatQueue, freeze: freezeChatQueue } = useChatQueue()
 
@@ -36,7 +38,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
     // side effect of page change
     useEffect(() => {
         if (pageType === 'normal') {
-            console.log('clear')
+            console.log('new page')
             resetChatList()
             resetChatQueue()
             freezeChatQueue(true)
@@ -51,8 +53,11 @@ export const AppContextProvider: React.FC = ({ children }) => {
     // when a chats data is fetched
     useEffect(() => {
         // both the live page and live replay page will use the polling chat queue
-        if (pageType === 'normal') return
-        console.log('fetchedChatActions', fetchedChatActions)
+        if (pageType === 'normal'
+            || fetchedChatActions.length === 0
+            || EqualAdvancedChatLiveActions(lastFetchedChatActions.current, fetchedChatActions)) return
+
+        lastFetchedChatActions.current = fetchedChatActions
         enqueueChatQueue(fetchedChatActions)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchedChatActions])

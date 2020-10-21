@@ -31,6 +31,13 @@ function createAdvanceChatLiveActions(chatActions: ChatLiveActionWithVideoOffset
     }))
 }
 
+export const EqualAdvancedChatLiveActions = (a: AdvancedChatLiveActions, b: AdvancedChatLiveActions): boolean => {
+    if (a.length === 0 || b.length === 0) return false
+    if (a[0].uuid === b[0].uuid) return true
+    else return false
+}
+
+
 
 export const getLiveChatActions = (response: LiveChatResponse): AdvancedChatLiveActions => {
     const timeUntilNextRequest = parseFloat(FindObjectByKeyRecursively(response as Response, 'timeoutMs')) || DefaultChatRequestInterval
