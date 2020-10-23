@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
-import { AdvancedChatLiveActions, LiveChatResponse2LiveChatReplayActions, LiveChatResponse2LiveChatActions } from '../../models/Chat'
+import { AdvancedChatLiveActions, LiveChatResponse2LiveChatReplayActions, LiveChatResponse2LiveChatActions, InstantAdvancedChatLiveActions } from '../../models/Chat'
 import { CatchedLiveChatRequestMessage, PageType } from '../../models/Request'
 import { FetchData } from '../../models/Fetch'
 import { ContentScriptWindow } from '../../models/Window'
@@ -82,7 +82,9 @@ export const useFetchedLiveChatData = () => {
         try {
             const response = JSON.parse(dataString)
             if (type === 'init-live-chat' || type === 'live-chat') {
-                setChatActions(LiveChatResponse2LiveChatActions(response))
+                setChatActions(
+                    InstantAdvancedChatLiveActions(
+                        LiveChatResponse2LiveChatActions(response)))
             } else if (type === 'init-replay-live-chat' || type === 'replay-live-chat') {
                 setChatActions(LiveChatResponse2LiveChatReplayActions(response))
             }

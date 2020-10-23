@@ -57,3 +57,6 @@ export const LiveChatResponse2LiveChatReplayActions = (response: LiveChatRespons
 
     return createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions))
 }
+
+export const InstantAdvancedChatLiveActions = (actions: AdvancedChatLiveActions) => actions.map(action => ({ ...action, videoOffsetTimeMsec: 0 }))
+
