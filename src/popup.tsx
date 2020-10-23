@@ -47,7 +47,8 @@ const useStyle = makeStyles({
         flexFlow: 'row nowrap',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: '0.6rem'
+        marginTop: '0.6rem',
+        marginBottom: '0.6rem'
     },
     partName: {
         fontWeight: 600,
@@ -143,6 +144,23 @@ const App: React.FC = () => {
                                     variant='standard'
                                     severity='success'>Successfully reset</Alert>
                             </Snackbar>
+                        </article>
+                        <article>
+                            <Typography
+                                gutterBottom
+                                variant='h6'>
+                                Tips
+                            </Typography>
+                            <Typography
+                                gutterBottom
+                                variant='body2'>
+                                Use <code>Ctrl+Alt+c</code> to toggle overlay
+                            </Typography>
+                            <Typography
+                                gutterBottom
+                                variant='body2'>
+                                Press <code>Ctrl+Alt</code> then drag to move overlay
+                            </Typography>
                         </article>
                     </main>
                     <footer className={classes.footer}>

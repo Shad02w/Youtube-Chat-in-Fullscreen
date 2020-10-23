@@ -57,6 +57,11 @@ v1.0.0.7 `23-Oct-2020`
 - Fixed the freezing issue when go from a live streaming page to a normal video page 
 - Less annoying little tool bar
 
+v1.0.0.8 `25-Oct-2020`
+
+- Add some usage tips to pop up settings
+- Initial chat records of live stream will show instantly without waiting 
+
 ## Screenshot
 
 *Chat overlay on Youtube Live Replay*
