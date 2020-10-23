@@ -13,6 +13,8 @@ import { useFullscreenState } from './hooks/useFullscreenState';
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     chatActions: AdvancedChatLiveActions,
     fontSize: number
+    onAutoScrollStart?(): void
+    onAutoScrollStop?(): void
 }
 
 
@@ -93,7 +95,7 @@ const ScrollToBottom = (el: HTMLElement) => {
 
 
 
-export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, className }) => {
+export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, onAutoScrollStop, onAutoScrollStart, className }) => {
 
 
     const liveChatTextMessageClasses = useLiveChatMessageStyle()
@@ -118,10 +120,17 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, clas
         })
     })
 
+    // when re-enter the full screen
     useEffect(() => {
         if (!autoScroll || !containerRef.current || !isFullscreen) return
         requestAnimationFrame(() => ScrollToBottom(containerRef.current!))
     }, [autoScroll, isFullscreen])
+
+    useEffect(() => {
+        if (autoScroll && onAutoScrollStart) onAutoScrollStart()
+        else if (!autoScroll && onAutoScrollStop) onAutoScrollStop()
+    }, [autoScroll, onAutoScrollStart, onAutoScrollStop])
+
 
     const createChatList = () => {
         let list: JSX.Element | JSX.Element[] = <></>

@@ -8,16 +8,15 @@ import { PageType } from '../models/Request'
 import { ContentScriptWindow } from '../models/Window'
 
 declare const window: ContentScriptWindow
+
 export interface AppState {
     pageType: PageType
     chatActions: AdvancedChatLiveActions
+    freezeChatQueue(value: boolean): void
 }
 
 
-export const AppContext = createContext<AppState>({
-    pageType: 'normal',
-    chatActions: []
-})
+export const AppContext = createContext<AppState>({} as AppState)
 
 
 export const AppContextProvider: React.FC = ({ children }) => {
@@ -73,7 +72,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
     }, [dequeued])
 
     return (
-        <AppContext.Provider value={{ pageType, chatActions }}>
+        <AppContext.Provider value={{ pageType, chatActions, freezeChatQueue }}>
             {children}
         </AppContext.Provider>
     )

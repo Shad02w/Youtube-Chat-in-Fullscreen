@@ -15,7 +15,7 @@ export const useChatQueue = () => {
     const [isFreeze, setFreeze] = useState<boolean>(false)
 
     const resetQueue = useCallback(() => setQueue([]), [setQueue])
-    const freezeQueue = useCallback(setFreeze, [setFreeze])
+    const freezeQueue = useCallback((value: boolean) => setFreeze(value), [setFreeze])
 
     const queueRef = useRef(queue)
     queueRef.current = queue

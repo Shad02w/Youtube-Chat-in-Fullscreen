@@ -64,7 +64,7 @@ export const ChatOverlay: React.FC = () => {
 
     const { storage, storageDispatch } = useContext(StorageContext)
     const { opacity, fontSize, top, left, blur, width, height, show: showOverlay } = storage
-    const { chatActions, pageType } = useContext(AppContext)
+    const { chatActions, pageType, freezeChatQueue } = useContext(AppContext)
 
     const { isFullscreen } = useFullscreenState()
     const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal' && chatActions.length > 0), [chatActions, showOverlay, isFullscreen, pageType])
@@ -105,6 +105,8 @@ export const ChatOverlay: React.FC = () => {
                     <ChatList
                         chatActions={chatActions}
                         fontSize={fontSize}
+                        onAutoScrollStart={() => freezeChatQueue(false)}
+                        onAutoScrollStop={() => freezeChatQueue(true)}
                         className={classes.chatList} />
 
             }
