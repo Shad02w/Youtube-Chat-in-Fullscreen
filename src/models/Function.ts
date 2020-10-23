@@ -1,4 +1,6 @@
 
+import { LiveChatResponse } from './Fetch';
+
 
 export function debounce(wait: number, callback: Function) {
     let timeoutId = 0
@@ -8,12 +10,12 @@ export function debounce(wait: number, callback: Function) {
     }
 }
 
-export const debouncePromise = (time: number) => {
+export const debouncePromise = (wait: number) => {
     let timer: number;
     return <T extends any[]>(...args: T) => {
         clearTimeout(timer)
         return new Promise<typeof args>(resovle => {
-            timer = setTimeout(() => resovle(args), time)
+            timer = setTimeout(() => resovle(args), wait)
         })
     }
 }

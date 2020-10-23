@@ -36,7 +36,7 @@ export const useFetchedLiveChatData = () => {
         dataString: JSON.stringify({}),
     }, InterceptedDataElementId_InitLiveChat)
 
-    const requestInitLiveChatData = useCallback(debounce(4000, () => {
+    const requestInitLiveChatData = useCallback(debounce(1500, () => {
         if (!initRef.current) return
         setInit(false)
         const InterceptObserver = new MutationObserver(() => {
