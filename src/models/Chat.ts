@@ -39,7 +39,7 @@ export const EqualAdvancedChatLiveActions = (a: AdvancedChatLiveActions, b: Adva
 
 
 
-export const getLiveChatActions = (response: LiveChatResponse): AdvancedChatLiveActions => {
+export const LiveChatResponse2LiveChatActions = (response: LiveChatResponse): AdvancedChatLiveActions => {
     const timeUntilNextRequest = parseFloat(FindObjectByKeyRecursively(response as Response, 'timeoutMs')) || DefaultChatRequestInterval
     const currentPlayerTime = getCurrentPlayerTime()
     const actions = [...(FindObjectByKeyRecursively(response as Response, 'actions') as YTLiveChat.LiveAction[] || [])]
@@ -48,7 +48,7 @@ export const getLiveChatActions = (response: LiveChatResponse): AdvancedChatLive
     return createAdvanceChatLiveActions(filterChatActionsWithUndefinedValue(actions))
 }
 
-export const getLiveChatReplayActions = (response: LiveChatResponse): AdvancedChatLiveActions => {
+export const LiveChatResponse2LiveChatReplayActions = (response: LiveChatResponse): AdvancedChatLiveActions => {
     const replayActions = FindObjectByKeyRecursively(response as Response, 'actions') as YTLiveChat.ReplayLiveAction[] || []
     const actions = replayActions
         .filter(replayAction => replayAction.replayChatItemAction)

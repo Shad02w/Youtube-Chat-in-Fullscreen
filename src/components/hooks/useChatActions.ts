@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
-import { AdvancedChatLiveActions, getLiveChatReplayActions, getLiveChatActions } from '../../models/Chat'
+import { AdvancedChatLiveActions, LiveChatResponse2LiveChatReplayActions, LiveChatResponse2LiveChatActions } from '../../models/Chat'
 import { CatchedLiveChatRequestMessage, PageType } from '../../models/Request'
 import { FetchData } from '../../models/Fetch'
 import { ContentScriptWindow } from '../../models/Window'
@@ -82,9 +82,9 @@ export const useFetchedLiveChatData = () => {
         try {
             const response = JSON.parse(dataString)
             if (type === 'init-live-chat' || type === 'live-chat') {
-                setChatActions(getLiveChatActions(response))
+                setChatActions(LiveChatResponse2LiveChatActions(response))
             } else if (type === 'init-replay-live-chat' || type === 'replay-live-chat') {
-                setChatActions(getLiveChatReplayActions(response))
+                setChatActions(LiveChatResponse2LiveChatReplayActions(response))
             }
         } catch (error) {
             console.error(error)
@@ -107,13 +107,13 @@ export const useFetchedLiveChatData = () => {
                     if (initRef.current === true) return
                     const liveChatResponse = await FetchData(url, requestBody, requestHeaders)
                     if (!liveChatResponse) return
-                    setChatActions(getLiveChatActions(liveChatResponse))
+                    setChatActions(LiveChatResponse2LiveChatActions(liveChatResponse))
                 }
                 else if (message.type === 'replay-live-chat') {
                     if (initRef.current === true) return
                     const liveChatResponse = await FetchData(url, requestBody, requestHeaders)
                     if (!liveChatResponse) return
-                    setChatActions(getLiveChatReplayActions(liveChatResponse))
+                    setChatActions(LiveChatResponse2LiveChatReplayActions(liveChatResponse))
                 }
             } catch (error) {
                 console.error(error)
