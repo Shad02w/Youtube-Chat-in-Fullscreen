@@ -34,7 +34,6 @@ export const AppContextProvider: React.FC = ({ children }) => {
     // use in replay live page
     const { enqueue: enqueueChatQueue, dequeued, reset: resetChatQueue, freeze: freezeChatQueue } = useChatQueue()
 
-
     // side effect of page change
     useEffect(() => {
         if (pageType === 'normal') {
@@ -42,7 +41,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
             resetChatList()
             resetChatQueue()
             freezeChatQueue(true)
-            window.messageQueue = []
+            window.messages.clear()
         }
         else {
             freezeChatQueue(false)

@@ -31,8 +31,6 @@ export const useFetchedLiveChatData = () => {
     const initRef = useRef(init)
     initRef.current = init
 
-
-
     const { data: initLiveChatRequestAction } = useInterceptElementState<InitLiveChatRequestAction>({
         type: 'UPDATE',
         dataString: JSON.stringify({}),
@@ -62,14 +60,18 @@ export const useFetchedLiveChatData = () => {
 
     // flush the message from background which cached when react app is not ready
     useEffect(() => {
-        if (window.ready) return
-        window.ready = true
-        for (const message of window.messageQueue) {
-            const { type } = message
-            if (type !== 'init-live-chat' && type !== 'init-replay-live-chat') continue
+        const messsageListener = ((e: CustomEvent<CatchedLiveChatRequestMessage>) => {
+            const { type } = e.detail
+            if (type !== 'init-live-chat' && type !== 'init-replay-live-chat') return
             requestInitLiveChatData()
             setPageType(type)
-        }
+        }) as EventListener
+        window.messages.addEventListener('release', messsageListener)
+
+        window.ready = true
+        window.messages.popAll()
+
+        return () => window.messages.removeEventListener('release', messsageListener)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

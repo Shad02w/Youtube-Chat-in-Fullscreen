@@ -2,12 +2,13 @@ import React from 'react'
 import { render } from 'react-dom'
 import { CatchedLiveChatRequestMessage } from './models/Request'
 import { ContentScriptWindow } from './models/Window'
+import { Messages } from './models/Event';
 
 declare var window: ContentScriptWindow
 const setGlobalVariables = () => {
     window.injectHasRun = true
     window.ready = false
-    window.messageQueue = []
+    window.messages = new Messages([])
 }
 
 (async function () {
@@ -18,19 +19,18 @@ const setGlobalVariables = () => {
     const chatListContainerId = '_youtube-chat-in-fullscreen-app'
 
     if (window.injectHasRun) return
+
     setGlobalVariables()
 
-    // Dynamic import '@material-ui' to solve the issue of initilize multiple instance
-    // const AppSrc = chrome.runtime.getURL('App.js')
+    // cache message first
+    chrome.runtime.onMessage.addListener((message: CatchedLiveChatRequestMessage) => {
+        if (message.type === 'normal' || window.ready) return
+        window.messages.add(message)
+    })
 
     const { App } = await import(/* webpackMode: "eager" */'./App')
 
     console.log('liveChatRequestReplay.js injected')
-
-    chrome.runtime.onMessage.addListener((message: CatchedLiveChatRequestMessage) => {
-        if (message.type === 'normal' || window.ready) return
-        window.messageQueue.push(message)
-    })
 
     const observer = new MutationObserver(() => {
         const chatOverlayContainer = Array

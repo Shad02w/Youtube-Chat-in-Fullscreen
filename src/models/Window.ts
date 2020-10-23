@@ -1,11 +1,9 @@
-import { CatchedLiveChatRequestMessage } from "./Request";
+import { Messages } from "./Event";
 
 export interface ContentScriptWindow extends Window {
     injectHasRun: boolean,
-    messageQueue: CatchedLiveChatRequestMessage[]
     ready: boolean
-    ytInitialData: YTLiveChat.Response,
-    myInitialData: YTLiveChat.Response
+    messages: Messages
 }
 
 
