@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useMemo, useState } from 'react'
-import { useLiveChatMessageStyle } from '../styles/ChatList.style'
+import { useChatListItemStyle } from '../styles/ChatListItem.style'
 import { LiveChatTextMessage } from './LiveChatTextMessage'
 import { LiveChatPaidMessage } from './LiveChatPaidMessage'
 import { LiveChatMembershipItem } from './LiveChatMembershipItem'
@@ -98,7 +98,7 @@ const ScrollToBottom = (el: HTMLElement) => {
 export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, onAutoScrollStop, onAutoScrollStart, className }) => {
 
 
-    const liveChatTextMessageClasses = useLiveChatMessageStyle()
+    const liveChatTextMessageClasses = useChatListItemStyle()
 
     const [autoScroll, setAutoScroll] = useState<boolean>(true)
 

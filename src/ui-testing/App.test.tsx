@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { paidDummyData } from './dummy'
 import { createStyles, makeStyles } from '@material-ui/core/styles'
 import { LiveChatPaidMessage } from '../components/LiveChatPaidMessage'
-import { useLiveChatMessageStyle } from '../styles/ChatList.style'
+import { useChatListItemStyle } from '../styles/ChatListItem.style'
 import { LiveChatTextMessage } from '../components/LiveChatTextMessage'
 import { LiveChatMembershipItem } from '../components/LiveChatMembershipItem'
 import { Container } from '@material-ui/core'
@@ -11,7 +11,6 @@ import { MySlider } from '../components/MySlider'
 import { MyButton } from '../components/MyButton'
 import { Done } from '@material-ui/icons'
 import { MySwitch } from '../components/MySwitch'
-import { ChatOverlay } from '../components/ChatOverlay'
 
 const useStyles = makeStyles(theme => createStyles({
     container: {
@@ -29,7 +28,7 @@ const App: React.FC = () => {
     const [fontSize, setFontSize] = useState<number>(16)
     const [checked, setCheck] = useState<boolean>(false)
     const data = paidDummyData as YTLiveChat.LiveAction[]
-    const classes = useLiveChatMessageStyle({ fontSize: 16 })
+    const classes = useChatListItemStyle({ fontSize: 16 })
     const containerClasses = useStyles({ fontSize })
     return (
         <>

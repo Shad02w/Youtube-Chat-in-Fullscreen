@@ -1,6 +1,6 @@
 import { Paper } from '@material-ui/core'
 import React from 'react'
-import { LiveChatMessageStyleType } from '../styles/ChatList.style'
+import { LiveChatMessageStyleType } from '../styles/ChatListItem.style'
 import { AndroidColorToRgba, rgbaToRgbaString } from '../models/Color'
 import '../css/App.css'
 import { Message } from './Message'
@@ -25,11 +25,15 @@ export const LiveChatPaidMessage: React.FC<LiveChatPaidMessageProps> = ({ render
 
 
     return (
-        <Paper elevation={2} className={classes.card} style={bodyStyle} >
-            <article className={classes.cardHeader} style={headerStyle}>
+        <Paper elevation={2}
+            className={classes.card}
+            style={bodyStyle} >
+            <article className={classes.cardHeader}
+                style={headerStyle}>
                 <article className={classes.cardHeaderImageContainer}>
                     <img
-                        className={`${classes.authorImage} ${classes.cardHeaderImage}`} src={renderer.authorPhoto.thumbnails[1].url}
+                        className={`${classes.authorImage} ${classes.cardHeaderImage}`}
+                        src={renderer.authorPhoto.thumbnails[1].url}
                         alt="author icon" />
                 </article>
                 <article>
@@ -53,7 +57,8 @@ export const LiveChatPaidMessage: React.FC<LiveChatPaidMessageProps> = ({ render
                 renderer.message
                     ?
                     <article className={classes.cardMessage}>
-                        <Message message={renderer.message} classes={classes} />
+                        <Message message={renderer.message}
+                            classes={classes} />
                     </article>
                     :
                     <></>

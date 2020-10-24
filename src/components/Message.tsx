@@ -1,5 +1,5 @@
 import React from 'react'
-import { LiveChatMessageStyleType } from '../styles/ChatList.style'
+import { LiveChatMessageStyleType } from '../styles/ChatListItem.style'
 
 interface MessageProps {
     classes: LiveChatMessageStyleType
@@ -15,7 +15,10 @@ export const Message: React.FC<MessageProps> = ({ classes, message }) => {
                     if (run.text)
                         return run.text
                     else if (run.emoji)
-                        return <img key={i} className={classes.emoji} src={run.emoji.image.thumbnails[1].url} alt="emoji" />
+                        return <img key={i}
+                            className={classes.emoji}
+                            src={run.emoji.image.thumbnails[1].url}
+                            alt="emoji" />
                     return <></>
                 })
             }

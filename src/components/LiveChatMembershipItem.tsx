@@ -1,6 +1,6 @@
 import { Paper } from '@material-ui/core'
 import React from 'react'
-import { LiveChatMessageStyleType } from '../styles/ChatList.style'
+import { LiveChatMessageStyleType } from '../styles/ChatListItem.style'
 import { Message } from './Message'
 
 interface LiveChatMembershipItemProps {
@@ -16,10 +16,12 @@ export const LiveChatMembershipItem: React.FC<LiveChatMembershipItemProps> = ({ 
     }
     return (
         <Paper className={classes.card}>
-            <article className={classes.cardHeader} style={bodyStyle}>
+            <article className={classes.cardHeader}
+                style={bodyStyle}>
                 <article className={classes.cardHeaderImageContainer}>
                     <img className={`${classes.cardHeaderImage} ${classes.authorImage}`}
-                        src={renderer.authorPhoto.thumbnails[1].url} alt="author icon" />
+                        src={renderer.authorPhoto.thumbnails[1].url}
+                        alt="author icon" />
                 </article>
                 <article>
                     <div
@@ -31,7 +33,8 @@ export const LiveChatMembershipItem: React.FC<LiveChatMembershipItemProps> = ({ 
                         style={{ color: 'rgba(255, 255, 255, 0.7)' }}
                         className={`${classes.bold} ${classes.cardHeaderHighlight}`}
                     >
-                        <Message message={renderer.headerSubtext} classes={classes} />
+                        <Message message={renderer.headerSubtext}
+                            classes={classes} />
                     </div>
                 </article>
             </article>

@@ -1,8 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-export type LiveChatMessageStyleType = ReturnType<typeof useLiveChatMessageStyle>
+export type LiveChatMessageStyleType = ReturnType<typeof useChatListItemStyle>
 
-export const useLiveChatMessageStyle = makeStyles({
+export const useChatListItemStyle = makeStyles({
     textMessage: {
         padding: '5px 10px',
         display: 'grid',
@@ -53,6 +53,13 @@ export const useLiveChatMessageStyle = makeStyles({
     },
     isMember: {
         color: 'green'
+    },
+    isAuthor: {
+        color: 'black',
+        backgroundColor: 'rgb(255,200,0)',
+        padding: '0.15em 0.4em',
+        borderRadius: '0.4em'
+
     },
     authorBadge: {
         width: '1.3em',
