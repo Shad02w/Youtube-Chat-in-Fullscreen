@@ -2,9 +2,8 @@
  * This is the polling version of the chat queue
  */
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { AdvancedChatLiveActions, EqualAdvancedChatLiveActions } from '../../models/Chat'
+import { AdvancedChatLiveActions, FilterDuplicateChatAdvancedChatLiveActions } from '../../models/Chat'
 import { getCurrentPlayerTime } from '../../models/Player'
-
 
 const PollingDuration = 500
 
@@ -18,15 +17,11 @@ export const useChatQueue = () => {
     const resetQueue = useCallback(() => setQueue([]), [setQueue])
     const freezeQueue = useCallback((value: boolean) => setFreeze(value), [setFreeze])
 
-    const queuePrevious = useRef<AdvancedChatLiveActions>([])
-
     const queueRef = useRef(queue)
     queueRef.current = queue
 
     const enqueue = (chatActions: AdvancedChatLiveActions) => {
-        if (EqualAdvancedChatLiveActions(queuePrevious.current, chatActions)) return
-        setQueue(preQueue => [...preQueue, ...chatActions])
-        queuePrevious.current = chatActions
+        setQueue(preQueue => FilterDuplicateChatAdvancedChatLiveActions([...preQueue, ...chatActions]))
     }
 
     useEffect(() => {
@@ -44,3 +39,4 @@ export const useChatQueue = () => {
 
     return { enqueue, dequeued, reset: resetQueue, freeze: freezeQueue }
 }
+
