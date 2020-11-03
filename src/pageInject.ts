@@ -5,6 +5,7 @@ import {
     PlayerStateData,
     InitLiveChatRequestAction
 } from './models/Intercept'
+import { YTPlayerState } from './models/Player'
 import { ContentScriptWindow } from './models/Window'
 
 declare const window: ContentScriptWindow
@@ -18,7 +19,7 @@ playerStateInterceptElement.mount()
 const playerStateIEObserver = new MutationObserver(() => {
     const player = document.getElementById('movie_player') as any
     if (!player) return
-    player.addEventListener('onStateChange', (state: number) => {
+    player.addEventListener('onStateChange', (state: YTPlayerState) => {
         const data: PlayerStateData = { state }
         playerStateInterceptElement.set(data)
     })

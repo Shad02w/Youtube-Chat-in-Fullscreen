@@ -60,3 +60,23 @@ export const LiveChatResponse2LiveChatReplayActions = (response: LiveChatRespons
 
 export const InstantAdvancedChatLiveActions = (actions: AdvancedChatLiveActions) => actions.map(action => ({ ...action, videoOffsetTimeMsec: 0 }))
 
+export const FilterDuplicateChatAdvancedChatLiveActions = (actions: AdvancedChatLiveActions): AdvancedChatLiveActions => {
+
+    let ids: string[] = []
+    return actions.filter(({ addChatItemAction }) => {
+        if (!addChatItemAction) return false
+        let id: string | undefined = undefined
+        const { item } = addChatItemAction
+        if (item.liveChatTextMessageRenderer)
+            id = item.liveChatTextMessageRenderer.id
+        else if (item.liveChatPaidMessageRenderer)
+            id = item.liveChatPaidMessageRenderer.id
+        else if (item.liveChatMembershipItemRenderer)
+            id = item.liveChatMembershipItemRenderer.id
+        if (!id) return false
+        if (ids.some(i => i === id)) return false
+        ids.push(id)
+        ids = Array.from(new Set(ids))
+        return true
+    })
+}
