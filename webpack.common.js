@@ -1,7 +1,7 @@
 const HtmlWp = require('html-webpack-plugin')
 const CopyWp = require('copy-webpack-plugin')
 const path = require('path')
-const {merge} = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 module.exports = merge({}, {
     entry: {
@@ -37,7 +37,15 @@ module.exports = merge({}, {
         ]
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js'],
+        alias: {
+            '@hooks': path.resolve(__dirname, 'src/components/hooks'),
+            '@components': path.resolve(__dirname, 'src/components'),
+            "@models": path.resolve(__dirname, 'src/models'),
+            "@css": path.resolve(__dirname, 'src/css'),
+            "@icons": path.resolve(__dirname, 'src/icons'),
+            "@contexts": path.resolve(__dirname, 'src/contexts'),
+        }
     },
     plugins: [
         new HtmlWp({
