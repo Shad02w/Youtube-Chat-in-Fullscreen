@@ -1,6 +1,5 @@
 {
     "name": "Youtube Chat in Fullscreen",
-    "$schema": "https://json.schemastore.org/chrome-manifest",
     "description": "A chrome extension creates an overlay to show Youtube live chat when in full screen",
     "version": "1.0.0.10",
     "manifest_version": 2,
