@@ -9,8 +9,8 @@
     "scripts": {
         "start": "webpack --config webpack.dev.js",
         "build": "webpack --config webpack.prod.js",
-        "test": "webpack-dev-server --config webpack.test.js",
-        "jest": "jest --config jest.config.js --watch"
+        "ui-test": "webpack-dev-server --config webpack.test.js",
+        "test": "jest --config jest.config.js --watch"
     },
     "devDependencies": {
         "@babel/core": "^7.11.6",

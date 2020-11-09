@@ -1,4 +1,8 @@
 module.exports = {
-    rootDir:'src',
-    testPathIgnorePatterns:['<rootDir>/ui-testing']
+    rootDir: 'src',
+    verbose: true,
+    testPathIgnorePatterns: ['<rootDir>/ui-testing'],
+    moduleNameMapper: {
+        '@models/(.*)': ['<rootDir>/models/$1']
+    }
 }
