@@ -20,13 +20,6 @@ export const debouncePromise = (wait: number) => {
     }
 }
 
-export const handleError = <T extends any[]>(fn: (...args: T) => Promise<any>) => {
-    return (...args: T) => {
-        return fn(...args).catch(err => console.error(err))
-    }
-}
-
-
 export function FindObjectByKeyRecursively(obj: LiveChatResponse, targetKey: string): any | undefined {
     const result = Object.keys(obj).find(k => k === targetKey)
     if (result)
