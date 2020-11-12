@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 
 export const useElementState = (id: string) => {
-    const [ready, setReady] = useState(false)
+    const [ready, setReady] = useState<boolean>(document.getElementById(id) ? true : false)
 
     useEffect(() => {
         const interceptedObserver = new MutationObserver(() => {
@@ -12,9 +12,7 @@ export const useElementState = (id: string) => {
             }
         })
         interceptedObserver.observe(document.body, { childList: true, subtree: true })
-        return () => {
-            interceptedObserver.disconnect()
-        }
+        return () => interceptedObserver.disconnect()
     }, [id])
 
     return { ready }
