@@ -21,21 +21,25 @@ export interface InterceptElement<T> {
     set(data: T): void
     get(): T,
     toString(): string
+    getTestId(): string
 }
 
 
 
 export const createInterceptElement = <T>(id: string): InterceptElement<T> => {
     const interceptedElement = document.createElement('div')
+    const testId = `intercept-${id}`
     interceptedElement.id = id
     interceptedElement.innerHTML = JSON.stringify({})
     interceptedElement.classList.add('_youtube-chat-in-fullscreen-intercept')
+    interceptedElement.setAttribute('data-testid', testId)
 
     return {
         element: interceptedElement,
         mount: () => document.body.appendChild(interceptedElement),
         set: (data: T) => interceptedElement.innerHTML = JSON.stringify(data),
         get: () => JSON.parse(interceptedElement.innerHTML),
-        toString: () => interceptedElement.innerHTML
+        toString: () => interceptedElement.innerHTML,
+        getTestId: () => testId
     }
 }
