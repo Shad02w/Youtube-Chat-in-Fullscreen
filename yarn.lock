@@ -1483,6 +1483,14 @@
     "@types/filesystem" "*"
     "@types/har-format" "*"
 
+"@types/chrome@^0.0.114":
+  version "0.0.114"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.114.tgz#8ceb33fa261f4b9e307fa7344ba8182d8d410d4e"
+  integrity sha512-i7qRr74IrxHtbnrZSKUuP5Uvd5EOKwlwJq/yp7+yTPihOXnPhNQO4Z5bqb1XTnrjdbUKEJicaVVbhcgtRijmLA==
+  dependencies:
+    "@types/filesystem" "*"
+    "@types/har-format" "*"
+
 "@types/chrome@^0.0.122":
   version "0.0.122"
   resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.122.tgz#65265d3854f511c2c1e779148e97982ee00b460f"
@@ -5609,6 +5617,13 @@ jest-changed-files@^26.5.2:
     "@jest/types" "^26.5.2"
     execa "^4.0.0"
     throat "^5.0.0"
+
+jest-chrome@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/jest-chrome/-/jest-chrome-0.7.0.tgz#4a2105370f916abf20cf5f389d0818698c28b05a"
+  integrity sha512-afOzmTh3Nzr1FDKU/nsfIi/OmyScl6Pd6+jdqaBoRNwdGdYnMEWgZKW73KesdcywnLBEHRCKO4ftY+VTbqgPww==
+  dependencies:
+    "@types/chrome" "^0.0.114"
 
 jest-cli@^26.5.2:
   version "26.5.2"
