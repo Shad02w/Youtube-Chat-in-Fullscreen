@@ -1,4 +1,4 @@
-import { CatchedLiveChatRequestMessage } from './Request';
+import { CatchedLiveChatRequestMessage } from '@models/Request';
 
 export class Messages extends EventTarget {
     private _list: CatchedLiveChatRequestMessage[]
