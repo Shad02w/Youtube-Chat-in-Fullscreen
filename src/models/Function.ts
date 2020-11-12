@@ -1,5 +1,4 @@
-
-import { LiveChatResponse } from './Fetch';
+import { LiveChatResponse } from '@models/Fetch';
 
 
 export function debounce(wait: number, callback: Function) {
