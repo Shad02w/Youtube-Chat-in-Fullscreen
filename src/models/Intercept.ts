@@ -20,8 +20,6 @@ export interface InterceptElement<T> {
     mount(): void
     set(data: T): void
     get(): T,
-    toString(): string
-    getTestId(): string
 }
 
 
@@ -39,7 +37,5 @@ export const createInterceptElement = <T>(id: string): InterceptElement<T> => {
         mount: () => document.body.appendChild(interceptedElement),
         set: (data: T) => interceptedElement.innerHTML = JSON.stringify(data),
         get: () => JSON.parse(interceptedElement.innerHTML),
-        toString: () => interceptedElement.innerHTML,
-        getTestId: () => testId
     }
 }
