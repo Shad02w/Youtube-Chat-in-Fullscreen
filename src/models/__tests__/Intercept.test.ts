@@ -1,12 +1,14 @@
 import { createInterceptElement } from "@models/Intercept"
 import { getByTestId } from '@testing-library/dom'
+import base64 from 'base-64';
 import "@testing-library/jest-dom"
 
 
 describe('Intercept element test', () => {
 
     const elId = 'idForIE'
-    const interceptEl = createInterceptElement<{ hi: number }>(elId)
+    const initValue = { message: 'hello' }
+    const interceptEl = createInterceptElement(elId, initValue)
 
     beforeEach(() => {
         interceptEl.mount()
@@ -23,13 +25,13 @@ describe('Intercept element test', () => {
     })
 
     test('Set content of intercept element', () => {
-        const data = { hi: 1 }
+        const data = { message: 'set' }
         interceptEl.set(data)
-        expect(getByTestId(document.body, `intercept-${elId}`)).toHaveTextContent(JSON.stringify(data))
+        expect(getByTestId(document.body, `intercept-${elId}`).innerText).toEqual(base64.encode(JSON.stringify(data)))
     })
 
     test('Get content of intercept element', () => {
-        const data = { hi: 1 }
+        const data = { message: 'get' }
         interceptEl.set(data)
         expect(interceptEl.get()).toStrictEqual(data)
     })

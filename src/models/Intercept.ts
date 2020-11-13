@@ -1,4 +1,5 @@
-import { YTPlayerState } from '../models/Player'
+import { YTPlayerState } from '@models/Player'
+import base64 from 'base-64';
 
 export const InterceptedDataElementId_PlayerState = '__Intercepted_data_element_id_yt_player'
 export const InterceptedDataElementId_InitLiveChat = '__Intercepted_data_element_id_init_live_chat'
@@ -28,14 +29,20 @@ export const createInterceptElement = <T>(id: string, initValue: T): InterceptEl
     const interceptedElement = document.createElement('div')
     const testId = `intercept-${id}`
     interceptedElement.id = id
-    interceptedElement.innerHTML = JSON.stringify(initValue)
     interceptedElement.classList.add('_youtube-chat-in-fullscreen-intercept')
     interceptedElement.setAttribute('data-testid', testId)
+    setInterceptElementContent(initValue, interceptedElement)
+
 
     return {
         element: interceptedElement,
-        mount: () => document.body.appendChild(interceptedElement),
-        set: (data: T) => interceptedElement.innerHTML = JSON.stringify(data),
-        get: () => JSON.parse(interceptedElement.innerHTML),
+        mount: () => mountInterceptElement(interceptedElement),
+        set: (data: T) => setInterceptElementContent(data, interceptedElement),
+        get: () => getInterceptElementContent<T>(interceptedElement),
     }
 }
+
+
+export const setInterceptElementContent = <T>(content: T, el: HTMLElement) => el.innerText = base64.encode(JSON.stringify(content))
+export const getInterceptElementContent = <T>(el: HTMLElement): T => JSON.parse(base64.decode(el.innerText))
+export const mountInterceptElement = (el: HTMLElement) => document.body.appendChild(el)
