@@ -1,11 +1,16 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
-import { AdvancedChatLiveActions, LiveChatResponse2LiveChatReplayActions, LiveChatResponse2LiveChatActions, InstantAdvancedChatLiveActions } from '../../models/Chat'
-import { CatchedLiveChatRequestMessage, PageType } from '../../models/Request'
-import { FetchData } from '../../models/Fetch'
-import { ContentScriptWindow } from '../../models/Window'
-import { useInterceptElementState } from './useElementState'
-import { InterceptedDataElementId_InitLiveChat, InitLiveChatRequestAction } from '../../models/Intercept'
-import { debounce } from '../../models/Function'
+import {
+    AdvancedChatLiveActions,
+    LiveChatResponse2LiveChatReplayActions,
+    LiveChatResponse2LiveChatActions,
+    InstantAdvancedChatLiveActions
+} from '@models/Chat'
+import { CatchedLiveChatRequestMessage, PageType } from '@models/Request'
+import { FetchData } from '@models/Fetch'
+import { ContentScriptWindow } from '@models/Window'
+import { InterceptedDataElementId_InitLiveChat, InitLiveChatRequestAction } from '@models/Intercept'
+import { debounce } from '@models/Function'
+import { useInterceptElement } from '@hooks/useInterceptElement';
 
 declare const window: ContentScriptWindow
 
@@ -31,10 +36,10 @@ export const useFetchedLiveChatData = () => {
     const initRef = useRef(init)
     initRef.current = init
 
-    const { data: initLiveChatRequestAction } = useInterceptElementState<InitLiveChatRequestAction>({
+    const initLiveChatRequestAction = useInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, {
         type: 'UPDATE',
         dataString: JSON.stringify({}),
-    }, InterceptedDataElementId_InitLiveChat)
+    })
 
     const requestInitLiveChatData = useCallback(debounce(1500, () => {
         if (!initRef.current) return

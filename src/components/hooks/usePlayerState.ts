@@ -1,12 +1,8 @@
 import { InterceptedDataElementId_PlayerState, PlayerStateData } from '@models/Intercept'
 import { YTPlayerState } from '@models/Player'
-import { useInterceptElementEffect } from './useInterceptElementEffect'
-import { useState } from 'react'
+import { useInterceptElement } from './useInterceptElement'
 
 export const usePlayerState = () => {
-    const [playerState, setPlayerState] = useState<YTPlayerState>(YTPlayerState.UNSTARTED)
-    useInterceptElementEffect<PlayerStateData>(({ state }) => {
-        setPlayerState(state)
-    }, InterceptedDataElementId_PlayerState)
+    const { state: playerState } = useInterceptElement<PlayerStateData>(InterceptedDataElementId_PlayerState, { state: YTPlayerState.UNSTARTED })
     return { playerState }
 }

@@ -22,6 +22,7 @@
         "@material-ui/lab": "^4.0.0-alpha.56",
         "@testing-library/dom": "^7.26.6",
         "@testing-library/jest-dom": "^5.11.5",
+        "@testing-library/react": "^11.1.2",
         "@testing-library/react-hooks": "^3.4.2",
         "@types/chrome": "^0.0.122",
         "@types/jest": "^26.0.14",

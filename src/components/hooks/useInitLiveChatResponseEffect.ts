@@ -4,7 +4,7 @@ import { InitLiveChatRequestAction, InterceptedDataElementId_InitLiveChat } from
 import { PageType } from "@models/Request";
 import { useRef, useState } from "react";
 import { useBackgroundMessageEffect } from "./useBackgroundMessageEffect";
-import { useInterceptElementEffect } from "./useInterceptElementEffect";
+import { useInterceptElement } from "./useInterceptElement";
 
 type InitLiveChatResponseEffectCallback = (response: LiveChatResponse, pageType: PageType) => any
 
@@ -32,7 +32,7 @@ export const useInitLiveChatResponseEffect = (effect: InitLiveChatResponseEffect
         setPageType(type)
     })
 
-    useInterceptElementEffect<InitLiveChatRequestAction>(data => {
+    useInterceptElement<InitLiveChatRequestAction>(data => {
         if (!data.type || data.type !== 'UPDATE') return
         const { dataString } = data
         try {
