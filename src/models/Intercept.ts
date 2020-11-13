@@ -24,11 +24,11 @@ export interface InterceptElement<T> {
 
 
 
-export const createInterceptElement = <T>(id: string): InterceptElement<T> => {
+export const createInterceptElement = <T>(id: string, initValue: T): InterceptElement<T> => {
     const interceptedElement = document.createElement('div')
     const testId = `intercept-${id}`
     interceptedElement.id = id
-    interceptedElement.innerHTML = JSON.stringify({})
+    interceptedElement.innerHTML = JSON.stringify(initValue)
     interceptedElement.classList.add('_youtube-chat-in-fullscreen-intercept')
     interceptedElement.setAttribute('data-testid', testId)
 
