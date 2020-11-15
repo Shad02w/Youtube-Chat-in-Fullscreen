@@ -27,7 +27,7 @@ describe('Intercept element test', () => {
     test('Set content of intercept element', () => {
         const data = { message: 'set' }
         interceptEl.set(data)
-        expect(getByTestId(document.body, `intercept-${elId}`).innerText).toEqual(base64.encode(JSON.stringify(data)))
+        expect(getByTestId(document.body, `intercept-${elId}`)).toHaveTextContent(base64.encode(JSON.stringify(data)))
     })
 
     test('Get content of intercept element', () => {
@@ -35,4 +35,5 @@ describe('Intercept element test', () => {
         interceptEl.set(data)
         expect(interceptEl.get()).toStrictEqual(data)
     })
+
 })
