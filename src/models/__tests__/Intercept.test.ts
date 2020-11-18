@@ -35,5 +35,4 @@ describe('Intercept element test', () => {
         interceptEl.set(data)
         expect(interceptEl.get()).toStrictEqual(data)
     })
-
 })

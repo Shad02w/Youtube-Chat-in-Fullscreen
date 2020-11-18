@@ -1,5 +1,5 @@
 import { YTPlayerState } from '@models/Player'
-import base64 from 'base-64';
+import { JSON2Datastring, Datastring2JSON } from '@models/DataString';
 
 export const InterceptedDataElementId_PlayerState = '__Intercepted_data_element_id_yt_player'
 export const InterceptedDataElementId_InitLiveChat = '__Intercepted_data_element_id_init_live_chat'
@@ -43,6 +43,6 @@ export const createInterceptElement = <T>(id: string, initValue: T): InterceptEl
 }
 
 
-export const setInterceptElementContent = <T>(content: T, el: HTMLElement) => el.textContent = base64.encode(JSON.stringify(content))
-export const getInterceptElementContent = <T>(el: HTMLElement): T => JSON.parse(base64.decode(el.textContent!))
+export const setInterceptElementContent = <T>(content: T, el: HTMLElement) => el.textContent = JSON2Datastring(content)
+export const getInterceptElementContent = <T>(el: HTMLElement): T => Datastring2JSON(el.textContent!)
 export const mountInterceptElement = (el: HTMLElement) => document.body.appendChild(el)
