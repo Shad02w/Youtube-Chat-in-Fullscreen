@@ -28,7 +28,7 @@ describe('useInterceptElement hook testing', () => {
         expect(result.current).toStrictEqual(byeMessage)
     })
 
-    test('Should return new value instead of initValue when content of intercept element update', async () => {
+    test('Should return updated value instead of initValue when content of intercept element update', async () => {
         const byeMessage = { message: 'bye' }
         const interceptEl = createInterceptElement(id, byeMessage)
         interceptEl.mount()
