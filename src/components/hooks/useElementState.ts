@@ -7,13 +7,13 @@ export const useElementStatus = (id: string) => {
     useEffect(() => {
         const interceptedObserver = new MutationObserver(() => {
             if (document.getElementById(id)) {
-                setReady(true)
+                if (!ready) setReady(true)
                 interceptedObserver.disconnect()
             }
         })
         interceptedObserver.observe(document.body, { childList: true, subtree: true })
         return () => interceptedObserver.disconnect()
-    }, [id])
+    }, [id, ready])
 
     return { ready }
 }
