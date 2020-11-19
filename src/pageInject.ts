@@ -13,7 +13,7 @@ declare const window: ContentScriptWindow
 /**
  * Create a div element for holding player state of the youtube player
  */
-const playerStateInterceptElement = createInterceptElement<PlayerStateData>(InterceptedDataElementId_PlayerState)
+const playerStateInterceptElement = createInterceptElement<PlayerStateData>(InterceptedDataElementId_PlayerState, { state: YTPlayerState.UNSTARTED })
 playerStateInterceptElement.mount()
 
 const playerStateIEObserver = new MutationObserver(() => {
@@ -32,7 +32,7 @@ playerStateIEObserver.observe(document.body, { childList: true, subtree: true })
 /*
 * Create a div element for responing request and update the init data from live chat iframe
 */
-const initLiveChatInterceptElement = createInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat)
+const initLiveChatInterceptElement = createInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, { type: 'UPDATE', dataString: JSON.stringify({}) })
 initLiveChatInterceptElement.mount()
 
 const getIframeInitLiveChatResponse = () => {
