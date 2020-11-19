@@ -1,0 +1,53 @@
+import { LiveChatResponse } from "@models/Fetch";
+import { debounce } from "@models/Function";
+import { InitLiveChatRequestAction, InterceptedDataElementId_InitLiveChat, setInterceptElementContent } from "@models/Intercept";
+import { PageType } from "@models/Request";
+import { useEffect, useRef, useState } from "react";
+import { useBackgroundMessageEffect } from "./useBackgroundMessageEffect";
+import { useInterceptElement } from "./useInterceptElement";
+import { } from 'base-64';
+
+type InitLiveChatResponseEffectCallback = (response: LiveChatResponse, pageType: PageType) => any
+export const requestInitLiveChatData_debounce_time = 1500
+
+export const initLiveChatRequestAction_Default: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify({}) }
+export const requestInitLiveChatData = () => {
+    const interceptEl = document.getElementById(InterceptedDataElementId_InitLiveChat)
+    if (!interceptEl) return undefined
+    const json: InitLiveChatRequestAction = {
+        type: 'REQUEST'
+    }
+    setInterceptElementContent(json, interceptEl)
+}
+
+
+export const useInitLiveChatResponse = (effect: InitLiveChatResponseEffectCallback) => {
+
+    const [pageType, setPageType] = useState<PageType>('normal')
+    const initLiveChatRequestAction = useInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, initLiveChatRequestAction_Default)
+    const pageTypeRef = useRef(pageType)
+    const effectRef = useRef(effect)
+    pageTypeRef.current = pageType
+    effectRef.current = effect
+
+    const requestInitLiveChatData_debounce = debounce(requestInitLiveChatData_debounce_time, requestInitLiveChatData)
+
+    useBackgroundMessageEffect((message) => {
+        const { type } = message
+        if (type === 'init-live-chat' || type === 'init-replay-live-chat') {
+            requestInitLiveChatData_debounce()
+            setPageType(type)
+        }
+    })
+
+    useEffect(() => {
+        if (!initLiveChatRequestAction || !initLiveChatRequestAction.type || initLiveChatRequestAction.type !== 'UPDATE') return
+        const { dataString } = initLiveChatRequestAction
+        try {
+            effectRef.current(JSON.parse(dataString), pageTypeRef.current)
+        } catch (error) {
+            console.error(error)
+        }
+    }, [initLiveChatRequestAction])
+
+}
