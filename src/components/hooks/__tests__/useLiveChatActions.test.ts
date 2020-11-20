@@ -23,8 +23,9 @@ jest.mock('uuid', () => {
 })
 
 jest.useFakeTimers()
+type ChannelType = 'window' | 'chrome'
 
-const test_WindowMessage = async (pageType: PageType) => {
+const testCases = async (pageType: PageType, channel: ChannelType) => {
 
     const initAction: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify({}) }
     const interceptEl = createInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, initAction)
@@ -33,13 +34,29 @@ const test_WindowMessage = async (pageType: PageType) => {
     const { result } = renderHook(() => useLiveChatActions())
     expect(result.current.chatActions).toStrictEqual([])
 
-    const initReplayLiveChatMessage = { type: pageType } as CatchedLiveChatRequestMessage
-    window.messages.add(initReplayLiveChatMessage)
-    await act(async () => {
-        window.messages.pop()
-        jest.runAllTimers()
-    })
+    const messsage = { type: pageType, details: { url: 'url' } } as CatchedLiveChatRequestMessage
 
+    // live-chat and replay-live-chat fetch data from internet
+    if (pageType === 'live-chat' || pageType === 'replay-live-chat')
+        jest.spyOn(axios, 'get').mockResolvedValueOnce({ data: (pageType === 'live-chat') ? LiveResponseSample : ReplayResponseSample })
+
+    if (channel === 'chrome') {
+        await act(async () => {
+            chrome.runtime.onMessage.callListeners(messsage, {}, () => { })
+            jest.runAllTimers()
+        })
+    }
+    else if (channel === 'window') {
+        await act(async () => {
+            window.messages.add(messsage)
+            window.messages.pop()
+            jest.runAllTimers()
+        })
+
+    }
+
+
+    // init-live-chat and init-replay-live-chat fetch data from live chat iframe window object, by using intercept element
     if (pageType === 'init-replay-live-chat' || pageType === 'init-live-chat') {
         expect(getInterceptElementContent(document.getElementById(InterceptedDataElementId_InitLiveChat)!)).toStrictEqual({ type: 'REQUEST' } as InitLiveChatRequestAction)
         //mock page inject js
@@ -47,15 +64,15 @@ const test_WindowMessage = async (pageType: PageType) => {
             const updateInitAction: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify(pageType === 'init-live-chat' ? LiveResponseSample : ReplayResponseSample) }
             interceptEl.set(updateInitAction)
         })
-        const targetActions = pageType === 'init-live-chat' ?
-            LiveChatResponse2LiveChatActions(LiveResponseSample) :
-            LiveChatResponse2LiveChatReplayActions(ReplayResponseSample)
-        expect(result.current.chatActions).toStrictEqual(targetActions)
     }
-    else if (pageType === 'live-chat' || pageType === 'replay-live-chat') {
 
-    }
+    const targetActions = pageType === 'init-live-chat' || pageType === 'live-chat' ?
+        LiveChatResponse2LiveChatActions(LiveResponseSample) :
+        LiveChatResponse2LiveChatReplayActions(ReplayResponseSample)
+    expect(result.current.chatActions).toStrictEqual(targetActions)
 }
+
+
 describe('useLiveChatActions', () => {
 
     beforeAll(() => {
@@ -75,36 +92,37 @@ describe('useLiveChatActions', () => {
     })
 
     test('Should return proper chat actions according to live-chat meesage from background.js', async () => {
-        const { result } = renderHook(() => useLiveChatActions())
-        expect(result.current.chatActions).toStrictEqual([])
-
-        await act(async () => {
-            jest.spyOn(axios, 'get').mockResolvedValueOnce({ data: LiveResponseSample })
-            const message = { type: 'live-chat', details: { url: 'url' } } as CatchedLiveChatRequestMessage
-            chrome.runtime.onMessage.callListeners(message, {}, () => { })
-        })
-        expect(result.current.chatActions).toStrictEqual(LiveChatResponse2LiveChatActions(LiveResponseSample))
+        await testCases('live-chat', 'chrome')
     })
 
     test('Should return proper chat actions according to replay-live-chat message from background.js', async () => {
-        const { result } = renderHook(() => useLiveChatActions())
-        expect(result.current.chatActions).toStrictEqual([])
+        await testCases('replay-live-chat', 'chrome')
+    })
 
-        await act(async () => {
-            jest.spyOn(axios, 'get').mockResolvedValueOnce({ data: ReplayResponseSample })
-            const message = { type: 'replay-live-chat', details: { url: 'url' } } as CatchedLiveChatRequestMessage
-            chrome.runtime.onMessage.callListeners(message, {}, () => { })
-        })
-        expect(result.current.chatActions).toStrictEqual(LiveChatResponse2LiveChatReplayActions(ReplayResponseSample))
+    test('Should return proper chat actions according to init-live-chat message from background.js', async () => {
+        await testCases('init-live-chat', 'chrome')
+    })
+
+    test('Should return proper chat actions according to init-replay-live-chat message from background.js', async () => {
+        await testCases('init-replay-live-chat', 'chrome')
     })
 
     test('Should return proper chat actions according to init-live-chat message from window.messsages  ', async () => {
-        await test_WindowMessage('init-live-chat')
+        await testCases('init-live-chat', 'window')
     })
 
     test('Should return proper chat actions according to init-replay-live-chat message from window.messsages  ', async () => {
-        await test_WindowMessage('init-replay-live-chat')
+        await testCases('init-replay-live-chat', 'window')
     })
+
+    test('Should return proper chat actions according to live-chat message from chrome messsage  ', async () => {
+        await testCases('live-chat', 'window')
+    })
+
+    test('Should return proper chat actions according to replay-live-chat message from chrome messsage  ', async () => {
+        await testCases('replay-live-chat', 'window')
+    })
+
 
 })
 
