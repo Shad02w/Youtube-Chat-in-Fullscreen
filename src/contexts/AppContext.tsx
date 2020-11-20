@@ -1,16 +1,18 @@
 import React, { createContext, useEffect, useRef, useState } from 'react'
-import { useFetchedLiveChatData, useChatActions } from '../components/hooks/useChatActions'
-import { useChatQueue } from '../components/hooks/useChatQueue'
-import { usePlayerState } from '../components/hooks/usePlayerState'
-import { YTPlayerState } from '../models/Player'
-import { AdvancedChatLiveActions, EqualAdvancedChatLiveActions } from '../models/Chat'
-import { PageType } from '../models/Request'
-import { ContentScriptWindow } from '../models/Window'
+import { useChatActions } from '@hooks/useChatActions'
+import { useChatQueue } from '@hooks/useChatQueue'
+import { usePlayerState } from '@hooks/usePlayerState'
+import { YTPlayerState } from '@models/Player'
+import { AdvancedChatLiveActions, EqualAdvancedChatLiveActions } from '@models/Chat'
+import { ContentScriptWindow } from '@models/Window'
+import { useLiveChatActions } from '@hooks/useLiveChatActions'
+import { useBackgroundMessage } from '@hooks/useBackgroundMessage'
+import { PageType } from '@models/Request'
 
 declare const window: ContentScriptWindow
 
 export interface AppState {
-    pageType: PageType
+    pageType: PageType | undefined
     chatActions: AdvancedChatLiveActions
     freezeChatQueue(value: boolean): void
 }
@@ -23,7 +25,8 @@ export const AppContextProvider: React.FC = ({ children }) => {
 
 
     const [maxChatList] = useState<number>(70)
-    const { chatActions: fetchedChatActions, pageType } = useFetchedLiveChatData()
+    const { chatActions: fetchedChatActions } = useLiveChatActions()
+    const [pageType, setPageType] = useState<PageType>('normal')
 
     const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], maxChatList)
     const { playerState } = usePlayerState()
@@ -32,6 +35,18 @@ export const AppContextProvider: React.FC = ({ children }) => {
 
     // use in replay live page
     const { enqueue: enqueueChatQueue, dequeued, reset: resetChatQueue, freeze: freezeChatQueue } = useChatQueue()
+
+    // Get page Type
+    useBackgroundMessage(message => {
+        setPageType(message.type)
+    })
+
+    // when the  app is ready , pop  all message from window cached message to trigger the message release event
+    useEffect(() => {
+        if (window.ready) return
+        window.ready = true
+        window.messages.popAll()
+    }, [])
 
     // side effect of page change
     useEffect(() => {

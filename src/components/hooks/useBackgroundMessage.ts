@@ -8,6 +8,7 @@ declare const window: ContentScriptWindow
 
 export const useBackgroundMessage = (effect: CachedMessageEffectCallback) => {
 
+
     useEffect(() => {
         const listener = ((e: CustomEvent<CatchedLiveChatRequestMessage>) => {
             effect(e.detail)
