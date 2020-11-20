@@ -1,6 +1,6 @@
 import { createInterceptElement } from "@models/Intercept"
 import { getByTestId } from '@testing-library/dom'
-import base64 from 'base-64';
+import { Base64 } from 'js-base64';
 import "@testing-library/jest-dom"
 
 
@@ -27,7 +27,7 @@ describe('Intercept element test', () => {
     test('Set content of intercept element', () => {
         const data = { message: 'set' }
         interceptEl.set(data)
-        expect(getByTestId(document.body, `intercept-${elId}`)).toHaveTextContent(base64.encode(JSON.stringify(data)))
+        expect(getByTestId(document.body, `intercept-${elId}`)).toHaveTextContent(Base64.encode(JSON.stringify(data)))
     })
 
     test('Get content of intercept element', () => {

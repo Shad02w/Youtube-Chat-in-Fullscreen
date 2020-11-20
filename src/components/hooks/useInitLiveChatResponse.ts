@@ -5,7 +5,6 @@ import { PageType } from "@models/Request";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useBackgroundMessageEffect } from "./useBackgroundMessageEffect";
 import { useInterceptElement } from "./useInterceptElement";
-import { } from 'base-64';
 
 type InitLiveChatResponseEffectCallback = (response: LiveChatResponse, pageType: PageType) => any
 export const requestInitLiveChatData_debounce_time = 1500

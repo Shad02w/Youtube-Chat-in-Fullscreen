@@ -1,5 +1,5 @@
-import base64 from 'base-64';
+import { Base64 } from 'js-base64';
 export type Datastring = string
 
-export const JSON2Datastring = <T>(obj: T): string => base64.encode(JSON.stringify(obj))
-export const Datastring2JSON = <T>(datastring: Datastring): T => JSON.parse(base64.decode(datastring))
+export const JSON2Datastring = <T>(obj: T): string => Base64.encode(JSON.stringify(obj))
+export const Datastring2JSON = <T>(datastring: Datastring): T => JSON.parse(Base64.decode(datastring))
