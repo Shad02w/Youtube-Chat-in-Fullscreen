@@ -36,7 +36,7 @@ export const useFetchedLiveChatData = () => {
     const initRef = useRef(init)
     initRef.current = init
 
-    const initLiveChatRequestAction = useInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, {
+    const { data: initLiveChatRequestAction } = useInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, {
         type: 'UPDATE',
         dataString: JSON.stringify({}),
     })
