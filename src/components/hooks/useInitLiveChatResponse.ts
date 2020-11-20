@@ -3,7 +3,7 @@ import { debounce } from "@models/Function";
 import { InitLiveChatRequestAction, InterceptedDataElementId_InitLiveChat, setInterceptElementContent } from "@models/Intercept";
 import { PageType } from "@models/Request";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useBackgroundMessageEffect } from "./useBackgroundMessageEffect";
+import { useBackgroundMessage } from "./useBackgroundMessage";
 import { useInterceptElement } from "./useInterceptElement";
 
 type InitLiveChatResponseEffectCallback = (response: LiveChatResponse, pageType: PageType) => any
@@ -34,7 +34,7 @@ export const useInitLiveChatResponse = (effect: InitLiveChatResponseEffectCallba
 
     const requestInitLiveChatData_debounce = debounce(requestInitLiveChatData_debounce_time, requestInitLiveChatData)
 
-    useBackgroundMessageEffect((message) => {
+    useBackgroundMessage((message) => {
         const { type } = message
         if (type === 'init-live-chat' || type === 'init-replay-live-chat') {
             requestInitLiveChatData_debounce()

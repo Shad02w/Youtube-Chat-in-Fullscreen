@@ -1,4 +1,4 @@
-import { useBackgroundMessageEffect } from '@hooks/useBackgroundMessageEffect'
+import { useBackgroundMessage } from '@hooks/useBackgroundMessage'
 import { Messages } from '@models/Event'
 import { CatchedLiveChatRequestMessage } from '@models/Request'
 import { ContentScriptWindow } from '@models/Window'
@@ -27,7 +27,7 @@ describe('useBackgroundMessageEffect hook', () => {
     test('Should call effect callback when cached messages is released', () => {
         const effectFunction = jest.fn().mockImplementation(d => d)
         const message = { details: { frameId: 1 } } as CatchedLiveChatRequestMessage
-        renderHook(() => useBackgroundMessageEffect(effectFunction))
+        renderHook(() => useBackgroundMessage(effectFunction))
 
         act(() => {
             window.messages.add(message)
@@ -42,7 +42,7 @@ describe('useBackgroundMessageEffect hook', () => {
     test('Should call effect callback when messsage from background script is released', () => {
         const effectFunction = jest.fn()
         const message = { messsge: 'hello' }
-        renderHook(() => useBackgroundMessageEffect(effectFunction))
+        renderHook(() => useBackgroundMessage(effectFunction))
 
         act(() => {
             chrome.runtime.onMessage.callListeners(message, {}, () => { })

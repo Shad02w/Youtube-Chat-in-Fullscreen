@@ -6,7 +6,7 @@ type CachedMessageEffectCallback = (message: CatchedLiveChatRequestMessage) => a
 declare const window: ContentScriptWindow
 
 
-export const useBackgroundMessageEffect = (effect: CachedMessageEffectCallback) => {
+export const useBackgroundMessage = (effect: CachedMessageEffectCallback) => {
 
     useEffect(() => {
         const listener = ((e: CustomEvent<CatchedLiveChatRequestMessage>) => {
