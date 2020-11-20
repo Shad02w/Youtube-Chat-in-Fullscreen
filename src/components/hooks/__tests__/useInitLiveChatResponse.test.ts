@@ -55,6 +55,19 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
             expect(mockFn).toBeCalledWith(JSON.parse(updateAction.dataString), 'normal')
     })
 
+    test('Should not run effect callback when pageType "normal" in message', async () => {
+        const message = { type: 'normal', details: {} } as CatchedLiveChatRequestMessage
+        const mockFn = jest.fn()
+        renderHook(() => useInitLiveChatResponse(mockFn))
+        expect(mockFn).toBeCalledTimes(1)
+        await act(async () => {
+            chrome.runtime.onMessage.callListeners(message, {}, () => { })
+            jest.runAllTimers()
+        })
+        expect(mockFn).toBeCalledTimes(1)
+
+    })
+
 
     test('Should change intercept element to request action after getting the background message of init live chat', async () => {
         const message = { type: 'init-live-chat', details: { frameId: 0 } } as CatchedLiveChatRequestMessage

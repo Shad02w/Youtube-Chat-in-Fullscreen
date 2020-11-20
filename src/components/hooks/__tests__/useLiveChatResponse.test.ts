@@ -32,6 +32,18 @@ describe('useLiveChatResponse hook testing', () => {
         expect(effectMockFn).toBeCalledTimes(0)
     })
 
+    test('Should not call effect callback when pageType is normal in messages', () => {
+        const effectMockFn = jest.fn()
+        renderHook(() => useLiveChatResponse(effectMockFn))
+        expect(effectMockFn).toBeCalledTimes(0)
+        act(() => {
+            const message = { type: 'normal', details: {} } as CatchedLiveChatRequestMessage
+            chrome.runtime.onMessage.callListeners(message, {}, () => { })
+        })
+        expect(effectMockFn).toBeCalledTimes(0)
+    })
+
+
     test('Should not call effect callback when fetched response is undefined', () => {
         jest.spyOn(console, 'error').mockImplementationOnce(e => e)
         jest.spyOn(axios, 'get').mockRejectedValueOnce('name')

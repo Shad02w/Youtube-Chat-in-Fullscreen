@@ -7,7 +7,7 @@ type LiveChatResponseEffectCallback = (response: LiveChatResponse, pageType: Pag
 export const useLiveChatResponse = (effect: LiveChatResponseEffectCallback) => {
 
     useBackgroundMessage(async (message) => {
-        if (message.type === 'init-live-chat' || message.type === 'init-replay-live-chat') return
+        if (message.type === 'init-live-chat' || message.type === 'init-replay-live-chat' || message.type === 'normal') return
         const { type, details: { url }, requestBody, requestHeaders } = message
         const response = await FetchData(url, requestBody, requestHeaders)
         if (!response) return
