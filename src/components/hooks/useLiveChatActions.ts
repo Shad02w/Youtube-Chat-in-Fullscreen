@@ -8,8 +8,10 @@ import { useInitLiveChatResponse } from "./useInitLiveChatResponse"
 export const useLiveChatActions = () => {
 
     const [chatActions, setChatActions] = useState<AdvancedChatLiveActions>([])
-    const response2LiveChatActions = (response: LiveChatResponse, pageType: PageType) => {
-        if (pageType === 'init-live-chat' || pageType === 'live-chat') {
+    const [pageType, setPageType] = useState<PageType>('normal')
+    const response2LiveChatActions = (response: LiveChatResponse, type: PageType) => {
+        setPageType(type)
+        if (type === 'init-live-chat' || type === 'live-chat') {
             const actions = LiveChatResponse2LiveChatActions(response)
             setChatActions(actions)
         } else {
@@ -18,8 +20,8 @@ export const useLiveChatActions = () => {
         }
     }
 
-    useInitLiveChatResponse((response, pageType) => response2LiveChatActions(response, pageType))
-    useLiveChatResponse((response, pageType) => response2LiveChatActions(response, pageType))
+    useInitLiveChatResponse((res, p) => response2LiveChatActions(res, p))
+    useLiveChatResponse((res, p) => response2LiveChatActions(res, p))
 
-    return { chatActions }
+    return { chatActions, pageType }
 }

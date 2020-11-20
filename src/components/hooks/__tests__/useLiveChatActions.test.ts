@@ -70,6 +70,7 @@ const testCases = async (pageType: PageType, channel: ChannelType) => {
         LiveChatResponse2LiveChatActions(LiveResponseSample) :
         LiveChatResponse2LiveChatReplayActions(ReplayResponseSample)
     expect(result.current.chatActions).toStrictEqual(targetActions)
+    expect(result.current.pageType).toEqual(pageType)
 }
 
 
