@@ -1,8 +1,7 @@
 import { useInterceptElement } from "@hooks/useInterceptElement"
 import { createInterceptElement } from "@models/Intercept"
-import { cleanup } from "@testing-library/react"
 import '@testing-library/jest-dom';
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, cleanup, act } from "@testing-library/react-hooks";
 
 // mutation observer can not trigger by innerHTML, innerText and textContent
 describe('useInterceptElement hook testing', () => {
@@ -11,12 +10,12 @@ describe('useInterceptElement hook testing', () => {
 
     afterEach(() => {
         cleanup()
-        document.body.innerHTML = ''
+        document.body.textContent = ''
     })
 
     test('Should return initValue when no intercept element is not exist', async () => {
         const { result } = renderHook(() => useInterceptElement(id, helloMessage))
-        expect(result.current).toStrictEqual(helloMessage)
+        expect(result.current.data).toStrictEqual(helloMessage)
     })
 
     test('Should return content of intercept element instead of initValue when element already exist', async () => {
@@ -25,7 +24,7 @@ describe('useInterceptElement hook testing', () => {
         interceptEl.mount()
 
         const { result } = renderHook(() => useInterceptElement(id, helloMessage))
-        expect(result.current).toStrictEqual(byeMessage)
+        expect(result.current.data).toStrictEqual(byeMessage)
     })
 
     test('Should return updated value instead of initValue when content of intercept element update', async () => {
@@ -37,7 +36,7 @@ describe('useInterceptElement hook testing', () => {
         await act(async () => {
             interceptEl.set(helloMessage)
         })
-        expect(result.current).toStrictEqual(helloMessage)
+        expect(result.current.data).toStrictEqual(helloMessage)
     })
 
 
