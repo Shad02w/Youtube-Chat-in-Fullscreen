@@ -5,16 +5,20 @@ import { CatchedLiveChatRequestMessage, PageType } from "@models/Request";
 import axios from 'axios';
 import { useLiveChatActions } from "@hooks/useLiveChatActions";
 import * as Player from '@models/Player';
-import { LiveChatResponse2LiveChatActions, LiveChatResponse2LiveChatReplayActions } from "@models/Chat";
+import { InstantAdvancedChatLiveActions, LiveChatResponse2LiveChatActions, LiveChatResponse2LiveChatReplayActions } from "@models/Chat";
 import { createInterceptElement, getInterceptElementContent, InitLiveChatRequestAction, InterceptedDataElementId_InitLiveChat } from "@models/Intercept";
 import { ContentScriptWindow } from "@models/Window";
 
 // import live chat response sample
-import ReplayResponseSample from '../../../sample/ReplayResponseSample.json'
-import LiveResponseSample from '../../../sample/LiveResponseSample.json';
+import s1 from '../../../sample/ReplayResponseSample.json'
+import s2 from '../../../sample/LiveResponseSample.json';
+import { LiveChatResponse } from "@models/Fetch";
 
 declare const global: { chrome: typeof chrome }
 declare const window: ContentScriptWindow
+
+const ReplayResponseSample: LiveChatResponse = s1
+const LiveResponseSample: LiveChatResponse = s2
 
 jest.mock('uuid', () => {
     return {
@@ -55,7 +59,6 @@ const testCases = async (pageType: PageType, channel: ChannelType) => {
 
     }
 
-
     // init-live-chat and init-replay-live-chat fetch data from live chat iframe window object, by using intercept element
     if (pageType === 'init-replay-live-chat' || pageType === 'init-live-chat') {
         expect(getInterceptElementContent(document.getElementById(InterceptedDataElementId_InitLiveChat)!)).toStrictEqual({ type: 'REQUEST' } as InitLiveChatRequestAction)
@@ -66,11 +69,12 @@ const testCases = async (pageType: PageType, channel: ChannelType) => {
         })
     }
 
-    const targetActions = pageType === 'init-live-chat' || pageType === 'live-chat' ?
-        LiveChatResponse2LiveChatActions(LiveResponseSample) :
+    const targetActions = pageType === 'init-live-chat' || pageType === 'live-chat'
+        ?
+        pageType === 'init-live-chat' ? InstantAdvancedChatLiveActions(LiveChatResponse2LiveChatActions(LiveResponseSample)) : LiveChatResponse2LiveChatActions(LiveResponseSample)
+        :
         LiveChatResponse2LiveChatReplayActions(ReplayResponseSample)
     expect(result.current.chatActions).toStrictEqual(targetActions)
-    expect(result.current.pageType).toEqual(pageType)
 }
 
 

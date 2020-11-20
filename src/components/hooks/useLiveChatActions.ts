@@ -1,18 +1,19 @@
-import { AdvancedChatLiveActions, LiveChatResponse2LiveChatActions, LiveChatResponse2LiveChatReplayActions } from "@models/Chat"
+import { AdvancedChatLiveActions, InstantAdvancedChatLiveActions, LiveChatResponse2LiveChatActions, LiveChatResponse2LiveChatReplayActions } from "@models/Chat"
 import { LiveChatResponse } from "@models/Fetch"
 import { PageType } from "@models/Request"
 import { useState } from "react"
 import { useLiveChatResponse } from "@hooks/useLiveChatResponse"
 import { useInitLiveChatResponse } from "./useInitLiveChatResponse"
 
+type responseType = 'init' | 'normal'
 export const useLiveChatActions = () => {
 
     const [chatActions, setChatActions] = useState<AdvancedChatLiveActions>([])
-    const [pageType, setPageType] = useState<PageType>('normal')
-    const response2LiveChatActions = (response: LiveChatResponse, type: PageType) => {
-        setPageType(type)
+    const response2LiveChatActions = (response: LiveChatResponse, type: PageType, responseType: responseType) => {
         if (type === 'init-live-chat' || type === 'live-chat') {
-            const actions = LiveChatResponse2LiveChatActions(response)
+            let actions = LiveChatResponse2LiveChatActions(response)
+            if (responseType === 'init')
+                actions = InstantAdvancedChatLiveActions(actions)
             setChatActions(actions)
         } else {
             const actions = LiveChatResponse2LiveChatReplayActions(response)
@@ -20,8 +21,8 @@ export const useLiveChatActions = () => {
         }
     }
 
-    useInitLiveChatResponse((res, p) => response2LiveChatActions(res, p))
-    useLiveChatResponse((res, p) => response2LiveChatActions(res, p))
+    useInitLiveChatResponse((res, p) => response2LiveChatActions(res, p, 'init'))
+    useLiveChatResponse((res, p) => response2LiveChatActions(res, p, 'normal'))
 
-    return { chatActions, pageType }
+    return { chatActions }
 }
