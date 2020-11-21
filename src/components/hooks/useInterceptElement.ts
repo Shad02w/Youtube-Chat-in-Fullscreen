@@ -18,6 +18,6 @@ export const useInterceptElement = <T>(id: string, defaultValue: T) => {
         }
     }, [ready, id])
 
-    return { data }
+    return { data, ready }
 }
 

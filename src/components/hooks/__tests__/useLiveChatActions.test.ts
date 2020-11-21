@@ -88,12 +88,13 @@ describe('useLiveChatActions', () => {
         jest.spyOn(Player, 'getCurrentPlayerTime').mockReturnValue(0)
     })
 
-    afterEach(() => {
-        document.body.textContent = ''
+    afterEach(async done => {
         cleanupWindowMessages()
         jest.clearAllMocks()
         jest.restoreAllMocks()
-        cleanup()
+        await cleanup()
+        document.body.textContent = ''
+        done()
     })
 
     test('Should return proper chat actions according to live-chat meesage from background.js', async () => {

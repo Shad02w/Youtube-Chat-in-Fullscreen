@@ -26,13 +26,14 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
         jest.useFakeTimers()
     })
 
-    afterEach(() => {
-        document.body.textContent = ''
+    afterEach(async done => {
         jest.useRealTimers()
         jest.clearAllMocks()
         jest.clearAllTimers()
         cleanupWindowMessages()
-        cleanup()
+        await cleanup()
+        document.body.textContent = ''
+        done()
     })
 
 

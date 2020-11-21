@@ -5,10 +5,12 @@ export const useElementStatus = (id: string) => {
     const [ready, setReady] = useState<boolean>(document.getElementById(id) ? true : false)
 
     useEffect(() => {
-        const interceptedObserver = new MutationObserver(() => {
+        const interceptedObserver = new MutationObserver((m) => {
             if (document.getElementById(id)) {
                 if (!ready) setReady(true)
-                interceptedObserver.disconnect()
+            }
+            else {
+                if (ready) setReady(false)
             }
         })
         interceptedObserver.observe(document.body, { childList: true, subtree: true })
