@@ -1,4 +1,4 @@
-import { Datastring2JSON, JSON2Datastring } from '@models/DataString'
+import { Datastring2JSON, JSON2Datastring } from '@models/Datastring'
 import { Base64 } from 'js-base64';
 import jsonSample from '../../sample/LiveResponseSample.json';
 
