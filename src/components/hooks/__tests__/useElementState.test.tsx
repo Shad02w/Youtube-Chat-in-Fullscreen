@@ -1,9 +1,9 @@
-import { useElementStatus } from "@hooks/useElementState"
+import { useElementState } from "@hooks/useElementState"
 import { createInterceptElement, getInterceptElementContent } from "@models/Intercept"
 import { render, waitFor, cleanup } from '@testing-library/react';
 import React from 'react';
 
-type ElementState = ReturnType<typeof useElementStatus>
+type ElementState = ReturnType<typeof useElementState>
 
 describe('useElementState hook testing', () => {
 
@@ -15,7 +15,10 @@ describe('useElementState hook testing', () => {
 
         const result = {} as ElementState
         const TestComponent = () => {
-            Object.assign(result, useElementStatus(id))
+            Object.assign(result, useElementState(() => {
+                const interceptEl = document.getElementById(id)
+                return interceptEl ? interceptEl : undefined
+            }))
             return null
         }
         render(<TestComponent />)
@@ -23,8 +26,8 @@ describe('useElementState hook testing', () => {
     }
 
 
-    afterEach(() => {
-        cleanup()
+    afterEach(async () => {
+        await cleanup()
         document.body.textContent = ''
         elementState = undefined
 
