@@ -4,9 +4,9 @@ import {
     InterceptedDataElementId_InitLiveChat,
     PlayerStateData,
     InitLiveChatRequestAction
-} from './models/Intercept'
-import { YTPlayerState } from './models/Player'
-import { ContentScriptWindow } from './models/Window'
+} from '@models/Intercept'
+import { YTPlayerState } from '@models/Player'
+import { ContentScriptWindow } from '@models/Window'
 
 declare const window: ContentScriptWindow
 
@@ -35,32 +35,40 @@ playerStateIEObserver.observe(document.body, { childList: true, subtree: true })
 const initLiveChatInterceptElement = createInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, { type: 'UPDATE', dataString: JSON.stringify({}) })
 initLiveChatInterceptElement.mount()
 
-const getIframeInitLiveChatResponse = () => {
-    return new Promise<{ content: string }>((resolve, reject) => {
-        const timeoutId = setTimeout(() => reject('cannot get Init Live Chat Data from Live Chat iframe'), 6000)
 
+const getIframeInitLiveChatResponse_waiting = () => {
+    return new Promise<{ content: string }>((resolve, reject) => {
+
+        let content = getIframeInitLiveChatResponse()
+        if (content) {
+            resolve({ content })
+            return
+        }
+        const timeoutId = setTimeout(() => reject('cannot get Init Live Chat Data from Live Chat iframe'), 6000)
         const iframeObserver = new MutationObserver(() => {
-            const iframe = Array
-                .from(document.getElementsByTagName('iframe'))
-                .find(i => i.classList.contains('ytd-live-chat-frame'))
-            if (!iframe || !iframe.contentDocument) return
-            const s = Array
-                .from(iframe.contentDocument.getElementsByTagName('script'))
-                .find(i => i.innerText.includes('ytInitialData'))
-            if (!s) return
-            resolve({
-                content: s.innerHTML,
-            })
             //finishing
+            content = getIframeInitLiveChatResponse()
+            if (!content) return
             iframeObserver.disconnect()
             clearTimeout(timeoutId)
-
+            resolve({ content })
         })
         iframeObserver.observe(document.body, { childList: true, subtree: true })
 
     })
 }
 
+const getIframeInitLiveChatResponse = () => {
+    const iframe = Array
+        .from(document.getElementsByTagName('iframe'))
+        .find(i => i.classList.contains('ytd-live-chat-frame'))
+    if (!iframe || !iframe.contentDocument) return undefined
+    const s = Array
+        .from(iframe.contentDocument.getElementsByTagName('script'))
+        .find(i => i.innerText.includes('ytInitialData'))
+    if (!s) return undefined
+    return s?.innerHTML || 'window["ytInitialData"] = {}'
+}
 
 
 const initLiveChatIEObserver = new MutationObserver(async () => {
@@ -68,8 +76,7 @@ const initLiveChatIEObserver = new MutationObserver(async () => {
     if (!data || !data.type || data.type !== 'REQUEST') return
     try {
 
-        const { content } = await getIframeInitLiveChatResponse()
-
+        const { content } = await getIframeInitLiveChatResponse_waiting()
         let dataString = content.slice(content.indexOf('=') + 1)
         dataString = dataString.slice(0, dataString.lastIndexOf(';'))
         initLiveChatInterceptElement.set({ type: 'UPDATE', dataString })
