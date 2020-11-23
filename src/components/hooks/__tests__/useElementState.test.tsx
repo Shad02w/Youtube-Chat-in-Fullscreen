@@ -2,6 +2,7 @@ import { useElementState } from "@hooks/useElementState"
 import { createInterceptElement, getInterceptElementContent } from "@models/Intercept"
 import { render, waitFor, cleanup } from '@testing-library/react';
 import React from 'react';
+import '@testing-library/jest-dom'
 
 type ElementState = ReturnType<typeof useElementState>
 
@@ -43,11 +44,13 @@ describe('useElementState hook testing', () => {
             const interceptEl = createInterceptElement(id, data)
             interceptEl.mount()
             await waitFor(() => expect(elementState?.ready).toBeTruthy())
+            expect(elementState?.node).toBeDefined()
         })
 
         test('Should return false ready state when target element is not exist', () => {
             expect(elementState).toBeDefined()
             expect(elementState!.ready).toBeFalsy()
+            expect(elementState!.node).toBeUndefined()
         })
     })
 
@@ -62,8 +65,10 @@ describe('useElementState hook testing', () => {
             expect(getInterceptElementContent(document.getElementById(id)!)).toStrictEqual(presetData)
             const result = setup()
             expect(result.ready).toBeTruthy()
+            expect(result.node).toBeDefined()
             document.body.textContent = ''
             await waitFor(() => expect(result.ready).toBeTruthy())
+            expect(result.node).toBeUndefined()
         })
     })
 })
