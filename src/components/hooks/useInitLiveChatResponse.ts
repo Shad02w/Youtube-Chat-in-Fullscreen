@@ -5,6 +5,7 @@ import { PageType } from "@models/Request";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useBackgroundMessage } from "./useBackgroundMessage";
 import { useInterceptElement } from "./useInterceptElement";
+import { v4 as uuidV4 } from 'uuid'
 
 type InitLiveChatResponseEffectCallback = (response: LiveChatResponse, pageType: PageType) => any
 export const requestInitLiveChatData_debounce_time = 1500
@@ -14,7 +15,8 @@ export const requestInitLiveChatData = () => {
     const interceptEl = document.getElementById(InterceptedDataElementId_InitLiveChat)
     if (!interceptEl) return undefined
     const json: InitLiveChatRequestAction = {
-        type: 'REQUEST'
+        type: 'REQUEST',
+        id: uuidV4()
     }
     setInterceptElementContent(json, interceptEl)
 }

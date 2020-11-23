@@ -10,6 +10,7 @@ export interface PlayerStateData {
 export type InitLiveChatRequestAction =
     {
         type: 'REQUEST',
+        id: string
     }
     | {
         type: 'UPDATE',

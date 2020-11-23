@@ -8,6 +8,7 @@ import * as Player from '@models/Player';
 import { InstantAdvancedChatLiveActions, LiveChatResponse2LiveChatActions, LiveChatResponse2LiveChatReplayActions } from "@models/Chat";
 import { createInterceptElement, getInterceptElementContent, InitLiveChatRequestAction, InterceptedDataElementId_InitLiveChat } from "@models/Intercept";
 import { ContentScriptWindow } from "@models/Window";
+import { v4 as uuidV4 } from 'uuid'
 
 // import live chat response sample
 import s1 from '../../../sample/ReplayResponseSample.json'
@@ -61,7 +62,7 @@ const testCases = async (pageType: PageType, channel: ChannelType) => {
 
     // init-live-chat and init-replay-live-chat fetch data from live chat iframe window object, by using intercept element
     if (pageType === 'init-replay-live-chat' || pageType === 'init-live-chat') {
-        expect(getInterceptElementContent(document.getElementById(InterceptedDataElementId_InitLiveChat)!)).toStrictEqual({ type: 'REQUEST' } as InitLiveChatRequestAction)
+        expect(getInterceptElementContent(document.getElementById(InterceptedDataElementId_InitLiveChat)!)).toStrictEqual({ type: 'REQUEST', id: uuidV4() } as InitLiveChatRequestAction)
         //mock page inject js
         await act(async () => {
             const updateInitAction: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify(pageType === 'init-live-chat' ? LiveResponseSample : ReplayResponseSample) }

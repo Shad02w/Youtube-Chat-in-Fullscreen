@@ -5,10 +5,17 @@ import { cleanupWindowMessages, setupChrome, setupWindowMessage } from "@/jest-s
 import { createInterceptElement, getInterceptElementContent, InitLiveChatRequestAction, InterceptedDataElementId_InitLiveChat } from "@models/Intercept";
 import { chrome } from 'jest-chrome';
 import { CatchedLiveChatRequestMessage } from "@models/Request";
-import { waitFor } from "@testing-library/dom";
+import { v4 as uuidV4 } from 'uuid'
 
 declare const window: ContentScriptWindow
 declare const global: { chrome: typeof chrome }
+
+
+jest.mock('uuid', () => {
+    return {
+        v4: jest.fn(() => '12345')
+    }
+})
 
 describe('requestInitLiveChatData testing', () => {
     expect(requestInitLiveChatData()).toBeUndefined()
@@ -83,7 +90,7 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
             jest.runAllTimers()
         })
 
-        expect(getInterceptElementContent(interceptEl.element)).toStrictEqual({ type: 'REQUEST' })
+        expect(getInterceptElementContent(interceptEl.element)).toStrictEqual({ type: 'REQUEST', id: uuidV4() } as InitLiveChatRequestAction)
 
         const updateAction2Message = { message: 'bye111111111111' }
         const updateAction2: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify(updateAction2Message) }
