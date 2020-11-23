@@ -36,15 +36,6 @@ const LiveChatRequestFilter: chrome.webRequest.RequestFilter = {
     ]
 }
 
-const watchPageNavigationFilter: chrome.webNavigation.WebNavigationEventFilter = {
-    url: [
-        {
-            hostSuffix: 'youtube.com',
-            pathContains: 'watch'
-        }
-    ]
-}
-
 
 // reference to https://gist.github.com/72lions/4528834
 export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[]): JSON {
@@ -75,15 +66,6 @@ function liveChatRequestListener(details: chrome.webRequest.WebResponseCacheDeta
         chrome.tabs.sendMessage(details.tabId, message)
     })
 }
-
-function pageHistoryChangeListener(details: chrome.webNavigation.WebNavigationTransitionCallbackDetails) {
-    const message: CatchedLiveChatRequestMessage = {
-        details: {} as chrome.webRequest.WebRequestDetails,
-        type: getPageType(details.url)
-    }
-    chrome.tabs.sendMessage(details.tabId, message)
-}
-
 
 function getLiveChatRequestBodyListener(details: chrome.webRequest.WebRequestBodyDetails) {
 
@@ -124,8 +106,6 @@ function attachListeners() {
     if (!chrome.webRequest.onBeforeSendHeaders.hasListener(getLiveChatRequestHeadersListener))
         chrome.webRequest.onBeforeSendHeaders.addListener(getLiveChatRequestHeadersListener, getLiveChatRequestFilter, ['requestHeaders'])
 
-    if (!chrome.webNavigation.onHistoryStateUpdated.hasListener(pageHistoryChangeListener))
-        chrome.webNavigation.onHistoryStateUpdated.addListener(pageHistoryChangeListener, watchPageNavigationFilter)
 }
 
 function removeListeners() {
@@ -137,9 +117,6 @@ function removeListeners() {
 
     if (chrome.webRequest.onBeforeSendHeaders.hasListener(getLiveChatRequestHeadersListener))
         chrome.webRequest.onBeforeSendHeaders.removeListener(getLiveChatRequestHeadersListener)
-
-    if (chrome.webNavigation.onHistoryStateUpdated.hasListener(pageHistoryChangeListener))
-        chrome.webNavigation.onHistoryStateUpdated.removeListener(pageHistoryChangeListener)
 
 }
 

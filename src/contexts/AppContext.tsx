@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useRef, useState } from 'react'
 import { useChatActions } from '@hooks/useChatActions'
 import { useChatQueue } from '@hooks/useChatQueue'
 import { usePlayerState } from '@hooks/usePlayerState'
@@ -8,6 +8,7 @@ import { ContentScriptWindow } from '@models/Window'
 import { useLiveChatActions } from '@hooks/useLiveChatActions'
 import { useBackgroundMessage } from '@hooks/useBackgroundMessage'
 import { PageType } from '@models/Request'
+import { useChatBox } from '@hooks/useChatBox'
 
 declare const window: ContentScriptWindow
 
@@ -20,6 +21,12 @@ export interface AppState {
 
 export const AppContext = createContext<AppState>({} as AppState)
 
+const popAllCachedMessage = () => {
+    if (window.ready) return
+    window.ready = true
+    window.messages.popAll()
+}
+
 
 export const AppContextProvider: React.FC = ({ children }) => {
 
@@ -27,6 +34,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const [maxChatList] = useState<number>(70)
     const { chatActions: fetchedChatActions } = useLiveChatActions()
     const [pageType, setPageType] = useState<PageType>('normal')
+    const { expanded: chatBoxExpanded, ready: chatBoxReady } = useChatBox()
 
     const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], maxChatList)
     const { playerState } = usePlayerState()
@@ -36,32 +44,30 @@ export const AppContextProvider: React.FC = ({ children }) => {
     // use in replay live page
     const { enqueue: enqueueChatQueue, dequeued, reset: resetChatQueue, freeze: freezeChatQueue } = useChatQueue()
 
+    const clearOldChatState = useCallback(
+        () => {
+            resetChatList()
+            resetChatQueue()
+            freezeChatQueue(true)
+            window.messages.clear()
+        },
+        [resetChatQueue, freezeChatQueue, resetChatList],
+    )
+
+    const startNewChatState = useCallback(() => {
+        freezeChatQueue(false)
+    }, [freezeChatQueue])
+
+
     // Get page Type
     useBackgroundMessage(message => {
         setPageType(message.type)
     })
 
-    // when the  app is ready , pop  all message from window cached message to trigger the message release event
+    // when the app is ready , pop all message from window cached message to trigger the message release event
     useEffect(() => {
-        if (window.ready) return
-        window.ready = true
-        window.messages.popAll()
+        popAllCachedMessage()
     }, [])
-
-    // side effect of page change
-    useEffect(() => {
-        if (pageType === 'normal') {
-            console.log('new page')
-            resetChatList()
-            resetChatQueue()
-            freezeChatQueue(true)
-            window.messages.clear()
-        }
-        else {
-            freezeChatQueue(false)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageType])
 
     // when a chats data is fetched
     useEffect(() => {
@@ -79,12 +85,38 @@ export const AppContextProvider: React.FC = ({ children }) => {
         ? freezeChatQueue(true)
         : freezeChatQueue(false)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        , [playerState, pageType]
-    )
+        , [playerState, pageType])
+
+
+    // update chatList when new chat actions is released from chat queue
     useEffect(() => {
         updateChatList(dequeued)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dequeued])
+
+    useEffect(() => {
+        console.log('chatBox is ready', chatBoxReady, 'expanded?', chatBoxExpanded)
+    }, [chatBoxReady, chatBoxExpanded])
+
+    useEffect(() => {
+        if (pageType === 'normal')
+            clearOldChatState()
+        else
+            startNewChatState()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageType])
+
+
+    // unchange of chat frame does not always mean it unchange video page, because it still can be a vidoe page with chat frame
+    // but this can reset the chats when go frome video page B (with chats) back to nomral video page A
+    // which does not make /live_chat request 
+    useEffect(() => {
+        if (chatBoxReady)
+            startNewChatState()
+        else
+            clearOldChatState()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chatBoxReady])
 
     return (
         <AppContext.Provider value={{ pageType, chatActions, freezeChatQueue }}>
