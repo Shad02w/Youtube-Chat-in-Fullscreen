@@ -1,8 +1,9 @@
 const Sec2MSec = (second: number) => second * 1000
-const Player = () => document.getElementsByClassName('html5-main-video')[0] as HTMLVideoElement
+
+export const getPlayer = () => Array.from(document.getElementsByTagName('video')).find(el => el.classList.contains('html5-main-video'))
 
 /*Return time in Msec */
-export const getCurrentPlayerTime = () => Sec2MSec(Player().currentTime)
+export const getCurrentPlayerTime = () => Sec2MSec(getPlayer()?.currentTime || 0)
 
 export enum YTPlayerState {
     ENDED = 0,
