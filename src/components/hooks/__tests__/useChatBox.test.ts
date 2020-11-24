@@ -44,6 +44,25 @@ describe('useChatBox hook testing', () => {
         })
         expect(result.current.ready).toBeFalsy()
         expect(result.current.expanded).toBeUndefined()
+
+        await act(async () => {
+            document.body.appendChild(chatbox)
+        })
+        expect(result.current.ready).toBeTruthy()
+        expect(result.current.expanded).toBeTruthy()
+
+        // remove the chat box
+        await act(async () => {
+            document.body.textContent = ''
+        })
+
+        // then create chat box with collapsed attribute
+        await act(async () => {
+            chatbox.setAttribute(ChatBoxCollapsedAttributeName, '')
+            document.body.appendChild(chatbox)
+        })
+        expect(result.current.ready).toBeTruthy()
+        expect(result.current.expanded).toBeFalsy()
     })
 
 })

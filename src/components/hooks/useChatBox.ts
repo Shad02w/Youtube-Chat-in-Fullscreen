@@ -9,16 +9,17 @@ export const useChatBox = () => {
 
     useEffect(() => {
         if (ready && chatBoxElement) {
+            setExpanded(isChatBoxExpanded())
             const chatBoxObserver = new MutationObserver(mutations => {
                 if (mutations.find(m => m.type === 'attributes')) {
                     setExpanded(isChatBoxExpanded())
                 }
             })
             chatBoxObserver.observe(chatBoxElement, { attributes: true, attributeFilter: [ChatBoxCollapsedAttributeName] })
-            return () => {
-                chatBoxObserver.disconnect()
-                setExpanded(undefined)
-            }
+            return () => chatBoxObserver.disconnect()
+        }
+        else {
+            setExpanded(undefined)
         }
     }, [ready, chatBoxElement])
 
