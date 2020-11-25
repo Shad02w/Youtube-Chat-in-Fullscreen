@@ -36,6 +36,7 @@ export const useChatFrame = () => {
                 setInitResponse(script.textContent ? script.textContent : undefined)
             })
             observer.observe(chatIFrameScript, { childList: true })
+            return () => observer.disconnect()
         } else {
             setInitResponse(undefined)
         }
