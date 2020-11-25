@@ -21,3 +21,23 @@ export const isChatBoxExpanded = (): boolean | undefined => {
     return !chatBox.hasAttribute(ChatBoxCollapsedAttributeName)
 }
 
+
+/**
+ * @returns undefined or the iframe element of chat box
+ */
+export const getChatBoxIframe = (): HTMLIFrameElement | undefined => {
+    return Array.from(document.getElementsByTagName('iframe')).find(el => el.id === 'chatframe')
+}
+
+/**
+ * @returns undefined or the script element contains ytInitData under Chat box iframe element
+ */
+export const getChatBoxIframeScript = (): HTMLScriptElement | undefined => {
+    const iframe = Array
+        .from(document.getElementsByTagName('iframe'))
+        .find(i => i.classList.contains('ytd-live-chat-frame'))
+    if (!iframe || !iframe.contentDocument) return undefined
+    return Array
+        .from(iframe.contentDocument.getElementsByTagName('script'))
+        .find(i => i.innerText.includes('ytInitialData'))
+}

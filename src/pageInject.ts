@@ -1,3 +1,4 @@
+import { getChatBoxIframeScript } from '@models/ChatBox'
 import {
     createInterceptElement,
     InterceptedDataElementId_PlayerState,
@@ -59,13 +60,7 @@ const getIframeInitLiveChatResponse_waiting = () => {
 }
 
 const getIframeInitLiveChatResponse = () => {
-    const iframe = Array
-        .from(document.getElementsByTagName('iframe'))
-        .find(i => i.classList.contains('ytd-live-chat-frame'))
-    if (!iframe || !iframe.contentDocument) return undefined
-    const s = Array
-        .from(iframe.contentDocument.getElementsByTagName('script'))
-        .find(i => i.innerText.includes('ytInitialData'))
+    const s = getChatBoxIframeScript()
     if (!s) return undefined
     return s?.innerHTML || 'window["ytInitialData"] = {}'
 }
@@ -75,7 +70,6 @@ const initLiveChatIEObserver = new MutationObserver(async () => {
     const data = initLiveChatInterceptElement.get()
     if (!data || !data.type || data.type !== 'REQUEST') return
     try {
-
         const { content } = await getIframeInitLiveChatResponse_waiting()
         let dataString = content.slice(content.indexOf('=') + 1)
         dataString = dataString.slice(0, dataString.lastIndexOf(';'))
