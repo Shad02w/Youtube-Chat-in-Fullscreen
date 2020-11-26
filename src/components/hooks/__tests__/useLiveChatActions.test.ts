@@ -1,12 +1,12 @@
 import { cleanup, renderHook, act } from "@testing-library/react-hooks"
-import { cleanupWindowMessages, setupChrome, setupWindowMessage } from "@/jest-setup";
+import { cleanupWindowMessages, createChatBox, setupChrome, setupWindowMessage } from "@/jest-setup";
 import { chrome } from 'jest-chrome';
 import { CatchedLiveChatRequestMessage, PageType } from "@models/Request";
 import axios from 'axios';
 import { useLiveChatActions } from "@hooks/useLiveChatActions";
 import * as Player from '@models/Player';
 import { InstantAdvancedChatLiveActions, LiveChatResponse2LiveChatActions, LiveChatResponse2LiveChatReplayActions } from "@models/Chat";
-import { createInterceptElement, getInterceptElementContent, InitLiveChatRequestAction, InterceptedDataElementId_InitLiveChat } from "@models/Intercept";
+import { createInterceptElement, getInterceptElementContent } from "@models/Intercept";
 import { ContentScriptWindow } from "@models/Window";
 import { v4 as uuidV4 } from 'uuid'
 
@@ -14,6 +14,8 @@ import { v4 as uuidV4 } from 'uuid'
 import s1 from '../../../sample/ReplayResponseSample.json'
 import s2 from '../../../sample/LiveResponseSample.json';
 import { LiveChatResponse } from "@models/Fetch";
+import { waitFor } from "@testing-library/dom";
+import { getChatBoxIframe, getChatBoxIframeScript } from "@models/ChatBox";
 
 declare const global: { chrome: typeof chrome }
 declare const window: ContentScriptWindow
@@ -32,9 +34,7 @@ type ChannelType = 'window' | 'chrome'
 
 const testCases = async (pageType: PageType, channel: ChannelType) => {
 
-    const initAction: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify({}) }
-    const interceptEl = createInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, initAction)
-    interceptEl.mount()
+
 
     const { result } = renderHook(() => useLiveChatActions())
     expect(result.current.chatActions).toStrictEqual([])
@@ -60,14 +60,27 @@ const testCases = async (pageType: PageType, channel: ChannelType) => {
 
     }
 
+
     // init-live-chat and init-replay-live-chat fetch data from live chat iframe window object, by using intercept element
     if (pageType === 'init-replay-live-chat' || pageType === 'init-live-chat') {
-        expect(getInterceptElementContent(document.getElementById(InterceptedDataElementId_InitLiveChat)!)).toStrictEqual({ type: 'REQUEST', id: uuidV4() } as InitLiveChatRequestAction)
-        //mock page inject js
+        const { chatbox, iframe, script } = createChatBox(pageType === 'init-live-chat' ? LiveResponseSample : ReplayResponseSample)
+        iframe.src = 'www.youtube.com'
         await act(async () => {
-            const updateInitAction: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify(pageType === 'init-live-chat' ? LiveResponseSample : ReplayResponseSample) }
-            interceptEl.set(updateInitAction)
+            document.body.appendChild(chatbox)
+            waitFor(() => expect(iframe.contentDocument!).toBeDefined())
+            waitFor(() => expect(getChatBoxIframe()).toBeDefined())
+            iframe.contentDocument!.appendChild(script)
         })
+
+
+        // this should not affect the final expectation since the callback in useInitLiveChatResponse will not be call
+        await act(async () => {
+            document.body.textContent = ''
+        })
+
+        // add a script with black content should not affect the final result as well
+
+
     }
 
     const targetActions = pageType === 'init-live-chat' || pageType === 'live-chat'
@@ -76,6 +89,7 @@ const testCases = async (pageType: PageType, channel: ChannelType) => {
         :
         LiveChatResponse2LiveChatReplayActions(ReplayResponseSample)
     expect(result.current.chatActions).toStrictEqual(targetActions)
+
 }
 
 
