@@ -1,46 +1,38 @@
-import { getChatBoxIframe, getChatBoxIframeScript } from "@models/ChatBox"
-import { useEffect, useState } from "react"
+import { getChatBoxIframeScript, getLiveChatReponseFromWindowObjectString } from "@models/ChatBox"
+import { LiveChatResponse } from "@models/Fetch"
+import { useCallback, useEffect, useState } from "react"
 import { useElementState } from "./useElementState"
 
 
 export const useChatFrame = () => {
-    // const getChatFrame = () => Array.from(document.getElementsByTagName('iframe')).find(el => el.id === 'chatframe')
-    const { ready: chatIFrameReady, node: chatIframe } = useElementState(getChatBoxIframe)
-    const { ready: chatIFrameScriptReady, node: chatIFrameScript } = useElementState(getChatBoxIframeScript)
+    const { ready, node } = useElementState(getChatBoxIframeScript)
 
+    const [initResponse, setInitResponse] = useState<LiveChatResponse | undefined>(undefined)
 
-    const [src, setSrc] = useState<string | undefined>(undefined)
-    const [initResponse, setInitResponse] = useState<string | undefined>(undefined)
+    const update = useCallback((text: string | null) => {
+        if (!text) return
+        setInitResponse(getLiveChatReponseFromWindowObjectString(text))
+    }, [setInitResponse])
 
-    useEffect(() => {
-        if (chatIFrameReady && chatIframe) {
-            const iframeElement = chatIframe as HTMLIFrameElement
-
-            setSrc(iframeElement?.src)
-            const observer = new MutationObserver(() => {
-                if (iframeElement?.src)
-                    setSrc(iframeElement.src)
-            })
-            observer.observe(chatIframe, { attributes: true, attributeFilter: ['src'] })
-            return () => observer.disconnect()
-        } else {
-            setSrc(undefined)
-        }
-    }, [chatIFrameReady, chatIframe])
+    const reset = useCallback(() => {
+        setInitResponse(undefined)
+    }, [setInitResponse])
 
     useEffect(() => {
-        if (chatIFrameScriptReady && chatIFrameScript) {
-            const script = chatIFrameScript as HTMLScriptElement
-            setInitResponse(script.textContent ? script.textContent : undefined)
+        if (ready && node) {
+            const script = node as HTMLScriptElement
+            update(script.textContent)
             const observer = new MutationObserver(() => {
-                setInitResponse(script.textContent ? script.textContent : undefined)
+                console.log('text', script.textContent)
+                update(script.textContent)
             })
-            observer.observe(chatIFrameScript, { childList: true })
+            observer.observe(node, { childList: true })
             return () => observer.disconnect()
         } else {
-            setInitResponse(undefined)
+            reset()
         }
-    }, [chatIFrameScriptReady, chatIFrameScript])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [node, ready, update, reset])
 
-    return { src, initResponse }
+    return { ready, initResponse }
 }

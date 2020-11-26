@@ -1,3 +1,5 @@
+import { LiveChatResponse } from "./Fetch"
+
 export const ChatBoxCollapsedAttributeName = 'collapsed'
 export const ChatBoxTagName = 'ytd-live-chat-frame'
 export const ChatBoxId = 'chat'
@@ -40,4 +42,14 @@ export const getChatBoxIframeScript = (): HTMLScriptElement | undefined => {
     return Array
         .from(iframe.contentDocument.getElementsByTagName('script'))
         .find(i => i.innerText.includes('ytInitialData'))
+}
+
+export const getLiveChatReponseFromWindowObjectString = (content: string): LiveChatResponse => {
+    try {
+        let dataString = content.slice(content.indexOf('=') + 1)
+        dataString = dataString.slice(0, dataString.lastIndexOf(';'))
+        return JSON.parse(dataString)
+    } catch (error) {
+        return {}
+    }
 }
