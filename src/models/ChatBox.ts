@@ -52,7 +52,7 @@ export const getChatBoxIframeScript = (): HTMLScriptElement | undefined => {
  */
 export const getLiveChatReponseFromWindowObjectString = (content: string): LiveChatResponse => {
     try {
-        let dataString = content.slice(content.indexOf('=') + 1)
+        let dataString = content.slice(content.indexOf('=') + 1).trim()
         if (dataString[dataString.length - 1] === ';')
             dataString = dataString.slice(0, dataString.lastIndexOf(';'))
         return JSON.parse(dataString)

@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useLiveChatActions } from "@hooks/useLiveChatActions";
 import * as Player from '@models/Player';
 import { InstantAdvancedChatLiveActions, LiveChatResponse2LiveChatActions, LiveChatResponse2LiveChatReplayActions } from "@models/Chat";
-import { createInterceptElement, getInterceptElementContent } from "@models/Intercept";
 import { ContentScriptWindow } from "@models/Window";
 import { v4 as uuidV4 } from 'uuid'
 
@@ -15,7 +14,7 @@ import s1 from '../../../sample/ReplayResponseSample.json'
 import s2 from '../../../sample/LiveResponseSample.json';
 import { LiveChatResponse } from "@models/Fetch";
 import { waitFor } from "@testing-library/dom";
-import { getChatBoxIframe, getChatBoxIframeScript } from "@models/ChatBox";
+import { getChatBoxIframe } from "@models/ChatBox";
 
 declare const global: { chrome: typeof chrome }
 declare const window: ContentScriptWindow
