@@ -24,8 +24,6 @@ export const useInitLiveChatResponse = (effect: InitLiveChatResponseEffectCallba
 
     useEffect(() => {
         if (!initResponse || !pageTypeRef.current) return
-        if (pageTypeRef.current !== 'init-live-chat' && pageTypeRef.current !== 'init-replay-live-chat') return
-        // console.log('useInit hook', initResponse, pageTypeRef.current)
         effectRef.current(initResponse, pageTypeRef.current)
     }, [initResponse])
 }
