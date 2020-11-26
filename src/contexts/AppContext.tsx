@@ -88,10 +88,8 @@ export const AppContextProvider: React.FC = ({ children }) => {
 
     useEffect(() => {
         if (chatFrameReady) {
-            console.log('chat page')
             freezeChatQueue(false)
         } else {
-            console.log('new page')
             clearOldChatState()
             freezeChatQueue(true)
         }

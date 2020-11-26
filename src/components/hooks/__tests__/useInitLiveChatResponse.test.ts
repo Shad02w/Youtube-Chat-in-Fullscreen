@@ -17,9 +17,6 @@ jest.mock('uuid', () => {
     }
 })
 
-describe('requestInitLiveChatData testing', () => {
-    expect(requestInitLiveChatData()).toBeUndefined()
-})
 
 describe('useInitLiveChatResponse custom effect hook testing', () => {
 
