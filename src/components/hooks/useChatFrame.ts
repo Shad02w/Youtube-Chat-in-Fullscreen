@@ -23,7 +23,6 @@ export const useChatFrame = () => {
             const script = node as HTMLScriptElement
             update(script.textContent)
             const observer = new MutationObserver(() => {
-                console.log('text', script.textContent)
                 update(script.textContent)
             })
             observer.observe(node, { childList: true })

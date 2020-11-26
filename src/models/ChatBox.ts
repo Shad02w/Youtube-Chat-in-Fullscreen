@@ -3,6 +3,7 @@ import { LiveChatResponse } from "./Fetch"
 export const ChatBoxCollapsedAttributeName = 'collapsed'
 export const ChatBoxTagName = 'ytd-live-chat-frame'
 export const ChatBoxId = 'chat'
+export const ChatFrameId = 'chatframe'
 
 /**
  * @returns return undefined when chat box is not found, otherwise return the chat box element
@@ -28,7 +29,7 @@ export const isChatBoxExpanded = (): boolean | undefined => {
  * @returns undefined or the iframe element of chat box
  */
 export const getChatBoxIframe = (): HTMLIFrameElement | undefined => {
-    return Array.from(document.getElementsByTagName('iframe')).find(el => el.id === 'chatframe')
+    return Array.from(document.getElementsByTagName('iframe')).find(el => el.id === ChatFrameId)
 }
 
 /**
@@ -41,13 +42,19 @@ export const getChatBoxIframeScript = (): HTMLScriptElement | undefined => {
     if (!iframe || !iframe.contentDocument) return undefined
     return Array
         .from(iframe.contentDocument.getElementsByTagName('script'))
-        .find(i => i.innerText.includes('ytInitialData'))
+        .find(i => i.textContent?.includes('ytInitialData'))
 }
 
+/**
+ * 
+ * @param content 
+ * @returns Return the Live Chat response or {} is text content can not parse by JSON
+ */
 export const getLiveChatReponseFromWindowObjectString = (content: string): LiveChatResponse => {
     try {
         let dataString = content.slice(content.indexOf('=') + 1)
-        dataString = dataString.slice(0, dataString.lastIndexOf(';'))
+        if (dataString[dataString.length - 1] === ';')
+            dataString = dataString.slice(0, dataString.lastIndexOf(';'))
         return JSON.parse(dataString)
     } catch (error) {
         return {}
