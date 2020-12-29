@@ -1,9 +1,9 @@
 
 import { useEffect, useState } from 'react'
 
-type getElementCallback = <T extends any[]>(...args: T) => Node | undefined
+type GetElementCallback = <T extends any[]>(...args: T) => Node | undefined
 
-export const useElementState = (getElementCallback: getElementCallback) => {
+export const useElementState = (getElementCallback: GetElementCallback) => {
     const [ready, setReady] = useState<boolean>(getElementCallback() ? true : false)
     const [node, setNode] = useState<Node | undefined>(getElementCallback() ? getElementCallback() : undefined)
 

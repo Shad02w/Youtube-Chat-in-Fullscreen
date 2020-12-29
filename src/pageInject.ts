@@ -1,12 +1,10 @@
+import { getChatBoxIframe, getChatBoxIframeScript } from '@models/ChatBox'
 import {
     createInterceptElement,
     InterceptedDataElementId_PlayerState,
     PlayerStateData,
 } from '@models/Intercept'
 import { YTPlayerState } from '@models/Player'
-import { ContentScriptWindow } from '@models/Window'
-
-declare const window: ContentScriptWindow
 
 /**
  * Create a div element for holding player state of the youtube player
@@ -25,3 +23,15 @@ const playerStateIEObserver = new MutationObserver(() => {
 })
 
 playerStateIEObserver.observe(document.body, { childList: true, subtree: true })
+
+
+const iframeObserver = new MutationObserver(() => {
+    const iframe = getChatBoxIframe()
+    let scriptObserver: MutationObserver | undefined = undefined
+    if (iframe) {
+        const script = getChatBoxIframeScript()
+        console.log(script)
+    }
+})
+
+iframeObserver.observe(document.body, { childList: true, subtree: true })
