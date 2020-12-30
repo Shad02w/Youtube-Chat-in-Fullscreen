@@ -48,6 +48,7 @@ const getIframeInitLiveChatResponse = () => {
                 .from(iframe.contentDocument.getElementsByTagName('script'))
                 .find(i => i.innerText.includes('ytInitialData'))
             if (!s) return
+            console.log(s.innerHTML)
             resolve({
                 content: s.innerHTML,
             })
@@ -76,7 +77,6 @@ const initLiveChatIEObserver = new MutationObserver(async () => {
     } catch (err) {
         console.error(err)
     }
-
 })
 
 initLiveChatIEObserver.observe(initLiveChatInterceptElement.element, { childList: true })

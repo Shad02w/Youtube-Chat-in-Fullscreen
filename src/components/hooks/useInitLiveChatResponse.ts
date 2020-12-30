@@ -50,6 +50,7 @@ export const useInitLiveChatResponse = (effect: InitLiveChatResponseEffectCallba
         try {
             effectRef.current(JSON.parse(dataString), pageTypeRef.current)
         } catch (error) {
+            console.log('no right')
             console.error(error)
         }
     }, [initLiveChatRequestAction_Meomo])
