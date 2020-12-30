@@ -36,10 +36,10 @@ export const getChatBoxIframe = (): HTMLIFrameElement | undefined => {
  * @returns undefined or the script element contains ytInitData under Chat box iframe element
  */
 export const getChatBoxIframeScript = (): HTMLScriptElement | undefined => {
-    // const iframe = Array
-    //     .from(document.getElementsByTagName('iframe'))
-    //     .find(i => i.classList.contains('ytd-live-chat-frame'))
-    const iframe = getChatBoxIframe()
+    const iframe = Array
+        .from(document.getElementsByTagName('iframe'))
+        .find(i => i.classList.contains('ytd-live-chat-frame'))
+    // const iframe = getChatBoxIframe()
     if (!iframe || !iframe.contentDocument) return undefined
     return Array
         .from(iframe.contentDocument.getElementsByTagName('script'))

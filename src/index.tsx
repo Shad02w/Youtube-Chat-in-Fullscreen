@@ -56,15 +56,11 @@ const setGlobalVariables = () => {
             })
         }
 
-
     })
 
     observer.observe(document.body, {
         childList: true,
         subtree: true
     })
-
-    /**Wait until page inject is load */
-
 
 })()

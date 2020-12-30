@@ -9,7 +9,8 @@ import { useLiveChatActions } from '@hooks/useLiveChatActions'
 import { useBackgroundMessage } from '@hooks/useBackgroundMessage'
 import { PageType } from '@models/Request'
 import { useChatBox } from '@hooks/useChatBox'
-import { useChatFrame } from '@hooks/useChatFrame'
+import { useElementState } from '@hooks/useElementState'
+import { getChatBoxIframe, getChatBoxIframeScript } from '@models/ChatBox'
 
 declare const window: ContentScriptWindow
 
@@ -40,14 +41,14 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const { playerState } = usePlayer()
 
     const { expanded: chatBoxExpanded } = useChatBox()
-    const { ready: chatFrameReady } = useChatFrame()
+    const { ready: chatFrameReady } = useElementState(getChatBoxIframeScript)
 
     const lastFetchedChatActions = useRef([] as AdvancedChatLiveActions)
 
     // use in replay live page
     const { enqueue: enqueueChatQueue, dequeued, reset: resetChatQueue, freeze: freezeChatQueue } = useChatQueue()
 
-    const clearOldChatState = useCallback(
+    const resetChatState = useCallback(
         () => {
             resetChatList()
             resetChatQueue()
@@ -90,7 +91,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
         if (chatFrameReady) {
             freezeChatQueue(false)
         } else {
-            clearOldChatState()
+            resetChatState()
             freezeChatQueue(true)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
