@@ -47,11 +47,13 @@ const setGlobalVariables = () => {
             script.src = chrome.runtime.getURL('./pageInject.js')
             document.body.append(script)
 
-            render(
-                <React.StrictMode>
-                    <App />
-                </React.StrictMode>,
-                document.getElementById(chatListContainerId))
+            script.addEventListener('load', () => {
+                render(
+                    <React.StrictMode>
+                        <App />
+                    </React.StrictMode>,
+                    document.getElementById(chatListContainerId))
+            })
         }
 
 
@@ -61,5 +63,8 @@ const setGlobalVariables = () => {
         childList: true,
         subtree: true
     })
+
+    /**Wait until page inject is load */
+
 
 })()
