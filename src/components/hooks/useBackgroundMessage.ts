@@ -9,6 +9,9 @@ declare const window: ContentScriptWindow
 export const useBackgroundMessage = (effect: CachedMessageEffectCallback) => {
 
 
+    /**
+     * Get messages from cached messaage event which cached before the react app is ready(mounted)
+     */
     useEffect(() => {
         const listener = ((e: CustomEvent<CatchedLiveChatRequestMessage>) => {
             effect(e.detail)
@@ -17,6 +20,9 @@ export const useBackgroundMessage = (effect: CachedMessageEffectCallback) => {
         return () => window.messages.removeEventListener('release', listener)
     }, [effect])
 
+    /**
+     * Get messages from extension message channel
+     */
     useEffect(() => {
         const listener = (message: CatchedLiveChatRequestMessage) => effect(message)
         chrome.runtime.onMessage.addListener(listener)
