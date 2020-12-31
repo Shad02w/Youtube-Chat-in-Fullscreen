@@ -1,22 +1,17 @@
 import { renderHook, act, cleanup } from "@testing-library/react-hooks"
-import { initLiveChatRequestAction_Default, requestInitLiveChatData, requestInitLiveChatData_debounce_time, useInitLiveChatResponse } from '@hooks/useInitLiveChatResponse';
+import { useInitLiveChatResponse } from '@hooks/useInitLiveChatResponse';
 import { ContentScriptWindow } from "@models/Window";
 import { cleanupWindowMessages, setupChrome, setupWindowMessage } from "@/jest-setup";
-import { createInterceptElement, getInterceptElementContent, InitLiveChatRequestAction, InterceptedDataElementId_InitLiveChat } from "@models/Intercept";
 import { chrome } from 'jest-chrome';
 import { CatchedLiveChatRequestMessage } from "@models/Request";
-import { waitFor } from "@testing-library/dom";
+import { PostMessageType } from "@models/PostMessage";
 
 declare const window: ContentScriptWindow
 declare const global: { chrome: typeof chrome }
 
-describe('requestInitLiveChatData testing', () => {
-    expect(requestInitLiveChatData()).toBeUndefined()
-})
 
 describe('useInitLiveChatResponse custom effect hook testing', () => {
 
-    const updateAction: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify({ messages: 'hello' }) }
     beforeAll(() => {
         setupWindowMessage()
         setupChrome()
@@ -36,86 +31,71 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
     })
 
 
-    test('Should run effect callback with default value and "normal" page type, when intercepte element does not exist', () => {
+    test('Should not run effect callback if there are no init response web requset captured', () => {
         const mockFn = jest.fn()
         renderHook(() => useInitLiveChatResponse(mockFn))
-        expect(mockFn).toBeCalledTimes(1)
-        if (initLiveChatRequestAction_Default.type === 'UPDATE')
-            expect(mockFn).toBeCalledWith(JSON.parse(initLiveChatRequestAction_Default.dataString), 'normal')
+        expect(mockFn).toBeCalledTimes(0)
     })
-
-    test('Should run effect callback with parameter according to intercept element, when intercepte element created before hook', () => {
-        const interceptEl = createInterceptElement(InterceptedDataElementId_InitLiveChat, updateAction)
-        interceptEl.mount()
-
+    test('Should run post request message when received init live chat page type message', done => {
         const mockFn = jest.fn()
         renderHook(() => useInitLiveChatResponse(mockFn))
-        expect(mockFn).toBeCalledTimes(1)
-        if (initLiveChatRequestAction_Default.type === 'UPDATE')
-            expect(mockFn).toBeCalledWith(JSON.parse(updateAction.dataString), 'normal')
+        expect(mockFn).toBeCalledTimes(0)
+        const messageListener = (event: MessageEvent<PostMessageType>) => {
+            expect(event.data).toStrictEqual({ type: 'request' })
+            window.removeEventListener('message', messageListener)
+            done()
+        }
+        window.addEventListener('message', messageListener)
+        act(() => {
+            chrome.runtime.onMessage.callListeners({ type: 'init-live-chat' } as CatchedLiveChatRequestMessage, {}, () => { })
+            jest.runAllTimers()
+        })
     })
 
     test('Should not run effect callback when pageType "normal" in message', async () => {
         const message = { type: 'normal', details: {} } as CatchedLiveChatRequestMessage
         const mockFn = jest.fn()
         renderHook(() => useInitLiveChatResponse(mockFn))
-        expect(mockFn).toBeCalledTimes(1)
+        expect(mockFn).toBeCalledTimes(0)
         await act(async () => {
             chrome.runtime.onMessage.callListeners(message, {}, () => { })
             jest.runAllTimers()
         })
-        expect(mockFn).toBeCalledTimes(1)
-
+        expect(mockFn).toBeCalledTimes(0)
     })
 
 
-    test('Should change intercept element to request action after getting the background message of init live chat', async () => {
-        const message = { type: 'init-live-chat', details: { frameId: 0 } } as CatchedLiveChatRequestMessage
-        const interceptEl = createInterceptElement(InterceptedDataElementId_InitLiveChat, updateAction)
-        interceptEl.mount()
-        const mockFn = jest.fn()
-        renderHook(() => useInitLiveChatResponse(mockFn))
-        expect(mockFn).toBeCalledTimes(1)
+    test('Should call effect callback once when page inject post a response message', () => {
+        const effectMock = jest.fn()
+        const { waitFor } = renderHook(() => useInitLiveChatResponse(effectMock))
+        const responseMessage: PostMessageType = { type: 'response', response: { message: 'this is init response' } }
+        const webRequestMessage = { type: 'init-live-chat', details: {} } as CatchedLiveChatRequestMessage
 
-        await act(async () => {
-            chrome.runtime.onMessage.callListeners(message, {}, () => { })
+        act(() => {
+            chrome.runtime.onMessage.callListeners(webRequestMessage, {}, () => { })
+            window.postMessage(responseMessage, '*')
             jest.runAllTimers()
         })
 
-        expect(getInterceptElementContent(interceptEl.element)).toStrictEqual({ type: 'REQUEST' })
-
-        const updateAction2Message = { message: 'bye111111111111' }
-        const updateAction2: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify(updateAction2Message) }
-        await act(async () => {
-            interceptEl.set(updateAction2)
+        return waitFor(() => {
+            expect(effectMock).toBeCalledTimes(1)
+            expect(effectMock).toBeCalledWith(responseMessage.response, 'init-live-chat')
         })
-        expect(getInterceptElementContent(interceptEl.element)).toStrictEqual(updateAction2)
+
     })
 
-    test('Shuld not call effect when the page type is not "init" in background message', async () => {
-        const mockFn = jest.fn()
-        renderHook(() => useInitLiveChatResponse(mockFn))
-        expect(mockFn).toBeCalledTimes(1)
+    test('Should not call effect when the page type is not "init" from background message', async () => {
+        const effecFn = jest.fn()
+        const { waitFor } = renderHook(() => useInitLiveChatResponse(effecFn))
         const message = { type: 'live-chat' } as CatchedLiveChatRequestMessage
-        await act(async () => chrome.runtime.onMessage.callListeners(message, {}, () => { }))
-        expect(mockFn).toBeCalledTimes(1)
+        await act(async () => {
+            chrome.runtime.onMessage.callListeners(message, {}, () => { })
+            window.postMessage({ type: 'response', response: { message: 'hi' } } as PostMessageType, '*')
+            jest.runAllTimers()
+        })
+        await waitFor(() => {
+            expect(effecFn).toBeCalledTimes(0)
+        })
     })
-
-    test('Should console a error message when the datastring in intercept element is not valid JSON', async () => {
-        const interceptEl = createInterceptElement(InterceptedDataElementId_InitLiveChat, updateAction)
-
-        const consoleMockFn = jest.fn()
-        const effectMockFn = jest.fn()
-        jest.spyOn(console, 'error').mockImplementationOnce(consoleMockFn)
-        interceptEl.mount()
-        renderHook(() => useInitLiveChatResponse(effectMockFn))
-        expect(effectMockFn).toBeCalledTimes(1)
-        expect(effectMockFn).toBeCalledWith(JSON.parse(updateAction.dataString), 'normal')
-        await act(async () => interceptEl.set({ type: 'UPDATE', dataString: 'abc' }))
-
-        expect(consoleMockFn).toBeCalledTimes(1)
-        expect(effectMockFn).toBeCalledTimes(1)
-    })
-
 
 })

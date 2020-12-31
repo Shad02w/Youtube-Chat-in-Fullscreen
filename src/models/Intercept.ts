@@ -2,20 +2,10 @@ import { YTPlayerState } from '@models/Player'
 import { JSON2Datastring, Datastring2JSON } from '@models/DataString';
 
 export const InterceptedDataElementId_PlayerState = '__Intercepted_data_element_id_yt_player'
-export const InterceptedDataElementId_InitLiveChat = '__Intercepted_data_element_id_init_live_chat'
 
 export interface PlayerStateData {
     state: YTPlayerState
 }
-export type InitLiveChatRequestAction =
-    {
-        type: 'REQUEST',
-    }
-    | {
-        type: 'UPDATE',
-        dataString: string,
-    }
-
 export interface InterceptElement<T> {
     element: HTMLElement
     mount(): void

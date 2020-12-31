@@ -29,7 +29,7 @@ const playerStateIEObserver = new MutationObserver(() => {
 playerStateIEObserver.observe(document.body, { childList: true, subtree: true })
 
 window.addEventListener('message', event => {
-    if (event.source !== window || !event.data || (event.data as PostMessageType).type !== 'request') return
+    if (!event.data || !event.type || (event.data as PostMessageType).type !== 'request') return
     const s = getChatIframeScript()
     if (!s || !s.textContent) return
     try {
