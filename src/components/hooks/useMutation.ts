@@ -31,5 +31,5 @@ export const useMutation = function <T>(finder: GetElementCallback<T>) {
     }, [finder])
 
 
-    return { exist, node: target }
+    return { exist, target }
 }

@@ -24,20 +24,20 @@ describe('Testing for useMutation hook', () => {
     test('Should return expected value when element is not exist', () => {
         const { result } = renderHook(() => useMutation(getElementCallback))
         expect(result.current.exist).toBeFalsy()
-        expect(result.current.node).toBeUndefined()
+        expect(result.current.target).toBeUndefined()
     })
 
     test('Should return expected value when element is already exist', () => {
         document.body.append(createElement())
         const { result } = renderHook(() => useMutation(getElementCallback))
         expect(result.current.exist).toBeTruthy()
-        expect(result.current.node?.id).toEqual(elId)
+        expect(result.current.target?.id).toEqual(elId)
     })
 
     test('Should change return value when element is deleted and created', async () => {
         const { result } = renderHook(() => useMutation(getElementCallback))
         expect(result.current.exist).toBeFalsy()
-        expect(result.current.node).toBeUndefined()
+        expect(result.current.target).toBeUndefined()
 
         await act(async () => {
             document.body.append(createElement())
@@ -45,7 +45,7 @@ describe('Testing for useMutation hook', () => {
 
         await waitFor(() => {
             expect(result.current.exist).toBeTruthy()
-            expect(result.current.node?.id).toEqual(elId)
+            expect(result.current.target?.id).toEqual(elId)
         })
 
         await act(async () => {
@@ -54,7 +54,7 @@ describe('Testing for useMutation hook', () => {
 
         await waitFor(() => {
             expect(result.current.exist).toBeFalsy()
-            expect(result.current.node).toBeUndefined()
+            expect(result.current.target).toBeUndefined()
         })
 
         await act(async () => {
@@ -63,7 +63,7 @@ describe('Testing for useMutation hook', () => {
 
         return waitFor(() => {
             expect(result.current.exist).toBeTruthy()
-            expect(result.current.node?.id).toEqual(elId)
+            expect(result.current.target?.id).toEqual(elId)
         })
 
     })
