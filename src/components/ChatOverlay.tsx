@@ -80,6 +80,7 @@ export const ChatOverlay: React.FC = () => {
         if (!containerRef.current) return
         const t = parseInt(containerRef.current.style.top)
         const l = parseInt(containerRef.current.style.left)
+        if (!t || !l) return
         storageDispatch({ type: 'changeOverlayPosition', position: { top: t, left: l } })
     }
 
@@ -87,6 +88,7 @@ export const ChatOverlay: React.FC = () => {
         if (!containerRef.current) return
         const w = parseInt(containerRef.current.style.width)
         const h = parseInt(containerRef.current.style.height)
+        if (!w || !h) return
         storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } })
     }
 
