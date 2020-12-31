@@ -3,11 +3,11 @@
  */
 import { useEffect, useState } from "react"
 
-export type GetElementCallback<NodeType extends Node> = <T extends any[]>(...args: T) => NodeType | undefined
+export type GetElementCallback<K> = <T extends any[]>(...args: T) => K | undefined
 
-export const useElement = function <NodeType extends Node>(finder: GetElementCallback<NodeType>) {
+export const useElement = function <T extends Node>(finder: GetElementCallback<T>) {
     const [exist, setExist] = useState(false)
-    const [node, setNode] = useState<NodeType | undefined>(finder())
+    const [node, setNode] = useState<T | undefined>(finder())
 
     useEffect(() => {
 
