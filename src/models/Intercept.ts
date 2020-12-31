@@ -1,5 +1,5 @@
 import { YTPlayerState } from '@models/Player'
-import { JSON2Datastring, Datastring2JSON } from '@models/DataString';
+import { JSON2Datastring, Datastring2JSON } from '@models/Datastring';
 
 export const InterceptedDataElementId_PlayerState = '__Intercepted_data_element_id_yt_player'
 
