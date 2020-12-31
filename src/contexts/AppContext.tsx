@@ -69,6 +69,9 @@ export const AppContextProvider: React.FC = ({ children }) => {
         , [playerState, pageType])
 
     useEffect(() => {
+
+        //TODO: check the status of chat box exist or not
+
         updateChatList(dequeued)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dequeued])
