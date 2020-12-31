@@ -1,3 +1,4 @@
+import { PostMessageType } from '@models/PostMessage'
 import {
     createInterceptElement,
     InterceptedDataElementId_PlayerState,
@@ -35,20 +36,36 @@ playerStateIEObserver.observe(document.body, { childList: true, subtree: true })
 const initLiveChatInterceptElement = createInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, { type: 'UPDATE', dataString: JSON.stringify({}) })
 initLiveChatInterceptElement.mount()
 
+const getChatIframe = () => {
+    const iframe = Array
+        .from(document.getElementsByTagName('iframe'))
+        .find(i => i.classList.contains('ytd-live-chat-frame'))
+    if (!iframe || !iframe.contentDocument) return undefined
+    return iframe
+}
+
+const getChatIframeScript = () => {
+    const iframe = getChatIframe()
+    if (!iframe || !iframe.contentDocument) return undefined
+    return Array
+        .from(iframe.contentDocument.getElementsByTagName('script'))
+        .find(i => i.innerText.includes('ytInitialData'))
+}
+
+const parseInitLiveChatResponseFromScript = (content: string) => {
+    let dataString = content.slice(content.indexOf('=') + 1).trim()
+    if (dataString[dataString.length - 1] === ';')
+        dataString = dataString.slice(0, dataString.lastIndexOf(';'))
+    return dataString
+}
+
 const getIframeInitLiveChatResponse = () => {
     return new Promise<{ content: string }>((resolve, reject) => {
         const timeoutId = setTimeout(() => reject('cannot get Init Live Chat Data from Live Chat iframe'), 6000)
 
         const iframeObserver = new MutationObserver(() => {
-            const iframe = Array
-                .from(document.getElementsByTagName('iframe'))
-                .find(i => i.classList.contains('ytd-live-chat-frame'))
-            if (!iframe || !iframe.contentDocument) return
-            const s = Array
-                .from(iframe.contentDocument.getElementsByTagName('script'))
-                .find(i => i.innerText.includes('ytInitialData'))
+            const s = getChatIframeScript()
             if (!s) return
-            console.log(s.innerHTML)
             resolve({
                 content: s.innerHTML,
             })
@@ -58,10 +75,8 @@ const getIframeInitLiveChatResponse = () => {
 
         })
         iframeObserver.observe(document.body, { childList: true, subtree: true })
-
     })
 }
-
 
 
 const initLiveChatIEObserver = new MutationObserver(async () => {
@@ -70,9 +85,7 @@ const initLiveChatIEObserver = new MutationObserver(async () => {
     try {
 
         const { content } = await getIframeInitLiveChatResponse()
-
-        let dataString = content.slice(content.indexOf('=') + 1)
-        dataString = dataString.slice(0, dataString.lastIndexOf(';'))
+        const dataString = parseInitLiveChatResponseFromScript(content)
         initLiveChatInterceptElement.set({ type: 'UPDATE', dataString })
     } catch (err) {
         console.error(err)
@@ -80,3 +93,19 @@ const initLiveChatIEObserver = new MutationObserver(async () => {
 })
 
 initLiveChatIEObserver.observe(initLiveChatInterceptElement.element, { childList: true })
+
+window.addEventListener('message', event => {
+    if (event.source !== window || !event.data || (event.data as PostMessageType).type !== 'request') return
+    const s = getChatIframeScript()
+    if (!s || !s.textContent) return
+    try {
+        const json = JSON.parse(parseInitLiveChatResponseFromScript(s.textContent))
+        const responseMessage: PostMessageType = {
+            type: 'response',
+            response: json
+        }
+        window.postMessage(responseMessage, '*')
+    } catch (error) {
+        console.error(error);
+    }
+})
