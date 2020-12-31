@@ -6,13 +6,13 @@ import axios from 'axios';
 import { useLiveChatActions } from "@hooks/useLiveChatActions";
 import * as Player from '@models/Player';
 import { InstantAdvancedChatLiveActions, LiveChatResponse2LiveChatActions, LiveChatResponse2LiveChatReplayActions } from "@models/Chat";
-import { createInterceptElement, getInterceptElementContent, InitLiveChatRequestAction, InterceptedDataElementId_InitLiveChat } from "@models/Intercept";
 import { ContentScriptWindow } from "@models/Window";
 
 // import live chat response sample
 import s1 from '../../../sample/ReplayResponseSample.json'
 import s2 from '../../../sample/LiveResponseSample.json';
 import { LiveChatResponse } from "@models/Fetch";
+import { PostMessageType } from "@models/PostMessage";
 
 declare const global: { chrome: typeof chrome }
 declare const window: ContentScriptWindow
@@ -31,11 +31,8 @@ type ChannelType = 'window' | 'chrome'
 
 const testCases = async (pageType: PageType, channel: ChannelType) => {
 
-    const initAction: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify({}) }
-    const interceptEl = createInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, initAction)
-    interceptEl.mount()
 
-    const { result } = renderHook(() => useLiveChatActions())
+    const { result, waitFor } = renderHook(() => useLiveChatActions())
     expect(result.current.chatActions).toStrictEqual([])
 
     const messsage = { type: pageType, details: { url: 'url' } } as CatchedLiveChatRequestMessage
@@ -61,11 +58,11 @@ const testCases = async (pageType: PageType, channel: ChannelType) => {
 
     // init-live-chat and init-replay-live-chat fetch data from live chat iframe window object, by using intercept element
     if (pageType === 'init-replay-live-chat' || pageType === 'init-live-chat') {
-        expect(getInterceptElementContent(document.getElementById(InterceptedDataElementId_InitLiveChat)!)).toStrictEqual({ type: 'REQUEST' } as InitLiveChatRequestAction)
         //mock page inject js
         await act(async () => {
-            const updateInitAction: InitLiveChatRequestAction = { type: 'UPDATE', dataString: JSON.stringify(pageType === 'init-live-chat' ? LiveResponseSample : ReplayResponseSample) }
-            interceptEl.set(updateInitAction)
+            const responseMessage: PostMessageType = { type: 'response', response: pageType === 'init-live-chat' ? LiveResponseSample : ReplayResponseSample }
+            window.postMessage(responseMessage, '*')
+            jest.runAllTimers()
         })
     }
 
@@ -74,7 +71,10 @@ const testCases = async (pageType: PageType, channel: ChannelType) => {
         pageType === 'init-live-chat' ? InstantAdvancedChatLiveActions(LiveChatResponse2LiveChatActions(LiveResponseSample)) : LiveChatResponse2LiveChatActions(LiveResponseSample)
         :
         LiveChatResponse2LiveChatReplayActions(ReplayResponseSample)
-    expect(result.current.chatActions).toStrictEqual(targetActions)
+
+    return waitFor(() => {
+        expect(result.current.chatActions).toStrictEqual(targetActions)
+    })
 }
 
 
@@ -86,11 +86,13 @@ describe('useLiveChatActions', () => {
     })
     beforeEach(() => {
         jest.spyOn(Player, 'getCurrentPlayerTime').mockReturnValue(0)
+        jest.useFakeTimers()
     })
 
     afterEach(() => {
         document.body.textContent = ''
         cleanupWindowMessages()
+        jest.useRealTimers()
         jest.clearAllMocks()
         jest.restoreAllMocks()
         cleanup()
@@ -127,7 +129,6 @@ describe('useLiveChatActions', () => {
     test('Should return proper chat actions according to replay-live-chat message from chrome messsage  ', async () => {
         await testCases('replay-live-chat', 'window')
     })
-
 
 })
 

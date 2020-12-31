@@ -84,7 +84,7 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
 
     })
 
-    test('Should not call effect when the page type is not "init" from background message', async () => {
+    test.skip('Should not call effect when the page type is not "init" from background message', async () => {
         const effecFn = jest.fn()
         const { waitFor } = renderHook(() => useInitLiveChatResponse(effecFn))
         const message = { type: 'live-chat' } as CatchedLiveChatRequestMessage
