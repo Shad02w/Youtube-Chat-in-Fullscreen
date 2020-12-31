@@ -10,7 +10,6 @@ export const useChatBox = () => {
 
     useEffect(() => {
         if (exist && chatBox) {
-            console.log('exist', chatBox.id, isChatBoxExpanded())
             setExpanded(isChatBoxExpanded())
             const chatBoxObserver = new MutationObserver(mutations => {
                 if (mutations.find(m => m.type === 'attributes')) {
@@ -24,5 +23,5 @@ export const useChatBox = () => {
         }
     }, [exist, chatBox])
 
-    return { expanded }
+    return { expanded, exist }
 }

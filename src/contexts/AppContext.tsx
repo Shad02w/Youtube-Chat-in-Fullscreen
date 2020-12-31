@@ -9,6 +9,7 @@ import { useLiveChatActions } from '@hooks/useLiveChatActions'
 import { useBackgroundMessage } from '@hooks/useBackgroundMessage'
 import { PageType } from '@models/Request'
 import { useUrl } from '@hooks/useUrl'
+import { useChatBox } from '@hooks/useChatBox'
 
 declare const window: ContentScriptWindow
 
@@ -35,6 +36,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const [pageType, setPageType] = useState<PageType>('normal')
 
     const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], maxChatList)
+    const { exist: chatBoxExist, expanded } = useChatBox()
     const { playerState } = usePlayerState()
 
     // use in replay live page
@@ -51,12 +53,13 @@ export const AppContextProvider: React.FC = ({ children }) => {
     useBackgroundMessage(message => setPageType(message.type))
 
     useUrl(() => resetChatState())
+    // clear the old records when collapsed
+    useEffect(() => { (!expanded) && resetChatList() }, [expanded, resetChatList])
 
     // when the app is ready, pop all message from window cached message to trigger the message release event
     useEffect(popAllCachedMessage, [])
 
     useEffect(() => {
-        // both the live page and live replay page will use the polling chat queue
         if (pageType === 'normal' || fetchedChatActions.length === 0) return
         enqueueChatQueue(fetchedChatActions)
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,10 +72,8 @@ export const AppContextProvider: React.FC = ({ children }) => {
         , [playerState, pageType])
 
     useEffect(() => {
-
-        //TODO: check the status of chat box exist or not
-
-        updateChatList(dequeued)
+        //check the status of chat box before update chatList
+        if (chatBoxExist) updateChatList(dequeued)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dequeued])
 
