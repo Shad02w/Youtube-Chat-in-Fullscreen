@@ -1,0 +1,23 @@
+
+name: YCF Code base Testing on Push
+
+on:
+  push
+
+jobs:
+  ycf-testing-on-push:
+    name: Testing Code Base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+            node-version: '12'
+      - run: yarn
+      - run: yarn jest
+        
+
+    
