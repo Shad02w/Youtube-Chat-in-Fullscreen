@@ -5,21 +5,21 @@ import { useEffect, useState } from "react"
 
 export type GetElementCallback<K> = <T extends any[]>(...args: T) => K | undefined
 
-export const useElement = function <T extends Node>(finder: GetElementCallback<T>) {
+export const useMutation = function <T extends Node>(finder: GetElementCallback<T>) {
     const [exist, setExist] = useState(false)
     const [node, setNode] = useState<T | undefined>(finder())
 
     useEffect(() => {
 
-        const element = finder()
-        if (element) {
+        const target = finder()
+        if (target) {
             setExist(true)
-            setNode(element)
+            setNode(target)
         }
         const observer = new MutationObserver(() => {
-            const el = finder()
-            if (el) {
-                setNode(el)
+            const t = finder()
+            if (t) {
+                setNode(t)
                 setExist(true)
             } else {
                 setExist(false)
