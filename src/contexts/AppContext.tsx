@@ -1,13 +1,14 @@
-import React, { createContext, useEffect, useRef, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useState } from 'react'
 import { useChatActions } from '@hooks/useChatActions'
 import { useChatQueue } from '@hooks/useChatQueue'
 import { usePlayerState } from '@hooks/usePlayerState'
 import { YTPlayerState } from '@models/Player'
-import { AdvancedChatLiveActions, EqualAdvancedChatLiveActions } from '@models/Chat'
+import { AdvancedChatLiveActions } from '@models/Chat'
 import { ContentScriptWindow } from '@models/Window'
 import { useLiveChatActions } from '@hooks/useLiveChatActions'
 import { useBackgroundMessage } from '@hooks/useBackgroundMessage'
 import { PageType } from '@models/Request'
+import { useUrl } from '@hooks/useUrl'
 
 declare const window: ContentScriptWindow
 
@@ -17,6 +18,11 @@ export interface AppState {
     freezeChatQueue(value: boolean): void
 }
 
+const popAllCachedMessage = () => {
+    if (window.ready) return
+    window.ready = true
+    window.messages.popAll()
+}
 
 export const AppContext = createContext<AppState>({} as AppState)
 
@@ -31,46 +37,27 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const { chatActions, update: updateChatList, reset: resetChatList } = useChatActions([], maxChatList)
     const { playerState } = usePlayerState()
 
-    const lastFetchedChatActions = useRef([] as AdvancedChatLiveActions)
-
     // use in replay live page
     const { enqueue: enqueueChatQueue, dequeued, reset: resetChatQueue, freeze: freezeChatQueue } = useChatQueue()
 
+    const resetChatState = useCallback(() => {
+        resetChatList()
+        resetChatQueue()
+        freezeChatQueue(false)
+        window.messages.clear()
+    }, [resetChatQueue, resetChatList, freezeChatQueue])
+
     // Get page Type
-    useBackgroundMessage(message => {
-        setPageType(message.type)
-    })
+    useBackgroundMessage(message => setPageType(message.type))
 
-    // when the  app is ready , pop  all message from window cached message to trigger the message release event
-    useEffect(() => {
-        if (window.ready) return
-        window.ready = true
-        window.messages.popAll()
-    }, [])
+    useUrl(() => resetChatState())
 
-    // side effect of page change
-    useEffect(() => {
-        if (pageType === 'normal') {
-            console.log('new page')
-            resetChatList()
-            resetChatQueue()
-            freezeChatQueue(true)
-            window.messages.clear()
-        }
-        else {
-            freezeChatQueue(false)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageType])
+    // when the app is ready, pop all message from window cached message to trigger the message release event
+    useEffect(popAllCachedMessage, [])
 
-    // when a chats data is fetched
     useEffect(() => {
         // both the live page and live replay page will use the polling chat queue
-        if (pageType === 'normal'
-            || fetchedChatActions.length === 0
-            || EqualAdvancedChatLiveActions(lastFetchedChatActions.current, fetchedChatActions)) return
-
-        lastFetchedChatActions.current = fetchedChatActions
+        if (pageType === 'normal' || fetchedChatActions.length === 0) return
         enqueueChatQueue(fetchedChatActions)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchedChatActions])
@@ -79,12 +66,13 @@ export const AppContextProvider: React.FC = ({ children }) => {
         ? freezeChatQueue(true)
         : freezeChatQueue(false)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        , [playerState, pageType]
-    )
+        , [playerState, pageType])
+
     useEffect(() => {
         updateChatList(dequeued)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dequeued])
+
 
     return (
         <AppContext.Provider value={{ pageType, chatActions, freezeChatQueue }}>
