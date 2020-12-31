@@ -80,3 +80,26 @@ export const FilterDuplicateChatAdvancedChatLiveActions = (actions: AdvancedChat
         return true
     })
 }
+
+export const getChatIframe = () => {
+    const iframe = Array
+        .from(document.getElementsByTagName('iframe'))
+        .find(i => i.classList.contains('ytd-live-chat-frame'))
+    if (!iframe || !iframe.contentDocument) return undefined
+    return iframe
+}
+
+export const getChatIframeScript = () => {
+    const iframe = getChatIframe()
+    if (!iframe || !iframe.contentDocument) return undefined
+    return Array
+        .from(iframe.contentDocument.getElementsByTagName('script'))
+        .find(i => i.innerText.includes('ytInitialData'))
+}
+
+export const parseInitLiveChatResponseFromScript = (scriptContent: string) => {
+    let dataString = scriptContent.slice(scriptContent.indexOf('=') + 1).trim()
+    if (dataString[dataString.length - 1] === ';')
+        dataString = dataString.slice(0, dataString.lastIndexOf(';'))
+    return dataString
+}

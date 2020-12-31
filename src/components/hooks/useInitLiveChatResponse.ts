@@ -3,9 +3,8 @@ import { debounce } from "@models/Function";
 import { InitLiveChatRequestAction, InterceptedDataElementId_InitLiveChat, setInterceptElementContent } from "@models/Intercept";
 import { PostMessageType } from "@models/PostMessage";
 import { PageType } from "@models/Request";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useBackgroundMessage } from "./useBackgroundMessage";
-import { useInterceptElement } from "./useInterceptElement";
 
 type InitLiveChatResponseEffectCallback = (response: LiveChatResponse, pageType: PageType) => any
 export const requestInitLiveChatData_debounce_time = 1500
@@ -32,14 +31,11 @@ export const useInitLiveChatResponse = (effect: InitLiveChatResponseEffectCallba
 
 
     const [pageType, setPageType] = useState<PageType | undefined>(undefined)
-    const { data: initLiveChatRequestAction } = useInterceptElement<InitLiveChatRequestAction>(InterceptedDataElementId_InitLiveChat, initLiveChatRequestAction_Default)
     const [initResponse, setInitResponse] = useState<LiveChatResponse | undefined>(undefined)
     const pageTypeRef = useRef(pageType)
     const effectRef = useRef(effect)
     pageTypeRef.current = pageType
     effectRef.current = effect
-
-    const initLiveChatRequestAction_Meomo = useMemo(() => initLiveChatRequestAction, [initLiveChatRequestAction])
 
     const requestInitLiveChatData_debounce = debounce(requestInitLiveChatData_debounce_time, requestInitLiveChatData)
     const request = useCallback(debounce(requestInitLiveChatData_debounce_time, requestInitLiveChatData_postMessage), [])
@@ -65,19 +61,6 @@ export const useInitLiveChatResponse = (effect: InitLiveChatResponseEffectCallba
         }
     })
 
-
-    // useEffect(() => {
-    //     const initAction = initLiveChatRequestAction_Meomo
-    //     if (!initAction || !initAction.type || initAction.type !== 'UPDATE') return
-    //     const { dataString } = initAction
-    // esle
-    //     // try {
-    //     //     effectRef.current(JSON.parse(dataString), pageTypeRef.current)
-    //     // } catch (error) {
-    //     //     console.log('no right')
-    //     //     console.error(error)
-    //     // }
-    // }, [initLiveChatRequestAction_Meomo])
     useEffect(() => {
         if (!pageTypeRef.current || !initResponse) return
         effectRef.current(initResponse, pageTypeRef.current)
