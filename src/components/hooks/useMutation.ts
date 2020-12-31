@@ -5,25 +5,25 @@ import { useEffect, useState } from "react"
 
 export type GetElementCallback<K> = <T extends any[]>(...args: T) => K | undefined
 
-export const useMutation = function <T extends Node>(finder: GetElementCallback<T>) {
+export const useMutation = function <T>(finder: GetElementCallback<T>) {
     const [exist, setExist] = useState(false)
-    const [node, setNode] = useState<T | undefined>(finder())
+    const [target, setTarget] = useState<T | undefined>(finder())
 
     useEffect(() => {
 
-        const target = finder()
-        if (target) {
+        const found = finder()
+        if (found) {
             setExist(true)
-            setNode(target)
+            setTarget(found)
         }
         const observer = new MutationObserver(() => {
-            const t = finder()
-            if (t) {
-                setNode(t)
+            const f = finder()
+            if (f) {
+                setTarget(f)
                 setExist(true)
             } else {
                 setExist(false)
-                setNode(undefined)
+                setTarget(undefined)
             }
         })
         observer.observe(document.body, { childList: true, subtree: true })
@@ -31,5 +31,5 @@ export const useMutation = function <T extends Node>(finder: GetElementCallback<
     }, [finder])
 
 
-    return { exist, node }
+    return { exist, node: target }
 }

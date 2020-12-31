@@ -2,7 +2,7 @@ import { useMutation } from '@hooks/useMutation'
 import { waitFor } from '@testing-library/react'
 import { renderHook, act, cleanup } from '@testing-library/react-hooks'
 
-describe('Testing for useElement hook', () => {
+describe('Testing for useMutation hook', () => {
     const elId = 'this-is-the-id'
 
     const getElementCallback = () => {
