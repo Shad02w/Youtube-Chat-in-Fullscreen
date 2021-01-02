@@ -119,6 +119,7 @@ declare namespace YTLiveChat {
         height?: number,
         width?: number
     }
+    type IconType = "MODERATOR" | "VERIFIED" | "OWNER"
 
     export interface CommandMetadata {
         webCommandMetadata: {
@@ -140,7 +141,8 @@ declare namespace YTLiveChat {
                 thumbnails: Thumbnail[]
             },
             icon?: {
-                iconType: string
+                // iconType: string
+                iconType: IconType
             }
             tooltip: string
             accessibility: {

@@ -54,12 +54,17 @@ export const useChatListItemStyle = makeStyles({
     isMember: {
         color: 'green'
     },
+    isMod: {
+        color: 'black',
+        backgroundColor: 'rgb(94,132,241)',
+        padding: '0.15em 0.4em',
+        borderRadius: '0.4em'
+    },
     isAuthor: {
         color: 'black',
         backgroundColor: 'rgb(255,200,0)',
         padding: '0.15em 0.4em',
         borderRadius: '0.4em'
-
     },
     authorBadge: {
         width: '1.3em',

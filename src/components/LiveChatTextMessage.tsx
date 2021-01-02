@@ -9,9 +9,9 @@ interface LiveChatTextMessageProps {
     renderer: YTLiveChat.LiveChatTextMessageRenderer
 }
 
-const isOwner = (badges: YTLiveChat.AuthorBadge[] | undefined) => {
+const checkIdentity = (badges: YTLiveChat.AuthorBadge[] | undefined, type: YTLiveChat.IconType) => {
     return (badges
-        && badges.some(badge => (badge.liveChatAuthorBadgeRenderer && badge.liveChatAuthorBadgeRenderer.icon && badge.liveChatAuthorBadgeRenderer.icon.iconType && badge.liveChatAuthorBadgeRenderer.icon.iconType === 'OWNER'))
+        && badges.some(badge => (badge.liveChatAuthorBadgeRenderer && badge.liveChatAuthorBadgeRenderer.icon && badge.liveChatAuthorBadgeRenderer.icon.iconType && badge.liveChatAuthorBadgeRenderer.icon.iconType === type))
     )
 }
 
@@ -24,6 +24,9 @@ const isMember = (badges: YTLiveChat.AuthorBadge[] | undefined) => {
 export const LiveChatTextMessage: React.FC<LiveChatTextMessageProps> = ({ renderer, classes }) => {
     const badges = renderer.authorBadges
     const message = renderer.message
+    const isOwner = checkIdentity(badges, 'OWNER')
+    const isMod = checkIdentity(badges, 'MODERATOR')
+    const isMem = isMember(badges)
 
     return (
         <div
@@ -34,7 +37,8 @@ export const LiveChatTextMessage: React.FC<LiveChatTextMessageProps> = ({ render
                 src={renderer.authorPhoto.thumbnails[1].url}
             />
             <article>
-                <div className={`${classes.authorName} ${(isMember(badges)) ? classes.isMember : ''} ${isOwner(badges) ? classes.isAuthor : ''}`}>{renderer.authorName.simpleText}</div>
+                <div
+                    className={`${classes.authorName} ${isMem ? classes.isMember : ''} ${isMod ? classes.isMod : ''} ${isOwner ? classes.isAuthor : ''}`}>{renderer.authorName.simpleText}</div>
                 {badges ? <Badges badges={badges}
                     classes={classes} /> : <></>}
                 {message ? <Message message={message}
