@@ -51,12 +51,17 @@ export const useChatListItemStyle = makeStyles({
         wordBreak: 'break-all',
         marginRight: '0.6em'
     },
+    autherNameInner: {
+        display: 'flex',
+        flexFlow: 'row nowrap'
+    },
     isMember: {
         color: 'green'
     },
     isMod: {
-        color: 'black',
-        backgroundColor: 'rgb(94,132,241)',
+        // color: 'black',
+        // backgroundColor: 'rgb(94,132,241)',
+        color: 'rgb(94,132,241)',
         padding: '0.15em 0.4em',
         borderRadius: '0.4em'
     },
