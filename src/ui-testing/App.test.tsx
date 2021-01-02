@@ -28,7 +28,7 @@ const App: React.FC = () => {
     const [fontSize, setFontSize] = useState<number>(16)
     const [checked, setCheck] = useState<boolean>(false)
     const data = paidDummyData as YTLiveChat.LiveAction[]
-    const classes = useChatListItemStyle({ fontSize: 16 })
+    const classes = useChatListItemStyle({ opacitySC: 1 })
     const containerClasses = useStyles({ fontSize })
     return (
         <>

@@ -13,6 +13,7 @@ import { useFullscreenState } from './hooks/useFullscreenState';
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     chatActions: AdvancedChatLiveActions,
     fontSize: number
+    opacitySC: number
     onAutoScrollStart?(): void
     onAutoScrollStop?(): void
 }
@@ -29,7 +30,7 @@ const CircleButtonBase = withStyles({
     }
 })(ButtonBase)
 
-export const useStyles = makeStyles(theme =>
+export const useStyles = makeStyles(() =>
     createStyles({
         container: {
             width: 'auto',
@@ -95,10 +96,9 @@ const ScrollToBottom = (el: HTMLElement) => {
 
 
 
-export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, onAutoScrollStop, onAutoScrollStart, className }) => {
+export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fontSize, onAutoScrollStop, onAutoScrollStart, className }) => {
 
 
-    const liveChatTextMessageClasses = useChatListItemStyle()
 
     const [autoScroll, setAutoScroll] = useState<boolean>(true)
 
@@ -108,8 +108,10 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, fontSize, onAu
     const autoScrollRef = useRef<boolean>(autoScroll)
     autoScrollRef.current = autoScroll
 
-    const classes = useStyles({ fontSize, autoScroll })
     const { isFullscreen } = useFullscreenState()
+
+    const classes = useStyles({ fontSize, autoScroll })
+    const liveChatTextMessageClasses = useChatListItemStyle({ opacitySC })
 
     useEffect(() => {
         if (!containerRef.current) return

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => createStyles({
 export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) => {
 
     const { isFullscreen } = useFullscreenState()
-    const { storage: { fontSize, opacity, blur, show: showOverlay_Storage }, storageDispatch, } = useContext(StorageContext);
+    const { storage: { fontSize, opacity, blur, show: showOverlay_Storage, opacitySC }, storageDispatch, } = useContext(StorageContext);
     const showApp = useMemo(() => showOverlay_Storage && isFullscreen, [isFullscreen, showOverlay_Storage]);
 
     const classes = useStyles()
@@ -52,6 +52,10 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
 
     const OpacityValueOnChange = (_: any, newValue: number | number[]) => {
         storageDispatch({ type: 'changeOpacity', opacity: newValue as number });
+    };
+
+    const OpacitySCValueOnChange = (_: any, newValue: number | number[]) => {
+        storageDispatch({ type: 'changeOpacitySC', opacitySC: newValue as number });
     };
 
     const BlurValueOnChange = (_: any, newValue: number | number[]) => {
@@ -96,6 +100,19 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                     value={opacity}
                     valueLabelDisplay="auto"
                     onChange={OpacityValueOnChange}
+                />
+                <Typography gutterBottom
+                    color="textPrimary"
+                    variant="h5">
+                    Opacity for Super Chat
+                    </Typography>
+                <MySlider
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    value={opacitySC}
+                    valueLabelDisplay="auto"
+                    onChange={OpacitySCValueOnChange}
                 />
                 <Typography gutterBottom
                     color="textPrimary"

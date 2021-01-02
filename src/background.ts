@@ -1,5 +1,3 @@
-import chromep from 'chrome-promise'
-import { StoragePreset, StorageItems } from './models/Storage'
 import { CatchedLiveChatRequestMessage, getPageType } from './models/Request'
 import { PresetStoreageWhenNotExist } from '@models/StorageChrome'
 

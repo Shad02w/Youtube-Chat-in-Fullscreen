@@ -64,7 +64,7 @@ export const ChatOverlay: React.FC = () => {
 
 
     const { storage, storageDispatch } = useContext(StorageContext)
-    const { opacity, fontSize, top, left, blur, width, height, show: showOverlay } = storage
+    const { opacity, fontSize, top, left, blur, width, height, opacitySC, show: showOverlay } = storage
     const { chatActions, pageType, freezeChatQueue } = useContext(AppContext)
     const { expanded } = useChatBox()
 
@@ -109,6 +109,7 @@ export const ChatOverlay: React.FC = () => {
                     <ChatList
                         chatActions={chatActions}
                         fontSize={fontSize}
+                        opacitySC={opacitySC}
                         onAutoScrollStart={() => freezeChatQueue(false)}
                         onAutoScrollStop={() => freezeChatQueue(true)}
                         className={classes.chatList} />

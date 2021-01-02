@@ -1,8 +1,12 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, createStyles } from '@material-ui/core/styles'
 
 export type LiveChatMessageStyleType = ReturnType<typeof useChatListItemStyle>
 
-export const useChatListItemStyle = makeStyles({
+interface StyleProps {
+    opacitySC: number
+}
+
+export const useChatListItemStyle = makeStyles(() => createStyles({
     textMessage: {
         padding: '5px 10px',
         display: 'grid',
@@ -12,7 +16,8 @@ export const useChatListItemStyle = makeStyles({
     card: {
         borderRadius: 4,
         overflow: 'hidden',
-        margin: '10px 0px'
+        margin: '10px 0px',
+        opacity: (props: StyleProps) => props.opacitySC ? props.opacitySC : '1'
     },
     cardHeader: {
         display: 'grid',
@@ -87,4 +92,4 @@ export const useChatListItemStyle = makeStyles({
     message: {
         wordBreak: 'break-word'
     },
-})
+}))

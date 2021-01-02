@@ -1,5 +1,4 @@
 import { PresetStoreageWhenNotExist } from '@models/StorageChrome'
-import chromep from 'chrome-promise'
 import React, { createContext, useEffect, useReducer } from 'react'
 import { StorageItems, StoragePreset } from '../models/Storage'
 
@@ -16,6 +15,9 @@ type StorageContextReducerActions =
     } |
     {
         type: 'changeOpacity', opacity: number
+    } |
+    {
+        type: 'changeOpacitySC', opacitySC: number
     } |
     {
         type: 'changeBackgroundBlur', blur: number
@@ -42,6 +44,9 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'changeOpacity':
             chrome.storage.local.set({ 'opacity': action.opacity })
             return { ...preState, opacity: action.opacity }
+        case 'changeOpacitySC':
+            chrome.storage.local.set({ 'opacitySC': action.opacitySC })
+            return { ...preState, opacitySC: action.opacitySC }
         case 'changeOverlayPosition':
             chrome.storage.local.set({ 'top': action.position.top })
             chrome.storage.local.set({ 'left': action.position.left })
