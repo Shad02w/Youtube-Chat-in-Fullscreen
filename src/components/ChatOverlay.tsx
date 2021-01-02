@@ -66,7 +66,7 @@ export const ChatOverlay: React.FC = () => {
 
 
     const { storage, storageDispatch } = useContext(StorageContext)
-    const { opacity, fontSize, top, left, blur, width, height, opacitySC, color, show: showOverlay } = storage
+    const { opacity, fontSize, top, left, blur, width, height, opacitySC, backgroundColor: color, show: showOverlay } = storage
     const { chatActions, pageType, freezeChatQueue } = useContext(AppContext)
     const { expanded } = useChatBox()
 

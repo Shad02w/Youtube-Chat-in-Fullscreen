@@ -30,7 +30,7 @@ type StorageContextReducerActions =
         type: 'toggleOverlay'
     } |
     {
-        type: 'changeColor', color: RgbColor
+        type: 'changeBackgroundColor', backgroundColor: RgbColor
     } |
     {
         type: 'setDefault'
@@ -74,16 +74,16 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
             return { ...preState, show: !preState.show }
         case 'setStorageToLocalContext':
             return { ...preState, ...action.items }
-        case 'changeColor':
-            chrome.storage.local.set({ 'color': action.color })
-            return { ...preState, color: action.color }
+        case 'changeBackgroundColor':
+            chrome.storage.local.set({ 'color': action.backgroundColor })
+            return { ...preState, backgroundColor: action.backgroundColor }
         case 'setDefault':
             chrome.storage.local.clear(() => chrome.storage.local.set(StoragePreset))
             return { ...preState, ...StoragePreset }
         case 'setSettingsPanelDefault':
             const resetValue = Object.keys(StoragePreset).reduce((pre, k) => {
                 const key = k as keyof StorageItems
-                if (key === 'blur' || key === 'color' || key === 'opacity' || key === 'opacitySC' || key === 'fontSize')
+                if (key === 'blur' || key === 'backgroundColor' || key === 'opacity' || key === 'opacitySC' || key === 'fontSize')
                     return { ...pre, [key]: StoragePreset[key] }
                 else return pre
             }, {})

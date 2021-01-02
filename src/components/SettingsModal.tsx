@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => createStyles({
 export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) => {
 
     const { isFullscreen } = useFullscreenState()
-    const { storage: { fontSize, opacity, blur, show: showOverlay_Storage, opacitySC, color }, storageDispatch, } = useContext(StorageContext);
+    const { storage: { fontSize, opacity, blur, show: showOverlay_Storage, opacitySC, backgroundColor }, storageDispatch, } = useContext(StorageContext);
     const showApp = useMemo(() => showOverlay_Storage && isFullscreen, [isFullscreen, showOverlay_Storage]);
 
     const classes = useStyles()
@@ -73,7 +73,7 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
     };
 
     const ColorValueOnChange = (c: RgbColor) => {
-        storageDispatch({ type: 'changeColor', color: c })
+        storageDispatch({ type: 'changeBackgroundColor', backgroundColor: c })
     }
 
     const setDefault = () => storageDispatch({ type: 'setSettingsPanelDefault' })
@@ -168,10 +168,10 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                     <Typography gutterBottom
                         color="textSecondary"
                         variant='h6'>
-                        Current Color: {`rgb(${color.r}, ${color.g}, ${color.b})`}
+                        Current Color: {`rgb(${backgroundColor.r}, ${backgroundColor.g}, ${backgroundColor.b})`}
                     </Typography>
                     <RgbColorPicker
-                        color={color}
+                        color={backgroundColor}
                         onChange={ColorValueOnChange}
                     />
                 </Box>
