@@ -36,14 +36,14 @@ const LiveChatRequestFilter: chrome.webRequest.RequestFilter = {
     ]
 }
 
-const watchPageNavigationFilter: chrome.webNavigation.WebNavigationEventFilter = {
-    url: [
-        {
-            hostSuffix: 'youtube.com',
-            pathContains: 'watch'
-        }
-    ]
-}
+// const watchPageNavigationFilter: chrome.webNavigation.WebNavigationEventFilter = {
+//     url: [
+//         {
+//             hostSuffix: 'youtube.com',
+//             pathContains: 'watch'
+//         }
+//     ]
+// }
 
 
 // reference to https://gist.github.com/72lions/4528834
@@ -76,13 +76,13 @@ function liveChatRequestListener(details: chrome.webRequest.WebResponseCacheDeta
     })
 }
 
-function pageHistoryChangeListener(details: chrome.webNavigation.WebNavigationTransitionCallbackDetails) {
-    const message: CatchedLiveChatRequestMessage = {
-        details: {} as chrome.webRequest.WebRequestDetails,
-        type: getPageType(details.url)
-    }
-    chrome.tabs.sendMessage(details.tabId, message)
-}
+// function pageHistoryChangeListener(details: chrome.webNavigation.WebNavigationTransitionCallbackDetails) {
+//     const message: CatchedLiveChatRequestMessage = {
+//         details: {} as chrome.webRequest.WebRequestDetails,
+//         type: getPageType(details.url)
+//     }
+//     chrome.tabs.sendMessage(details.tabId, message)
+// }
 
 
 function getLiveChatRequestBodyListener(details: chrome.webRequest.WebRequestBodyDetails) {
@@ -124,8 +124,8 @@ function attachListeners() {
     if (!chrome.webRequest.onBeforeSendHeaders.hasListener(getLiveChatRequestHeadersListener))
         chrome.webRequest.onBeforeSendHeaders.addListener(getLiveChatRequestHeadersListener, getLiveChatRequestFilter, ['requestHeaders'])
 
-    if (!chrome.webNavigation.onHistoryStateUpdated.hasListener(pageHistoryChangeListener))
-        chrome.webNavigation.onHistoryStateUpdated.addListener(pageHistoryChangeListener, watchPageNavigationFilter)
+    // if (!chrome.webNavigation.onHistoryStateUpdated.hasListener(pageHistoryChangeListener))
+    //     chrome.webNavigation.onHistoryStateUpdated.addListener(pageHistoryChangeListener, watchPageNavigationFilter)
 }
 
 function removeListeners() {
@@ -138,8 +138,8 @@ function removeListeners() {
     if (chrome.webRequest.onBeforeSendHeaders.hasListener(getLiveChatRequestHeadersListener))
         chrome.webRequest.onBeforeSendHeaders.removeListener(getLiveChatRequestHeadersListener)
 
-    if (chrome.webNavigation.onHistoryStateUpdated.hasListener(pageHistoryChangeListener))
-        chrome.webNavigation.onHistoryStateUpdated.removeListener(pageHistoryChangeListener)
+    // if (chrome.webNavigation.onHistoryStateUpdated.hasListener(pageHistoryChangeListener))
+    //     chrome.webNavigation.onHistoryStateUpdated.removeListener(pageHistoryChangeListener)
 
 }
 

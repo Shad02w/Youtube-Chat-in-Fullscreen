@@ -11,6 +11,7 @@ import { ChatList } from './ChatList'
 import { ToolBar } from './Toolbar'
 import { Moving } from './Moving'
 import { useCtrlAltHotKey } from './hooks/useHotkeys'
+import { useChatBox } from '@hooks/useChatBox'
 
 interface StyleProps {
     opacity: number,
@@ -65,9 +66,10 @@ export const ChatOverlay: React.FC = () => {
     const { storage, storageDispatch } = useContext(StorageContext)
     const { opacity, fontSize, top, left, blur, width, height, show: showOverlay } = storage
     const { chatActions, pageType, freezeChatQueue } = useContext(AppContext)
+    const { expanded } = useChatBox()
 
     const { isFullscreen } = useFullscreenState()
-    const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal' && chatActions.length > 0), [chatActions, showOverlay, isFullscreen, pageType])
+    const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal' && chatActions.length > 0 && expanded), [chatActions, showOverlay, isFullscreen, pageType, expanded])
 
     const classes = useStyles({ opacity, top, left, blur, width, height })
 
@@ -80,6 +82,7 @@ export const ChatOverlay: React.FC = () => {
         if (!containerRef.current) return
         const t = parseInt(containerRef.current.style.top)
         const l = parseInt(containerRef.current.style.left)
+        if (!t || !l) return
         storageDispatch({ type: 'changeOverlayPosition', position: { top: t, left: l } })
     }
 
@@ -87,6 +90,7 @@ export const ChatOverlay: React.FC = () => {
         if (!containerRef.current) return
         const w = parseInt(containerRef.current.style.width)
         const h = parseInt(containerRef.current.style.height)
+        if (!w || !h) return
         storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } })
     }
 

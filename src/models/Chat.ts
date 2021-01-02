@@ -31,13 +31,6 @@ function createAdvanceChatLiveActions(chatActions: ChatLiveActionWithVideoOffset
     }))
 }
 
-export const EqualAdvancedChatLiveActions = (a: AdvancedChatLiveActions, b: AdvancedChatLiveActions): boolean => {
-    if (a.length === 0 || b.length === 0) return false
-    if (a[0].uuid === b[0].uuid) return true
-    else return false
-}
-
-
 
 export const LiveChatResponse2LiveChatActions = (response: LiveChatResponse): AdvancedChatLiveActions => {
     const timeUntilNextRequest = parseFloat(FindObjectByKeyRecursively(response as Response, 'timeoutMs')) || DefaultChatRequestInterval
@@ -79,4 +72,54 @@ export const FilterDuplicateChatAdvancedChatLiveActions = (actions: AdvancedChat
         ids = Array.from(new Set(ids))
         return true
     })
+}
+
+/**
+ * Chat element
+ */
+
+export const ChatBoxCollapsedAttributeName = 'collapsed'
+export const ChatBoxTagName = 'ytd-live-chat-frame'
+export const ChatBoxId = 'chat'
+export const ChatFrameId = 'chatframe'
+export const getChatIframe = () => {
+    const iframe = Array
+        .from(document.getElementsByTagName('iframe'))
+        .find(i => i.classList.contains('ytd-live-chat-frame'))
+    if (!iframe || !iframe.contentDocument) return undefined
+    return iframe
+}
+
+export const getChatIframeScript = () => {
+    const iframe = getChatIframe()
+    if (!iframe || !iframe.contentDocument) return undefined
+    return Array
+        .from(iframe.contentDocument.getElementsByTagName('script'))
+        .find(i => i.innerText.includes('ytInitialData'))
+}
+
+export const parseInitLiveChatResponseFromScript = (scriptContent: string) => {
+    let dataString = scriptContent.slice(scriptContent.indexOf('=') + 1).trim()
+    if (dataString[dataString.length - 1] === ';')
+        dataString = dataString.slice(0, dataString.lastIndexOf(';'))
+    return dataString
+}
+
+/**
+ * @returns return undefined when chat box is not found, otherwise return the chat box element
+ */
+export const getChatBoxElement = (): Element | undefined => {
+    const frames = document.getElementsByTagName(ChatBoxTagName)
+    if (frames?.length === 0) return undefined
+    const el = Array.from(frames).find(chat => chat.id === ChatBoxId)
+    return el
+}
+
+/**
+ * @returns return undefined when chat box is not found, boolean represent expand state
+ */
+export const isChatBoxExpanded = (): boolean | undefined => {
+    const chatBox = getChatBoxElement()
+    if (!chatBox) return undefined
+    return !chatBox.hasAttribute(ChatBoxCollapsedAttributeName)
 }
