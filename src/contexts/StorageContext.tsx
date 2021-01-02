@@ -1,5 +1,6 @@
 import { PresetStoreageWhenNotExist } from '@models/StorageChrome'
 import React, { createContext, useEffect, useReducer } from 'react'
+import { RgbColor } from 'react-colorful'
 import { StorageItems, StoragePreset } from '../models/Storage'
 
 
@@ -24,8 +25,12 @@ type StorageContextReducerActions =
     } |
     {
         type: 'setStorageToLocalContext', items: StorageItems
-    } | {
+    } |
+    {
         type: 'toggleOverlay'
+    } |
+    {
+        type: 'changeColor', color: RgbColor
     }
 
 export interface IStorageContext {
@@ -61,9 +66,11 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'toggleOverlay':
             chrome.storage.local.set({ 'show': !preState.show })
             return { ...preState, show: !preState.show }
-        case 'setStorageToLocalContext': {
+        case 'setStorageToLocalContext':
             return { ...preState, ...action.items }
-        }
+        case 'changeColor':
+            chrome.storage.local.set({ 'color': action.color })
+            return { ...preState, color: action.color }
         default:
             throw new Error()
     }

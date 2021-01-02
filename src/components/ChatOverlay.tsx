@@ -29,6 +29,7 @@ const useStyles = makeStyles({
         left: props => props.left,
         top: (props: StyleProps) => props.top,
         overflow: 'hidden',
+        //TODO: change background using setting modal
         background: props => `rgba(20, 20, 20, ${props.opacity})`,
         backdropFilter: props => (props.blur > 0) ? `blur(${props.blur}px)` : 'none',
         gridTemplateRows: '1fr',

@@ -1,3 +1,4 @@
+import { RgbColor } from 'react-colorful'
 
 interface StyleStorageItem {
     top: number,
@@ -8,7 +9,8 @@ interface StyleStorageItem {
     height: number,
     fontSize: number,
     blur: number,
-    show: boolean
+    show: boolean,
+    color: Color
 }
 
 interface AppStorageItem {
@@ -16,6 +18,7 @@ interface AppStorageItem {
 }
 
 export type StorageItems = AppStorageItem & StyleStorageItem
+export type Color = RgbColor
 
 
 export type storageChanges<T> = { [K in keyof T]: chrome.storage.StorageChange }
@@ -30,7 +33,8 @@ export const StoragePreset: StorageItems = {
     opacity: 0.5,
     opacitySC: 1,
     blur: 0,
-    show: true
+    show: true,
+    color: { r: 20, g: 20, b: 20 }
 }
 
 export const MinHeight = 70

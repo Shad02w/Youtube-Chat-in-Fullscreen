@@ -56,6 +56,7 @@
         "jest-chrome": "^0.7.0",
         "js-base64": "^3.6.0",
         "react": "^16.13.1",
+        "react-colorful": "^4.4.4",
         "react-dom": "^16.13.1",
         "react-test-renderer": "^17.0.1",
         "style-loader": "^1.2.1",
