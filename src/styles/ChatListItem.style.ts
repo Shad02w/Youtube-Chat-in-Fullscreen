@@ -61,9 +61,9 @@ export const useChatListItemStyle = makeStyles({
     isMod: {
         // color: 'black',
         // backgroundColor: 'rgb(94,132,241)',
+        // padding: '0.15em 0.4em',
+        // borderRadius: '0.4em'
         color: 'rgb(94,132,241)',
-        padding: '0.15em 0.4em',
-        borderRadius: '0.4em'
     },
     isAuthor: {
         color: 'black',
