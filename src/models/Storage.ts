@@ -3,6 +3,7 @@ interface StyleStorageItem {
     top: number,
     left: number,
     opacity: number,
+    opacitySC: number,
     width: number,
     height: number,
     fontSize: number,
@@ -27,6 +28,7 @@ export const StoragePreset: StorageItems = {
     height: 400,
     fontSize: 16,
     opacity: 0.5,
+    opacitySC: 1,
     blur: 0,
     show: true
 }

@@ -1,6 +1,7 @@
 import chromep from 'chrome-promise'
 import { StoragePreset, StorageItems } from './models/Storage'
 import { CatchedLiveChatRequestMessage, getPageType } from './models/Request'
+import { PresetStoreageWhenNotExist } from '@models/StorageChrome'
 
 type MessagesStore = CatchedLiveChatRequestMessage[]
 
@@ -36,15 +37,6 @@ const LiveChatRequestFilter: chrome.webRequest.RequestFilter = {
     ]
 }
 
-// const watchPageNavigationFilter: chrome.webNavigation.WebNavigationEventFilter = {
-//     url: [
-//         {
-//             hostSuffix: 'youtube.com',
-//             pathContains: 'watch'
-//         }
-//     ]
-// }
-
 
 // reference to https://gist.github.com/72lions/4528834
 export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[]): JSON {
@@ -75,14 +67,6 @@ function liveChatRequestListener(details: chrome.webRequest.WebResponseCacheDeta
         chrome.tabs.sendMessage(details.tabId, message)
     })
 }
-
-// function pageHistoryChangeListener(details: chrome.webNavigation.WebNavigationTransitionCallbackDetails) {
-//     const message: CatchedLiveChatRequestMessage = {
-//         details: {} as chrome.webRequest.WebRequestDetails,
-//         type: getPageType(details.url)
-//     }
-//     chrome.tabs.sendMessage(details.tabId, message)
-// }
 
 
 function getLiveChatRequestBodyListener(details: chrome.webRequest.WebRequestBodyDetails) {
@@ -123,9 +107,6 @@ function attachListeners() {
 
     if (!chrome.webRequest.onBeforeSendHeaders.hasListener(getLiveChatRequestHeadersListener))
         chrome.webRequest.onBeforeSendHeaders.addListener(getLiveChatRequestHeadersListener, getLiveChatRequestFilter, ['requestHeaders'])
-
-    // if (!chrome.webNavigation.onHistoryStateUpdated.hasListener(pageHistoryChangeListener))
-    //     chrome.webNavigation.onHistoryStateUpdated.addListener(pageHistoryChangeListener, watchPageNavigationFilter)
 }
 
 function removeListeners() {
@@ -138,22 +119,10 @@ function removeListeners() {
     if (chrome.webRequest.onBeforeSendHeaders.hasListener(getLiveChatRequestHeadersListener))
         chrome.webRequest.onBeforeSendHeaders.removeListener(getLiveChatRequestHeadersListener)
 
-    // if (chrome.webNavigation.onHistoryStateUpdated.hasListener(pageHistoryChangeListener))
-    //     chrome.webNavigation.onHistoryStateUpdated.removeListener(pageHistoryChangeListener)
-
 }
 
 //Run when extension just installed and reloaded
-chrome.runtime.onInstalled.addListener(async () => {
-    const storage = await chromep.storage.local.get(null) as Partial<StorageItems>
-    if (storage.on === undefined) {
-        await chromep.storage.local.set(StoragePreset)
-        console.log('fresh install')
-    } else {
-        console.log('updated');
-    }
-})
-
+chrome.runtime.onInstalled.addListener(PresetStoreageWhenNotExist)
 
 // Get the variable 'on' in storage to check whether the extension is on or not
 chrome.storage.local.get(['on'], (result) => {

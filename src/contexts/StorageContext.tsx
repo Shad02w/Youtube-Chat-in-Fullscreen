@@ -1,3 +1,5 @@
+import { PresetStoreageWhenNotExist } from '@models/StorageChrome'
+import chromep from 'chrome-promise'
 import React, { createContext, useEffect, useReducer } from 'react'
 import { StorageItems, StoragePreset } from '../models/Storage'
 
@@ -19,7 +21,7 @@ type StorageContextReducerActions =
         type: 'changeBackgroundBlur', blur: number
     } |
     {
-        type: 'updateStorageChangesToLocalContext', changes: Partial<StorageItems>
+        type: 'setStorageToLocalContext', items: StorageItems
     } | {
         type: 'toggleOverlay'
     }
@@ -54,8 +56,9 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'toggleOverlay':
             chrome.storage.local.set({ 'show': !preState.show })
             return { ...preState, show: !preState.show }
-        case 'updateStorageChangesToLocalContext':
-            return { ...preState, ...action.changes }
+        case 'setStorageToLocalContext': {
+            return { ...preState, ...action.items }
+        }
         default:
             throw new Error()
     }
@@ -67,14 +70,12 @@ export const StorageContextProvider: React.FC = ({ children }) => {
 
     const [storage, storageDispatch] = useReducer(storageContextReducer, StoragePreset)
 
-    const getAllStorage = (items: any) => {
-        storageDispatch({ type: 'updateStorageChangesToLocalContext', changes: items as StorageItems })
-    }
-
-
 
     useEffect(() => {
-        chrome.storage.local.get(null, getAllStorage)
+        PresetStoreageWhenNotExist().then(items => {
+            if (!items) return
+            storageDispatch({ type: 'setStorageToLocalContext', items })
+        })
     }, [])
 
     return (
