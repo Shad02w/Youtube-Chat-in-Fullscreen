@@ -31,6 +31,12 @@ type StorageContextReducerActions =
     } |
     {
         type: 'changeColor', color: RgbColor
+    } |
+    {
+        type: 'setDefault'
+    } |
+    {
+        type: 'setSettingsPanelDefault'
     }
 
 export interface IStorageContext {
@@ -71,6 +77,18 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'changeColor':
             chrome.storage.local.set({ 'color': action.color })
             return { ...preState, color: action.color }
+        case 'setDefault':
+            chrome.storage.local.clear(() => chrome.storage.local.set(StoragePreset))
+            return { ...preState, ...StoragePreset }
+        case 'setSettingsPanelDefault':
+            const resetValue = Object.keys(StoragePreset).reduce((pre, k) => {
+                const key = k as keyof StorageItems
+                if (key === 'blur' || key === 'color' || key === 'opacity' || key === 'opacitySC' || key === 'fontSize')
+                    return { ...pre, [key]: StoragePreset[key] }
+                else return pre
+            }, {})
+            chrome.storage.local.set(resetValue)
+            return { ...preState, ...resetValue }
         default:
             throw new Error()
     }
@@ -81,7 +99,6 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
 export const StorageContextProvider: React.FC = ({ children }) => {
 
     const [storage, storageDispatch] = useReducer(storageContextReducer, StoragePreset)
-
 
     useEffect(() => {
         PresetStoreageWhenNotExist().then(items => {

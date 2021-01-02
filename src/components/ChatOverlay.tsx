@@ -1,7 +1,7 @@
 import React, { useRef, useContext, useMemo } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
-import { MinHeight, MinWidth } from '../models/Storage'
+import { Color, MinHeight, MinWidth } from '../models/Storage'
 import { StorageContext } from '../contexts/StorageContext'
 import { useMovable } from './hooks/useMovable'
 import { useResizable } from './hooks/useResizable'
@@ -20,6 +20,7 @@ interface StyleProps {
     blur: number
     width: number,
     height: number
+    color: Color
 }
 
 const useStyles = makeStyles({
@@ -30,7 +31,7 @@ const useStyles = makeStyles({
         top: (props: StyleProps) => props.top,
         overflow: 'hidden',
         //TODO: change background using setting modal
-        background: props => `rgba(20, 20, 20, ${props.opacity})`,
+        background: ({ opacity, color }) => `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`,
         backdropFilter: props => (props.blur > 0) ? `blur(${props.blur}px)` : 'none',
         gridTemplateRows: '1fr',
         gridTemplateAreas: '"chat"',
@@ -65,14 +66,14 @@ export const ChatOverlay: React.FC = () => {
 
 
     const { storage, storageDispatch } = useContext(StorageContext)
-    const { opacity, fontSize, top, left, blur, width, height, opacitySC, show: showOverlay } = storage
+    const { opacity, fontSize, top, left, blur, width, height, opacitySC, color, show: showOverlay } = storage
     const { chatActions, pageType, freezeChatQueue } = useContext(AppContext)
     const { expanded } = useChatBox()
 
     const { isFullscreen } = useFullscreenState()
     const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal' && chatActions.length > 0 && expanded), [chatActions, showOverlay, isFullscreen, pageType, expanded])
 
-    const classes = useStyles({ opacity, top, left, blur, width, height })
+    const classes = useStyles({ opacity, top, left, blur, width, height, color })
 
     const { id, movable } = useMovable(containerRef, onMoveEnd)
     useResizable(containerRef, onResizeEnd)
@@ -113,11 +114,12 @@ export const ChatOverlay: React.FC = () => {
                         opacitySC={opacitySC}
                         onAutoScrollStart={() => freezeChatQueue(false)}
                         onAutoScrollStop={() => freezeChatQueue(true)}
-                        className={classes.chatList} />
-
+                        className={classes.chatList}
+                    />
             }
             <ToolBar className={classes.control}
-                movableTriggerId={id} />
+                movableTriggerId={id}
+            />
         </div >
     )
 

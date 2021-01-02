@@ -1,5 +1,5 @@
-import React, { useContext, useMemo, useEffect, useState } from 'react'
-import { Done } from '@material-ui/icons'
+import React, { useContext, useMemo, useEffect } from 'react'
+import { Done, Replay } from '@material-ui/icons'
 import { Paper, Typography, Box, Dialog, DialogActions } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { MySlider } from './MySlider'
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => createStyles({
         gridColumnStart: 1,
         gridColumnEnd: 3
     },
-    doneButton: {
+    btn: {
         marginTop: theme.spacing(2),
         fontSize: '1.3rem',
     },
@@ -75,6 +75,8 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
     const ColorValueOnChange = (c: RgbColor) => {
         storageDispatch({ type: 'changeColor', color: c })
     }
+
+    const setDefault = () => storageDispatch({ type: 'setSettingsPanelDefault' })
 
     useEffect(() => {
         if (!showApp) onClose()
@@ -177,7 +179,17 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                     className={classes.actions}
                 >
                     <MyButton
-                        className={classes.doneButton}
+                        className={classes.btn}
+                        startIcon={<Replay />}
+                        color='primary'
+                        variant='outlined'
+                        size='large'
+                        onClick={setDefault}
+                    >
+                        Set Default
+                    </MyButton>
+                    <MyButton
+                        className={classes.btn}
                         startIcon={<Done />}
                         variant="contained"
                         color="primary"
