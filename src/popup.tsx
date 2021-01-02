@@ -121,9 +121,16 @@ const App: React.FC = () => {
                                 onChange={() => chrome.storage.local.set({ on: !isExtEnable })} />
                         </article>
                         <article className={classes.part}>
-                            <Typography className={classes.partName}
-                                variant='body1'
-                                color='textSecondary'>Reset Overlay</Typography>
+                            <article>
+                                <Typography className={classes.partName}
+                                    variant='body1'
+                                    color='textSecondary'>Reset Overlay</Typography>
+                                <Typography style={{ fontSize: '0.8rem' }}
+                                    variant='subtitle2'
+                                    color='textSecondary'>
+                                    This will reset all the settings, like overlay position, opacity, width, height, etc. to default
+                                </Typography>
+                            </article>
                             <Tooltip title={'Reset'}>
                                 <IconButton
                                     onClick={() => chrome.storage.local.set(StoragePreset, () => setStorageReset(true))}
