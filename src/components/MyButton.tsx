@@ -11,6 +11,15 @@ export const MyButton = withStyles({
             borderWidth: '2px',
         }
     },
+    textSizeLarge: {
+        fontSize: '1.4rem'
+    },
+    containedSizeLarge: {
+        fontSize: '1.4rem'
+    },
+    outlinedSizeLarge: {
+        fontSize: '1.4rem'
+    },
     outlinedPrimary: {
         color: `#${ThemeColor[200]}`,
         borderColor: `#${ThemeColor[200]}`,

@@ -1,14 +1,17 @@
-import React, { useContext, useMemo, useEffect } from 'react'
+import React, { useContext, useMemo, useEffect, useState, useCallback } from 'react'
 import { Done, Replay } from '@material-ui/icons'
-import { Paper, Typography, Box, Dialog, DialogActions } from '@material-ui/core'
+import { Paper, Typography, Box, Dialog, DialogActions, MenuItem, FormControl, Select } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { MySlider } from './MySlider'
 import { MyButton } from './MyButton'
+import { MyInputLabel } from './MyInputLabel'
+import { MySelect } from './MySelect'
 import { StorageContext } from '../contexts/StorageContext'
 import { useFullscreenState } from './hooks/useFullscreenState'
-import { RgbColor, RgbColorPicker } from 'react-colorful'
+import { RgbColorPicker } from 'react-colorful'
 import 'react-colorful/dist/index.css'
 import '../css/colorful.css'
+import { Color } from '@models/Storage'
 
 interface SettingsModelProps {
     show: boolean
@@ -27,23 +30,41 @@ const useStyles = makeStyles((theme) => createStyles({
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         gridTemplateRows: '1fr auto',
-        gridGap: '20px'
+        gridGap: '20px',
+        fontSize: '16px !important'
     },
     actions: {
         gridColumnStart: 1,
         gridColumnEnd: 3
     },
+    inputLabel: {
+        fontSize: '1.4rem'
+    },
+    select: {
+        fontSize: '2rem'
+    },
+    color: {
+        fontSize: '16px'
+    },
     btn: {
         marginTop: theme.spacing(2),
-        fontSize: '1.3rem',
     },
 }))
 
 export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) => {
 
     const { isFullscreen } = useFullscreenState()
-    const { storage: { fontSize, opacity, blur, show: showOverlay_Storage, opacitySC, backgroundColor }, storageDispatch, } = useContext(StorageContext);
+    const { storage: { fontSize, opacity, blur, show: showOverlay_Storage, opacitySC, backgroundColor, color: fontColor }, storageDispatch, } = useContext(StorageContext);
     const showApp = useMemo(() => showOverlay_Storage && isFullscreen, [isFullscreen, showOverlay_Storage]);
+    const [menuValue, setMenuValue] = useState<number>(0)
+
+
+    const colorMode: ('Background' | 'Font') = useMemo(() => (menuValue === 0) ? 'Background' : 'Font', [menuValue])
+    const color = useMemo(() => colorMode === 'Background' ? backgroundColor : fontColor, [colorMode, backgroundColor, fontColor])
+    const setColor = useCallback((c: Color) => colorMode === 'Background'
+        ? storageDispatch({ type: 'changeBackgroundColor', backgroundColor: c })
+        : storageDispatch({ type: 'changeFontColor', color: c })
+        , [colorMode, storageDispatch])
 
     const classes = useStyles()
 
@@ -71,10 +92,6 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
             blur: newValue as number,
         });
     };
-
-    const ColorValueOnChange = (c: RgbColor) => {
-        storageDispatch({ type: 'changeBackgroundColor', backgroundColor: c })
-    }
 
     const setDefault = () => storageDispatch({ type: 'setSettingsPanelDefault' })
 
@@ -160,19 +177,40 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                     </Typography>
                 </Box>
                 <Box minHeight={300}>
-                    <Typography gutterBottom
-                        color="textPrimary"
-                        variant="h5">
-                        Background Color
-                    </Typography>
-                    <Typography gutterBottom
-                        color="textSecondary"
-                        variant='h6'>
-                        Current Color: {`rgb(${backgroundColor.r}, ${backgroundColor.g}, ${backgroundColor.b})`}
-                    </Typography>
+                    <Box mb={0.5}>
+                        <FormControl>
+                            <MyInputLabel
+                                id='change-color-label'
+                            >
+                                Change Color
+                            </MyInputLabel>
+                            <MySelect
+                                labelId='change-color-label'
+                                value={menuValue}
+                            >
+                                <MenuItem
+                                    value={0}
+                                    onClick={() => setMenuValue(0)}
+                                >
+                                    Background Color
+                                        </MenuItem>
+                                <MenuItem
+                                    value={1}
+                                    onClick={() => setMenuValue(1)}
+                                >Font Color</MenuItem>
+                            </MySelect>
+                        </FormControl>
+                    </Box>
+                    <Box mb={1}>
+                        <Typography gutterBottom
+                            color="textSecondary"
+                            variant='h6'>
+                            Current Color: {`rgb(${color.r}, ${color.g}, ${color.b})`}
+                        </Typography>
+                    </Box>
                     <RgbColorPicker
-                        color={backgroundColor}
-                        onChange={ColorValueOnChange}
+                        color={color}
+                        onChange={setColor}
                     />
                 </Box>
                 <DialogActions

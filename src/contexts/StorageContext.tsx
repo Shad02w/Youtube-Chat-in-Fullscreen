@@ -33,6 +33,9 @@ type StorageContextReducerActions =
         type: 'changeBackgroundColor', backgroundColor: RgbColor
     } |
     {
+        type: 'changeFontColor', color: RgbColor
+    } |
+    {
         type: 'setDefault'
     } |
     {
@@ -75,8 +78,11 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'setStorageToLocalContext':
             return { ...preState, ...action.items }
         case 'changeBackgroundColor':
-            chrome.storage.local.set({ 'color': action.backgroundColor })
+            chrome.storage.local.set({ 'backgroundColor': action.backgroundColor })
             return { ...preState, backgroundColor: action.backgroundColor }
+        case 'changeFontColor':
+            chrome.storage.local.set({ 'color': action.color })
+            return { ...preState, color: action.color }
         case 'setDefault':
             chrome.storage.local.clear(() => chrome.storage.local.set(StoragePreset))
             return { ...preState, ...StoragePreset }

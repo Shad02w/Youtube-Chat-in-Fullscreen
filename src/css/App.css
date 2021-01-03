@@ -1,27 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
 #_youtube-chat-in-fullscreen-app {
-    height     : auto;
-    width      : auto;
-    position   : absolute;
+    height: auto;
+    width: auto;
+    position: absolute;
     font-family: 'Noto Sans JP', sans-serif;
-    top        : 0;
-    left       : 0;
-    color      : #fff;
+    top: 0;
+    left: 0;
+    color: #fff;
 }
-
-
 
 .noselect {
     -webkit-touch-callout: none;
     /* iOS Safari */
-    -webkit-user-select  : none;
+    -webkit-user-select: none;
     /* Safari */
-    -moz-user-select     : none;
+    -moz-user-select: none;
     /* Old versions of Firefox */
-    -ms-user-select      : none;
+    -ms-user-select: none;
     /* Internet Explorer/Edge */
-    user-select          : none;
+    user-select: none;
     /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
@@ -31,4 +30,15 @@
     display: none;
     position: absolute;
     overflow: hidden;
+}
+
+.MuiButtonBase-root {
+    font-size: 20px;
+}
+.MuiMenuItem-root {
+    font-size: 20px;
+}
+
+.MuiButton-textSizeLarge {
+    font-size: 20px;
 }

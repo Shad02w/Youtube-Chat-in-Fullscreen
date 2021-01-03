@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import './css/App.css'
 import { ChatOverlay } from './components/ChatOverlay'
