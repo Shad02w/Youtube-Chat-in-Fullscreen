@@ -6,6 +6,7 @@ import { MySlider } from './MySlider'
 import { MyButton } from './MyButton'
 import { MyInputLabel } from './MyInputLabel'
 import { MySelect } from './MySelect'
+import { MyMenuItem } from './MyMenuItem'
 import { StorageContext } from '../contexts/StorageContext'
 import { useFullscreenState } from './hooks/useFullscreenState'
 import { RgbColorPicker } from 'react-colorful'
@@ -177,7 +178,7 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                     </Typography>
                 </Box>
                 <Box minHeight={300}>
-                    <Box mb={0.5}>
+                    <Box mb={1.5}>
                         <FormControl>
                             <MyInputLabel
                                 color='primary'
@@ -189,23 +190,25 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                                 labelId='change-color-label'
                                 value={menuValue}
                             >
-                                <MenuItem
+                                <MyMenuItem
                                     value={0}
                                     onClick={() => setMenuValue(0)}
                                 >
                                     Background Color
-                                        </MenuItem>
-                                <MenuItem
+                                </MyMenuItem>
+                                <MyMenuItem
                                     value={1}
                                     onClick={() => setMenuValue(1)}
-                                >Font Color</MenuItem>
+                                >
+                                    Font Color
+                                </MyMenuItem>
                             </MySelect>
                         </FormControl>
                     </Box>
-                    <Box mb={2.4}>
+                    <Box mb={1}>
                         <Typography gutterBottom
                             color="textSecondary"
-                            variant='h6'>
+                            variant='h5'>
                             Current Color: {`rgb(${color.r}, ${color.g}, ${color.b})`}
                         </Typography>
                     </Box>
