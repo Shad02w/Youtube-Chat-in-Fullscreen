@@ -180,6 +180,7 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                     <Box mb={0.5}>
                         <FormControl>
                             <MyInputLabel
+                                color='primary'
                                 id='change-color-label'
                             >
                                 Change Color
@@ -201,7 +202,7 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                             </MySelect>
                         </FormControl>
                     </Box>
-                    <Box mb={1}>
+                    <Box mb={2.4}>
                         <Typography gutterBottom
                             color="textSecondary"
                             variant='h6'>

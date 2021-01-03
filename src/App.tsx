@@ -5,10 +5,16 @@ import { ChatOverlay } from './components/ChatOverlay'
 import { StorageContextProvider } from './contexts/StorageContext'
 import { AppContextProvider } from './contexts/AppContext'
 import { ContentScriptWindow } from './models/Window';
+import { ThemeColor } from './models/Color'
 
 const theme = createMuiTheme({
     palette: {
-        type: 'dark'
+        type: 'dark',
+        primary: {
+            light: `#${ThemeColor[100]}`,
+            main: `#${ThemeColor[200]}`,
+            dark: `#${ThemeColor[300]}`
+        }
     },
 })
 

@@ -89,7 +89,7 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'setSettingsPanelDefault':
             const resetValue = Object.keys(StoragePreset).reduce((pre, k) => {
                 const key = k as keyof StorageItems
-                if (key === 'blur' || key === 'backgroundColor' || key === 'opacity' || key === 'opacitySC' || key === 'fontSize')
+                if (key === 'blur' || key === 'backgroundColor' || key === 'color' || key === 'opacity' || key === 'opacitySC' || key === 'fontSize')
                     return { ...pre, [key]: StoragePreset[key] }
                 else return pre
             }, {})

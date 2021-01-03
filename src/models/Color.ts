@@ -21,7 +21,7 @@ export const AndroidColorToRgba = (color: number): RGBA => {
 
     const a = (transparent / 255).toPrecision(2)
 
-    return {r, g, b, a}
+    return { r, g, b, a }
 }
 
 

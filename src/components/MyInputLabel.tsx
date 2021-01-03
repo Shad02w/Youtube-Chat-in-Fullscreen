@@ -7,6 +7,6 @@ export const MyInputLabel = withStyles({
         fontSize: '1.4rem'
     },
     focused: {
-        color: `#${ThemeColor[100]} !important`
+        // color: `#${ThemeColor[100]} !important`
     }
 })(InputLabel)

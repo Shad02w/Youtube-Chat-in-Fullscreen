@@ -21,6 +21,7 @@ interface StyleProps {
     width: number,
     height: number
     color: Color
+    bgColor: Color
 }
 
 const useStyles = makeStyles({
@@ -31,7 +32,8 @@ const useStyles = makeStyles({
         top: (props: StyleProps) => props.top,
         overflow: 'hidden',
         //TODO: change background using setting modal
-        background: ({ opacity, color }) => `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`,
+        color: ({ color }) => `rgb(${color.r}, ${color.g}, ${color.r})`,
+        background: ({ opacity, bgColor }) => `rgba(${bgColor.r}, ${bgColor.g}, ${bgColor.b}, ${opacity})`,
         backdropFilter: props => (props.blur > 0) ? `blur(${props.blur}px)` : 'none',
         gridTemplateRows: '1fr',
         gridTemplateAreas: '"chat"',
@@ -66,14 +68,14 @@ export const ChatOverlay: React.FC = () => {
 
 
     const { storage, storageDispatch } = useContext(StorageContext)
-    const { opacity, fontSize, top, left, blur, width, height, opacitySC, backgroundColor: color, show: showOverlay } = storage
+    const { opacity, fontSize, top, left, blur, width, height, opacitySC, backgroundColor: bgColor, color, show: showOverlay } = storage
     const { chatActions, pageType, freezeChatQueue } = useContext(AppContext)
     const { expanded } = useChatBox()
 
     const { isFullscreen } = useFullscreenState()
     const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal' && chatActions.length > 0 && expanded), [chatActions, showOverlay, isFullscreen, pageType, expanded])
 
-    const classes = useStyles({ opacity, top, left, blur, width, height, color })
+    const classes = useStyles({ opacity, top, left, blur, width, height, bgColor, color })
 
     const { id, movable } = useMovable(containerRef, onMoveEnd)
     useResizable(containerRef, onResizeEnd)
