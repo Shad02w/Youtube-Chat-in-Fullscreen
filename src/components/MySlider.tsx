@@ -13,7 +13,7 @@ export const MySlider = withStyles({
         marginTop: -(24 / 2 - 3),
         marginLeft: -12,
         backgroundColor: `#${ThemeColor[300]}`,
-        '&:focus, &:hover, &$active': {
+        '&:focus, &:hover, &:active': {
             boxShadow: '0px 0px 0px 8px rgba(199,44,65, 0.16)'
         },
     },
