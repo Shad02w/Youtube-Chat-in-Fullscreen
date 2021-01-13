@@ -184,7 +184,7 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                                 color='primary'
                                 id='change-color-label'
                             >
-                                Change Color
+                                Change color of
                             </MyInputLabel>
                             <MySelect
                                 labelId='change-color-label'
@@ -194,13 +194,13 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                                     value={0}
                                     onClick={() => setMenuValue(0)}
                                 >
-                                    Background Color
+                                    Background
                                 </MyMenuItem>
                                 <MyMenuItem
                                     value={1}
                                     onClick={() => setMenuValue(1)}
                                 >
-                                    Font Color
+                                    Font
                                 </MyMenuItem>
                             </MySelect>
                         </FormControl>
