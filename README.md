@@ -70,6 +70,12 @@ v1.0.0.10 `3-Jan-2021`
 - Do not need to give permission to access browser history
 - Hide overlay when original chat box is collapsed
 
+v1.0.0.11 `14-Jan-2021`
+
+- Highlight the moderator
+- Able to change the background color of overlay and color of font
+- Able to adjust the opacity of super chat
+
 ## Screenshot
 
 _Chat overlay on Youtube Live Replay_

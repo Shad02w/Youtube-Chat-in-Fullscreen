@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useEffect, useState, useCallback } from 'react'
 import { Done, Replay } from '@material-ui/icons'
-import { Paper, Typography, Box, Dialog, DialogActions, MenuItem, FormControl, Select } from '@material-ui/core'
+import { Paper, Typography, Box, Dialog, DialogActions, FormControl } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { MySlider } from './MySlider'
 import { MyButton } from './MyButton'
