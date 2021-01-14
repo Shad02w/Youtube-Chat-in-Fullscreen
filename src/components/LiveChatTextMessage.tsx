@@ -31,45 +31,49 @@ export const LiveChatTextMessage: React.FC<LiveChatTextMessageProps> = ({ render
     const isVerified = checkIdentity(badges, 'VERIFIED')
     const isMem = isMember(badges)
 
-    return (
-        <div
-            className={classes.textMessage}>
-            <img
-                alt="Author icon"
-                className={classes.authorImage}
-                src={renderer.authorPhoto.thumbnails[1].url}
-            />
-            <article>
-                <div
-                    className={`${classes.authorName} ${isMem ? classes.isMember : ''} ${isMod ? classes.isMod : ''} ${isOwner ? classes.isAuthor : ''}`}>
-                    <div className={classes.autherNameInner}>
-                        <Box pr={0.5}>
-                            {renderer.authorName.simpleText}
-                        </Box>
-                        {
-                            (isMod)
-                                ?
-                                <Box>
-                                    <Build fontSize='default' />
-                                </Box>
-                                : <></>
-                        }
-                        {
+    try {
+        return (
+            <div
+                className={classes.textMessage}>
+                <img
+                    alt="Author icon"
+                    className={classes.authorImage}
+                    src={renderer.authorPhoto.thumbnails[1].url}
+                />
+                <article>
+                    <div
+                        className={`${classes.authorName} ${isMem ? classes.isMember : ''} ${isMod ? classes.isMod : ''} ${isOwner ? classes.isAuthor : ''}`}>
+                        <div className={classes.autherNameInner}>
+                            <Box pr={0.5}>
+                                {renderer.authorName.simpleText}
+                            </Box>
+                            {
+                                (isMod)
+                                    ?
+                                    <Box>
+                                        <Build fontSize='default' />
+                                    </Box>
+                                    : <></>
+                            }
+                            {
 
-                            (isVerified)
-                                ?
-                                <Box>
-                                    <Check fontSize='default' />
-                                </Box>
-                                : <></>
-                        }
+                                (isVerified)
+                                    ?
+                                    <Box>
+                                        <Check fontSize='default' />
+                                    </Box>
+                                    : <></>
+                            }
+                        </div>
                     </div>
-                </div>
-                {badges ? <Badges badges={badges}
-                    classes={classes} /> : <></>}
-                {message ? <Message message={message}
-                    classes={classes} /> : <></>}
-            </article>
-        </div>
-    )
+                    {badges ? <Badges badges={badges}
+                        classes={classes} /> : <></>}
+                    {message ? <Message message={message}
+                        classes={classes} /> : <></>}
+                </article>
+            </div>
+        )
+    } catch (error) {
+        return <React.Fragment />
+    }
 }
