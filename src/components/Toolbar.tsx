@@ -2,7 +2,7 @@ import React, { useState, HTMLAttributes, DetailedHTMLProps } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, IconButton } from '@material-ui/core';
 import { MoreHoriz as More, PanTool } from '@material-ui/icons';
-import { SettingsModal } from './SettingsModal'
+import { SettingsModal } from './settings/SettingsModal'
 import arrow from '../assets/images/arrowRight.svg'
 
 export interface IControlProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
