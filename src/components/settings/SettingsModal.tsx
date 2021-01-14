@@ -38,15 +38,6 @@ const useStyles = makeStyles((theme) => createStyles({
         gridColumnStart: 1,
         gridColumnEnd: 3
     },
-    inputLabel: {
-        fontSize: '1.4rem'
-    },
-    select: {
-        fontSize: '2rem'
-    },
-    color: {
-        fontSize: '16px'
-    },
     btn: {
         marginTop: theme.spacing(2),
     },
