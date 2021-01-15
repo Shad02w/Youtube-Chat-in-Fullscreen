@@ -5,7 +5,9 @@ import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { MyButton } from '@components/MyButton'
 import { StorageContext } from '@contexts/StorageContext'
 import { useFullscreenState } from '@hooks/useFullscreenState'
-import { AppearanceSettings } from './AppearanceSettings'
+import { SettingsTabContent } from '@components/settings/SettingsTabConent'
+import { AppearanceSettings } from '@components/settings/AppearanceSettings'
+import { useScrollBarStyle } from '@/styles/Scrollbar.style'
 
 interface SettingsModelProps {
     show: boolean
@@ -24,7 +26,6 @@ const useStyles = makeStyles((theme) => createStyles({
         fontSize: '1.5rem'
     },
     dialogContent: {
-        minHeight: '500px',
         padding: '30px',
     },
     actions: {
@@ -46,12 +47,14 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
     const { storage: { show: showOverlay_Storage }, storageDispatch, } = useContext(StorageContext);
     const showApp = useMemo(() => showOverlay_Storage && isFullscreen, [isFullscreen, showOverlay_Storage]);
     const classes = useStyles()
+    const scrollBarStyles = useScrollBarStyle()
 
     const setDefault = () => storageDispatch({ type: 'setSettingsPanelDefault' })
 
     useEffect(() => {
         if (!showApp) onClose()
     }, [showApp, onClose])
+
 
     const handleTabChange = (_: any, value: number) => setTabValue(value)
 
@@ -63,8 +66,8 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
             hideBackdrop={true}
             maxWidth='lg'
             onClose={onClose}
+            className={scrollBarStyles.scrollbar}
             open={showApp && show}>
-            {/* <Paper className={classes.settings}> */}
             <DialogContent className={classes.dialogContent}>
                 <Tabs
                     value={tabValue}
@@ -85,9 +88,15 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                         label='Content'
                     />
                 </Tabs>
-                <AppearanceSettings
-                    value={tabValue}
-                    index={0} />
+                <SettingsTabContent
+                    index={0}
+                    value={tabValue}>
+                    <AppearanceSettings />
+                </SettingsTabContent>
+                <SettingsTabContent
+                    index={1}
+                    value={tabValue}>
+                </SettingsTabContent>
             </DialogContent>
             <DialogActions
                 className={classes.actions}

@@ -21,12 +21,8 @@ const useStyles = makeStyles(theme => createStyles({
     }
 }))
 
-interface AppearanceSettingsProps {
-    index: number
-    value: number
-}
 
-export const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({ value, index }) => {
+export const AppearanceSettings: React.FC = () => {
 
     const { storage: { fontSize, opacity, blur, opacitySC, backgroundColor, color: fontColor }, storageDispatch, } = useContext(StorageContext);
     const [menuValue, setMenuValue] = useState<number>(0)
@@ -67,7 +63,6 @@ export const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({ value, i
 
     return (
         <div
-            hidden={value !== index}
             className={classes.container}>
             <Box>
                 <Typography gutterBottom
