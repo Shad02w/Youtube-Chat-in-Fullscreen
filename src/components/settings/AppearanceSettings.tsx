@@ -13,7 +13,6 @@ import '@css/colorful.css'
 
 const useStyles = makeStyles(theme => createStyles({
     container: {
-        paddingTop: theme.spacing(2.5),
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         gridTemplateRows: '1fr auto',
@@ -67,7 +66,7 @@ export const AppearanceSettings: React.FC = () => {
             <Box>
                 <Typography gutterBottom
                     color="textPrimary"
-                    variant="h5">
+                    variant="h4">
                     Font Size
                     </Typography>
                 <MySlider
@@ -80,7 +79,7 @@ export const AppearanceSettings: React.FC = () => {
                 />
                 <Typography gutterBottom
                     color="textPrimary"
-                    variant="h5">
+                    variant="h4">
                     Opacity
                     </Typography>
                 <MySlider
@@ -93,7 +92,7 @@ export const AppearanceSettings: React.FC = () => {
                 />
                 <Typography gutterBottom
                     color="textPrimary"
-                    variant="h5">
+                    variant="h4">
                     Opacity for Super Chat
                     </Typography>
                 <MySlider
@@ -106,7 +105,7 @@ export const AppearanceSettings: React.FC = () => {
                 />
                 <Typography gutterBottom
                     color="textPrimary"
-                    variant="h5">
+                    variant="h4">
                     Blur
                     </Typography>
                 <MySlider

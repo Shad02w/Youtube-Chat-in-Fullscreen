@@ -13,7 +13,7 @@ export const SettingsTabContent: FC<SettingsTabContent> = ({ children, value, in
     const scrollBarStyles = useScrollBarStyle()
     return (
         <Box
-            pt={2.5}
+            pt={3}
             minHeight={'450px'}
             hidden={value !== index}
             className={scrollBarStyles.scrollbar + ' ' + className}
