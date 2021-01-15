@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import down from '../assets/images/down.svg'
 import { AdvancedChatLiveActions } from '../models/Chat'
 import { useFullscreenState } from './hooks/useFullscreenState';
+import { useScrollBarStyle } from '@/styles/Scrollbar.style'
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     chatActions: AdvancedChatLiveActions,
@@ -38,30 +39,9 @@ export const useStyles = makeStyles(() =>
             overflowY: 'auto',
             overflowX: 'hidden',
             scrollBehavior: 'smooth',
-            // padding: '20px 10px',
             fontSize: (props: StyleProps) => `${props.fontSize}px`,
-            'scrollbar-width': 'thin',
-            'scrollbar-color': 'rgba(240, 240, 240, 0.3) transparent',
-            '&::-webkit-scrollbar': {
-                width: '5px',
-                height: '5px'
-            },
-            '&::-webkit-scrollbar-track': {
-                borderRadius: '10px'
-            },
-            '&::-webkit-scrollbar-thumb': {
-                background: 'rgba(240, 240, 240, 0.3)',
-                borderRadius: '10px'
-            }
-        },
-        showScrollbar: {
-            'scrollbar-color': 'rgba(240, 240, 240, 0.3) transparent',
-            '&::-webkit-scrollbar-thumb': {
-                background: 'rgba(240, 240, 240, 0.3)',
-            }
         },
         hideScrollbar: {
-            'scrollbar-color': 'transparent',
             '&::-webkit-scrollbar-thumb': {
                 background: 'transparent',
             }
@@ -111,6 +91,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
     const { isFullscreen } = useFullscreenState()
 
     const classes = useStyles({ fontSize, autoScroll })
+    const scrollBarStyles = useScrollBarStyle()
     const liveChatTextMessageClasses = useChatListItemStyle({ opacitySC })
 
     useEffect(() => {
@@ -179,7 +160,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
         <div
             onWheel={onWheelListener}
             ref={containerRef}
-            className={`${className || ''} ${classes.container} ${autoScroll ? classes.hideScrollbar : classes.showScrollbar}`}
+            className={`${className || ''} ${classes.container} ${scrollBarStyles.scrollbar} ${autoScroll ? classes.hideScrollbar : ''}`}
         >
             {ChatListMemo}
             <div className={`${classes.downButtonContainer} ${autoScroll ? classes.hide : classes.show}`} >
