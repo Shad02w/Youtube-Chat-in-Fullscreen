@@ -4,6 +4,7 @@ import { Message } from './Message'
 import { LiveChatMessageStyleType } from '../styles/ChatListItem.style'
 import { Box } from '@material-ui/core'
 import { Build, Check } from '@material-ui/icons'
+import { isMember, checkBadgeType } from '@models/ChatFilter'
 
 
 interface LiveChatTextMessageProps {
@@ -11,24 +12,12 @@ interface LiveChatTextMessageProps {
     renderer: YTLiveChat.LiveChatTextMessageRenderer
 }
 
-const checkIdentity = (badges: YTLiveChat.AuthorBadge[] | undefined, type: YTLiveChat.IconType) => {
-    return (badges
-        && badges.some(badge => (badge.liveChatAuthorBadgeRenderer && badge.liveChatAuthorBadgeRenderer.icon && badge.liveChatAuthorBadgeRenderer.icon.iconType && badge.liveChatAuthorBadgeRenderer.icon.iconType === type))
-    )
-}
-
-const isMember = (badges: YTLiveChat.AuthorBadge[] | undefined) => {
-    return (badges
-        && badges.some(badge => badge.liveChatAuthorBadgeRenderer.customThumbnail))
-
-}
-
 export const LiveChatTextMessage: React.FC<LiveChatTextMessageProps> = ({ renderer, classes }) => {
     const badges = renderer.authorBadges
     const message = renderer.message
-    const isOwner = checkIdentity(badges, 'OWNER')
-    const isMod = checkIdentity(badges, 'MODERATOR')
-    const isVerified = checkIdentity(badges, 'VERIFIED')
+    const isOwner = checkBadgeType(badges, 'OWNER')
+    const isMod = checkBadgeType(badges, 'MODERATOR')
+    const isVerified = checkBadgeType(badges, 'VERIFIED')
     const isMem = isMember(badges)
 
     try {

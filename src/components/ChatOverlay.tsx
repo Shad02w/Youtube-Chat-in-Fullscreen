@@ -68,7 +68,7 @@ export const ChatOverlay: React.FC = () => {
 
 
     const { storage, storageDispatch } = useContext(StorageContext)
-    const { opacity, fontSize, top, left, blur, width, height, opacitySC, backgroundColor: bgColor, color, show: showOverlay } = storage
+    const { opacity, fontSize, top, left, blur, width, height, opacitySC, chatFilter, backgroundColor: bgColor, color, show: showOverlay } = storage
     const { chatActions, pageType, freezeChatQueue } = useContext(AppContext)
     const { expanded } = useChatBox()
 
@@ -111,6 +111,7 @@ export const ChatOverlay: React.FC = () => {
                     <Moving className={classes.chatList} />
                     :
                     <ChatList
+                        chatFilter={chatFilter}
                         chatActions={chatActions}
                         fontSize={fontSize}
                         opacitySC={opacitySC}

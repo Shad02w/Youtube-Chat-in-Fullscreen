@@ -10,11 +10,13 @@ import down from '../assets/images/down.svg'
 import { AdvancedChatLiveActions } from '../models/Chat'
 import { useFullscreenState } from './hooks/useFullscreenState';
 import { useScrollBarStyle } from '@/styles/Scrollbar.style'
+import { ChatFilter, shouldBeFiltered } from '@models/ChatFilter'
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     chatActions: AdvancedChatLiveActions,
     fontSize: number
     opacitySC: number
+    chatFilter: ChatFilter
     onAutoScrollStart?(): void
     onAutoScrollStop?(): void
 }
@@ -76,9 +78,7 @@ const ScrollToBottom = (el: HTMLElement) => {
 
 
 
-export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fontSize, onAutoScrollStop, onAutoScrollStart, className }) => {
-
-
+export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fontSize, onAutoScrollStop, onAutoScrollStart, className, chatFilter }) => {
 
     const [autoScroll, setAutoScroll] = useState<boolean>(true)
 
@@ -114,12 +114,12 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
         else if (!autoScroll && onAutoScrollStop) onAutoScrollStop()
     }, [autoScroll, onAutoScrollStart, onAutoScrollStop])
 
-
     const createChatList = () => {
         let list: JSX.Element | JSX.Element[] = <></>
         try {
             list = chatActions
-                .map((action) => {
+                .filter(action => shouldBeFiltered(action, chatFilter))
+                .map(action => {
                     const { liveChatMembershipItemRenderer, liveChatTextMessageRenderer, liveChatPaidMessageRenderer } = action.addChatItemAction!.item
                     if (liveChatTextMessageRenderer)
                         return <LiveChatTextMessage key={action.uuid}
@@ -150,7 +150,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
         )
     }
 
-    const ChatListMemo = useMemo(createChatList, [chatActions])
+    const ChatListMemo = useMemo(createChatList, [chatActions, chatFilter])
 
     const onWheelListener = (event: React.WheelEvent<HTMLDivElement>) => {
         setAutoScroll(false)
