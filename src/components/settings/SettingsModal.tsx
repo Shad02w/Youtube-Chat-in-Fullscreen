@@ -7,7 +7,7 @@ import { StorageContext } from '@contexts/StorageContext'
 import { useFullscreenState } from '@hooks/useFullscreenState'
 import { SettingsTabContent } from '@components/settings/SettingsTabConent'
 import { AppearanceSettings } from '@components/settings/AppearanceSettings'
-import { useScrollBarStyle } from '@/styles/Scrollbar.style'
+import { ContentSettings } from '@components/settings/ContentSettings'
 
 interface SettingsModelProps {
     show: boolean
@@ -47,7 +47,6 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
     const { storage: { show: showOverlay_Storage }, storageDispatch, } = useContext(StorageContext);
     const showApp = useMemo(() => showOverlay_Storage && isFullscreen, [isFullscreen, showOverlay_Storage]);
     const classes = useStyles()
-    const scrollBarStyles = useScrollBarStyle()
 
     const setDefault = () => storageDispatch({ type: 'setSettingsPanelDefault' })
 
@@ -66,7 +65,6 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
             hideBackdrop={true}
             maxWidth='lg'
             onClose={onClose}
-            className={scrollBarStyles.scrollbar}
             open={showApp && show}>
             <DialogContent className={classes.dialogContent}>
                 <Tabs
@@ -96,6 +94,7 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                 <SettingsTabContent
                     index={1}
                     value={tabValue}>
+                    <ContentSettings />
                 </SettingsTabContent>
             </DialogContent>
             <DialogActions
