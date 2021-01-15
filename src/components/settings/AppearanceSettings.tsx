@@ -1,6 +1,5 @@
-import React, { useContext, useMemo, useEffect, useState, useCallback } from 'react'
-import { Done, Replay } from '@material-ui/icons'
-import { Paper, Typography, Box, Dialog, DialogActions, FormControl } from '@material-ui/core'
+import React, { useContext, useMemo, useState, useCallback } from 'react'
+import { Typography, Box, FormControl } from '@material-ui/core'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { MySlider } from '@components/MySlider'
 import { MyInputLabel } from '@components/MyInputLabel'
@@ -12,17 +11,25 @@ import { Color } from '@models/Storage'
 import 'react-colorful/dist/index.css'
 import '@css/colorful.css'
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles(theme => createStyles({
     container: {
-
+        paddingTop: theme.spacing(2.5),
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gridTemplateRows: '1fr auto',
+        gridGap: '30px',
     }
 }))
 
-export const SettingsModal: React.FC = () => {
+interface AppearanceSettingsProps {
+    index: number
+    value: number
+}
+
+export const AppearanceSettings: React.FC<AppearanceSettingsProps> = ({ value, index }) => {
 
     const { storage: { fontSize, opacity, blur, opacitySC, backgroundColor, color: fontColor }, storageDispatch, } = useContext(StorageContext);
     const [menuValue, setMenuValue] = useState<number>(0)
-
 
     const colorMode: ('Background' | 'Font') = useMemo(() => (menuValue === 0) ? 'Background' : 'Font', [menuValue])
     const color = useMemo(() => colorMode === 'Background' ? backgroundColor : fontColor, [colorMode, backgroundColor, fontColor])
@@ -59,7 +66,9 @@ export const SettingsModal: React.FC = () => {
     };
 
     return (
-        <Box className={classes.container}>
+        <div
+            hidden={value !== index}
+            className={classes.container}>
             <Box>
                 <Typography gutterBottom
                     color="textPrimary"
@@ -126,8 +135,10 @@ export const SettingsModal: React.FC = () => {
                     </Typography>
             </Box>
             <Box minHeight={300}>
-                <Box mb={1.5}>
-                    <FormControl>
+                <Box
+                    mb={1.5}
+                    minWidth={100}>
+                    <FormControl fullWidth>
                         <MyInputLabel
                             color='primary'
                             id='change-color-label'
@@ -165,7 +176,7 @@ export const SettingsModal: React.FC = () => {
                     onChange={setColor}
                 />
             </Box>
-        </Box>
+        </div>
     )
 }
 
