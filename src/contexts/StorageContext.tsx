@@ -1,7 +1,8 @@
 import { PresetStoreageWhenNotExist } from '@models/StorageChrome'
 import React, { createContext, useEffect, useReducer } from 'react'
 import { RgbColor } from 'react-colorful'
-import { StorageItems, StoragePreset } from '../models/Storage'
+import { StorageItems, StoragePreset } from '@models/Storage'
+import { ChatFilter } from '@models/ChatFilter'
 
 
 type StorageContextReducerActions =
@@ -34,6 +35,9 @@ type StorageContextReducerActions =
     } |
     {
         type: 'changeFontColor', color: RgbColor
+    } |
+    {
+        type: 'changeChatFilter', filter: ChatFilter
     } |
     {
         type: 'setDefault'
@@ -83,6 +87,9 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'changeFontColor':
             chrome.storage.local.set({ 'color': action.color })
             return { ...preState, color: action.color }
+        case 'changeChatFilter':
+            chrome.storage.local.set({ 'chatFilter': { ...action.filter } })
+            return { ...preState, chatFilter: { ...action.filter } }
         case 'setDefault':
             chrome.storage.local.clear(() => chrome.storage.local.set(StoragePreset))
             return { ...preState, ...StoragePreset }
