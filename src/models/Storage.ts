@@ -1,4 +1,6 @@
 import { RgbColor } from 'react-colorful'
+import { ChatFilter } from '@models/ChatFilter'
+
 
 interface StyleStorageItem {
     top: number,
@@ -12,6 +14,7 @@ interface StyleStorageItem {
     show: boolean,
     backgroundColor: Color
     color: Color
+    chatFilter: ChatFilter
 }
 
 interface AppStorageItem {
@@ -36,7 +39,15 @@ export const StoragePreset: StorageItems = {
     blur: 0,
     show: true,
     backgroundColor: { r: 20, g: 20, b: 20 },
-    color: { r: 255, g: 255, b: 255 }
+    color: { r: 255, g: 255, b: 255 },
+    chatFilter: {
+        guest: true,
+        member: true,
+        superchat: true,
+        owner: true,
+        membership: true,
+        moderator: true
+    }
 }
 
 export const MinHeight = 70
