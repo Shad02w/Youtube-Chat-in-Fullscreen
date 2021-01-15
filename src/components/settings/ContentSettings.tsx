@@ -36,24 +36,28 @@ export const ContentSettings = () => {
                 <MyFormControlLabel
                     control={<Switch
                         checked={chatFilter.owner}
+                        onChange={(_: any, checked: boolean) => storageDispatch({ type: 'changeChatFilter', filter: { ...chatFilter, owner: checked } })}
                     />}
                     label='Owner'
                 />
                 <MyFormControlLabel
                     control={<Switch
                         checked={chatFilter.moderator}
+                        onChange={(_: any, checked: boolean) => storageDispatch({ type: 'changeChatFilter', filter: { ...chatFilter, moderator: checked } })}
                     />}
                     label='Moderator'
                 />
                 <MyFormControlLabel
                     control={<Switch
                         checked={chatFilter.superchat}
+                        onChange={(_: any, checked: boolean) => storageDispatch({ type: 'changeChatFilter', filter: { ...chatFilter, superchat: checked } })}
                     />}
                     label='SuperChat Card'
                 />
                 <MyFormControlLabel
                     control={<Switch
                         checked={chatFilter.membership}
+                        onChange={(_: any, checked: boolean) => storageDispatch({ type: 'changeChatFilter', filter: { ...chatFilter, membership: checked } })}
                     />}
                     label='MemberShip Card'
                 />
