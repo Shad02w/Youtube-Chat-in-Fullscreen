@@ -76,6 +76,11 @@ v1.0.0.11 `14-Jan-2021`
 - Able to change the background color of overlay and color of font
 - Able to adjust the opacity of super chat
 
+v1.0.0.12 `19-Jan-2021`
+
+- Able to filter chat by type
+- Fixed the crashing issue caused by empty user name
+
 ## Screenshot
 
 _Chat overlay on Youtube Live Replay_
