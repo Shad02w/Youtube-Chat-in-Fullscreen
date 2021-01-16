@@ -66,9 +66,8 @@ export const ChatOverlay: React.FC = () => {
 
     const containerRef = useRef<HTMLDivElement>(null)
 
-
     const { storage, storageDispatch } = useContext(StorageContext)
-    const { opacity, fontSize, top, left, blur, width, height, opacitySC, chatFilter, backgroundColor: bgColor, color, show: showOverlay } = storage
+    const { opacity, fontSize, top, left, blur, width, height, opacitySC, separateLine, chatFilter, backgroundColor: bgColor, color, show: showOverlay } = storage
     const { chatActions, pageType, freezeChatQueue } = useContext(AppContext)
     const { expanded } = useChatBox()
 
@@ -115,6 +114,7 @@ export const ChatOverlay: React.FC = () => {
                         chatActions={chatActions}
                         fontSize={fontSize}
                         opacitySC={opacitySC}
+                        separateLine={separateLine}
                         onAutoScrollStart={() => freezeChatQueue(false)}
                         onAutoScrollStop={() => freezeChatQueue(true)}
                         className={classes.chatList}

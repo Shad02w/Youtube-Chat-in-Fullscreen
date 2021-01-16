@@ -17,6 +17,7 @@ interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     fontSize: number
     opacitySC: number
     chatFilter: ChatFilter
+    separateLine?: boolean
     onAutoScrollStart?(): void
     onAutoScrollStop?(): void
 }
@@ -78,7 +79,7 @@ const ScrollToBottom = (el: HTMLElement) => {
 
 
 
-export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fontSize, onAutoScrollStop, onAutoScrollStart, className, chatFilter }) => {
+export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fontSize, onAutoScrollStop, onAutoScrollStart, className, chatFilter, separateLine }) => {
 
     const [autoScroll, setAutoScroll] = useState<boolean>(true)
 
@@ -92,7 +93,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
 
     const classes = useStyles({ fontSize, autoScroll })
     const scrollBarStyles = useScrollBarStyle()
-    const liveChatTextMessageClasses = useChatListItemStyle({ opacitySC })
+    const liveChatTextMessageClasses = useChatListItemStyle({ opacitySC, separateLine })
 
     useEffect(() => {
         if (!containerRef.current) return

@@ -3,10 +3,11 @@ import { makeStyles, createStyles } from '@material-ui/core/styles'
 export type LiveChatMessageStyleType = ReturnType<typeof useChatListItemStyle>
 
 interface StyleProps {
-    opacitySC: number
+    opacitySC: number,
+    separateLine: boolean | undefined
 }
 
-export const useChatListItemStyle = makeStyles(() => createStyles({
+export const useChatListItemStyle = makeStyles(theme => createStyles({
     textMessage: {
         padding: '5px 10px',
         display: 'grid',
@@ -51,8 +52,10 @@ export const useChatListItemStyle = makeStyles(() => createStyles({
         width: '1.6em',
     },
     authorName: {
-        fontWeight: 800,
-        display: 'inline-block',
+        fontWeight: 900,
+        display: ({ separateLine }) => separateLine ? 'block' : 'inline-block',
+        color: ({ separateLine }) => separateLine ? '#b6b6b6' : '#b6b6b6',
+        marginBottom: ({ separateLine }) => separateLine ? theme.spacing(1) : theme.spacing(0),
         wordBreak: 'break-all',
         marginRight: '0.6em'
     },
@@ -64,15 +67,11 @@ export const useChatListItemStyle = makeStyles(() => createStyles({
         color: 'green'
     },
     isMod: {
-        // color: 'black',
-        // backgroundColor: 'rgb(94,132,241)',
-        // padding: '0.15em 0.4em',
-        // borderRadius: '0.4em'
-        color: 'rgb(94,132,241)',
+        color: 'rgb(94,132,241) !important',
     },
     isAuthor: {
-        color: 'black',
-        backgroundColor: 'rgb(255,200,0)',
+        color: 'black !important',
+        backgroundColor: 'rgb(255,200,0) !important',
         padding: '0.15em 0.4em',
         borderRadius: '0.4em'
     },

@@ -40,6 +40,9 @@ type StorageContextReducerActions =
         type: 'changeChatFilter', filter: ChatFilter
     } |
     {
+        type: 'changeSeparateLine', separateLine: boolean
+    } |
+    {
         type: 'setDefault'
     } |
     {
@@ -90,6 +93,9 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'changeChatFilter':
             chrome.storage.local.set({ 'chatFilter': { ...action.filter } })
             return { ...preState, chatFilter: { ...action.filter } }
+        case 'changeSeparateLine':
+            chrome.storage.local.set({ 'separateLine': action.separateLine })
+            return { ...preState, separateLine: action.separateLine }
         case 'setDefault':
             chrome.storage.local.clear(() => chrome.storage.local.set(StoragePreset))
             return { ...preState, ...StoragePreset }
