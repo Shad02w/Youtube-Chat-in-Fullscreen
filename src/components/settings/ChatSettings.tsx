@@ -17,13 +17,14 @@ const useStyles = makeStyles({
     }
 })
 
-export const ContentSettings = () => {
+export const ChatSettings = () => {
     const styles = useStyles()
     const { storage: { chatFilter, separateLine }, storageDispatch } = useContext(StorageContext)
     return (
         <div className={styles.container}>
             <Box>
                 <Typography
+                    gutterBottom
                     variant='h4'
                 >
                     Filter
@@ -76,8 +77,10 @@ export const ContentSettings = () => {
             </Box>
             <Box>
                 <Typography
-                    variant='h4'>
-                    Chat Style
+                    gutterBottom
+                    variant='h4'
+                >
+                    Style
                 </Typography>
                 <FormGroup>
                     <MyFormControlLabel

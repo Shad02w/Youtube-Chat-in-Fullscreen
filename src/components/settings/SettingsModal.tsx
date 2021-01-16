@@ -7,7 +7,7 @@ import { StorageContext } from '@contexts/StorageContext'
 import { useFullscreenState } from '@hooks/useFullscreenState'
 import { SettingsTabContent } from '@components/settings/SettingsTabConent'
 import { AppearanceSettings } from '@components/settings/AppearanceSettings'
-import { ContentSettings } from '@components/settings/ContentSettings'
+import { ChatSettings } from '@components/settings/ChatSettings'
 
 interface SettingsModelProps {
     show: boolean
@@ -83,7 +83,7 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                         classes={{
                             root: classes.tab
                         }}
-                        label='Content'
+                        label='Chat'
                     />
                 </Tabs>
                 <SettingsTabContent
@@ -94,7 +94,7 @@ export const SettingsModal: React.FC<SettingsModelProps> = ({ show, onClose }) =
                 <SettingsTabContent
                     index={1}
                     value={tabValue}>
-                    <ContentSettings />
+                    <ChatSettings />
                 </SettingsTabContent>
             </DialogContent>
             <DialogActions
