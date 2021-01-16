@@ -34,11 +34,13 @@ const useStyles = makeStyles({
         //TODO: change background using setting modal
         color: ({ color }) => `rgb(${color.r}, ${color.g}, ${color.r})`,
         background: ({ opacity, bgColor }) => `rgba(${bgColor.r}, ${bgColor.g}, ${bgColor.b}, ${opacity})`,
-        backdropFilter: props => (props.blur > 0) ? `blur(${props.blur}px)` : 'none',
         gridTemplateRows: '1fr',
         gridTemplateAreas: '"chat"',
         borderRadius: 5,
         zIndex: 10
+    },
+    blur: {
+        backdropFilter: props => (props.blur > 0) ? `blur(${props.blur}px)` : 'none',
     },
     hidden: {
         height: '0 !important',
@@ -104,7 +106,7 @@ export const ChatOverlay: React.FC = () => {
     return (
         <div
             ref={containerRef}
-            className={`${classes.wrapper} ${show ? classes.show : classes.hidden} ${movable ? 'noselect' : ''}`}>
+            className={`${classes.wrapper} ${show ? classes.show : classes.hidden} ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}>
             {
                 movable ?
                     <Moving className={classes.chatList} />
