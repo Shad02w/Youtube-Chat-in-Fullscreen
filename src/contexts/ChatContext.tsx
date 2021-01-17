@@ -13,7 +13,7 @@ import { useChatBox } from '@hooks/useChatBox'
 
 declare const window: ContentScriptWindow
 
-export interface AppState {
+export interface ChatState {
     pageType: PageType | undefined
     chatActions: AdvancedChatLiveActions
     freezeChatQueue(value: boolean): void
@@ -25,7 +25,7 @@ const popAllCachedMessage = () => {
     window.messages.popAll()
 }
 
-export const ChatContext = createContext<AppState>({} as AppState)
+export const ChatContext = createContext<ChatState>({} as ChatState)
 
 
 export const ChatContextProvider: React.FC = ({ children }) => {

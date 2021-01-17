@@ -1,17 +1,16 @@
-import React, { useRef, useContext, useMemo } from 'react'
+import React, { useRef, useContext } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { Color, MinHeight, MinWidth } from '../models/Storage'
 import { StorageContext } from '../contexts/StorageContext'
 import { useMovable } from './hooks/useMovable'
 import { useResizable } from './hooks/useResizable'
-import { useFullscreenState } from './hooks/useFullscreenState'
-import { ChatContext } from '../contexts/ChatContext'
-import { ChatList } from './ChatList'
+import { ChatContextProvider } from '../contexts/ChatContext'
 import { ToolBar } from './Toolbar'
 import { Moving } from './Moving'
 import { useCtrlAltHotKey } from './hooks/useHotkeys'
-import { useChatBox } from '@hooks/useChatBox'
+import { ReformedChat } from './ReformedChat'
+import { AppContext } from '@contexts/AppContext'
 
 interface StyleProps {
     opacity: number,
@@ -69,12 +68,8 @@ export const ChatOverlay: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null)
 
     const { storage, storageDispatch } = useContext(StorageContext)
-    const { opacity, fontSize, top, left, blur, width, height, opacitySC, separateLine, chatFilter, backgroundColor: bgColor, color, show: showOverlay } = storage
-    const { chatActions, pageType, freezeChatQueue } = useContext(ChatContext)
-    const { expanded } = useChatBox()
-
-    const { isFullscreen } = useFullscreenState()
-    const show = useMemo(() => (showOverlay && isFullscreen && pageType !== 'normal' && chatActions.length > 0 && expanded), [chatActions, showOverlay, isFullscreen, pageType, expanded])
+    const { opacity, top, left, blur, width, height, backgroundColor: bgColor, color } = storage
+    const { showOverlay } = useContext(AppContext)
 
     const classes = useStyles({ opacity, top, left, blur, width, height, bgColor, color })
 
@@ -106,21 +101,14 @@ export const ChatOverlay: React.FC = () => {
     return (
         <div
             ref={containerRef}
-            className={`${classes.wrapper} ${show ? classes.show : classes.hidden} ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}>
+            className={`${classes.wrapper} ${showOverlay ? classes.show : classes.hidden} ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}>
             {
                 movable ?
                     <Moving className={classes.chatList} />
                     :
-                    <ChatList
-                        chatFilter={chatFilter}
-                        chatActions={chatActions}
-                        fontSize={fontSize}
-                        opacitySC={opacitySC}
-                        separateLine={separateLine}
-                        onAutoScrollStart={() => freezeChatQueue(false)}
-                        onAutoScrollStop={() => freezeChatQueue(true)}
-                        className={classes.chatList}
-                    />
+                    <ChatContextProvider>
+                        <ReformedChat className={classes.chatList} />
+                    </ChatContextProvider>
             }
             <ToolBar className={classes.control}
                 movableTriggerId={id}

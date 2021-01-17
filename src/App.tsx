@@ -1,11 +1,11 @@
 import React from 'react'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import './css/App.css'
-import { ChatOverlay } from './components/ChatOverlay'
-import { StorageContextProvider } from './contexts/StorageContext'
-import { ChatContextProvider } from './contexts/ChatContext'
-import { ContentScriptWindow } from './models/Window';
-import { ThemeColor } from './models/Color'
+import { ChatOverlay } from '@components/ChatOverlay'
+import { StorageContextProvider } from '@contexts/StorageContext'
+import { ContentScriptWindow } from '@models/Window';
+import { ThemeColor } from '@models/Color'
+import { AppContextProvider } from '@contexts/AppContext'
 
 const theme = createMuiTheme({
     palette: {
@@ -25,11 +25,11 @@ export const App: React.FC = () => {
 
     return (
         <StorageContextProvider>
-            <ChatContextProvider>
+            <AppContextProvider>
                 <ThemeProvider theme={theme}>
                     <ChatOverlay />
                 </ThemeProvider>
-            </ChatContextProvider>
+            </AppContextProvider>
         </StorageContextProvider>
     )
 }
