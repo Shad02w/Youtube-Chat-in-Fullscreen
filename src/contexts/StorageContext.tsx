@@ -43,6 +43,9 @@ type StorageContextReducerActions =
         type: 'changeSeparateLine', separateLine: boolean
     } |
     {
+        type: 'changeNativeMode', native: boolean
+    } |
+    {
         type: 'setDefault'
     } |
     {
@@ -96,6 +99,9 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
         case 'changeSeparateLine':
             chrome.storage.local.set({ 'separateLine': action.separateLine })
             return { ...preState, separateLine: action.separateLine }
+        case 'changeNativeMode':
+            chrome.storage.local.set({ 'native': action.native })
+            return { ...preState, native: action.native }
         case 'setDefault':
             chrome.storage.local.clear(() => chrome.storage.local.set(StoragePreset))
             return { ...preState, ...StoragePreset }

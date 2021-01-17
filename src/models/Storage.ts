@@ -15,7 +15,8 @@ interface StyleStorageItem {
     backgroundColor: Color
     color: Color
     chatFilter: ChatFilter
-    separateLine: boolean
+    separateLine: boolean,
+    native: boolean
 }
 
 interface AppStorageItem {
@@ -49,7 +50,8 @@ export const StoragePreset: StorageItems = {
         membership: true,
         moderator: true
     },
-    separateLine: false
+    separateLine: false,
+    native: false
 }
 
 export const MinHeight = 70
