@@ -25,10 +25,10 @@ const popAllCachedMessage = () => {
     window.messages.popAll()
 }
 
-export const AppContext = createContext<AppState>({} as AppState)
+export const ChatContext = createContext<AppState>({} as AppState)
 
 
-export const AppContextProvider: React.FC = ({ children }) => {
+export const ChatContextProvider: React.FC = ({ children }) => {
 
 
     const [maxChatList] = useState<number>(70)
@@ -79,9 +79,9 @@ export const AppContextProvider: React.FC = ({ children }) => {
 
 
     return (
-        <AppContext.Provider value={{ pageType, chatActions, freezeChatQueue }}>
+        <ChatContext.Provider value={{ pageType, chatActions, freezeChatQueue }}>
             {children}
-        </AppContext.Provider>
+        </ChatContext.Provider>
     )
 }
 

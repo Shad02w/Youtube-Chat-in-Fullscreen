@@ -3,7 +3,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import './css/App.css'
 import { ChatOverlay } from './components/ChatOverlay'
 import { StorageContextProvider } from './contexts/StorageContext'
-import { AppContextProvider } from './contexts/AppContext'
+import { ChatContextProvider } from './contexts/ChatContext'
 import { ContentScriptWindow } from './models/Window';
 import { ThemeColor } from './models/Color'
 
@@ -25,11 +25,11 @@ export const App: React.FC = () => {
 
     return (
         <StorageContextProvider>
-            <AppContextProvider>
+            <ChatContextProvider>
                 <ThemeProvider theme={theme}>
                     <ChatOverlay />
                 </ThemeProvider>
-            </AppContextProvider>
+            </ChatContextProvider>
         </StorageContextProvider>
     )
 }

@@ -1,4 +1,4 @@
-import { AppContext } from '@contexts/AppContext'
+import { ChatContext } from '@contexts/ChatContext'
 import { useUrl } from '@hooks/useUrl'
 import parse from 'url-parse'
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
@@ -15,7 +15,7 @@ export const NativeChat = () => {
 
     const styles = useStyles()
 
-    const { pageType } = useContext(AppContext)
+    const { pageType } = useContext(ChatContext)
     const [location, setLocation] = useState<Location | undefined>(undefined)
     const locationRef = useRef(location)
     locationRef.current = location

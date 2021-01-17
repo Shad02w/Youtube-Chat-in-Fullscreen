@@ -6,13 +6,12 @@ import { StorageContext } from '../contexts/StorageContext'
 import { useMovable } from './hooks/useMovable'
 import { useResizable } from './hooks/useResizable'
 import { useFullscreenState } from './hooks/useFullscreenState'
-import { AppContext } from '../contexts/AppContext'
+import { ChatContext } from '../contexts/ChatContext'
 import { ChatList } from './ChatList'
 import { ToolBar } from './Toolbar'
 import { Moving } from './Moving'
 import { useCtrlAltHotKey } from './hooks/useHotkeys'
 import { useChatBox } from '@hooks/useChatBox'
-import { NativeChatBar } from './NativeChatBar'
 
 interface StyleProps {
     opacity: number,
@@ -71,7 +70,7 @@ export const ChatOverlay: React.FC = () => {
 
     const { storage, storageDispatch } = useContext(StorageContext)
     const { opacity, fontSize, top, left, blur, width, height, opacitySC, separateLine, chatFilter, backgroundColor: bgColor, color, show: showOverlay } = storage
-    const { chatActions, pageType, freezeChatQueue } = useContext(AppContext)
+    const { chatActions, pageType, freezeChatQueue } = useContext(ChatContext)
     const { expanded } = useChatBox()
 
     const { isFullscreen } = useFullscreenState()
@@ -126,7 +125,6 @@ export const ChatOverlay: React.FC = () => {
             <ToolBar className={classes.control}
                 movableTriggerId={id}
             />
-            {/* <NativeChatBar /> */}
         </div >
     )
 
