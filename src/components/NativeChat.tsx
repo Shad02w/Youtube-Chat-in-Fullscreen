@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     }
 })
 
-export const NativeChatBar = () => {
+export const NativeChat = () => {
 
     const styles = useStyles()
 
