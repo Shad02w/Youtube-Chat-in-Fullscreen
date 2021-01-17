@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useMemo, useState } from 'react'
-import { useChatListItemStyle } from '../styles/ChatListItem.style'
-import { LiveChatTextMessage } from './LiveChatTextMessage'
-import { LiveChatPaidMessage } from './LiveChatPaidMessage'
-import { LiveChatMembershipItem } from './LiveChatMembershipItem'
+import { useChatListItemStyle } from '@/styles/ChatListItem.style'
+import { LiveChatTextMessage } from '@components/LiveChatTextMessage'
+import { LiveChatPaidMessage } from '@components/LiveChatPaidMessage'
+import { LiveChatMembershipItem } from '@components/LiveChatMembershipItem'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
-import { ButtonBase } from '@material-ui/core'
+import { ButtonBase, Box } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import down from '../assets/images/down.svg'
-import { AdvancedChatLiveActions } from '../models/Chat'
-import { useFullscreenState } from './hooks/useFullscreenState';
+import { AdvancedChatLiveActions } from '@models/Chat'
+import { useFullscreenState } from '@hooks/useFullscreenState';
 import { useScrollBarStyle } from '@/styles/Scrollbar.style'
 import { ChatFilter, shouldBeFiltered } from '@models/ChatFilter'
 
@@ -37,8 +37,8 @@ const CircleButtonBase = withStyles({
 export const useStyles = makeStyles(() =>
     createStyles({
         container: {
-            width: 'auto',
-            height: 'auto',
+            height: 'inherit',
+            maxHeight: 'inherit',
             overflowY: 'auto',
             overflowX: 'hidden',
             scrollBehavior: 'smooth',
@@ -51,7 +51,6 @@ export const useStyles = makeStyles(() =>
         },
         downButtonContainer: {
             position: 'absolute',
-            bottom: 10,
             display: 'flex',
             flexFlow: 'row nowrap',
             justifyContent: 'center',
@@ -158,12 +157,18 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
     }
 
     return (
-        <div
-            onWheel={onWheelListener}
-            ref={containerRef}
-            className={`${className || ''} ${classes.container} ${scrollBarStyles.scrollbar} ${autoScroll ? classes.hideScrollbar : ''}`}
+        <Box
+            maxHeight={'100%'}
+            overflow='hidden'
+            position='relative'
         >
-            {ChatListMemo}
+            <div
+                onWheel={onWheelListener}
+                ref={containerRef}
+                className={`${className || ''} ${classes.container} ${scrollBarStyles.scrollbar} ${autoScroll ? classes.hideScrollbar : ''}`}
+            >
+                {ChatListMemo}
+            </div>
             <div className={`${classes.downButtonContainer} ${autoScroll ? classes.hide : classes.show}`} >
                 <CircleButtonBase
                     focusRipple
@@ -176,7 +181,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
                     />
                 </CircleButtonBase>
             </div>
-        </div>
+        </Box>
     )
 }
 

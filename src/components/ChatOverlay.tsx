@@ -126,7 +126,7 @@ export const ChatOverlay: React.FC = () => {
             <ToolBar className={classes.control}
                 movableTriggerId={id}
             />
-            <NativeChatBar />
+            {/* <NativeChatBar /> */}
         </div >
     )
 
