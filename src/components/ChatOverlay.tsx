@@ -12,6 +12,7 @@ import { ToolBar } from './Toolbar'
 import { Moving } from './Moving'
 import { useCtrlAltHotKey } from './hooks/useHotkeys'
 import { useChatBox } from '@hooks/useChatBox'
+import { NativeChatBar } from './NativeChatBar'
 
 interface StyleProps {
     opacity: number,
@@ -125,6 +126,7 @@ export const ChatOverlay: React.FC = () => {
             <ToolBar className={classes.control}
                 movableTriggerId={id}
             />
+            <NativeChatBar />
         </div >
     )
 
