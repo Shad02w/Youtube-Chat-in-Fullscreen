@@ -102,14 +102,14 @@ export const ChatOverlay: React.FC = () => {
         <div
             ref={containerRef}
             className={`${classes.wrapper} ${showOverlay ? classes.show : classes.hidden} ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}>
-            {
-                movable ?
-                    <Moving className={classes.chatList} />
-                    :
-                    <ChatContextProvider>
+            <ChatContextProvider>
+                {
+                    movable ?
+                        <Moving className={classes.chatList} />
+                        :
                         <ReformedChat className={classes.chatList} />
-                    </ChatContextProvider>
-            }
+                }
+            </ChatContextProvider>
             <ToolBar className={classes.control}
                 movableTriggerId={id}
             />
