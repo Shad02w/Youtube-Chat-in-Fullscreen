@@ -79,6 +79,7 @@ v1.0.0.11 `14-Jan-2021`
 v1.0.0.12 `19-Jan-2021`
 
 - Able to filter chat by type
+- Able to separate username and comment into two line
 - Fixed the crashing issue caused by empty user name
 
 ## Screenshot
