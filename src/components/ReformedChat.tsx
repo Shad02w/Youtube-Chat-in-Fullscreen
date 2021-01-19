@@ -1,8 +1,6 @@
 import { AppContext } from '@contexts/AppContext'
 import { ChatContext } from '@contexts/ChatContext'
 import { StorageContext } from '@contexts/StorageContext'
-import { useChatBox } from '@hooks/useChatBox'
-import { useFullscreenState } from '@hooks/useFullscreenState'
 import React, { useContext, useEffect, useMemo } from 'react'
 import { ChatList } from './ChatList'
 
@@ -16,10 +14,7 @@ export const ReformedChat: React.FC<ReformedChatProps> = ({ className }) => {
     const { storage: { chatFilter, fontSize, opacitySC, separateLine } } = useContext(StorageContext)
     const { setShowOverlay } = useContext(AppContext)
     const { chatActions, freezeChatQueue, pageType } = useContext(ChatContext)
-    const { isFullscreen } = useFullscreenState()
-    const { storage: { show: showOverlay_storage } } = useContext(StorageContext)
-    const { expanded } = useChatBox()
-    const show = useMemo(() => (showOverlay_storage && isFullscreen && pageType !== 'normal' && chatActions.length > 0 && expanded === true), [chatActions, showOverlay_storage, isFullscreen, pageType, expanded])
+    const show = useMemo(() => pageType !== 'normal' && chatActions.length > 0, [pageType, chatActions])
 
     useEffect(() => {
         if (show === undefined) return
