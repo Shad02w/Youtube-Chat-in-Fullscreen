@@ -3,6 +3,7 @@ import { useUrl } from '@hooks/useUrl'
 import parse from 'url-parse'
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { AppContext } from '@contexts/AppContext'
 
 const useStyles = makeStyles({
     iframe: {
@@ -17,6 +18,8 @@ export const NativeChat = () => {
 
     const { pageType } = useContext(ChatContext)
     const [location, setLocation] = useState<Location | undefined>(undefined)
+    const { setShowOverlay } = useContext(AppContext)
+
     const locationRef = useRef(location)
     locationRef.current = location
     const url = useMemo(() => {
@@ -31,7 +34,6 @@ export const NativeChat = () => {
     useUrl(setLocation)
 
     useEffect(() => {
-        console.log('iframe url', url)
     }, [url])
 
 
