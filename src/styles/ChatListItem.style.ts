@@ -64,7 +64,7 @@ export const useChatListItemStyle = makeStyles(theme => createStyles({
         flexFlow: 'row nowrap'
     },
     isMember: {
-        color: 'green'
+        color: 'green !important'
     },
     isMod: {
         color: 'rgb(94,132,241) !important',
