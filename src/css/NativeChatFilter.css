@@ -26,22 +26,19 @@ yt-live-chat-text-message-renderer[author-type='moderator'] {
     display: none !important;
 }
 
-/* 
+
  *
 .ytcf-superchat-hidden
-yt-live-chat-item-list-render 
 yt-live-chat-paid-message-renderer {
     display: none !important;
 }
 
 .ytcf-supersticker-hidden
-yt-live-chat-item-list-render 
 yt-live-chat-paid-sticker-renderer {
     display: none !important;
 }
 
 .ytcf-membership-hidden
-yt-live-chat-item-list-render 
 yt-live-chat-membership-item-renderer {
     display: none !important;
-} */
+}
