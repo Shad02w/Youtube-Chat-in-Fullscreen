@@ -48,7 +48,8 @@ export const StoragePreset: StorageItems = {
         superchat: true,
         owner: true,
         membership: true,
-        moderator: true
+        moderator: true,
+        sticker: true
     },
     separateLine: false,
     native: false
