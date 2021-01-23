@@ -1,20 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import { render } from 'react-dom'
 import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import { Fade, IconButton, Snackbar, Tooltip, Typography } from '@material-ui/core'
-import { MySwitch } from "./components/MySwitch"
-import './css/popup.css'
-import icon from './icons/chat128.png'
+import { Fade, IconButton, Snackbar, Tooltip, Typography, Box, Switch } from '@material-ui/core'
+import '@css/popup.css'
+import icon from '@icons/chat128.png'
 import { GitHub, Replay } from "@material-ui/icons"
 import { Alert } from '@material-ui/lab'
-import { StoragePreset } from './models/Storage'
+import { StoragePreset } from '@models/Storage'
+import { ThemeColor } from '@models/Color'
 
 const githubPage = 'https://github.com/Shad02w/Youtube-Chat-in-Fullscreen'
 
-const theme = createMuiTheme()
-theme.typography.h6 = {
-    fontSize: '1.1rem'
-}
+const theme = createMuiTheme({
+    typography: {
+        h6: {
+            fontSize: '1.1rem'
+        }
+    },
+    palette: {
+        primary: {
+            light: `#${ThemeColor[100]}`,
+            main: `#${ThemeColor[200]}`,
+            dark: `#${ThemeColor[300]}`
+        }
+    }
+
+})
+
 const normalPadding = 1
 
 const useStyle = makeStyles({
@@ -37,6 +49,7 @@ const useStyle = makeStyles({
         borderBottom: '1px solid #e6e6e6'
     },
     appName: {
+        fontWeight: 600,
         marginLeft: theme.spacing(2),
     },
     main: {
@@ -61,6 +74,14 @@ const useStyle = makeStyles({
         flexWrap: 'nowrap',
         alignItems: 'center'
     },
+    beta: {
+        fontSize: '0.65rem',
+        padding: '4px 2px 4px 2px',
+        background: 'red',
+        color: '#fff',
+        marginLeft: '0.4rem',
+        borderRadius: '3px'
+    }
 })
 
 const App: React.FC = () => {
@@ -109,8 +130,9 @@ const App: React.FC = () => {
                             alt="App icon" />
                         <Typography className={classes.appName}
                             variant='h6'
-                            color='textPrimary'>Youtube Chat in
-                            Fullscreen</Typography>
+                            color='textPrimary'>
+                            Youtube Chat in Fullscreen
+                        </Typography>
                     </header>
                     <main className={classes.main}>
                         <article className={classes.part}>
@@ -124,22 +146,31 @@ const App: React.FC = () => {
                                     color='textSecondary'>Refresh
                                     is needed</Typography>
                             </article>
-                            <MySwitch checked={isExtEnable}
+                            <Switch checked={isExtEnable}
                                 onChange={() => chrome.storage.local.set({ on: !isExtEnable })} />
                         </article>
                         <article className={classes.part}>
                             <article>
-                                <Typography className={classes.partName}
-                                    variant='body1'
-                                    color='textSecondary'>
-                                    Native Mode
-                                </Typography>
+                                <Box display='flex'
+                                    flexDirection='row'
+                                    alignItems='center'
+                                    flexWrap='nowrap'>
+                                    <Typography className={classes.partName}
+                                        variant='body1'
+                                        color='textSecondary'>
+                                        Native Mode
+                                    </Typography>
+                                    <div className={classes.beta}>
+                                        BETA
+                                    </div>
+                                </Box>
                                 <Typography style={{ fontSize: '0.8rem' }}
                                     variant='subtitle2'
-                                    color='textSecondary'>Refresh
-                                    is needed</Typography>
+                                    color='textSecondary'>
+                                    Refresh is needed
+                                </Typography>
                             </article>
-                            <MySwitch checked={isNative}
+                            <Switch checked={isNative}
                                 onChange={() => chrome.storage.local.set({ native: !isNative })} />
                         </article>
                         <article className={classes.part}>
