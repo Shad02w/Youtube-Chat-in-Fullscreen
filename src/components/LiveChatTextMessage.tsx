@@ -30,33 +30,35 @@ export const LiveChatTextMessage: React.FC<LiveChatTextMessageProps> = ({ render
                     src={renderer.authorPhoto.thumbnails[1].url}
                 />
                 <article>
-                    <div
-                        className={`${classes.authorName} ${isMem ? classes.isMember : ''} ${isMod ? classes.isMod : ''} ${isOwner ? classes.isAuthor : ''}`}>
-                        <div className={classes.autherNameInner}>
-                            <Box pr={0.5}>
-                                {renderer.authorName.simpleText}
-                            </Box>
-                            {
-                                (isMod)
-                                    ?
-                                    <Box>
-                                        <Build fontSize='default' />
-                                    </Box>
-                                    : <></>
-                            }
-                            {
+                    <div className={classes.autherDetail}>
+                        <div
+                            className={`${classes.authorName} ${isMem ? classes.isMember : ''} ${isMod ? classes.isMod : ''} ${(isVerified || isOwner) ? classes.isAuthor : ''}`}>
+                            <div className={classes.autherNameInner}>
+                                <Box pr={0.5}>
+                                    {renderer.authorName.simpleText}
+                                </Box>
+                                {
+                                    (isMod)
+                                        ?
+                                        <Box>
+                                            <Build fontSize='default' />
+                                        </Box>
+                                        : <></>
+                                }
+                                {
 
-                                (isVerified)
-                                    ?
-                                    <Box>
-                                        <Check fontSize='default' />
-                                    </Box>
-                                    : <></>
-                            }
+                                    (isVerified)
+                                        ?
+                                        <Box>
+                                            <Check fontSize='default' />
+                                        </Box>
+                                        : <></>
+                                }
+                            </div>
                         </div>
+                        {badges ? <Badges badges={badges}
+                            classes={classes} /> : <></>}
                     </div>
-                    {badges ? <Badges badges={badges}
-                        classes={classes} /> : <></>}
                     {message ? <Message message={message}
                         classes={classes} /> : <></>}
                 </article>

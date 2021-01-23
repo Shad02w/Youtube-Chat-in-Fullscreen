@@ -47,15 +47,18 @@ export const useChatListItemStyle = makeStyles(theme => createStyles({
     bold: {
         fontWeight: 600
     },
+    autherDetail: {
+        display: ({ separateLine }) => separateLine ? 'block' : 'inline-block',
+        marginBottom: ({ separateLine }) => separateLine ? theme.spacing(1) : theme.spacing(0),
+    },
     authorImage: {
         borderRadius: '50%',
         width: '1.6em',
     },
     authorName: {
         fontWeight: 900,
-        display: ({ separateLine }) => separateLine ? 'block' : 'inline-block',
-        color: ({ separateLine }) => separateLine ? '#b6b6b6' : '#b6b6b6',
-        marginBottom: ({ separateLine }) => separateLine ? theme.spacing(1) : theme.spacing(0),
+        display: 'inline-block',
+        color: '#b6b6b6',
         wordBreak: 'break-all',
         marginRight: '0.6em'
     },
