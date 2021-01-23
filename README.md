@@ -82,6 +82,12 @@ v1.0.0.12 `19-Jan-2021`
 - Able to separate username and comment into two line
 - Fixed the crashing issue caused by empty user name
 
+v.1.0.0.13 `26-Jan-2021`
+
+- Native chat in beta
+- Verified user is highlight as the same as owner
+- Fixed the color of member name
+
 ## Screenshot
 
 _Chat overlay on Youtube Live Replay_
