@@ -1,7 +1,7 @@
 {
     "name": "Youtube Chat in Fullscreen",
     "description": "A chrome extension creates an overlay to show Youtube live chat when in full screen",
-    "version": "1.0.0.12",
+    "version": "1.0.0.13",
     "manifest_version": 2,
     "background": {
         "scripts": [
