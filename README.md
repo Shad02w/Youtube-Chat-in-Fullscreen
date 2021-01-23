@@ -102,6 +102,10 @@ _Settings Panel_
 
 ![settings panel screenshot](./images/settings.png)
 
+## Credits
+
+Native Chat Selector: [fiahfy/youtube-live-chat-selector](https://github.com/fiahfy/youtube-live-chat-selector)
+
 ## License
 
 <a href="/LICENSE">GNU General Public License v3.0</a>
