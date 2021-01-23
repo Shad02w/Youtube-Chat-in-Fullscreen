@@ -14,15 +14,12 @@ export const FilterClassNameMap: { [key in keyof ChatFilter]: string } = {
 
 export const ContainerId = '_ytcf-container'
 
-export const useNativeChatFilter = (ref: MutableRefObject<HTMLIFrameElement | null>) => {
+export const useNativeChatFilter = (ref: MutableRefObject<HTMLIFrameElement | null>, loaded: number) => {
 
     const { storage: { chatFilter } } = useContext(StorageContext)
 
-    useEffect(() => {
-        if (!ref.current || !ref.current.contentDocument) return
-        const container = ref.current.contentDocument.body
-        if (!container) return
-        const { guest, member, membership, moderator, owner, sticker } = chatFilter
+    const updateChatFilterStyles = (filter: ChatFilter, container: HTMLElement) => {
+        const { guest, member, membership, moderator, owner, sticker } = filter
 
         if (!guest)
             container.classList.add(FilterClassNameMap['guest'])
@@ -54,6 +51,11 @@ export const useNativeChatFilter = (ref: MutableRefObject<HTMLIFrameElement | nu
         else
             container.classList.remove(FilterClassNameMap['sticker'])
 
-    }, [chatFilter, ref])
+    }
+
+    useEffect(() => {
+        if (!ref.current || !ref.current.contentDocument || !ref.current.contentDocument.body) return
+        updateChatFilterStyles(chatFilter, ref.current.contentDocument.body)
+    }, [chatFilter, ref, loaded])
 
 }

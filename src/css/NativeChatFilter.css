@@ -1,31 +1,33 @@
 /* Inspired by fiahfy/youtube-live-chat-selector 
  * https://github.com/fiahfy/youtube-live-chat-selector
-*/
+ */
+
+body{
+    background-color: red !important;
+}
 
 .ytcf-guest-hidden
-yt-live-chat-item-list-render 
 yt-live-chat-text-message-renderer[author-type=''] {
     display: none !important;
 }
 
 .ytcf-member-hidden
-yt-live-chat-item-list-render 
 yt-live-chat-text-message-renderer[author-type='member'] {
     display: none !important;
 }
 
 .ytcf-owner-hidden
-yt-live-chat-item-list-render 
 yt-live-chat-text-message-renderer[author-type='owner'] {
     display: none !important;
 }
 
 .ytcf-moderator-hidden
-yt-live-chat-item-list-render 
 yt-live-chat-text-message-renderer[author-type='moderator'] {
     display: none !important;
 }
 
+/* 
+ *
 .ytcf-superchat-hidden
 yt-live-chat-item-list-render 
 yt-live-chat-paid-message-renderer {
@@ -42,4 +44,4 @@ yt-live-chat-paid-sticker-renderer {
 yt-live-chat-item-list-render 
 yt-live-chat-membership-item-renderer {
     display: none !important;
-}
+} */
