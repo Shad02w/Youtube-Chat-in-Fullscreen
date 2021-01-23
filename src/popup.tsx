@@ -66,6 +66,7 @@ const useStyle = makeStyles({
 const App: React.FC = () => {
     const [isExtEnable, setExtEnable] = useState<boolean>(false)
     const [isReady, setReady] = useState<boolean>(false)
+    const [isNative, setNative] = useState<boolean>(false)
     const [storageReset, setStorageReset] = useState<boolean>(false)
 
     const classes = useStyle()
@@ -73,14 +74,20 @@ const App: React.FC = () => {
     const storageListener = (changes: { [key: string]: chrome.storage.StorageChange }) => {
         if (changes['on'])
             setExtEnable(changes['on'].newValue)
+        if (changes['native'])
+            setNative(changes['native'].newValue)
     }
 
     useEffect(() => {
-        chrome.storage.local.get(['on'], (result) => {
+
+        chrome.storage.local.get(null, (result) => {
             if (result['on'] !== undefined) {
                 setExtEnable(result['on'] as boolean)
-                setReady(true)
             }
+            if (result['native'] !== undefined) {
+                setNative(result['native'] as boolean)
+            }
+            setReady(true)
         })
 
         chrome.storage.onChanged.addListener(storageListener)
@@ -119,6 +126,21 @@ const App: React.FC = () => {
                             </article>
                             <MySwitch checked={isExtEnable}
                                 onChange={() => chrome.storage.local.set({ on: !isExtEnable })} />
+                        </article>
+                        <article className={classes.part}>
+                            <article>
+                                <Typography className={classes.partName}
+                                    variant='body1'
+                                    color='textSecondary'>
+                                    Native Mode
+                                </Typography>
+                                <Typography style={{ fontSize: '0.8rem' }}
+                                    variant='subtitle2'
+                                    color='textSecondary'>Refresh
+                                    is needed</Typography>
+                            </article>
+                            <MySwitch checked={isNative}
+                                onChange={() => chrome.storage.local.set({ native: !isNative })} />
                         </article>
                         <article className={classes.part}>
                             <article>

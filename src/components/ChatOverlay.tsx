@@ -11,6 +11,7 @@ import { Moving } from './Moving'
 import { useCtrlAltHotKey } from './hooks/useHotkeys'
 import { ReformedChat } from './ReformedChat'
 import { AppContext } from '@contexts/AppContext'
+import { NativeChat } from './NativeChat'
 
 interface StyleProps {
     opacity: number,
@@ -68,7 +69,7 @@ export const ChatOverlay: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null)
 
     const { storage, storageDispatch } = useContext(StorageContext)
-    const { opacity, top, left, blur, width, height, backgroundColor: bgColor, color } = storage
+    const { opacity, top, left, blur, width, height, backgroundColor: bgColor, color, native } = storage
     const { showOverlay } = useContext(AppContext)
 
     const classes = useStyles({ opacity, top, left, blur, width, height, bgColor, color })
@@ -102,14 +103,19 @@ export const ChatOverlay: React.FC = () => {
         <div
             ref={containerRef}
             className={`${classes.wrapper} ${showOverlay ? classes.show : classes.hidden} ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}>
-            <ChatContextProvider>
-                {
-                    movable ?
-                        <Moving className={classes.chatList} />
-                        :
-                        <ReformedChat className={classes.chatList} />
-                }
-            </ChatContextProvider>
+            {
+                native ?
+                    <NativeChat />
+                    :
+                    <ChatContextProvider>
+                        {
+                            movable ?
+                                <Moving className={classes.chatList} />
+                                :
+                                <ReformedChat className={classes.chatList} />
+                        }
+                    </ChatContextProvider>
+            }
             <ToolBar className={classes.control}
                 movableTriggerId={id}
             />
