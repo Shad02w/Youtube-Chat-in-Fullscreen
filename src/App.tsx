@@ -1,6 +1,7 @@
 import React from 'react'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import './css/App.css'
+import './css/NativeChatFilter.css'
 import { ChatOverlay } from '@components/ChatOverlay'
 import { StorageContextProvider } from '@contexts/StorageContext'
 import { ContentScriptWindow } from '@models/Window';

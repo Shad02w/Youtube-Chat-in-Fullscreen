@@ -101,6 +101,7 @@ export const ChatOverlay: React.FC = () => {
 
     return (
         <div
+            id={'_ytcf-container'}
             ref={containerRef}
             className={`${classes.wrapper} ${showOverlay ? classes.show : classes.hidden} ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}>
             {

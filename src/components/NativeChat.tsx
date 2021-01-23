@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { AppContext } from '@contexts/AppContext'
 import { usePageType } from '@hooks/usePageType'
 import { useFullscreenState } from '@hooks/useFullscreenState'
+import { useNativeChatFilter } from '@hooks/useNativeChatFilter'
+import { Fullscreen } from '@material-ui/icons'
 
 
 const useStyles = makeStyles({
@@ -13,6 +15,7 @@ const useStyles = makeStyles({
         height: '100%'
     }
 })
+
 
 export const NativeChat = () => {
 
@@ -23,9 +26,11 @@ export const NativeChat = () => {
     const [location, setLocation] = useState<Location | undefined>(undefined)
     const [url, setUrl] = useState<string | undefined>(undefined)
     const { setShowOverlay } = useContext(AppContext)
+    const iframeRef = useRef<HTMLIFrameElement | null>(null)
 
     const locationRef = useRef(location)
     locationRef.current = location
+
 
     useEffect(() => {
         if ((pageType !== 'init-live-chat' && pageType !== 'live-chat') || !locationRef.current) return setUrl(undefined)
@@ -35,12 +40,19 @@ export const NativeChat = () => {
         setUrl(`https://www.youtube.com/live_chat?v=${vid}`)
     }, [pageType])
 
+    useEffect(() => {
+        if (!url || !isFullscreen) setShowOverlay(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [url, isFullscreen])
+
+    // Add and remove hidden class according to chat filter in storage
+    useNativeChatFilter(iframeRef)
+
     useUrl((loc) => {
         setLocation(loc)
         setUrl(undefined)
         setShowOverlay(false)
     })
-
 
     const handleOnLoad = () => {
         setShowOverlay(true)
@@ -54,6 +66,7 @@ export const NativeChat = () => {
                     onLoad={handleOnLoad}
                     className={styles.iframe}
                     src={url}
+                    ref={iframeRef}
                     title={'Native chat room'}
                 ></iframe>
             </div>
