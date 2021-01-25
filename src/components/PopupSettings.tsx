@@ -14,13 +14,12 @@ const useStyles = makeStyles(theme => createStyles({
         position: 'absolute',
         boxSizing: 'border-box',
         width: `calc(100% - ${theme.spacing(1)}* 2px)`,
+        maxWidth: '320px',
         backgroundColor: '#212121',
-        padding: theme.spacing(0.6),
+        padding: theme.spacing(1),
         bottom: '50px',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        left: 0,
-        right: 0
+        // marginLeft: 'auto',
+        right: theme.spacing(1)
     },
     title: {
         position: 'absolute',
@@ -40,7 +39,7 @@ export const PopupSettings: React.FC<PopupSettingsProps> = ({ show, onClose }) =
             onExit={onClose}
             in={show}
             direction='up'
-            timeout={450}
+            timeout={350}
         >
             <Paper
                 className={classes.container}
@@ -69,7 +68,7 @@ export const PopupSettings: React.FC<PopupSettingsProps> = ({ show, onClose }) =
                     </IconButton>
                 </Box>
                 <Box>
-                    {/* <FilterSettings /> */}
+                    <FilterSettings />
                 </Box>
             </Paper>
         </Slide>
