@@ -10,12 +10,15 @@ import { useBackgroundMessage } from '@hooks/useBackgroundMessage'
 import { PageType } from '@models/Request'
 import { useUrl } from '@hooks/useUrl'
 import { useChatBox } from '@hooks/useChatBox'
+import { ChatFilter } from '@models/ChatFilter'
 
 declare const window: ContentScriptWindow
 
 export interface ChatState {
     pageType: PageType | undefined
     chatActions: AdvancedChatLiveActions
+    chatFilter: ChatFilter
+    setChatFilter: React.Dispatch<React.SetStateAction<ChatFilter>>
     freezeChatQueue(value: boolean): void
 }
 
@@ -26,12 +29,22 @@ const popAllCachedMessage = () => {
 }
 
 export const ChatContext = createContext<ChatState>({} as ChatState)
+const ChatFilter_Default: ChatFilter = {
+    guest: true,
+    member: true,
+    moderator: true,
+    owner: true,
+    sticker: true,
+    superchat: true,
+    membership: true
+}
 
 
 export const ChatContextProvider: React.FC = ({ children }) => {
 
 
     const [maxChatList] = useState<number>(70)
+    const [chatFilter, setChatFilter] = useState<ChatFilter>(ChatFilter_Default)
     const { chatActions: fetchedChatActions } = useLiveChatActions()
     const [pageType, setPageType] = useState<PageType>('normal')
 
@@ -46,6 +59,7 @@ export const ChatContextProvider: React.FC = ({ children }) => {
         resetChatList()
         resetChatQueue()
         freezeChatQueue(false)
+        setChatFilter(ChatFilter_Default)
         window.messages.clear()
     }, [resetChatQueue, resetChatList, freezeChatQueue])
 
@@ -79,7 +93,7 @@ export const ChatContextProvider: React.FC = ({ children }) => {
 
 
     return (
-        <ChatContext.Provider value={{ pageType, chatActions, freezeChatQueue }}>
+        <ChatContext.Provider value={{ pageType, chatActions, freezeChatQueue, chatFilter, setChatFilter }}>
             {children}
         </ChatContext.Provider>
     )
