@@ -9,6 +9,15 @@ export interface ChatFilter {
     guest: boolean
     sticker: boolean
 }
+export const ChatFilter_Default: ChatFilter = {
+    guest: true,
+    member: true,
+    superchat: true,
+    owner: true,
+    membership: true,
+    moderator: true,
+    sticker: true
+}
 
 export const checkBadgeType = (badges: YTLiveChat.AuthorBadge[] | undefined, type: YTLiveChat.IconType) => {
     return (badges

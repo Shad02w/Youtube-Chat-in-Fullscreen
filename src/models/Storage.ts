@@ -42,15 +42,7 @@ export const StoragePreset: StorageItems = {
     show: true,
     backgroundColor: { r: 20, g: 20, b: 20 },
     color: { r: 255, g: 255, b: 255 },
-    chatFilter: {
-        guest: true,
-        member: true,
-        superchat: true,
-        owner: true,
-        membership: true,
-        moderator: true,
-        sticker: true
-    },
+    chatFilter: ChatFilter_Default,
     separateLine: false,
     native: false
 }
