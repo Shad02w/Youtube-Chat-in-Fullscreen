@@ -1,5 +1,5 @@
 import { RgbColor } from 'react-colorful'
-import { ChatFilter } from '@models/ChatFilter'
+import { ChatFilter, ChatFilter_Default } from '@models/ChatFilter'
 
 
 interface StyleStorageItem {
