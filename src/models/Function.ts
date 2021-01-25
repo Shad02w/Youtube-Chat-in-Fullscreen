@@ -40,9 +40,6 @@ export const FillWithPresetValueWhenNotExist = <T extends object, U extends keyo
         else if (typeof target[key] === 'object') {
             target[key] = FillWithPresetValueWhenNotExist(target[key], newValue[key] as {},) as T[U]
         }
-        else if (target[key]) {
-            console.log(`have this key ${key}`, target[key])
-        }
     }
     return target
 
