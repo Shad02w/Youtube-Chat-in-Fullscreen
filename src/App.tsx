@@ -9,6 +9,11 @@ import { ThemeColor } from '@models/Color'
 import { AppContextProvider } from '@contexts/AppContext'
 
 const theme = createMuiTheme({
+    typography: {
+        h5: {
+            fontSize: '1.6rem'
+        }
+    },
     palette: {
         type: 'dark',
         primary: {
