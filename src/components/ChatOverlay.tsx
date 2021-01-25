@@ -48,15 +48,9 @@ const useStyles = makeStyles({
     show: {
         display: 'grid',
         resize: 'both',
-        padding: 10,
         minHeight: MinHeight,
         minWidth: MinWidth,
         height: props => props.height,
-    },
-    control: {
-        position: 'absolute',
-        top: 0,
-        right: 0
     },
     chatList: {
         gridArea: 'chat'
@@ -101,7 +95,6 @@ export const ChatOverlay: React.FC = () => {
 
     return (
         <div
-            id={'_ytcf-container'}
             ref={containerRef}
             className={`${classes.wrapper} ${showOverlay ? classes.show : classes.hidden} ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}>
             {
@@ -117,7 +110,7 @@ export const ChatOverlay: React.FC = () => {
                         }
                     </ChatContextProvider>
             }
-            <ToolBar className={classes.control}
+            <ToolBar
                 movableTriggerId={id}
             />
         </div >

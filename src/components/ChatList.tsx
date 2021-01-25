@@ -142,7 +142,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
         return (
             <>
                 <div
-                    style={{ paddingTop: 50 }}
+                    style={{ paddingTop: 10 }}
                     ref={listRef}>
                     {list}
                 </div>
@@ -161,6 +161,10 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
             maxHeight={'100%'}
             overflow='hidden'
             position='relative'
+            pt={1.5}
+            pl={1}
+            pr={1}
+            pb={0.3}
         >
             <div
                 onWheel={onWheelListener}
