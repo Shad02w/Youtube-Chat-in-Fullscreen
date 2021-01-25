@@ -1,4 +1,5 @@
 import { LiveChatResponse } from '@models/Fetch';
+import { StorageItems, StoragePreset } from './Storage';
 
 
 export function debounce(wait: number, callback: Function) {
@@ -29,4 +30,20 @@ export function FindObjectByKeyRecursively(obj: LiveChatResponse, targetKey: str
             if (r !== undefined) return r
         }
     return undefined
+}
+
+export const FillWithPresetValueWhenNotExist = <T extends object, U extends keyof T>(oldValue: T, newValue: T): T => {
+    const keys = Object.keys(newValue) as U[]
+    const target = Object.assign({}, oldValue) as T
+    for (const key of keys) {
+        if (target[key] === undefined) target[key] = newValue[key]
+        else if (typeof target[key] === 'object') {
+            target[key] = FillWithPresetValueWhenNotExist(target[key], newValue[key] as {},) as T[U]
+        }
+        else if (target[key]) {
+            console.log(`have this key ${key}`, target[key])
+        }
+    }
+    return target
+
 }

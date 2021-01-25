@@ -1,5 +1,8 @@
 import { CatchedLiveChatRequestMessage, getPageType } from './models/Request'
 import { PresetStoreageWhenNotExist } from '@models/StorageChrome'
+import { StoragePreset } from '@models/Storage'
+import chromep from 'chrome-promise'
+import { FillWithPresetValueWhenNotExist } from '@models/Function'
 
 type MessagesStore = CatchedLiveChatRequestMessage[]
 
@@ -120,7 +123,12 @@ function removeListeners() {
 }
 
 //Run when extension just installed and reloaded
-chrome.runtime.onInstalled.addListener(PresetStoreageWhenNotExist)
+chrome.runtime.onInstalled.addListener(async () => {
+    const preset = StoragePreset
+    const oldStorageItems = await chromep.storage.local.get(null)
+    const updatedStorageItem = FillWithPresetValueWhenNotExist(oldStorageItems, preset)
+    await chromep.storage.local.set(updatedStorageItem)
+})
 
 // Get the variable 'on' in storage to check whether the extension is on or not
 chrome.storage.local.get(['on'], (result) => {
