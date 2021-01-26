@@ -1,5 +1,4 @@
 import { CatchedLiveChatRequestMessage, getPageType } from './models/Request'
-import { PresetStoreageWhenNotExist } from '@models/StorageChrome'
 import { StoragePreset } from '@models/Storage'
 import chromep from 'chrome-promise'
 import { FillWithPresetValueWhenNotExist } from '@models/Function'

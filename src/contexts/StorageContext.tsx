@@ -1,8 +1,9 @@
-import { PresetStoreageWhenNotExist } from '@models/StorageChrome'
 import React, { createContext, useEffect, useReducer } from 'react'
 import { RgbColor } from 'react-colorful'
 import { StorageItems, StoragePreset } from '@models/Storage'
 import { ChatFilter } from '@models/ChatFilter'
+import chromep from 'chrome-promise'
+import { FillWithPresetValueWhenNotExist } from '@models/Function'
 
 
 type StorageContextReducerActions =
@@ -126,10 +127,9 @@ export const StorageContextProvider: React.FC = ({ children }) => {
     const [storage, storageDispatch] = useReducer(storageContextReducer, StoragePreset)
 
     useEffect(() => {
-        PresetStoreageWhenNotExist().then(items => {
-            if (!items) return
-            storageDispatch({ type: 'setStorageToLocalContext', items })
-        })
+        chromep.storage.local.get(null)
+            .then(current => FillWithPresetValueWhenNotExist(current, StoragePreset) as StorageItems)
+            .then(items => storageDispatch({ type: 'setStorageToLocalContext', items }))
     }, [])
 
     return (
