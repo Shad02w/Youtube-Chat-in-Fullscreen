@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react'
+import React, { useEffect, useRef, useMemo, useState, useLayoutEffect } from 'react'
 import { useChatListItemStyle } from '@/styles/ChatListItem.style'
 import { LiveChatTextMessage } from '@components/LiveChatTextMessage'
 import { LiveChatPaidMessage } from '@components/LiveChatPaidMessage'
@@ -94,7 +94,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
     const scrollBarStyles = useScrollBarStyle()
     const liveChatTextMessageClasses = useChatListItemStyle({ opacitySC, separateLine })
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!containerRef.current) return
         const el = containerRef.current
         requestAnimationFrame(() => {
