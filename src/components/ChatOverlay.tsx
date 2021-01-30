@@ -1,10 +1,8 @@
-import React, { useRef, useContext } from 'react'
+import React, { useContext, useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import { Color, MinHeight, MinWidth } from '../models/Storage'
 import { StorageContext } from '../contexts/StorageContext'
-import { useMovable } from './hooks/useMovable'
-import { useResizable } from './hooks/useResizable'
 import { ChatContextProvider } from '../contexts/ChatContext'
 import { ToolBar } from './Toolbar'
 import { Moving } from './Moving'
@@ -12,27 +10,21 @@ import { useCtrlAltHotKey } from './hooks/useHotkeys'
 import { ReformedChat } from './ReformedChat'
 import { AppContext } from '@contexts/AppContext'
 import { NativeChat } from './NativeChat'
+import { Position } from '@models/Interact'
+import { Dragable, DragEndCallbackValue } from './Dragable'
+import { Resizable, ResizeCallbackValue, ResizeEndCallbackValue, ResizeStartCallbackValue } from './Resizeable'
 
 interface StyleProps {
     opacity: number,
-    top: number,
-    left: number,
     blur: number
-    width: number,
-    height: number
     color: Color
     bgColor: Color
 }
 
 const useStyles = makeStyles({
     wrapper: {
-        width: props => props.width,
-        position: 'absolute',
-        left: props => props.left,
-        top: (props: StyleProps) => props.top,
         overflow: 'hidden',
-        //TODO: change background using setting modal
-        color: ({ color }) => `rgb(${color.r}, ${color.g}, ${color.r})`,
+        color: ({ color }: StyleProps) => `rgb(${color.r}, ${color.g}, ${color.r})`,
         background: ({ opacity, bgColor }) => `rgba(${bgColor.r}, ${bgColor.g}, ${bgColor.b}, ${opacity})`,
         gridTemplateRows: '1fr',
         gridTemplateAreas: '"chat"',
@@ -43,14 +35,16 @@ const useStyles = makeStyles({
         backdropFilter: props => (props.blur > 0) ? `blur(${props.blur}px)` : 'none',
     },
     hidden: {
-        height: '0 !important',
+        // height: '0 !important',
+        display: 'none',
     },
     show: {
+        display: 'block',
+    },
+    resizable: {
         display: 'grid',
-        resize: 'both',
         minHeight: MinHeight,
         minWidth: MinWidth,
-        height: props => props.height,
     },
     chatList: {
         gridArea: 'chat'
@@ -60,60 +54,75 @@ const useStyles = makeStyles({
 
 export const ChatOverlay: React.FC = () => {
 
-    const containerRef = useRef<HTMLDivElement>(null)
 
     const { storage, storageDispatch } = useContext(StorageContext)
-    const { opacity, top, left, blur, width, height, backgroundColor: bgColor, color, native } = storage
+    const { opacity, size: { width, height }, position, blur, backgroundColor: bgColor, color, native } = storage
     const { showOverlay } = useContext(AppContext)
 
-    const classes = useStyles({ opacity, top, left, blur, width, height, bgColor, color })
+    const classes = useStyles({ opacity, blur, bgColor, color })
+    const id = 'triggerIdForChatOverlay'
+    const [movable, setMovable] = useState(false)
+    const [resizalbePosition, setResizeablePosition] = useState<Partial<Position>>({ top: 0, left: 0 })
 
-    const { id, movable } = useMovable(containerRef, onMoveEnd)
-    useResizable(containerRef, onResizeEnd)
     useCtrlAltHotKey('c', onHotkeyPressed)
-
-
-    function onMoveEnd() {
-        if (!containerRef.current) return
-        const t = parseInt(containerRef.current.style.top)
-        const l = parseInt(containerRef.current.style.left)
-        if (!t || !l) return
-        storageDispatch({ type: 'changeOverlayPosition', position: { top: t, left: l } })
-    }
-
-    function onResizeEnd() {
-        if (!containerRef.current) return
-        const w = parseInt(containerRef.current.style.width)
-        const h = parseInt(containerRef.current.style.height)
-        if (!w || !h) return
-        storageDispatch({ type: 'changeOverlaySize', size: { width: w, height: h } })
-    }
 
     function onHotkeyPressed() {
         storageDispatch({ type: 'toggleOverlay' })
     }
 
-    return (
-        <div
-            ref={containerRef}
-            className={`${classes.wrapper} ${showOverlay ? classes.show : classes.hidden} ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}>
-            {
-                native ?
-                    <NativeChat />
-                    :
-                    <ChatContextProvider>
-                        {
-                            movable ?
-                                <Moving className={classes.chatList} />
-                                :
-                                <ReformedChat className={classes.chatList} />
-                        }
-                    </ChatContextProvider>
-            }
-            <ToolBar
-                movableTriggerId={id}
-            />
-        </div >
-    )
+    const handleDragEnd = (value?: DragEndCallbackValue) => {
+        setMovable(false)
+        if (!value) return
+        storageDispatch({ type: 'changeOverlayPosition', position: { top: value.top, left: value.left } })
+    }
 
+    const handleResizeStart = (value: ResizeStartCallbackValue) => {
+        setResizeablePosition(value.position)
+    }
+
+    const handleResize = (value: ResizeCallbackValue) => {
+        storageDispatch({ type: 'changeOverlaySize', size: value.size })
+    }
+
+    const handleResizeEnd = (value: ResizeEndCallbackValue) => {
+        storageDispatch({ type: 'changeOverlaySize', size: value.size })
+        setResizeablePosition(value.position)
+    }
+
+    return (
+        <Dragable
+            top={position.top}
+            left={position.left}
+            triggerId={id}
+            onDragStart={() => setMovable(true)}
+            onDragEnd={handleDragEnd}
+            className={`${showOverlay ? classes.show : classes.hidden}`}
+        >
+            <Resizable
+                size={{ width, height }}
+                position={resizalbePosition}
+                className={`${classes.wrapper} ${classes.resizable}  ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}
+                onResizeStart={handleResizeStart}
+                onResize={handleResize}
+                onResizeEnd={handleResizeEnd}
+            >
+                {
+                    native ?
+                        <NativeChat />
+                        :
+                        <ChatContextProvider>
+                            {
+                                movable ?
+                                    <Moving className={classes.chatList} />
+                                    :
+                                    <ReformedChat className={classes.chatList} />
+                            }
+                        </ChatContextProvider>
+                }
+                <ToolBar
+                    movableTriggerId={id}
+                />
+            </Resizable >
+        </Dragable>
+    )
 }

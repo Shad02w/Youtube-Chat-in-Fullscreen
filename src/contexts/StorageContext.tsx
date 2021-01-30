@@ -4,6 +4,7 @@ import { StorageItems, StoragePreset } from '@models/Storage'
 import { ChatFilter } from '@models/ChatFilter'
 import chromep from 'chrome-promise'
 import { FillWithPresetValueWhenNotExist } from '@models/Function'
+import { Size, Position } from '@models/Interact'
 
 
 type StorageContextReducerActions =
@@ -11,10 +12,10 @@ type StorageContextReducerActions =
         type: 'changeFontSize', fontSize: number
     } |
     {
-        type: 'changeOverlaySize', size: { width: number, height: number }
+        type: 'changeOverlaySize', size: Size
     } |
     {
-        type: 'changeOverlayPosition', position: { top: number, left: number }
+        type: 'changeOverlayPosition', position: Partial<Position>
     } |
     {
         type: 'changeOpacity', opacity: number
@@ -73,13 +74,11 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
             chrome.storage.local.set({ 'opacitySC': action.opacitySC })
             return { ...preState, opacitySC: action.opacitySC }
         case 'changeOverlayPosition':
-            chrome.storage.local.set({ 'top': action.position.top })
-            chrome.storage.local.set({ 'left': action.position.left })
-            return { ...preState, top: action.position.top, left: action.position.left }
+            chrome.storage.local.set({ 'position': action.position })
+            return { ...preState, position: action.position }
         case 'changeOverlaySize':
-            chrome.storage.local.set({ 'width': action.size.width })
-            chrome.storage.local.set({ 'height': action.size.height })
-            return { ...preState, width: action.size.width, height: action.size.height }
+            chrome.storage.local.set({ 'size': action.size })
+            return { ...preState, size: { width: action.size.width, height: action.size.height } }
         case 'changeBackgroundBlur':
             chrome.storage.local.set({ 'blur': action.blur })
             return { ...preState, blur: action.blur }
@@ -87,7 +86,7 @@ const storageContextReducer: React.Reducer<StorageItems, StorageContextReducerAc
             chrome.storage.local.set({ 'show': !preState.show })
             return { ...preState, show: !preState.show }
         case 'setStorageToLocalContext':
-            return { ...preState, ...action.items }
+            return { ...action.items }
         case 'changeBackgroundColor':
             chrome.storage.local.set({ 'backgroundColor': action.backgroundColor })
             return { ...preState, backgroundColor: action.backgroundColor }
