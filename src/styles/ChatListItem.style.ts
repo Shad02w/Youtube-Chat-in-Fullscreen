@@ -94,4 +94,9 @@ export const useChatListItemStyle = makeStyles(theme => createStyles({
     message: {
         wordBreak: 'break-word'
     },
+    sticker: {
+        width: '7em',
+        height: '7em',
+        padding: '0.8em'
+    }
 }))

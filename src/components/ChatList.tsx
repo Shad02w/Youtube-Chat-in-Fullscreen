@@ -11,6 +11,7 @@ import { AdvancedChatLiveActions } from '@models/Chat'
 import { useFullscreenState } from '@hooks/useFullscreenState';
 import { useScrollBarStyle } from '@/styles/Scrollbar.style'
 import { ChatFilter, shouldBeFiltered } from '@models/ChatFilter'
+import { LiveChatPaidStickerRenderer } from './LiveChatPaidStickerRenderer'
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     chatActions: AdvancedChatLiveActions,
@@ -120,7 +121,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
             list = chatActions
                 .filter(action => shouldBeFiltered(action, chatFilter))
                 .map(action => {
-                    const { liveChatMembershipItemRenderer, liveChatTextMessageRenderer, liveChatPaidMessageRenderer } = action.addChatItemAction!.item
+                    const { liveChatMembershipItemRenderer, liveChatTextMessageRenderer, liveChatPaidMessageRenderer, liveChatPaidStickerRenderer } = action.addChatItemAction!.item
                     if (liveChatTextMessageRenderer)
                         return <LiveChatTextMessage key={action.uuid}
                             renderer={liveChatTextMessageRenderer}
@@ -132,6 +133,10 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
                     else if (liveChatMembershipItemRenderer)
                         return <LiveChatMembershipItem key={action.uuid}
                             renderer={liveChatMembershipItemRenderer}
+                            classes={liveChatTextMessageClasses} />
+                    else if (liveChatPaidStickerRenderer)
+                        return <LiveChatPaidStickerRenderer key={action.uuid}
+                            renderer={liveChatPaidStickerRenderer}
                             classes={liveChatTextMessageClasses} />
                     else
                         return <React.Fragment key={action.uuid} />

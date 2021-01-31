@@ -80,6 +80,7 @@ declare namespace YTLiveChat {
         liveChatTextMessageRenderer?: LiveChatTextMessageRenderer
         liveChatPaidMessageRenderer?: LiveChatPaidMessageRenderer
         liveChatMembershipItemRenderer?: LiveChatMembershipItemRenderer
+        liveChatPaidStickerRenderer?: LiveChatPaidStickerRenderer
     }
 
     export interface ReplayLiveAction {
@@ -238,6 +239,15 @@ declare namespace YTLiveChat {
         renderer: Renderer;
     }
 
+    export interface Sticker {
+        thumbnails: Thumbnail[]
+    }
+
+    export interface TickerThumbnails {
+        thumbnails: Thumbnail[]
+        accessibilty: Accessibility
+    }
+
     export interface Renderer {
         liveChatMembershipItemRenderer: LiveChatRenderer;
     }
@@ -276,6 +286,27 @@ declare namespace YTLiveChat {
         timestampColor: number
         message?: Message
     }
+    export interface LiveChatPaidStickerRenderer extends LiveChatRenderer {
+        sticker: Sticker
+        moneyChipBackgroundColor: number,
+        moneyChipTextColor: number,
+        purchaseAmountText: Text,
+        stickerDisplayWidth: number,
+        stickerDisplayHeight: number,
+        backgroundColor: number,
+        authorNameTextColor: number
+
+    }
+
+    export interface LiveChatTickerPaidStickerItemRenderer extends LiveChatRenderer {
+        startBackgroundColor: number
+        endbackgroundColor: number
+        durationSec: number,
+        fullDurationSec: number,
+        showItemEndpoint: ShowItemEndpoint
+        tickerTumbnails: Thumbnail[]
+    }
+
 
 
 
