@@ -262,5 +262,79 @@ export const paidDummyData = [
                 }
             }
         }
+    },
+    {
+        "addChatItemAction": {
+            "item": {
+                "liveChatPaidStickerRenderer": {
+                    "id": "ChwKGkNOWHluZDd4dnU0Q0Zjd0RyUVlkQkw4SHd3",
+                    "contextMenuEndpoint": {
+                        "commandMetadata": {
+                            "webCommandMetadata": {
+                                "ignoreNavigation": true
+                            }
+                        },
+                        "liveChatItemContextMenuEndpoint": {
+                            "params": "Q2g0S0hBb2FRMDVZZVc1a04zaDJkVFJEUm1OM1JISlJXV1JDVERoSWQzY1FBQm80R2cwS0MxbFRUR28zUlZSWFRVMU5LaWNLR0ZWRE1XOXdTRlZ5ZHpoeWRtNXpZV1JVTFdsSGNEZERaeElMV1ZOTWFqZEZWRmROVFUwZ0FTZ0VNaG9LR0ZWRFIzQmFhVGcyTFcxdmVqWkpkRTVJY1VSWFFuUlBRUSUzRCUzRA=="
+                        }
+                    },
+                    "contextMenuAccessibility": {
+                        "accessibilityData": {
+                            "label": "Comment actions"
+                        }
+                    },
+                    "timestampUsec": "1611845876265852",
+                    "authorPhoto": {
+                        "thumbnails": [
+                            {
+                                "url": "https://yt3.ggpht.com/ytc/AAUvwnhnrqgQJgFUbR9plwDnabK6QIQN73GdAqr-VXu7=s32-c-k-c0x00ffffff-no-rj",
+                                "width": 32,
+                                "height": 32
+                            },
+                            {
+                                "url": "https://yt3.ggpht.com/ytc/AAUvwnhnrqgQJgFUbR9plwDnabK6QIQN73GdAqr-VXu7=s64-c-k-c0x00ffffff-no-rj",
+                                "width": 64,
+                                "height": 64
+                            }
+                        ]
+                    },
+                    "authorName": {
+                        "simpleText": "ご飯ができたよ、厶ーちゃんとあくあお姉"
+                    },
+                    "authorExternalChannelId": "UCGpZi86-moz6ItNHqDWBtOA",
+                    "timestampText": {
+                        "simpleText": "1:54:40"
+                    },
+                    "sticker": {
+                        "thumbnails": [
+                            {
+                                "url": "//lh3.googleusercontent.com/oUIeg07YsvEuUcF7wOg6U3o1dOCANoBWuF1DYr2jGPFOyQ-bEFRiFm-6gU3urJPaX_AqtZgsNpGb0KNimA=s104-rwa",
+                                "width": 104,
+                                "height": 104
+                            },
+                            {
+                                "url": "//lh3.googleusercontent.com/oUIeg07YsvEuUcF7wOg6U3o1dOCANoBWuF1DYr2jGPFOyQ-bEFRiFm-6gU3urJPaX_AqtZgsNpGb0KNimA=s208-rwa",
+                                "width": 208,
+                                "height": 208
+                            }
+                        ],
+                        "accessibility": {
+                            "accessibilityData": {
+                                "label": "Pear character flying in the air with a red cape and a smile on his face"
+                            }
+                        }
+                    },
+                    "moneyChipBackgroundColor": 4294953512,
+                    "moneyChipTextColor": 3741319168,
+                    "purchaseAmountText": {
+                        "simpleText": "HK$50.00"
+                    },
+                    "stickerDisplayWidth": 104,
+                    "stickerDisplayHeight": 104,
+                    "backgroundColor": 4294947584,
+                    "authorNameTextColor": 2315255808
+                }
+            }
+        }
     }
 ]

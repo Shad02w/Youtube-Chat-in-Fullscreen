@@ -11,11 +11,12 @@ import { MySlider } from '../components/MySlider'
 import { MyButton } from '../components/MyButton'
 import { Done } from '@material-ui/icons'
 import { MySwitch } from '../components/MySwitch'
+import { LiveChatPaidStickerRenderer } from '@components/LiveChatPaidStickerRenderer'
 
 const useStyles = makeStyles(theme => createStyles({
     container: {
         fontFamily: `'Noto Sans JP', sans-serif`,
-        width: 350,
+        width: 460,
         height: 600,
         padding: 10,
         fontSize: (props: { fontSize: number }) => `${props.fontSize}px`
@@ -25,7 +26,7 @@ const useStyles = makeStyles(theme => createStyles({
 
 
 const App: React.FC = () => {
-    const [fontSize, setFontSize] = useState<number>(16)
+    const [fontSize, setFontSize] = useState<number>(13)
     const [checked, setCheck] = useState<boolean>(false)
     const data = paidDummyData as YTLiveChat.LiveAction[]
     const classes = useChatListItemStyle({ opacitySC: 1, separateLine: false })
@@ -38,7 +39,7 @@ const App: React.FC = () => {
             <div className={containerClasses.container}>
                 {
                     data.map((action, i) => {
-                        const { liveChatPaidMessageRenderer, liveChatTextMessageRenderer, liveChatMembershipItemRenderer } = action.addChatItemAction!.item
+                        const { liveChatPaidMessageRenderer, liveChatTextMessageRenderer, liveChatMembershipItemRenderer, liveChatPaidStickerRenderer } = action.addChatItemAction!.item
                         if (liveChatPaidMessageRenderer)
                             return <LiveChatPaidMessage key={i}
                                 renderer={liveChatPaidMessageRenderer}
@@ -50,6 +51,10 @@ const App: React.FC = () => {
                         else if (liveChatMembershipItemRenderer)
                             return <LiveChatMembershipItem key={i}
                                 renderer={liveChatMembershipItemRenderer}
+                                classes={classes} />
+                        else if (liveChatPaidStickerRenderer)
+                            return <LiveChatPaidStickerRenderer
+                                renderer={liveChatPaidStickerRenderer}
                                 classes={classes} />
                         else
                             return <React.Fragment key={i} />
