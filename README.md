@@ -94,6 +94,7 @@ v2.0
   - Much intuitive resizing method
   - Do not have annoying toolbar to block the content
 - Chat filter for each video page
+- Added Super Sticker Support
 
 ## Screenshot
 
