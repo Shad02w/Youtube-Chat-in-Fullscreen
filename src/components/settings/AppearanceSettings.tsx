@@ -8,8 +8,7 @@ import { MenuItem } from '@components/ui-components/MenuItem';
 import { StorageContext } from '@contexts/StorageContext';
 import { RgbColorPicker } from 'react-colorful';
 import { Color } from '@models/Storage';
-// import 'react-colorful/dist/index.css';
-// import '@css/colorful.css';
+import '@css/colorful.css';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -71,7 +70,7 @@ export const AppearanceSettings: React.FC = () => {
     };
 
     return (
-        <div className={classes.container}>
+        <div className={classes.container} id="y-settings-modal-appearance-tab">
             <Box>
                 <Typography gutterBottom color="textPrimary" variant="h4">
                     Font Size
