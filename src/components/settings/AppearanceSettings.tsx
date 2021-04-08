@@ -8,8 +8,8 @@ import { MenuItem } from '@components/ui-components/MenuItem';
 import { StorageContext } from '@contexts/StorageContext';
 import { RgbColorPicker } from 'react-colorful';
 import { Color } from '@models/Storage';
-import 'react-colorful/dist/index.css';
-import '@css/colorful.css';
+// import 'react-colorful/dist/index.css';
+// import '@css/colorful.css';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
