@@ -10,7 +10,7 @@ import { Container } from '@material-ui/core';
 import { Slider } from '../components/ui-components/Slider';
 import { Button } from '../components/ui-components/Button';
 import { Done } from '@material-ui/icons';
-import { MySwitch } from '../components/MySwitch';
+import { Switch } from '../components/ui-components/Switch';
 import { LiveChatPaidStickerRenderer } from '@components/LiveChatPaidStickerRenderer';
 
 const useStyles = makeStyles((theme) =>
@@ -73,7 +73,7 @@ const App: React.FC = () => {
             <Button startIcon={<Done />} variant="contained" color="primary" size="large">
                 Done
             </Button>
-            <MySwitch checked={checked} onClick={() => setCheck((pre) => !pre)} />
+            <Switch checked={checked} onClick={() => setCheck((pre) => !pre)} />
         </>
     );
 };
