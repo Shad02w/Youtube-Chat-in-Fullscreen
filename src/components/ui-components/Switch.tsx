@@ -1,8 +1,8 @@
-import {withStyles} from '@material-ui/core/styles'
-import {Switch} from '@material-ui/core'
-import {ThemeColor} from "../models/Color";
+import { withStyles } from '@material-ui/core/styles';
+import MUISwitch from '@material-ui/core/Switch';
+import { ThemeColor } from '../../models/Color';
 
-export const MySwitch = withStyles({
+export const Switch = withStyles({
     switchBase: {
         color: `#${ThemeColor[100]}`,
         '&$checked': {
@@ -14,5 +14,4 @@ export const MySwitch = withStyles({
     },
     checked: {},
     track: {},
-})(Switch)
-
+})(MUISwitch);
