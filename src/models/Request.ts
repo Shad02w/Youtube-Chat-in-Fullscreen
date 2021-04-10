@@ -7,7 +7,7 @@ export interface RequestHeader {
     value: string
 }
 
-export interface CatchedLiveChatRequestMessage {
+export interface CaughtLiveChatRequestMessage {
     details: chrome.webRequest.WebRequestDetails
     requestBody?: JSON
     requestHeaders?: chrome.webRequest.HttpHeader[]

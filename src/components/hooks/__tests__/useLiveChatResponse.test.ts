@@ -1,6 +1,6 @@
 import { cleanupWindowMessages, setupChrome, setupWindowMessage } from '@/jest-setup'
 import { useLiveChatResponse } from '@hooks/useLiveChatResponse'
-import { CatchedLiveChatRequestMessage } from '@models/Request'
+import { CaughtLiveChatRequestMessage } from '@models/Request'
 import { act } from '@testing-library/react'
 import { renderHook, cleanup } from '@testing-library/react-hooks'
 import { chrome } from 'jest-chrome'
@@ -26,7 +26,7 @@ describe('useLiveChatResponse hook testing', () => {
         renderHook(() => useLiveChatResponse(effectMockFn))
         expect(effectMockFn).toBeCalledTimes(0)
         act(() => {
-            const message = { type: 'init-live-chat', details: { url: 'url' } } as CatchedLiveChatRequestMessage
+            const message = { type: 'init-live-chat', details: { url: 'url' } } as CaughtLiveChatRequestMessage
             chrome.runtime.onMessage.callListeners(message, {}, () => {})
         })
         expect(effectMockFn).toBeCalledTimes(0)
@@ -37,7 +37,7 @@ describe('useLiveChatResponse hook testing', () => {
         renderHook(() => useLiveChatResponse(effectMockFn))
         expect(effectMockFn).toBeCalledTimes(0)
         act(() => {
-            const message = { type: 'normal', details: {} } as CatchedLiveChatRequestMessage
+            const message = { type: 'normal', details: {} } as CaughtLiveChatRequestMessage
             chrome.runtime.onMessage.callListeners(message, {}, () => {})
         })
         expect(effectMockFn).toBeCalledTimes(0)
@@ -51,7 +51,7 @@ describe('useLiveChatResponse hook testing', () => {
         renderHook(() => useLiveChatResponse(effectMockFn))
         expect(effectMockFn).toBeCalledTimes(0)
         act(() => {
-            const message = { type: 'live-chat', details: { url: 'url' } } as CatchedLiveChatRequestMessage
+            const message = { type: 'live-chat', details: { url: 'url' } } as CaughtLiveChatRequestMessage
             chrome.runtime.onMessage.callListeners(message, {}, () => {})
         })
         expect(effectMockFn).toBeCalledTimes(0)
@@ -66,7 +66,7 @@ describe('useLiveChatResponse hook testing', () => {
         renderHook(() => useLiveChatResponse(effectMockFn))
         expect(effectMockFn).toBeCalledTimes(0)
         await act(async () => {
-            const message = { type: 'live-chat', details: { url: 'url' } } as CatchedLiveChatRequestMessage
+            const message = { type: 'live-chat', details: { url: 'url' } } as CaughtLiveChatRequestMessage
             chrome.runtime.onMessage.callListeners(message, {}, () => {})
         })
 

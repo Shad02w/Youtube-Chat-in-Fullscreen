@@ -1,7 +1,7 @@
 import { cleanup, renderHook, act } from '@testing-library/react-hooks'
 import { cleanupWindowMessages, setupChrome, setupWindowMessage } from '@/jest-setup'
 import { chrome } from 'jest-chrome'
-import { CatchedLiveChatRequestMessage, PageType } from '@models/Request'
+import { CaughtLiveChatRequestMessage, PageType } from '@models/Request'
 import axios from 'axios'
 import { useLiveChatActions } from '@hooks/useLiveChatActions'
 import * as Player from '@models/Player'
@@ -33,7 +33,7 @@ const testCases = async (pageType: PageType, channel: ChannelType) => {
     const { result } = renderHook(() => useLiveChatActions())
     expect(result.current.chatActions).toStrictEqual([])
 
-    const message = { type: pageType, details: { url: 'url' } } as CatchedLiveChatRequestMessage
+    const message = { type: pageType, details: { url: 'url' } } as CaughtLiveChatRequestMessage
 
     // live-chat and replay-live-chat fetch data from internet
     if (pageType === 'live-chat' || pageType === 'replay-live-chat')

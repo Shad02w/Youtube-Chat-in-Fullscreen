@@ -1,13 +1,13 @@
-import { CatchedLiveChatRequestMessage, getPageType } from './models/Request'
+import { CaughtLiveChatRequestMessage, getPageType } from './models/Request'
 import { StoragePreset } from '@models/Storage'
 import chromep from 'chrome-promise'
 import { FillWithPresetValueWhenNotExist } from '@models/Function'
 
-type MessagesStore = CatchedLiveChatRequestMessage[]
+type MessagesStore = CaughtLiveChatRequestMessage[]
 
 const createMessageMap = () => {
     let messageStore: MessagesStore = []
-    const add = (requestId: string, message: CatchedLiveChatRequestMessage) => {
+    const add = (requestId: string, message: CaughtLiveChatRequestMessage) => {
         if (messageStore.some(m => m.details.requestId === requestId)) return
         messageStore.push(message)
     }
@@ -56,7 +56,7 @@ function liveChatRequestListener(details: chrome.webRequest.WebResponseCacheDeta
             runAt: 'document_idle',
         },
         () => {
-            const message: CatchedLiveChatRequestMessage = {
+            const message: CaughtLiveChatRequestMessage = {
                 details,
                 type: getPageType(details.url),
             }

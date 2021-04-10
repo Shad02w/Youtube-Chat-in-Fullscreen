@@ -3,11 +3,10 @@ import { useInitLiveChatResponse } from '@hooks/useInitLiveChatResponse'
 import { ContentScriptWindow } from '@models/Window'
 import { cleanupWindowMessages, setupChrome, setupWindowMessage } from '@/jest-setup'
 import { chrome } from 'jest-chrome'
-import { CatchedLiveChatRequestMessage } from '@models/Request'
+import { CaughtLiveChatRequestMessage } from '@models/Request'
 import { PostMessageType } from '@models/PostMessage'
 
 declare const window: ContentScriptWindow
-declare const global: { chrome: typeof chrome }
 
 describe('useInitLiveChatResponse custom effect hook testing', () => {
     beforeAll(() => {
@@ -28,7 +27,7 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
         cleanup()
     })
 
-    test('Should not run effect callback if there are no init response web requset captured', () => {
+    test('Should not run effect callback if there are no init response web request captured', () => {
         const mockFn = jest.fn()
         renderHook(() => useInitLiveChatResponse(mockFn))
         expect(mockFn).toBeCalledTimes(0)
@@ -44,13 +43,13 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
         }
         window.addEventListener('message', messageListener)
         act(() => {
-            chrome.runtime.onMessage.callListeners({ type: 'init-live-chat' } as CatchedLiveChatRequestMessage, {}, () => {})
+            chrome.runtime.onMessage.callListeners({ type: 'init-live-chat' } as CaughtLiveChatRequestMessage, {}, () => {})
             jest.runAllTimers()
         })
     })
 
     test('Should not run effect callback when pageType "normal" in message', async () => {
-        const message = { type: 'normal', details: {} } as CatchedLiveChatRequestMessage
+        const message = { type: 'normal', details: {} } as CaughtLiveChatRequestMessage
         const mockFn = jest.fn()
         renderHook(() => useInitLiveChatResponse(mockFn))
         expect(mockFn).toBeCalledTimes(0)
@@ -65,7 +64,7 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
         const effectMock = jest.fn()
         const { waitFor } = renderHook(() => useInitLiveChatResponse(effectMock))
         const responseMessage: PostMessageType = { type: 'response', response: { message: 'this is init response' } }
-        const webRequestMessage = { type: 'init-live-chat', details: {} } as CatchedLiveChatRequestMessage
+        const webRequestMessage = { type: 'init-live-chat', details: {} } as CaughtLiveChatRequestMessage
 
         await act(async () => {
             chrome.runtime.onMessage.callListeners(webRequestMessage, {}, () => {})
@@ -82,7 +81,7 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
     test('Should not call effect when the page type is not "init" from background message', async () => {
         const effecFn = jest.fn()
         const { waitFor } = renderHook(() => useInitLiveChatResponse(effecFn))
-        const message = { type: 'live-chat' } as CatchedLiveChatRequestMessage
+        const message = { type: 'live-chat' } as CaughtLiveChatRequestMessage
         await act(async () => {
             chrome.runtime.onMessage.callListeners(message, {}, () => {})
             window.postMessage({ type: 'response', response: { message: 'hi' } } as PostMessageType, '*')
