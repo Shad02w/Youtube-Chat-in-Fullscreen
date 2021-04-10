@@ -1,7 +1,6 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from 'react'
 
 export const useUrl = (onChange: (location: Location) => any) => {
-
     const previousehref = useRef('')
     const onChangeRef = useRef(onChange)
     onChangeRef.current = onChange

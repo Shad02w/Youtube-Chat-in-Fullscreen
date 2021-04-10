@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 
 export const useElementStatus = (id: string) => {
@@ -17,4 +16,3 @@ export const useElementStatus = (id: string) => {
 
     return { ready }
 }
-

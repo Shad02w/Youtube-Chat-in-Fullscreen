@@ -1,5 +1,5 @@
 import { YTPlayerState } from '@models/Player'
-import { JSON2Datastring, Datastring2JSON } from '@models/Datastring';
+import { JSON2Datastring, Datastring2JSON } from '@models/Datastring'
 
 export const InterceptedDataElementId_PlayerState = '__Intercepted_data_element_id_yt_player'
 
@@ -10,10 +10,8 @@ export interface InterceptElement<T> {
     element: HTMLElement
     mount(): void
     set(data: T): void
-    get(): T,
+    get(): T
 }
-
-
 
 export const createInterceptElement = <T>(id: string, initValue: T): InterceptElement<T> => {
     const interceptedElement = document.createElement('div')
@@ -23,7 +21,6 @@ export const createInterceptElement = <T>(id: string, initValue: T): InterceptEl
     interceptedElement.setAttribute('data-testid', testId)
     setInterceptElementContent(initValue, interceptedElement)
 
-
     return {
         element: interceptedElement,
         mount: () => mountInterceptElement(interceptedElement),
@@ -32,7 +29,6 @@ export const createInterceptElement = <T>(id: string, initValue: T): InterceptEl
     }
 }
 
-
-export const setInterceptElementContent = <T>(content: T, el: HTMLElement) => el.textContent = JSON2Datastring(content)
+export const setInterceptElementContent = <T>(content: T, el: HTMLElement) => (el.textContent = JSON2Datastring(content))
 export const getInterceptElementContent = <T>(el: HTMLElement): T => Datastring2JSON(el.textContent!)
 export const mountInterceptElement = (el: HTMLElement) => document.body.appendChild(el)

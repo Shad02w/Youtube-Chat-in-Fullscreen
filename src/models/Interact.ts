@@ -1,6 +1,5 @@
-
 export interface Distance {
-    x: number,
+    x: number
     y: number
 }
 
@@ -11,8 +10,8 @@ export interface Size {
     height: number
 }
 export interface Position {
-    top: number,
-    bottom: number,
+    top: number
+    bottom: number
     left: number
     right: number
 }

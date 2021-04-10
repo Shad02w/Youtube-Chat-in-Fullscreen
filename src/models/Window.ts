@@ -1,10 +1,7 @@
-import { Messages } from "./Event";
+import { Messages } from './Event'
 
 export interface ContentScriptWindow extends Window {
-    injectHasRun: boolean,
+    injectHasRun: boolean
     ready: boolean
     messages: Messages
 }
-
-
-

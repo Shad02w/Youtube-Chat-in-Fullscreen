@@ -1,5 +1,3 @@
-
-
 export const isScrollUpDetectorCreator = (threshold: number) => {
     // skip for first 'UP', then comfirm next turn
     let scrollHeight_last: number = -1
@@ -7,7 +5,7 @@ export const isScrollUpDetectorCreator = (threshold: number) => {
     return (scrollTop: number, clientHeight: number, scrollHeight: number): boolean => {
         let result: boolean
 
-        // determine current scroll data 
+        // determine current scroll data
         const sum = scrollTop + clientHeight
         const isScrollUp = Math.abs(sum - scrollHeight) > threshold
         const equalToScrollHeight_last = Math.abs(sum - scrollHeight_last) < threshold

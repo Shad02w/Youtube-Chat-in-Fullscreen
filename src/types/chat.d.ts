@@ -1,29 +1,29 @@
 declare namespace YTLiveChat {
     export interface Response {
-        responseContext: ResponseContext;
-        continuationContents: ContinuationContents;
+        responseContext: ResponseContext
+        continuationContents: ContinuationContents
     }
 
     /**
      * Response Context
      */
     export interface ResponseContext {
-        serviceTrackingParams: ServiceTrackingParam[];
-        webResponseContextExtensionData: webResponseContextExtensionData;
+        serviceTrackingParams: ServiceTrackingParam[]
+        webResponseContextExtensionData: webResponseContextExtensionData
     }
 
     export interface ServiceTrackingParam {
-        service: string;
-        params: { key: string; value: string }[];
+        service: string
+        params: { key: string; value: string }[]
     }
 
     export interface webResponseContextExtensionData {
         ytConfigData?: {
-            csn: string;
-            visitorData: string;
-            sessionIndex: number;
-        };
-        hasDecorated?: boolean;
+            csn: string
+            visitorData: string
+            sessionIndex: number
+        }
+        hasDecorated?: boolean
     }
 
     /**
@@ -31,261 +31,261 @@ declare namespace YTLiveChat {
      */
     export interface ContinuationContents {
         liveChatContinuation: {
-            continuations: Continuation[];
-            actions?: Action[];
-            trackingParams?: string;
-        };
+            continuations: Continuation[]
+            actions?: Action[]
+            trackingParams?: string
+        }
     }
 
     export interface Continuation {
         /**Can be either one, don't know why */
 
         // only return when the video page is replay live streaming page
-        liveChatReplayContinuationData?: LiveChatReplayContinuationData;
+        liveChatReplayContinuationData?: LiveChatReplayContinuationData
 
-        playerSeekContinuationData?: PlayerSeekContinuationData;
+        playerSeekContinuationData?: PlayerSeekContinuationData
 
-        invalidationContinuationData?: InvalidationContinuationData;
+        invalidationContinuationData?: InvalidationContinuationData
 
         // only return when the video page is live streaming page
-        timedContinuationData?: TimedContinuationData;
+        timedContinuationData?: TimedContinuationData
     }
 
-    export type Action = LiveAction | ReplayLiveAction;
+    export type Action = LiveAction | ReplayLiveAction
 
     export interface LiveAction {
         addChatItemAction?: {
-            item: AddChatActionItemActionItem;
-            clientId: string;
-        };
+            item: AddChatActionItemActionItem
+            clientId: string
+        }
 
         addLiveChatTickerItemAction?: {
-            item: AddLiveChatTickerItemActionItem;
-            durationSec: string;
-        };
+            item: AddLiveChatTickerItemActionItem
+            durationSec: string
+        }
         markChatItemAsDeletedAction?: {
             deletedStateMessage: {
-                runs: MessageRun[];
-            };
-        };
+                runs: MessageRun[]
+            }
+        }
     }
 
     export interface AddChatActionItemActionItem {
-        liveChatPlaceholderItemRenderer?: LiveChatPlaceholderItemRenderer;
-        liveChatTextMessageRenderer?: LiveChatTextMessageRenderer;
-        liveChatPaidMessageRenderer?: LiveChatPaidMessageRenderer;
-        liveChatMembershipItemRenderer?: LiveChatMembershipItemRenderer;
-        liveChatPaidStickerRenderer?: LiveChatPaidStickerRenderer;
+        liveChatPlaceholderItemRenderer?: LiveChatPlaceholderItemRenderer
+        liveChatTextMessageRenderer?: LiveChatTextMessageRenderer
+        liveChatPaidMessageRenderer?: LiveChatPaidMessageRenderer
+        liveChatMembershipItemRenderer?: LiveChatMembershipItemRenderer
+        liveChatPaidStickerRenderer?: LiveChatPaidStickerRenderer
     }
 
     export interface ReplayLiveAction {
         replayChatItemAction: {
-            actions: LiveAction[];
-            videoOffsetTimeMsec: string;
-        };
+            actions: LiveAction[]
+            videoOffsetTimeMsec: string
+        }
     }
 
     export interface InvalidationContinuationData extends ContinuationData {
-        invalidationId: InvalidationId;
+        invalidationId: InvalidationId
     }
 
     export interface LiveChatReplayContinuationData {
-        timeUntilLastMessageMsec: number;
-        continuation: string;
+        timeUntilLastMessageMsec: number
+        continuation: string
     }
 
     export interface TimedContinuationData extends ContinuationData {
-        clickTrackingParams: string;
+        clickTrackingParams: string
     }
 
     export interface Text {
-        simpleText: string;
+        simpleText: string
     }
 
     export interface AuthorName extends Text {}
     export interface AuthorPhoto {
-        thumbnails: Thumbnail[];
+        thumbnails: Thumbnail[]
     }
 
     export interface Thumbnail {
-        url: string;
-        height?: number;
-        width?: number;
+        url: string
+        height?: number
+        width?: number
     }
-    type IconType = 'MODERATOR' | 'VERIFIED' | 'OWNER';
+    type IconType = 'MODERATOR' | 'VERIFIED' | 'OWNER'
 
     export interface CommandMetadata {
         webCommandMetadata: {
-            ignoreNavigation: boolean;
-        };
+            ignoreNavigation: boolean
+        }
     }
 
     export interface ContextMenuEndpoint {
-        clickTrackingParams?: string;
-        commandMetadata: CommandMetadata;
+        clickTrackingParams?: string
+        commandMetadata: CommandMetadata
         liveChatItemContextMenuEndpoint: {
-            params: string;
-        };
+            params: string
+        }
     }
 
     export interface AuthorBadge {
         liveChatAuthorBadgeRenderer: {
             customThumbnail?: {
-                thumbnails: Thumbnail[];
-            };
+                thumbnails: Thumbnail[]
+            }
             icon?: {
                 // iconType: string
-                iconType: IconType;
-            };
-            tooltip: string;
+                iconType: IconType
+            }
+            tooltip: string
             accessibility: {
-                accessibilityData: AccessibilityData;
-            };
-        };
+                accessibilityData: AccessibilityData
+            }
+        }
     }
 
     export interface ContextMenuAccessibility extends Accessibility {}
 
     interface ContinuationData {
-        continuation: string;
-        timeoutMs: number;
+        continuation: string
+        timeoutMs: number
     }
 
     interface InvalidationId {
-        objectId: string;
-        objectSource: number;
-        protoCreationTimestampMs: string;
-        subscribeToGcmTopics: boolean;
-        topic: string;
+        objectId: string
+        objectSource: number
+        protoCreationTimestampMs: string
+        subscribeToGcmTopics: boolean
+        topic: string
     }
 
     interface PlayerSeekContinuationData {
-        continuation: string;
+        continuation: string
     }
 
     interface MessageRun {
-        text?: string;
-        emoji?: Emoji;
+        text?: string
+        emoji?: Emoji
     }
 
     interface Message {
-        runs: MessageRun[];
+        runs: MessageRun[]
     }
 
     interface AccessibilityData {
-        label: string;
+        label: string
     }
 
     interface Accessibility {
-        accessibilityData: AccessibilityData;
+        accessibilityData: AccessibilityData
     }
 
     interface LiveChatPlaceholderItemRenderer {
-        id: string;
-        timestampUsec: string;
+        id: string
+        timestampUsec: string
     }
 
     export interface Emoji {
-        emojiId: string;
-        shortcuts: string[];
-        searchTerms: string[];
-        image: Image;
-        isCustomEmoji: boolean;
+        emojiId: string
+        shortcuts: string[]
+        searchTerms: string[]
+        image: Image
+        isCustomEmoji: boolean
     }
 
     export interface Image {
-        thumbnails: Thumbnail[];
-        accessibility: Accessibility;
+        thumbnails: Thumbnail[]
+        accessibility: Accessibility
     }
 
     export interface AddLiveChatTickerItemActionItem {
-        liveChatTickerSponsorItemRenderer: LiveChatTickerSponsorItemRenderer;
+        liveChatTickerSponsorItemRenderer: LiveChatTickerSponsorItemRenderer
     }
 
     export interface LiveChatTickerSponsorItemRenderer {
-        id: string;
-        detailText: Text;
-        detailTextColor: number;
-        startBackgroundColor: number;
-        endBackgroundColor: number;
-        durationSec: number;
-        showItemEndpoint: ShowItemEndpoint;
-        authorExternalChannelId: string;
-        fullDurationSec: number;
-        sponsorPhoto: OrPhoto;
+        id: string
+        detailText: Text
+        detailTextColor: number
+        startBackgroundColor: number
+        endBackgroundColor: number
+        durationSec: number
+        showItemEndpoint: ShowItemEndpoint
+        authorExternalChannelId: string
+        fullDurationSec: number
+        sponsorPhoto: OrPhoto
     }
 
     export interface ShowItemEndpoint {
-        showLiveChatItemEndpoint: ShowLiveChatItemEndpoint;
-        commandMetadata: CommandMetadata;
+        showLiveChatItemEndpoint: ShowLiveChatItemEndpoint
+        commandMetadata: CommandMetadata
     }
 
     export interface ShowLiveChatItemEndpoint {
-        renderer: Renderer;
+        renderer: Renderer
     }
 
     export interface Sticker {
-        thumbnails: Thumbnail[];
+        thumbnails: Thumbnail[]
     }
 
     export interface TickerThumbnails {
-        thumbnails: Thumbnail[];
-        accessibility: Accessibility;
+        thumbnails: Thumbnail[]
+        accessibility: Accessibility
     }
 
     export interface Renderer {
-        liveChatMembershipItemRenderer: LiveChatRenderer;
+        liveChatMembershipItemRenderer: LiveChatRenderer
     }
 
     export interface LiveChatRenderer {
-        id: string;
-        timestampUsec: string;
-        authorExternalChannelId: string;
-        authorName: AuthorName;
-        authorPhoto: AuthorPhoto;
-        timestampText: Text;
-        contextMenuEndpoint: ContextMenuEndpoint;
-        contextMenuAccessibility: ContextMenuAccessibility;
+        id: string
+        timestampUsec: string
+        authorExternalChannelId: string
+        authorName: AuthorName
+        authorPhoto: AuthorPhoto
+        timestampText: Text
+        contextMenuEndpoint: ContextMenuEndpoint
+        contextMenuAccessibility: ContextMenuAccessibility
         // authorPhoto: OrPhoto;
     }
 
     export interface LiveChatMembershipItemRenderer extends LiveChatRenderer {
-        headerSubtext: Message;
-        authorBadges: AuthorBadge[];
+        headerSubtext: Message
+        authorBadges: AuthorBadge[]
     }
 
     export interface LiveChatTextMessageRenderer extends LiveChatRenderer {
-        message: Message;
-        authorBadges?: AuthorBadge[];
+        message: Message
+        authorBadges?: AuthorBadge[]
     }
 
     export interface LiveChatPaidMessageRenderer extends LiveChatRenderer {
-        purchaseAmountText: Text;
-        headerBackgroundColor: number;
-        headerTextColor: number;
-        bodyBackgroundColor: number;
-        bodyTextColor: number;
-        authorNameTextColor: number;
-        timestampColor: number;
-        message?: Message;
+        purchaseAmountText: Text
+        headerBackgroundColor: number
+        headerTextColor: number
+        bodyBackgroundColor: number
+        bodyTextColor: number
+        authorNameTextColor: number
+        timestampColor: number
+        message?: Message
     }
     export interface LiveChatPaidStickerRenderer extends LiveChatRenderer {
-        sticker: Sticker;
-        moneyChipBackgroundColor: number;
-        moneyChipTextColor: number;
-        purchaseAmountText: Text;
-        stickerDisplayWidth: number;
-        stickerDisplayHeight: number;
-        backgroundColor: number;
-        authorNameTextColor: number;
+        sticker: Sticker
+        moneyChipBackgroundColor: number
+        moneyChipTextColor: number
+        purchaseAmountText: Text
+        stickerDisplayWidth: number
+        stickerDisplayHeight: number
+        backgroundColor: number
+        authorNameTextColor: number
     }
 
     export interface LiveChatTickerPaidStickerItemRenderer extends LiveChatRenderer {
-        startBackgroundColor: number;
-        endBackgroundColor: number;
-        durationSec: number;
-        fullDurationSec: number;
-        showItemEndpoint: ShowItemEndpoint;
-        tickerThumbnail: Thumbnail[];
+        startBackgroundColor: number
+        endBackgroundColor: number
+        durationSec: number
+        fullDurationSec: number
+        showItemEndpoint: ShowItemEndpoint
+        tickerThumbnail: Thumbnail[]
     }
 }

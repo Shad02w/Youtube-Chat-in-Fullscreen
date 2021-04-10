@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-
 const forbiddenRequestHeaders = [
     // from w3c spec :https://fetch.spec.whatwg.org/#forbidden-header-name
     `Accept-Charset`,
@@ -30,7 +29,9 @@ const forbiddenRequestHeaders = [
     // Added
 ]
 
-export interface LiveChatResponse { [key: string]: any }
+export interface LiveChatResponse {
+    [key: string]: any
+}
 
 export const createHeadersObject = (requestHeaders: chrome.webRequest.HttpHeader[] | undefined) => {
     if (!requestHeaders) return undefined
@@ -42,9 +43,12 @@ export const createHeadersObject = (requestHeaders: chrome.webRequest.HttpHeader
     return headers
 }
 
-
 /* Replay the get_live_chat* xhr request to get the response */
-export async function FetchData(url: string, requestBody?: JSON, requestHeaders?: chrome.webRequest.HttpHeader[]): Promise<LiveChatResponse | undefined> {
+export async function FetchData(
+    url: string,
+    requestBody?: JSON,
+    requestHeaders?: chrome.webRequest.HttpHeader[]
+): Promise<LiveChatResponse | undefined> {
     // The request either be get or post
     // The type of return response can change overtime
     let data: LiveChatResponse
@@ -54,19 +58,15 @@ export async function FetchData(url: string, requestBody?: JSON, requestHeaders?
             data = res.data as LiveChatResponse
         } else {
             const headers = createHeadersObject(requestHeaders)
-            const res = await axios.post(url,
-                requestBody,
-                {
-                    responseType: 'json',
-                    headers: (headers) ? headers : {}
-                })
+            const res = await axios.post(url, requestBody, {
+                responseType: 'json',
+                headers: headers ? headers : {},
+            })
             data = res.data as LiveChatResponse
         }
     } catch (error) {
-        if (error.response)
-            console.error(error.response.data)
-        else
-            console.error(error)
+        if (error.response) console.error(error.response.data)
+        else console.error(error)
         return undefined
     }
     return data

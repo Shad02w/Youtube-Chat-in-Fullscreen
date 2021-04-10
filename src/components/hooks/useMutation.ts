@@ -1,7 +1,7 @@
 /**
  * This hook will monitor the existence of a element
  */
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 
 export type GetElementCallback<K> = <T extends any[]>(...args: T) => K | undefined
 
@@ -10,7 +10,6 @@ export const useMutation = function <T>(finder: GetElementCallback<T>) {
     const [target, setTarget] = useState<T | undefined>(finder())
 
     useEffect(() => {
-
         const found = finder()
         if (found) {
             setExist(true)
@@ -29,7 +28,6 @@ export const useMutation = function <T>(finder: GetElementCallback<T>) {
         observer.observe(document.body, { childList: true, subtree: true })
         return () => observer.disconnect()
     }, [finder])
-
 
     return { exist, target }
 }

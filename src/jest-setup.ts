@@ -1,6 +1,6 @@
-import { ContentScriptWindow } from "@models/Window"
-import { Messages } from '@models/Event';
-import { chrome } from 'jest-chrome';
+import { ContentScriptWindow } from '@models/Window'
+import { Messages } from '@models/Event'
+import { chrome } from 'jest-chrome'
 
 declare const window: ContentScriptWindow
 declare const global: { chrome: typeof chrome }
@@ -8,8 +8,7 @@ declare const global: { chrome: typeof chrome }
 export const setupWindowMessage = () => {
     Object.defineProperty(window, 'messages', {
         writable: true,
-        value: new Messages([])
-
+        value: new Messages([]),
     })
 }
 
@@ -19,7 +18,6 @@ export const cleanupWindowMessages = () => {
 
 export const setupChrome = () => {
     Object.defineProperty(global, 'chrome', {
-        value: chrome
+        value: chrome,
     })
 }
-

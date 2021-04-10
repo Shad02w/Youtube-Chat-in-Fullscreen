@@ -9,7 +9,6 @@ declare const window: ContentScriptWindow
 declare const global: { chrome: typeof chrome }
 
 describe('useBackgroundMessageEffect hook', () => {
-
     Object.defineProperty(global, 'chrome', { value: chrome })
     Object.defineProperty(window, 'messages', {
         value: new Messages([]),
@@ -37,19 +36,15 @@ describe('useBackgroundMessageEffect hook', () => {
         expect(effectFunction.mock.results[0].value).toStrictEqual(message)
     })
 
-
-
     test('Should call effect callback when messsage from background script is released', () => {
         const effectFunction = jest.fn()
         const message = { messsge: 'hello' }
         renderHook(() => useBackgroundMessage(effectFunction))
 
         act(() => {
-            chrome.runtime.onMessage.callListeners(message, {}, () => { })
+            chrome.runtime.onMessage.callListeners(message, {}, () => {})
         })
 
         expect(effectFunction).toBeCalled()
-
     })
-
 })

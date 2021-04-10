@@ -4,7 +4,6 @@ import { cleanup, act, renderHook } from '@testing-library/react-hooks'
 import { waitFor } from '@testing-library/react'
 
 describe('Testing for useChatBox hook', () => {
-
     afterEach(async () => {
         await cleanup()
         document.body.textContent = ''
@@ -40,5 +39,4 @@ describe('Testing for useChatBox hook', () => {
             expect(result.current.expanded).toBeFalsy()
         })
     })
-
 })

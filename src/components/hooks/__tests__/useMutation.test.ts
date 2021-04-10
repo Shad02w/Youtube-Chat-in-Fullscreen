@@ -7,7 +7,7 @@ describe('Testing for useMutation hook', () => {
 
     const getElementCallback = () => {
         const el = document.getElementById(elId)
-        return (el) ? el : undefined
+        return el ? el : undefined
     }
 
     const createElement = () => {
@@ -65,7 +65,5 @@ describe('Testing for useMutation hook', () => {
             expect(result.current.exist).toBeTruthy()
             expect(result.current.target?.id).toEqual(elId)
         })
-
     })
-
 })

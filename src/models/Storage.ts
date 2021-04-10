@@ -2,33 +2,31 @@ import { RgbColor } from 'react-colorful'
 import { ChatFilter, ChatFilter_Default } from '@models/ChatFilter'
 import { Position, Size } from './Interact'
 
-
 interface StyleStorageItem {
     // top: number,
     // left: number,
     // width: number,
     // height: number,
-    opacity: number,
-    opacitySC: number,
-    fontSize: number,
-    blur: number,
-    show: boolean,
+    opacity: number
+    opacitySC: number
+    fontSize: number
+    blur: number
+    show: boolean
     backgroundColor: Color
     color: Color
     chatFilter: ChatFilter
-    separateLine: boolean,
+    separateLine: boolean
     native: boolean
     size: Size
     position: Partial<Position>
 }
 
 interface AppStorageItem {
-    on: boolean,
+    on: boolean
 }
 
 export type StorageItems = AppStorageItem & StyleStorageItem
 export type Color = RgbColor
-
 
 export type storageChanges<T> = { [K in keyof T]: chrome.storage.StorageChange }
 
@@ -46,12 +44,12 @@ export const StoragePreset: StorageItems = {
     native: false,
     size: {
         width: 400,
-        height: 500
+        height: 500,
     },
     position: {
         top: 50,
-        left: 50
-    }
+        left: 50,
+    },
 }
 
 export const MinHeight = 70

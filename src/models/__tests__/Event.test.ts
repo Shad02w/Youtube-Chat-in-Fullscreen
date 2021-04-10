@@ -1,8 +1,7 @@
-import { Messages } from "@models/Event"
-import { CatchedLiveChatRequestMessage } from "@models/Request"
+import { Messages } from '@models/Event'
+import { CatchedLiveChatRequestMessage } from '@models/Request'
 
 declare const window: Window & { messages: Messages }
-
 
 describe('MessageEvent test', () => {
     const message1 = { type: 'init-live-chat', details: { frameId: 1 } } as CatchedLiveChatRequestMessage
@@ -23,10 +22,8 @@ describe('MessageEvent test', () => {
         expect(window.messages.list[window.messages.list.length - 1]).toStrictEqual(message3)
     })
 
-
     test('Should dispatch a "release" event when pop a message from a non-empty message list', () => {
-        const mockListener = jest.fn()
-            .mockImplementation((message: CustomEvent<CatchedLiveChatRequestMessage>) => message.detail)
+        const mockListener = jest.fn().mockImplementation((message: CustomEvent<CatchedLiveChatRequestMessage>) => message.detail)
         window.messages.addEventListener('release', mockListener)
 
         expect(window.messages.list.length).not.toBe(0)
@@ -49,7 +46,6 @@ describe('MessageEvent test', () => {
 
         expect(mockListener).toBeCalledTimes(0)
         expect(poped).toBeUndefined()
-
     })
 
     test('Call popAll() should dispatch multiple "release" events which according to length of messages list', () => {
@@ -64,8 +60,4 @@ describe('MessageEvent test', () => {
         window.messages.clear()
         expect(window.messages.list.length).toBe(0)
     })
-
-
-
-
 })

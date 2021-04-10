@@ -1,7 +1,6 @@
 import { FillWithPresetValueWhenNotExist } from '@models/Function'
 
 describe('Funtions testing', () => {
-
     test('Object should key the old value, and set new value if the key is missing', () => {
         const oldValue = {
             a: 1,
@@ -9,9 +8,9 @@ describe('Funtions testing', () => {
             d: {
                 f: 3,
                 person: {
-                    name: 'ccy'
-                }
-            }
+                    name: 'ccy',
+                },
+            },
         }
 
         const newValue = {
@@ -22,10 +21,9 @@ describe('Funtions testing', () => {
                 e: 4,
                 person: {
                     name: 'fyy',
-                    age: 20
-
-                }
-            }
+                    age: 20,
+                },
+            },
         }
 
         const expected = {
@@ -36,13 +34,11 @@ describe('Funtions testing', () => {
                 e: 4,
                 person: {
                     name: 'ccy',
-                    age: 20
-                }
-            }
+                    age: 20,
+                },
+            },
         }
 
         expect(FillWithPresetValueWhenNotExist(oldValue, newValue)).toStrictEqual(expected)
-
     })
-
 })

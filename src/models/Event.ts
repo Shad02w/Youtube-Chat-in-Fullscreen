@@ -1,4 +1,4 @@
-import { CatchedLiveChatRequestMessage } from '@models/Request';
+import { CatchedLiveChatRequestMessage } from '@models/Request'
 
 export class Messages extends EventTarget {
     private _list: CatchedLiveChatRequestMessage[]
@@ -18,13 +18,18 @@ export class Messages extends EventTarget {
 
     pop(): CatchedLiveChatRequestMessage | undefined {
         const poped = this._list.shift()
-        if (poped) this.dispatchEvent(new CustomEvent<CatchedLiveChatRequestMessage>('release', { detail: Object.assign({}, poped) }))
+        if (poped)
+            this.dispatchEvent(
+                new CustomEvent<CatchedLiveChatRequestMessage>('release', { detail: Object.assign({}, poped) })
+            )
         return poped
     }
 
     popAll() {
-        this._list.forEach((message) => {
-            this.dispatchEvent(new CustomEvent<CatchedLiveChatRequestMessage>('release', { detail: Object.assign({}, message) }))
+        this._list.forEach(message => {
+            this.dispatchEvent(
+                new CustomEvent<CatchedLiveChatRequestMessage>('release', { detail: Object.assign({}, message) })
+            )
         })
         this._list = []
     }
@@ -41,4 +46,3 @@ export class Messages extends EventTarget {
         super.removeEventListener(name, listener)
     }
 }
-
