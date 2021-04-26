@@ -3,17 +3,16 @@ export type ChatType = 'live-chat' | 'replay-live-chat' | 'init-live-chat' | 'in
 export type PageType = ChatType | 'normal'
 
 export interface RequestHeader {
-    name: string,
+    name: string
     value: string
 }
 
-export interface CatchedLiveChatRequestMessage {
+export interface CaughtLiveChatRequestMessage {
     details: chrome.webRequest.WebRequestDetails
     requestBody?: JSON
     requestHeaders?: chrome.webRequest.HttpHeader[]
     type: PageType
 }
-
 
 export const getPageType = (url: string): PageType => {
     const pathname = parse(url).pathname

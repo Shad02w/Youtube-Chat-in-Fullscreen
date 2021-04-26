@@ -4,6 +4,7 @@ import { LiveChatMessageStyleType } from '../styles/ChatListItem.style'
 import { AndroidColorToRgba, rgbaToRgbaString } from '../models/Color'
 import '../css/App.css'
 import { Message } from './Message'
+import { PaidCardHeader } from './PaidCardHeader'
 
 
 
@@ -28,31 +29,14 @@ export const LiveChatPaidMessage: React.FC<LiveChatPaidMessageProps> = ({ render
         <Paper elevation={2}
             className={classes.card}
             style={bodyStyle} >
-            <article className={classes.cardHeader}
-                style={headerStyle}>
-                <article className={classes.cardHeaderImageContainer}>
-                    <img
-                        className={`${classes.authorImage} ${classes.cardHeaderImage}`}
-                        src={renderer.authorPhoto.thumbnails[1].url}
-                        alt="author icon" />
-                </article>
-                <article>
-                    {/*Author name*/}
-                    <div
-                        style={{
-                            color: rgbaToRgbaString(AndroidColorToRgba(renderer.authorNameTextColor))
-                        }}
-                        className={`${classes.bold} ${classes.cardHeaderAuthorName}`}
-                    >
-                        {renderer.authorName.simpleText}
-                    </div>
-                    {/*Price*/}
-                    <div
-                        className={`${classes.bold} ${classes.cardHeaderHighlight}`}>
-                        {renderer.purchaseAmountText.simpleText}
-                    </div>
-                </article>
-            </article>
+            <PaidCardHeader
+                style={headerStyle}
+                classes={classes}
+                authorName={renderer.authorName}
+                authorPhoto={renderer.authorPhoto}
+                authorNameTextColor={renderer.authorNameTextColor}
+                purchaseAmountText={renderer.purchaseAmountText}
+            />
             {
                 renderer.message
                     ?

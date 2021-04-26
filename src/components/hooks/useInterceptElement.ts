@@ -1,6 +1,6 @@
-import { getInterceptElementContent } from "@models/Intercept"
-import { useEffect, useState } from "react"
-import { useElementStatus } from "./useElementState"
+import { getInterceptElementContent } from '@models/Intercept'
+import { useEffect, useState } from 'react'
+import { useElementStatus } from './useElementState'
 
 export const useInterceptElement = <T>(id: string, defaultValue: T) => {
     const { ready } = useElementStatus(id)
@@ -20,4 +20,3 @@ export const useInterceptElement = <T>(id: string, defaultValue: T) => {
 
     return { data }
 }
-

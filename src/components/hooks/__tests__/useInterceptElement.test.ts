@@ -1,7 +1,7 @@
-import { useInterceptElement } from "@hooks/useInterceptElement"
-import { createInterceptElement } from "@models/Intercept"
-import '@testing-library/jest-dom';
-import { renderHook, cleanup, act } from "@testing-library/react-hooks";
+import { useInterceptElement } from '@hooks/useInterceptElement'
+import { createInterceptElement } from '@models/Intercept'
+import '@testing-library/jest-dom'
+import { renderHook, cleanup, act } from '@testing-library/react-hooks'
 
 // mutation observer can not trigger by innerHTML, innerText and textContent
 describe('useInterceptElement hook testing', () => {
@@ -38,6 +38,4 @@ describe('useInterceptElement hook testing', () => {
         })
         expect(result.current.data).toStrictEqual(helloMessage)
     })
-
-
 })

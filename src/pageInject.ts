@@ -1,10 +1,6 @@
 import { getChatIframeScript, parseInitLiveChatResponseFromScript } from '@models/Chat'
 import { PostMessageType } from '@models/PostMessage'
-import {
-    createInterceptElement,
-    InterceptedDataElementId_PlayerState,
-    PlayerStateData,
-} from './models/Intercept'
+import { createInterceptElement, InterceptedDataElementId_PlayerState, PlayerStateData } from './models/Intercept'
 import { YTPlayerState } from './models/Player'
 import { ContentScriptWindow } from './models/Window'
 
@@ -36,10 +32,10 @@ window.addEventListener('message', event => {
         const json = JSON.parse(parseInitLiveChatResponseFromScript(s.textContent))
         const responseMessage: PostMessageType = {
             type: 'response',
-            response: json
+            response: json,
         }
         window.postMessage(responseMessage, '*')
     } catch (error) {
-        console.error(error);
+        console.error(error)
     }
 })

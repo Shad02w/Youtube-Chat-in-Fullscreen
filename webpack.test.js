@@ -1,8 +1,9 @@
 const { merge } = require('webpack-merge')
+const common = require('./webpack.common')
 const path = require('path')
 const HtmlWepack = require('html-webpack-plugin')
 
-module.exports = merge({}, {
+module.exports = merge(common, {
     entry: {
         index: './src/ui-testing/App.test.tsx'
     },
@@ -14,30 +15,6 @@ module.exports = merge({}, {
     devServer: {
         contentBase: path.join(__dirname, 'ui-test'),
         hot: true
-    },
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/,
-                use: ["style-loader", "css-loader"]
-            },
-            {
-                test: /\.png$/,
-                loader: 'url-loader',
-            },
-            {
-                test: /\.svg$/,
-                loader: 'svg-url-loader'
-            }
-        ]
-    },
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [
         new HtmlWepack({

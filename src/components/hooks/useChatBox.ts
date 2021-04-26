@@ -1,8 +1,7 @@
-import { getChatBoxElement, isChatBoxExpanded } from "@models/Chat"
-import { useEffect, useState } from "react"
-import { useElementStatus } from "./useElementState"
-import { useMutation } from "./useMutation"
-
+import { getChatBoxElement, isChatBoxExpanded } from '@models/Chat'
+import { useEffect, useState } from 'react'
+import { useElementStatus } from './useElementState'
+import { useMutation } from './useMutation'
 
 export const useChatBox = () => {
     const { exist, target: chatBox } = useMutation(getChatBoxElement)

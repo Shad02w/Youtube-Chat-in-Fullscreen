@@ -6,7 +6,6 @@ import { AppContext } from '@contexts/AppContext'
 import { usePageType } from '@hooks/usePageType'
 import { useFullscreenState } from '@hooks/useFullscreenState'
 import { useNativeChatFilter } from '@hooks/useNativeChatFilter'
-import { Fullscreen } from '@material-ui/icons'
 
 
 const useStyles = makeStyles({
@@ -26,6 +25,7 @@ export const NativeChat = () => {
     const [location, setLocation] = useState<Location | undefined>(undefined)
     const [url, setUrl] = useState<string | undefined>(undefined)
     const { setShowOverlay } = useContext(AppContext)
+    const [iframeLoaded, setIframeLoaded] = useState(0)
     const iframeRef = useRef<HTMLIFrameElement | null>(null)
 
     const locationRef = useRef(location)
@@ -46,7 +46,7 @@ export const NativeChat = () => {
     }, [url, isFullscreen])
 
     // Add and remove hidden class according to chat filter in storage
-    useNativeChatFilter(iframeRef)
+    useNativeChatFilter(iframeRef, iframeLoaded)
 
     useUrl((loc) => {
         setLocation(loc)
@@ -56,6 +56,14 @@ export const NativeChat = () => {
 
     const handleOnLoad = () => {
         setShowOverlay(true)
+        if (!iframeRef.current || !iframeRef.current.contentDocument) return
+        const link = document.createElement('link')
+        const styleSrc = chrome.runtime.getURL('css/NativeChatFilter.css')
+        link.href = styleSrc
+        link.rel = 'stylesheet'
+        link.type = 'text/css'
+        iframeRef.current.contentDocument.head.appendChild(link)
+        setIframeLoaded(pre => pre + 1)
     }
 
     // only load iframe after fullscreen

@@ -4,26 +4,26 @@ import './css/App.css'
 import './css/NativeChatFilter.css'
 import { ChatOverlay } from '@components/ChatOverlay'
 import { StorageContextProvider } from '@contexts/StorageContext'
-import { ContentScriptWindow } from '@models/Window';
 import { ThemeColor } from '@models/Color'
 import { AppContextProvider } from '@contexts/AppContext'
 
 const theme = createMuiTheme({
+    typography: {
+        h5: {
+            fontSize: '1.6rem',
+        },
+    },
     palette: {
         type: 'dark',
         primary: {
             light: `#${ThemeColor[100]}`,
             main: `#${ThemeColor[200]}`,
-            dark: `#${ThemeColor[300]}`
-        }
+            dark: `#${ThemeColor[300]}`,
+        },
     },
 })
 
-declare const window: ContentScriptWindow
-
 export const App: React.FC = () => {
-
-
     return (
         <StorageContextProvider>
             <AppContextProvider>

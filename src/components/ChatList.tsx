@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react'
+import React, { useEffect, useRef, useMemo, useState, useLayoutEffect } from 'react'
 import { useChatListItemStyle } from '@/styles/ChatListItem.style'
 import { LiveChatTextMessage } from '@components/LiveChatTextMessage'
 import { LiveChatPaidMessage } from '@components/LiveChatPaidMessage'
@@ -11,6 +11,7 @@ import { AdvancedChatLiveActions } from '@models/Chat'
 import { useFullscreenState } from '@hooks/useFullscreenState';
 import { useScrollBarStyle } from '@/styles/Scrollbar.style'
 import { ChatFilter, shouldBeFiltered } from '@models/ChatFilter'
+import { LiveChatPaidStickerRenderer } from './LiveChatPaidStickerRenderer'
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     chatActions: AdvancedChatLiveActions,
@@ -94,7 +95,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
     const scrollBarStyles = useScrollBarStyle()
     const liveChatTextMessageClasses = useChatListItemStyle({ opacitySC, separateLine })
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!containerRef.current) return
         const el = containerRef.current
         requestAnimationFrame(() => {
@@ -120,7 +121,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
             list = chatActions
                 .filter(action => shouldBeFiltered(action, chatFilter))
                 .map(action => {
-                    const { liveChatMembershipItemRenderer, liveChatTextMessageRenderer, liveChatPaidMessageRenderer } = action.addChatItemAction!.item
+                    const { liveChatMembershipItemRenderer, liveChatTextMessageRenderer, liveChatPaidMessageRenderer, liveChatPaidStickerRenderer } = action.addChatItemAction!.item
                     if (liveChatTextMessageRenderer)
                         return <LiveChatTextMessage key={action.uuid}
                             renderer={liveChatTextMessageRenderer}
@@ -133,6 +134,10 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
                         return <LiveChatMembershipItem key={action.uuid}
                             renderer={liveChatMembershipItemRenderer}
                             classes={liveChatTextMessageClasses} />
+                    else if (liveChatPaidStickerRenderer)
+                        return <LiveChatPaidStickerRenderer key={action.uuid}
+                            renderer={liveChatPaidStickerRenderer}
+                            classes={liveChatTextMessageClasses} />
                     else
                         return <React.Fragment key={action.uuid} />
                 })
@@ -142,7 +147,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
         return (
             <>
                 <div
-                    style={{ paddingTop: 50 }}
+                    style={{ paddingTop: 10 }}
                     ref={listRef}>
                     {list}
                 </div>
@@ -161,6 +166,10 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
             maxHeight={'100%'}
             overflow='hidden'
             position='relative'
+            pt={1.5}
+            pl={1}
+            pr={1}
+            pb={0.3}
         >
             <div
                 onWheel={onWheelListener}

@@ -10,5 +10,5 @@ export enum YTPlayerState {
     PAUSED = 2,
     BUFFERING = 3,
     CUED = 5,
-    UNSTARTED = -1
+    UNSTARTED = -1,
 }

@@ -62,6 +62,10 @@ module.exports = merge({}, {
                     from: path.resolve(__dirname, './src/icons'),
                     to: path.resolve(__dirname, 'build', 'icons')
                 },
+                {
+                    from: path.resolve(__dirname, './src/css/NativeChatFilter.css'),
+                    to: path.resolve(__dirname, 'build', 'css')
+                },
             ]
         })
     ]

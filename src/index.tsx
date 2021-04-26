@@ -1,8 +1,8 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { CatchedLiveChatRequestMessage } from './models/Request'
+import { CaughtLiveChatRequestMessage } from './models/Request'
 import { ContentScriptWindow } from './models/Window'
-import { Messages } from './models/Event';
+import { Messages } from './models/Event'
 
 declare var window: ContentScriptWindow
 const setGlobalVariables = () => {
@@ -11,8 +11,7 @@ const setGlobalVariables = () => {
     window.messages = new Messages([])
 }
 
-(async function () {
-
+;(async function () {
     // Since Youtube get new video page without reload, so the injected script is still there  when go to next video page
     // This prevent same  script run multiple time in one tab
 
@@ -23,19 +22,17 @@ const setGlobalVariables = () => {
     setGlobalVariables()
 
     // cache message first
-    chrome.runtime.onMessage.addListener((message: CatchedLiveChatRequestMessage) => {
+    chrome.runtime.onMessage.addListener((message: CaughtLiveChatRequestMessage) => {
         if (message.type === 'normal' || window.ready) return
         window.messages.add(message)
     })
 
-    const { App } = await import(/* webpackMode: "eager" */'./App')
+    const { App } = await import(/* webpackMode: "eager" */ './App')
 
     console.log('liveChatRequestReplay.js injected')
 
     const observer = new MutationObserver(() => {
-        const chatOverlayContainer = Array
-            .from(document.querySelectorAll('#player-container'))
-            .find(el => el.className.includes('ytd-watch-flexy'))
+        const chatOverlayContainer = Array.from(document.querySelectorAll('#player-container')).find(el => el.className.includes('ytd-watch-flexy'))
 
         if (chatOverlayContainer) {
             observer.disconnect()
@@ -52,17 +49,14 @@ const setGlobalVariables = () => {
                     <React.StrictMode>
                         <App />
                     </React.StrictMode>,
-                    document.getElementById(chatListContainerId))
+                    document.getElementById(chatListContainerId)
+                )
             })
-
         }
-
-
     })
 
     observer.observe(document.body, {
         childList: true,
-        subtree: true
+        subtree: true,
     })
-
 })()

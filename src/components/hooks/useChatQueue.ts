@@ -8,11 +8,9 @@ import { getCurrentPlayerTime } from '../../models/Player'
 const PollingDuration = 500
 
 export const useChatQueue = () => {
-
     const [queue, setQueue] = useState<AdvancedChatLiveActions>([])
     const [dequeued, setDequeued] = useState<AdvancedChatLiveActions>([])
     const [isFreeze, setFreeze] = useState<boolean>(false)
-
 
     const resetQueue = useCallback(() => setQueue([]), [setQueue])
     const freezeQueue = useCallback((value: boolean) => setFreeze(value), [setFreeze])
@@ -39,4 +37,3 @@ export const useChatQueue = () => {
 
     return { enqueue, dequeued, reset: resetQueue, freeze: freezeQueue }
 }
-

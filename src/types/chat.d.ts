@@ -1,11 +1,8 @@
-
 declare namespace YTLiveChat {
-
     export interface Response {
-        reponseContext: ResponseContext
+        responseContext: ResponseContext
         continuationContents: ContinuationContents
     }
-
 
     /**
      * Response Context
@@ -17,12 +14,12 @@ declare namespace YTLiveChat {
 
     export interface ServiceTrackingParam {
         service: string
-        params: { key: string, value: string }[]
+        params: { key: string; value: string }[]
     }
 
     export interface webResponseContextExtensionData {
         ytConfigData?: {
-            csn: string,
+            csn: string
             visitorData: string
             sessionIndex: number
         }
@@ -41,7 +38,7 @@ declare namespace YTLiveChat {
     }
 
     export interface Continuation {
-        /**Can be either one, dont know why */
+        /**Can be either one, don't know why */
 
         // only return when the video page is replay live streaming page
         liveChatReplayContinuationData?: LiveChatReplayContinuationData
@@ -57,7 +54,6 @@ declare namespace YTLiveChat {
     export type Action = LiveAction | ReplayLiveAction
 
     export interface LiveAction {
-
         addChatItemAction?: {
             item: AddChatActionItemActionItem
             clientId: string
@@ -66,8 +62,7 @@ declare namespace YTLiveChat {
         addLiveChatTickerItemAction?: {
             item: AddLiveChatTickerItemActionItem
             durationSec: string
-
-        },
+        }
         markChatItemAsDeletedAction?: {
             deletedStateMessage: {
                 runs: MessageRun[]
@@ -80,6 +75,7 @@ declare namespace YTLiveChat {
         liveChatTextMessageRenderer?: LiveChatTextMessageRenderer
         liveChatPaidMessageRenderer?: LiveChatPaidMessageRenderer
         liveChatMembershipItemRenderer?: LiveChatMembershipItemRenderer
+        liveChatPaidStickerRenderer?: LiveChatPaidStickerRenderer
     }
 
     export interface ReplayLiveAction {
@@ -104,22 +100,19 @@ declare namespace YTLiveChat {
 
     export interface Text {
         simpleText: string
-
     }
 
-    export interface AuthorName extends Text {
-
-    }
+    export interface AuthorName extends Text {}
     export interface AuthorPhoto {
         thumbnails: Thumbnail[]
     }
 
     export interface Thumbnail {
-        url: string,
-        height?: number,
+        url: string
+        height?: number
         width?: number
     }
-    type IconType = "MODERATOR" | "VERIFIED" | "OWNER"
+    type IconType = 'MODERATOR' | 'VERIFIED' | 'OWNER'
 
     export interface CommandMetadata {
         webCommandMetadata: {
@@ -139,7 +132,7 @@ declare namespace YTLiveChat {
         liveChatAuthorBadgeRenderer: {
             customThumbnail?: {
                 thumbnails: Thumbnail[]
-            },
+            }
             icon?: {
                 // iconType: string
                 iconType: IconType
@@ -151,14 +144,12 @@ declare namespace YTLiveChat {
         }
     }
 
-    export interface ContextMenuAccessibility extends Accessibility { }
-
+    export interface ContextMenuAccessibility extends Accessibility {}
 
     interface ContinuationData {
         continuation: string
         timeoutMs: number
     }
-
 
     interface InvalidationId {
         objectId: string
@@ -168,14 +159,12 @@ declare namespace YTLiveChat {
         topic: string
     }
 
-
     interface PlayerSeekContinuationData {
         continuation: string
     }
 
-
     interface MessageRun {
-        text?: string,
+        text?: string
         emoji?: Emoji
     }
 
@@ -196,50 +185,56 @@ declare namespace YTLiveChat {
         timestampUsec: string
     }
 
-
     export interface Emoji {
-        emojiId: string;
-        shortcuts: string[];
-        searchTerms: string[];
-        image: Image;
-        isCustomEmoji: boolean;
+        emojiId: string
+        shortcuts: string[]
+        searchTerms: string[]
+        image: Image
+        isCustomEmoji: boolean
     }
 
     export interface Image {
-        thumbnails: Thumbnail[];
-        accessibility: Accessibility;
+        thumbnails: Thumbnail[]
+        accessibility: Accessibility
     }
 
-
     export interface AddLiveChatTickerItemActionItem {
-        liveChatTickerSponsorItemRenderer: LiveChatTickerSponsorItemRenderer;
+        liveChatTickerSponsorItemRenderer: LiveChatTickerSponsorItemRenderer
     }
 
     export interface LiveChatTickerSponsorItemRenderer {
-        id: string;
-        detailText: Text;
-        detailTextColor: number;
-        startBackgroundColor: number;
-        endBackgroundColor: number;
-        durationSec: number;
-        showItemEndpoint: ShowItemEndpoint;
-        authorExternalChannelId: string;
-        fullDurationSec: number;
-        sponsorPhoto: OrPhoto;
+        id: string
+        detailText: Text
+        detailTextColor: number
+        startBackgroundColor: number
+        endBackgroundColor: number
+        durationSec: number
+        showItemEndpoint: ShowItemEndpoint
+        authorExternalChannelId: string
+        fullDurationSec: number
+        sponsorPhoto: OrPhoto
     }
 
-
     export interface ShowItemEndpoint {
-        showLiveChatItemEndpoint: ShowLiveChatItemEndpoint;
-        commandMetadata: CommandMetadata;
+        showLiveChatItemEndpoint: ShowLiveChatItemEndpoint
+        commandMetadata: CommandMetadata
     }
 
     export interface ShowLiveChatItemEndpoint {
-        renderer: Renderer;
+        renderer: Renderer
+    }
+
+    export interface Sticker {
+        thumbnails: Thumbnail[]
+    }
+
+    export interface TickerThumbnails {
+        thumbnails: Thumbnail[]
+        accessibility: Accessibility
     }
 
     export interface Renderer {
-        liveChatMembershipItemRenderer: LiveChatRenderer;
+        liveChatMembershipItemRenderer: LiveChatRenderer
     }
 
     export interface LiveChatRenderer {
@@ -248,7 +243,7 @@ declare namespace YTLiveChat {
         authorExternalChannelId: string
         authorName: AuthorName
         authorPhoto: AuthorPhoto
-        timestampText: Text;
+        timestampText: Text
         contextMenuEndpoint: ContextMenuEndpoint
         contextMenuAccessibility: ContextMenuAccessibility
         // authorPhoto: OrPhoto;
@@ -257,26 +252,40 @@ declare namespace YTLiveChat {
     export interface LiveChatMembershipItemRenderer extends LiveChatRenderer {
         headerSubtext: Message
         authorBadges: AuthorBadge[]
-
     }
 
     export interface LiveChatTextMessageRenderer extends LiveChatRenderer {
         message: Message
         authorBadges?: AuthorBadge[]
-
     }
 
     export interface LiveChatPaidMessageRenderer extends LiveChatRenderer {
         purchaseAmountText: Text
-        headerBackgroundColor: number,
-        headerTextColor: number,
-        bodyBackgroundColor: number,
-        bodyTextColor: number,
+        headerBackgroundColor: number
+        headerTextColor: number
+        bodyBackgroundColor: number
+        bodyTextColor: number
         authorNameTextColor: number
         timestampColor: number
         message?: Message
     }
+    export interface LiveChatPaidStickerRenderer extends LiveChatRenderer {
+        sticker: Sticker
+        moneyChipBackgroundColor: number
+        moneyChipTextColor: number
+        purchaseAmountText: Text
+        stickerDisplayWidth: number
+        stickerDisplayHeight: number
+        backgroundColor: number
+        authorNameTextColor: number
+    }
 
-
-
+    export interface LiveChatTickerPaidStickerItemRenderer extends LiveChatRenderer {
+        startBackgroundColor: number
+        endBackgroundColor: number
+        durationSec: number
+        fullDurationSec: number
+        showItemEndpoint: ShowItemEndpoint
+        tickerThumbnail: Thumbnail[]
+    }
 }

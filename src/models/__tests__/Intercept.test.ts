@@ -1,11 +1,9 @@
-import { createInterceptElement } from "@models/Intercept"
+import { createInterceptElement } from '@models/Intercept'
 import { getByTestId } from '@testing-library/dom'
-import { Base64 } from 'js-base64';
-import "@testing-library/jest-dom"
-
+import { Base64 } from 'js-base64'
+import '@testing-library/jest-dom'
 
 describe('Intercept element test', () => {
-
     const elId = 'idForIE'
     const initValue = { message: 'hello' }
     const interceptEl = createInterceptElement(elId, initValue)
@@ -18,7 +16,6 @@ describe('Intercept element test', () => {
         const el = document.getElementById(elId)
         if (el) el.remove()
     })
-
 
     test('Properly mount intercept element', () => {
         expect(getByTestId(document.body, `intercept-${elId}`).id).toBe(elId)

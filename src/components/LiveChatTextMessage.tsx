@@ -32,7 +32,7 @@ export const LiveChatTextMessage: React.FC<LiveChatTextMessageProps> = ({ render
                 <article>
                     <div className={classes.autherDetail}>
                         <div
-                            className={`${classes.authorName} ${isMem ? classes.isMember : ''} ${isMod ? classes.isMod : ''} ${(isVerified || isOwner) ? classes.isAuthor : ''}`}>
+                            className={`${classes.authorName} ${isMem ? classes.isMember : ''}  ${isMod ? classes.isMod : ''} ${(isOwner) ? classes.isAuthor : ''} ${(!isMod && !isOwner && isVerified) ? classes.isAuthor : ''}`}>
                             <div className={classes.autherNameInner}>
                                 <Box pr={0.5}>
                                     {renderer.authorName.simpleText}

@@ -12,7 +12,7 @@ A chrome extension creates an overlay to show Youtube live chat when in full scr
 
 ## Usages
 
--   Use `Ctrl+Alt+c` to toggle overlay
+-   Use `Ctrl+Shift+y` to toggle overlay
 -   Press and hold `Ctrl+Alt`, then drag to move the position of overlay
 
 ## Known issue
@@ -62,31 +62,40 @@ v1.0.0.8 `25-Oct-2020`
 
 v1.0.0.9 `4-Nov-2020`
 
-- Fixed the duplicate chat actions in chat queue
+-   Fixed the duplicate chat actions in chat queue
 
 v1.0.0.10 `3-Jan-2021`
 
-- Fixed the issue that clicking drag button without moving it will causing overlay to crash
-- Do not need to give permission to access browser history
-- Hide overlay when original chat box is collapsed
+-   Fixed the issue that clicking drag button without moving it will causing overlay to crash
+-   Do not need to give permission to access browser history
+-   Hide overlay when original chat box is collapsed
 
 v1.0.0.11 `14-Jan-2021`
 
-- Highlight the moderator
-- Able to change the background color of overlay and color of font
-- Able to adjust the opacity of super chat
+-   Highlight the moderator
+-   Able to change the background color of overlay and color of font
+-   Able to adjust the opacity of super chat
 
 v1.0.0.12 `19-Jan-2021`
 
-- Able to filter chat by type
-- Able to separate username and comment into two line
-- Fixed the crashing issue caused by empty user name
+-   Able to filter chat by type
+-   Able to separate username and comment into two line
+-   Fixed the crashing issue caused by empty user name
 
-v.1.0.0.13 `26-Jan-2021`
+v1.0.0.13 `26-Jan-2021`
 
-- Native chat in beta
-- Verified user is highlight as the same as owner
-- Fixed the color of member name
+-   Native chat in beta
+-   Verified user is highlight as the same as owner
+-   Fixed the color of member name
+
+v2.0
+
+-   New Overlay UI
+    -   Much intuitive resizing method
+    -   Do not have annoying toolbar to block the content
+-   Chat filter for each video page
+-   Added Super Sticker Support
+-   Fixed shortcut issue by change shortcut to ctrl+shift+y
 
 ## Screenshot
 

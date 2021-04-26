@@ -1,16 +1,13 @@
 import { useEffect } from 'react'
-import { CatchedLiveChatRequestMessage } from '@models/Request'
+import { CaughtLiveChatRequestMessage } from '@models/Request'
 import { ContentScriptWindow } from '@models/Window'
 
-type CachedMessageEffectCallback = (message: CatchedLiveChatRequestMessage) => any
+type CachedMessageEffectCallback = (message: CaughtLiveChatRequestMessage) => any
 declare const window: ContentScriptWindow
 
-
 export const useBackgroundMessage = (effect: CachedMessageEffectCallback) => {
-
-
     useEffect(() => {
-        const listener = ((e: CustomEvent<CatchedLiveChatRequestMessage>) => {
+        const listener = ((e: CustomEvent<CaughtLiveChatRequestMessage>) => {
             effect(e.detail)
         }) as EventListener
         window.messages.addEventListener('release', listener)
@@ -18,7 +15,7 @@ export const useBackgroundMessage = (effect: CachedMessageEffectCallback) => {
     }, [effect])
 
     useEffect(() => {
-        const listener = (message: CatchedLiveChatRequestMessage) => effect(message)
+        const listener = (message: CaughtLiveChatRequestMessage) => effect(message)
         chrome.runtime.onMessage.addListener(listener)
         return () => chrome.runtime.onMessage.removeListener(listener)
     }, [effect])

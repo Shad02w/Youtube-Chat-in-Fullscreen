@@ -12,5 +12,4 @@ export const useQueue = <T>(init: T[]) => {
     const enqueue = (item: T) => setQueue(pre => [...pre, item])
 
     return { queue, enqueue, dequeue }
-
 }
