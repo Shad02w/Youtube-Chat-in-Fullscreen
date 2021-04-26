@@ -6,23 +6,14 @@ import { StorageContext } from '../contexts/StorageContext'
 import { ChatContextProvider } from '../contexts/ChatContext'
 import { ToolBar } from './Toolbar'
 import { Moving } from './Moving'
-import { useCtrlAltHotKey } from './hooks/useHotkeys'
 import { ReformedChat } from './ReformedChat'
 import { AppContext } from '@contexts/AppContext'
 import { NativeChat } from './NativeChat'
 import { Position } from '@models/Interact'
 import { Draggable, DragEndCallbackValue } from './Draggable'
 import { Resizable, ResizeCallbackValue, ResizeEndCallbackValue, ResizeStartCallbackValue } from './Resizable'
+import { useHotkeys } from 'react-hotkeys-hook'
 
-interface Props {
-    data: any[]
-    max?: number
-    config?: undefined
-    size: any
-    position: any
-    onPositionChange: any
-    onSizeChange: any
-}
 interface StyleProps {
     opacity: number
     blur: number
@@ -78,7 +69,7 @@ export const ChatOverlay: React.FC = () => {
     const [movable, setMovable] = useState(false)
     const [resizablePosition, setResizablePosition] = useState<Partial<Position>>({ top: 0, left: 0 })
 
-    useCtrlAltHotKey('c', onHotkeyPressed)
+    useHotkeys('ctrl+shift+y', onHotkeyPressed)
 
     function onHotkeyPressed() {
         storageDispatch({ type: 'toggleOverlay' })

@@ -59,6 +59,7 @@
         "react": "^17.0.2",
         "react-colorful": "^5.1.1",
         "react-dom": "^17.0.2",
+        "react-hotkeys-hook": "^3.3.1",
         "react-test-renderer": "^17.0.2",
         "style-loader": "^2.0.0",
         "svg-url-loader": "^7.1.1",
