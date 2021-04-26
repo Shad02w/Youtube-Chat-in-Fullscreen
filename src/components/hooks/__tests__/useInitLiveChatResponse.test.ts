@@ -5,6 +5,7 @@ import { cleanupWindowMessages, setupChrome, setupWindowMessage } from '@/jest-s
 import { chrome } from 'jest-chrome'
 import { CaughtLiveChatRequestMessage } from '@models/Request'
 import { PostMessageType } from '@models/PostMessage'
+import { waitFor } from '@testing-library/dom'
 
 declare const window: ContentScriptWindow
 
@@ -72,7 +73,7 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
             jest.runAllTimers()
         })
 
-        return waitFor(() => {
+        waitFor(() => {
             expect(effectMock).toBeCalledTimes(1)
             expect(effectMock).toBeCalledWith(responseMessage.response, 'init-live-chat')
         })
@@ -87,7 +88,8 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
             window.postMessage({ type: 'response', response: { message: 'hi' } } as PostMessageType, '*')
             jest.runAllTimers()
         })
-        await waitFor(() => {
+
+        waitFor(() => {
             expect(effecFn).toBeCalledTimes(0)
         })
     })
