@@ -75,6 +75,7 @@
         "webpack-merge": "^5.0.9"
     },
     "dependencies": {
-        "node-notifier": "9.0.1"
+        "node-notifier": "9.0.1",
+        "y18n": "^4.0.1"
     }
 }
