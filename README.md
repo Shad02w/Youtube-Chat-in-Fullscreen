@@ -101,15 +101,15 @@ v2.0
 
 _Chat overlay on Youtube Live Replay_
 
-![Chat overlay screenshot](./images/sample.png)
+![Chat overlay screenshot](./images/v2.0 -2.png)
 
 _Chat overlay on Youtube Live_
 
-![Chat overlay screenshot](./images/r6-cap.png)
+![Chat overlay screenshot](./images/v2.0c.png)
 
 _Settings Panel_
 
-![settings panel screenshot](./images/settings.png)
+![settings panel screenshot](./images/v2.0 - 4.png)
 
 ## Credits
 

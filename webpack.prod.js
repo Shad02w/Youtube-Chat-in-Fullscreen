@@ -7,18 +7,18 @@ module.exports = merge(common, {
     mode: 'production',
     optimization: {
         minimize: true,
-        minimizer: [new TerserPlugin({
-            extractComments: false
-        })],
+        minimizer: [
+            new TerserPlugin({
+                extractComments: false,
+            }),
+        ],
     },
     performance: {
         hints: false,
-        maxEntrypointSize: 512000
-
+        maxEntrypointSize: 512000,
     },
     plugins: [
         // ...common.plugins,
-        new BundleAnalyzerPlugin()
-    ]
-
+        new BundleAnalyzerPlugin(),
+    ],
 })
