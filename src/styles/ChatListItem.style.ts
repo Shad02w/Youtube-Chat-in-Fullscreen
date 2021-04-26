@@ -57,9 +57,9 @@ export const useChatListItemStyle = makeStyles(theme =>
             width: '1.6em',
         },
         authorName: {
-            fontWeight: 900,
+            fontWeight: 600,
             display: 'inline-block',
-            color: '#b6b6b6',
+            color: '#d5d5d5',
             wordBreak: 'break-all',
             marginRight: '0.6em',
         },
@@ -86,7 +86,6 @@ export const useChatListItemStyle = makeStyles(theme =>
             verticalAlign: 'middle',
         },
         emoji: {
-            // width: props => theme.spacing(props.fontSize + 1.75),
             width: '1.8em',
             marginRight: 5,
             display: 'inline-block',
