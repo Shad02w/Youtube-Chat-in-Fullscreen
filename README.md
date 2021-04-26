@@ -95,6 +95,7 @@ v2.0
     -   Do not have annoying toolbar to block the content
 -   Chat filter for each video page
 -   Added Super Sticker Support
+-   Fixed shortcut issue by change shortcut to ctrl+shift+y
 
 ## Screenshot
 
