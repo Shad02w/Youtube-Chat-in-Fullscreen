@@ -1,11 +1,11 @@
 import React from 'react'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import './css/App.css'
-import './css/NativeChatFilter.css'
 import { ChatOverlay } from '@components/ChatOverlay'
 import { StorageContextProvider } from '@contexts/StorageContext'
 import { ThemeColor } from '@models/Color'
 import { AppContextProvider } from '@contexts/AppContext'
+import './css/App.css'
+import './css/NativeChatFilter.css'
 
 const theme = createMuiTheme({
     typography: {

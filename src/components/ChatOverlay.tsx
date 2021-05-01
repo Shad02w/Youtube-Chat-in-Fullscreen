@@ -52,6 +52,7 @@ const useStyles = makeStyles({
 })
 
 export const ChatOverlay: React.FC = () => {
+    const [showToolbar, setShowToolbar] = useState<boolean>(false)
     const { storage, storageDispatch } = useContext(StorageContext)
     const {
         opacity,
@@ -75,6 +76,10 @@ export const ChatOverlay: React.FC = () => {
         storageDispatch({ type: 'toggleOverlay' })
     }
 
+    const handleMouseEnter: React.MouseEventHandler<HTMLDivElement> = () => setShowToolbar(true)
+
+    const handleMouseLeave: React.MouseEventHandler<HTMLDivElement> = () => setShowToolbar(false)
+
     const handleDragEnd = (value?: DragEndCallbackValue) => {
         setMovable(false)
         if (!value) return
@@ -95,31 +100,33 @@ export const ChatOverlay: React.FC = () => {
     }
 
     return (
-        <Draggable
-            top={position.top}
-            left={position.left}
-            triggerId={id}
-            onDragStart={() => setMovable(true)}
-            onDragEnd={handleDragEnd}
-            className={`${showOverlay ? classes.show : classes.hidden}`}
-        >
-            <Resizable
-                size={{ width, height }}
-                position={resizablePosition}
-                className={`${classes.wrapper} ${classes.resizable}  ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}
-                onResizeStart={handleResizeStart}
-                onResize={handleResize}
-                onResizeEnd={handleResizeEnd}
+        <div id="ycf-chat-overlay-container" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <Draggable
+                top={position.top}
+                left={position.left}
+                triggerId={id}
+                onDragStart={() => setMovable(true)}
+                onDragEnd={handleDragEnd}
+                className={`${showOverlay ? classes.show : classes.hidden}`}
             >
-                {native ? (
-                    <NativeChat />
-                ) : (
-                    <ChatContextProvider>
-                        {movable ? <Moving className={classes.chatList} /> : <ReformedChat className={classes.chatList} />}
-                    </ChatContextProvider>
-                )}
-                <ToolBar movableTriggerId={id} />
-            </Resizable>
-        </Draggable>
+                <Resizable
+                    size={{ width, height }}
+                    position={resizablePosition}
+                    className={`${classes.wrapper} ${classes.resizable}  ${movable ? 'noselect' : ''} ${blur > 0 ? classes.blur : ''}`}
+                    onResizeStart={handleResizeStart}
+                    onResize={handleResize}
+                    onResizeEnd={handleResizeEnd}
+                >
+                    {native ? (
+                        <NativeChat />
+                    ) : (
+                        <ChatContextProvider>
+                            {movable ? <Moving className={classes.chatList} /> : <ReformedChat className={classes.chatList} />}
+                        </ChatContextProvider>
+                    )}
+                    <ToolBar style={{ transform: `translateY(${showToolbar ? '0' : '70'}px)` }} movableTriggerId={id} />
+                </Resizable>
+            </Draggable>
+        </div>
     )
 }

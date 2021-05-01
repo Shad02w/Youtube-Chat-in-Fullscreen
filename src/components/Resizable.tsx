@@ -1,39 +1,39 @@
-import React, { useRef } from 'react';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { Draggable } from './Draggable';
-import { Position, Size } from '@models/Interact';
+import React, { useRef } from 'react'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
+import { Draggable } from './Draggable'
+import { Position, Size } from '@models/Interact'
 
 type PositionSet = {
-    [key in keyof Position]?: boolean;
-};
+    [key in keyof Position]?: boolean
+}
 
 export interface ResizeEndCallbackValue {
-    size: Size;
-    position: { top: number; left: number };
+    size: Size
+    position: { top: number; left: number }
 }
 
 export interface ResizeCallbackValue {
-    size: Size;
+    size: Size
 }
 
 export interface ResizeStartCallbackValue {
-    position: Partial<Position>;
+    position: Partial<Position>
 }
 
 interface ResizableProps {
-    size: Size;
-    position: Partial<Position>;
-    resizerSize?: number;
-    className?: string;
-    onResize?(value: ResizeCallbackValue): any;
-    onResizeStart?(value: ResizeStartCallbackValue): any;
-    onResizeEnd?(value: ResizeEndCallbackValue): any;
+    size: Size
+    position: Partial<Position>
+    resizerSize?: number
+    className?: string
+    onResize?(value: ResizeCallbackValue): any
+    onResizeStart?(value: ResizeStartCallbackValue): any
+    onResizeEnd?(value: ResizeEndCallbackValue): any
 }
 
 interface StylesProps {
-    size: Size;
-    position: Partial<Position>;
-    resizerSize?: number;
+    size: Size
+    position: Partial<Position>
+    resizerSize?: number
 }
 
 const useStyles = makeStyles(() =>
@@ -41,7 +41,7 @@ const useStyles = makeStyles(() =>
         resizable: {
             position: 'absolute',
             width: (props: StylesProps) => props.size.width,
-            height: (props) => props.size.height,
+            height: props => props.size.height,
             backgroundColor: 'transparent',
             padding: ({ resizerSize }) => (resizerSize ? resizerSize : 5),
         },
@@ -102,29 +102,29 @@ const useStyles = makeStyles(() =>
             cursor: 'se-resize',
         },
     })
-);
+)
 
-export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = (props) => {
-    const { resizerSize, children, className, onResizeEnd, onResizeStart, onResize, size, position } = props;
-    const resizableRef = useRef<HTMLDivElement | null>(null);
-    const classes = useStyles({ size, position, resizerSize });
+export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = props => {
+    const { resizerSize, children, className, onResizeEnd, onResizeStart, onResize, size, position } = props
+    const resizableRef = useRef<HTMLDivElement | null>(null)
+    const classes = useStyles({ size, position, resizerSize })
 
-    const startSize = useRef(size);
+    const startSize = useRef(size)
 
     const getCSSPosition = () => {
-        if (!resizableRef.current) return position;
-        const { top, bottom, left, right } = window.getComputedStyle(resizableRef.current);
+        if (!resizableRef.current) return position
+        const { top, bottom, left, right } = window.getComputedStyle(resizableRef.current)
         return {
             top: parseInt(top),
             bottom: parseInt(bottom),
             left: parseInt(left),
             right: parseInt(right),
-        };
-    };
+        }
+    }
 
     const handleDragStart = (set: PositionSet) => {
-        startSize.current = size;
-        const { left, bottom, right, top } = getCSSPosition();
+        startSize.current = size
+        const { left, bottom, right, top } = getCSSPosition()
         onResizeStart &&
             onResizeStart({
                 position: {
@@ -133,14 +133,14 @@ export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = (pro
                     left: set.left ? left : undefined,
                     right: set.right ? right : undefined,
                 },
-            });
-    };
+            })
+    }
 
     const handleDragEnd = () => {
-        const { top, left } = getCSSPosition();
-        if (top === undefined || left === undefined) return;
-        onResizeEnd && onResizeEnd({ size, position: { top, left } });
-    };
+        const { top, left } = getCSSPosition()
+        if (top === undefined || left === undefined) return
+        onResizeEnd && onResizeEnd({ size, position: { top, left } })
+    }
 
     return (
         <div
@@ -164,7 +164,7 @@ export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = (pro
                                 ...size,
                                 height: startSize.current.height - (current.y - start.y),
                             },
-                        });
+                        })
                 }}
                 onDragEnd={handleDragEnd}
             />
@@ -179,7 +179,7 @@ export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = (pro
                                 ...size,
                                 height: startSize.current.height + (current.y - start.y),
                             },
-                        });
+                        })
                 }}
                 onDragEnd={handleDragEnd}
             />
@@ -194,7 +194,7 @@ export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = (pro
                                 ...size,
                                 width: startSize.current.width - (current.x - start.x),
                             },
-                        });
+                        })
                 }}
                 onDragEnd={handleDragEnd}
             />
@@ -209,7 +209,7 @@ export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = (pro
                                 ...size,
                                 width: startSize.current.width + (current.x - start.x),
                             },
-                        });
+                        })
                 }}
                 onDragEnd={handleDragEnd}
             />
@@ -224,7 +224,7 @@ export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = (pro
                                 width: startSize.current.width - (current.x - start.x),
                                 height: startSize.current.height - (current.y - start.y),
                             },
-                        });
+                        })
                 }}
                 onDragEnd={handleDragEnd}
             />
@@ -239,7 +239,7 @@ export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = (pro
                                 width: startSize.current.width + (current.x - start.x),
                                 height: startSize.current.height - (current.y - start.y),
                             },
-                        });
+                        })
                 }}
                 onDragEnd={handleDragEnd}
             />
@@ -254,7 +254,7 @@ export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = (pro
                                 width: startSize.current.width - (current.x - start.x),
                                 height: startSize.current.height + (current.y - start.y),
                             },
-                        });
+                        })
                 }}
                 onDragEnd={handleDragEnd}
             />
@@ -269,11 +269,11 @@ export const Resizable: React.FC<React.PropsWithChildren<ResizableProps>> = (pro
                                 width: startSize.current.width + (current.x - start.x),
                                 height: startSize.current.height + (current.y - start.y),
                             },
-                        });
+                        })
                 }}
                 onDragEnd={handleDragEnd}
             />
             {children}
         </div>
-    );
-};
+    )
+}

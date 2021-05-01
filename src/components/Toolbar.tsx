@@ -1,91 +1,76 @@
-import React, { useState, HTMLAttributes, DetailedHTMLProps, useCallback } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, IconButton } from '@material-ui/core';
-import { Settings, PanTool, FilterList } from '@material-ui/icons';
+import React, { useState, useCallback, useContext } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { IconButton, Paper } from '@material-ui/core'
+import { Settings, PanTool, FilterList } from '@material-ui/icons'
 import { SettingsModal } from './settings/SettingsModal'
-import { PopupSettings } from './PopupSettings';
+import { PopupSettings } from './PopupSettings'
+import { StorageContext } from '@contexts/StorageContext'
 
-export interface IControlProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-    movableTriggerId: string;
+export interface IControlProps {
+    movableTriggerId: string
+    className?: string
+    style?: React.CSSProperties
 }
 
 const useStyles = makeStyles({
-    leftBtnsContainer: {
-        borderRadius: 18,
-        // backgroundColor: 'rgba(255,255,255,0.2)',
-        // backdropFilter: 'blur(3px)',
+    container: {
         display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'nowrap',
+        flexFlow: 'row nowrap',
+        position: 'absolute',
         justifyContent: 'center',
         alignItems: 'center',
-        '&:hover': {
-            cursor: 'pointer'
-        }
-    },
-    rightBtnsContainer: {
-        marginLeft: 'auto'
-    },
-    showBtn: {
-        width: 15,
-        height: 15,
-        transition: 'all 200ms ease-in-out'
+        bottom: 20,
+        right: 20,
+        background: '#212121',
+        height: 40,
+        borderRadius: 40,
+        transition: 'all 250ms cubic-bezier(0,.57,.81,1.32)',
     },
 })
 
-export const ToolBar: React.FC<IControlProps> = (props) => {
+// TODO: show the toolbar when hover to the chat overlay
+export const ToolBar: React.FC<IControlProps> = props => {
     const [showModal, setShowModal] = useState(false)
     const [showPopup, setShowPopup] = useState(false)
+    const {
+        storage: {
+            size: { width },
+        },
+    } = useContext(StorageContext)
 
     const togglePopup = useCallback(() => setShowPopup(pre => !pre), [setShowPopup])
 
-    const classes = useStyles();
+    const classes = useStyles()
 
-    const { movableTriggerId, className } = props;
+    const { movableTriggerId, className, style } = props
+
+    // need to remove
+
+    // close Popup settings after the toolbar transition
+    const handleTransitionEnd: React.TransitionEventHandler<HTMLDivElement> = e => {
+        if (e.target === e.currentTarget) {
+            setShowPopup(false)
+        }
+    }
 
     return (
-        <Box>
-            <Box
-                display='flex'
-                pt={'5px'}
-                pb={'5px'}
-                pr={1}
-                pl={1}
-                flexDirection='row'
-                flexWrap='nowrap'
-                alignItems='center'
-                className={`${className || ''} noselect`}>
-                <div className={classes.leftBtnsContainer}>
-                    <IconButton
-                        id={movableTriggerId}
-                        // size='small'
-                        aria-label="move"
-                    >
-                        <PanTool />
-                    </IconButton>
-                    <IconButton
-                        aria-label="more"
-                        // size='small'
-                        onClick={() => setShowModal(true)}
-                    >
-                        <Settings />
-                    </IconButton>
-                </div>
-                <Box marginLeft='auto'>
-                    <IconButton
-                        aria-label='filter'
-                        onClick={togglePopup}
-                    >
-                        <FilterList />
-                    </IconButton>
-                </Box>
-            </Box>
-            <SettingsModal show={showModal}
-                onClose={() => setShowModal(false)} />
-            <PopupSettings
-                show={showPopup}
-                onClose={() => setShowPopup(false)}
-            />
-        </Box>
-    );
-};
+        <Paper
+            onTransitionEnd={handleTransitionEnd}
+            elevation={5}
+            style={style}
+            className={`${classes.container} noselect ${className || ''} ycf-toolbar`}
+        >
+            <IconButton id={movableTriggerId} aria-label="move">
+                <PanTool />
+            </IconButton>
+            <IconButton aria-label="more" onClick={() => setShowModal(true)}>
+                <Settings />
+            </IconButton>
+            <IconButton aria-label="filter" onClick={togglePopup}>
+                <FilterList />
+            </IconButton>
+            <SettingsModal show={showModal} onClose={() => setShowModal(false)} />
+            <PopupSettings width={width} show={showPopup} onClose={() => setShowPopup(false)} />
+        </Paper>
+    )
+}
