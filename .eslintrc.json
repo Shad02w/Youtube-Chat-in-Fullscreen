@@ -1,10 +1,10 @@
 {
-  "env": {
-    "es6": true
-  },
-  "extends": "react-app",
-  "rules": {
-    "no-shadow": "warn",
-    "react/jsx-max-props-per-line": [1, { "maximum": 1, "when": "always" }]
-  }
+    "env": {
+        "es6": true
+    },
+    "extends": "react-app",
+    "rules": {
+        "no-shadow": "warn"
+        // "react/jsx-max-props-per-line": [1, { "maximum": 1, "when": "always" }]
+    }
 }
