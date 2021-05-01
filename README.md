@@ -97,6 +97,10 @@ v2.0
 -   Added Super Sticker Support
 -   Fixed shortcut issue by change shortcut to ctrl+shift+y
 
+v2.0.1 `2-May-2021`
+
+-   Auto hide toolbar
+
 ## Screenshot
 
 _Chat overlay on Youtube Live Replay_

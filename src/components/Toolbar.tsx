@@ -28,7 +28,6 @@ const useStyles = makeStyles({
     },
 })
 
-// TODO: show the toolbar when hover to the chat overlay
 export const ToolBar: React.FC<IControlProps> = props => {
     const [showModal, setShowModal] = useState(false)
     const [showPopup, setShowPopup] = useState(false)
@@ -43,8 +42,6 @@ export const ToolBar: React.FC<IControlProps> = props => {
     const classes = useStyles()
 
     const { movableTriggerId, className, style } = props
-
-    // need to remove
 
     // close Popup settings after the toolbar transition
     const handleTransitionEnd: React.TransitionEventHandler<HTMLDivElement> = e => {
