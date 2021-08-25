@@ -101,6 +101,10 @@ v2.0.1 `2-May-2021`
 
 -   Auto hide toolbar
 
+v2.0.2 `26-Aug-2021`
+
+-   Fixed bug the emoji url of message causing overlay to crash
+
 ## Screenshot
 
 _Chat overlay on Youtube Live Replay_
