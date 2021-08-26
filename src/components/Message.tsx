@@ -4,25 +4,19 @@ import { LiveChatMessageStyleType } from '../styles/ChatListItem.style'
 interface MessageProps {
     classes: LiveChatMessageStyleType
     message: YTLiveChat.Message
-
 }
 
-export const Message: React.FC<MessageProps> = ({ classes, message }) => {
+export const Message: React.FC<MessageProps> = React.memo(({ classes, message }) => {
     return (
         <span className={classes.message}>
-            {
-                message.runs.map((run, i) => {
-                    if (run.text)
-                        return run.text
-                    else if (run.emoji)
-                        return <img key={i}
-                            className={classes.emoji}
-                            src={run.emoji.image.thumbnails[1].url}
-                            alt="emoji" />
-                    return <></>
-                })
-            }
+            {message.runs.map((run, i) => {
+                const thumbnail = run.emoji?.image?.thumbnails?.[1] ?? run.emoji?.image?.thumbnails?.[0] ?? null
+                if (run.text) return run.text
+                else if (thumbnail) {
+                    return <img key={i} className={classes.emoji} src={thumbnail.url} alt="emoji" />
+                }
+                return <></>
+            })}
         </span>
     )
-}
-
+})
