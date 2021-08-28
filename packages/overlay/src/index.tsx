@@ -1,5 +1,5 @@
 import React from 'react'
 
-export const Counter = React.memo(() => {
+export const ChatOverlay = React.memo(() => {
     return <div>hi</div>
 })

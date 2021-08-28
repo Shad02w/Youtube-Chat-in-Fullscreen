@@ -7,9 +7,10 @@
         "baseUrl": "./src",
         "inlineSources": true,
         "paths": {
-            "@hooks/*": ["components/hooks/*"],
+            "@hooks/*": ["hooks/*"],
             "@components/*": ["components/*"],
             "@models/*": ["models/*"],
+            "@type/*": ["type/*"],
             "@css/*": ["css/*"],
             "@icons/*": ["icons/*"],
             "@contexts/*": ["contexts/*"],
