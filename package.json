@@ -1,6 +1,9 @@
 {
     "name": "@ycf/root",
     "private": true,
+    "scripts": {
+        "start": "yarn --cwd packages/extension start"
+    },
     "workspaces": [
         "packages/*"
     ],
