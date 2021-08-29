@@ -6,15 +6,6 @@
         "strict": true,
         "moduleResolution": "node",
         "baseUrl": "./src",
-        "paths": {
-            "@hooks/*": ["components/hooks/*"],
-            "@components/*": ["components/*"],
-            "@models/*": ["models/*"],
-            "@css/*": ["css/*"],
-            "@icons/*": ["icons/*"],
-            "@contexts/*": ["contexts/*"],
-            "@/*": ["./*"]
-        },
         "typeRoots": ["node_modules/@types", "src/type-d-ts"],
         "types": ["chrome", "jest"],
         "esModuleInterop": true,
