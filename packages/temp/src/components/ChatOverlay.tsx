@@ -29,26 +29,26 @@ const useStyles = makeStyles({
         gridTemplateRows: '1fr',
         gridTemplateAreas: '"chat"',
         borderRadius: 5,
-        zIndex: 10,
+        zIndex: 10
     },
     blur: {
-        backdropFilter: props => (props.blur > 0 ? `blur(${props.blur}px)` : 'none'),
+        backdropFilter: props => (props.blur > 0 ? `blur(${props.blur}px)` : 'none')
     },
     hidden: {
         // height: '0 !important',
-        display: 'none',
+        display: 'none'
     },
     show: {
-        display: 'block',
+        display: 'block'
     },
     resizable: {
         display: 'grid',
         minHeight: MinHeight,
-        minWidth: MinWidth,
+        minWidth: MinWidth
     },
     chatList: {
-        gridArea: 'chat',
-    },
+        gridArea: 'chat'
+    }
 })
 
 export const ChatOverlay: React.FC = () => {
@@ -61,7 +61,7 @@ export const ChatOverlay: React.FC = () => {
         blur,
         backgroundColor: bgColor,
         color,
-        native,
+        native
     } = storage
     const { showOverlay } = useContext(AppContext)
 
