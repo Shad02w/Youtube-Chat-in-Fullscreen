@@ -1,0 +1,22 @@
+{
+    "extends": "../../configs/tsconfig.base.json",
+    "compilerOptions": {
+        "jsx": "react",
+        "target": "ES6",
+        "lib": ["DOM", "ES2015", "ES2019", "ESNext"],
+        "baseUrl": "./src",
+        "paths": {
+            "@hooks/*": ["components/hooks/*"],
+            "@components/*": ["components/*"],
+            "@utils/*": ["utils/*"],
+            "@models/*": ["models/*"],
+            "@type/*": ["type/*"],
+            "@css/*": ["css/*"],
+            "@icons/*": ["icons/*"],
+            "@context/*": ["context/*"],
+            "@/*": ["./*"]
+        },
+        "types": ["chrome"]
+    },
+    "include": ["src"]
+}

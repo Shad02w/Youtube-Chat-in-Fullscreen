@@ -1,8 +1,21 @@
 {
-    "name": "overlay",
+    "name": "@ycf/overlay",
     "version": "1.0.0",
     "main": "index.js",
     "author": "Shad02w",
     "license": "MIT",
-    "private": true
+    "private": true,
+    "dependencies": {},
+    "devDependencies": {
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "@types/chrome": "^0.0.157",
+        "@types/react": "^17.0.22",
+        "@types/react-dom": "^17.0.9",
+        "esbuild": "^0.12.28"
+    },
+    "peerDependencies": {
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
+    }
 }
