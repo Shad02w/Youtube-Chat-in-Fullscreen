@@ -6,6 +6,7 @@ import { LiveChatMembershipItem } from '@components/LiveChatMembershipItem'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { ButtonBase, Box } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
+// eslint-disable-next-line import/no-relative-parent-imports -- no
 import down from '../assets/images/down.svg'
 import { AdvancedChatLiveActions } from '@models/Chat'
 import { useFullscreenState } from '@hooks/useFullscreenState'
@@ -14,7 +15,7 @@ import { ChatFilter, shouldBeFiltered } from '@models/ChatFilter'
 import { LiveChatPaidStickerRenderer } from './LiveChatPaidStickerRenderer'
 
 interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
-    chatActions: AdvancedChatLiveActions,
+    chatActions: AdvancedChatLiveActions
     fontSize: number
     opacitySC: number
     chatFilter: ChatFilter
@@ -23,9 +24,8 @@ interface IChatListProps extends React.HTMLAttributes<HTMLDivElement> {
     onAutoScrollStop?(): void
 }
 
-
 interface StyleProps {
-    fontSize: number,
+    fontSize: number
     autoScroll: boolean
 }
 
@@ -72,15 +72,20 @@ export const useStyles = makeStyles(() =>
     })
 )
 
-
 const ScrollToBottom = (el: HTMLElement) => {
     el.scrollTop = el.scrollHeight
 }
 
-
-
-export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fontSize, onAutoScrollStop, onAutoScrollStart, className, chatFilter, separateLine }) => {
-
+export const ChatList: React.FC<IChatListProps> = ({
+    chatActions,
+    opacitySC,
+    fontSize,
+    onAutoScrollStop,
+    onAutoScrollStart,
+    className,
+    chatFilter,
+    separateLine
+}) => {
     const [autoScroll, setAutoScroll] = useState<boolean>(true)
 
     const containerRef = useRef<HTMLDivElement>(null)
@@ -121,34 +126,36 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
             list = chatActions
                 .filter(action => shouldBeFiltered(action, chatFilter))
                 .map(action => {
-                    const { liveChatMembershipItemRenderer, liveChatTextMessageRenderer, liveChatPaidMessageRenderer, liveChatPaidStickerRenderer } = action.addChatItemAction!.item
+                    const { liveChatMembershipItemRenderer, liveChatTextMessageRenderer, liveChatPaidMessageRenderer, liveChatPaidStickerRenderer } =
+                        action.addChatItemAction!.item
                     if (liveChatTextMessageRenderer)
-                        return <LiveChatTextMessage key={action.uuid}
-                            renderer={liveChatTextMessageRenderer}
-                            classes={liveChatTextMessageClasses} />
+                        return <LiveChatTextMessage key={action.uuid} renderer={liveChatTextMessageRenderer} classes={liveChatTextMessageClasses} />
                     else if (liveChatPaidMessageRenderer)
-                        return <LiveChatPaidMessage key={action.uuid}
-                            renderer={liveChatPaidMessageRenderer}
-                            classes={liveChatTextMessageClasses} />
+                        return <LiveChatPaidMessage key={action.uuid} renderer={liveChatPaidMessageRenderer} classes={liveChatTextMessageClasses} />
                     else if (liveChatMembershipItemRenderer)
-                        return <LiveChatMembershipItem key={action.uuid}
-                            renderer={liveChatMembershipItemRenderer}
-                            classes={liveChatTextMessageClasses} />
+                        return (
+                            <LiveChatMembershipItem
+                                key={action.uuid}
+                                renderer={liveChatMembershipItemRenderer}
+                                classes={liveChatTextMessageClasses}
+                            />
+                        )
                     else if (liveChatPaidStickerRenderer)
-                        return <LiveChatPaidStickerRenderer key={action.uuid}
-                            renderer={liveChatPaidStickerRenderer}
-                            classes={liveChatTextMessageClasses} />
-                    else
-                        return <React.Fragment key={action.uuid} />
+                        return (
+                            <LiveChatPaidStickerRenderer
+                                key={action.uuid}
+                                renderer={liveChatPaidStickerRenderer}
+                                classes={liveChatTextMessageClasses}
+                            />
+                        )
+                    else return <React.Fragment key={action.uuid} />
                 })
         } catch (error) {
             console.error(error)
         }
         return (
             <>
-                <div
-                    style={{ paddingTop: 10 }}
-                    ref={listRef}>
+                <div style={{ paddingTop: 10 }} ref={listRef}>
                     {list}
                 </div>
             </>
@@ -162,15 +169,7 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
     }
 
     return (
-        <Box
-            maxHeight={'100%'}
-            overflow='hidden'
-            position='relative'
-            pt={1.5}
-            pl={1}
-            pr={1}
-            pb={0.3}
-        >
+        <Box maxHeight={'100%'} overflow="hidden" position="relative" pt={1.5} pl={1} pr={1} pb={0.3}>
             <div
                 onWheel={onWheelListener}
                 ref={containerRef}
@@ -178,21 +177,11 @@ export const ChatList: React.FC<IChatListProps> = ({ chatActions, opacitySC, fon
             >
                 {ChatListMemo}
             </div>
-            <div className={`${classes.downButtonContainer} ${autoScroll ? classes.hide : classes.show}`} >
-                <CircleButtonBase
-                    focusRipple
-                    onClick={() => setAutoScroll(true)}
-                >
-                    <img
-                        className={classes.downButton}
-                        src={down}
-                        alt="resume autoscroll"
-                    />
+            <div className={`${classes.downButtonContainer} ${autoScroll ? classes.hide : classes.show}`}>
+                <CircleButtonBase focusRipple onClick={() => setAutoScroll(true)}>
+                    <img className={classes.downButton} src={down} alt="resume autoscroll" />
                 </CircleButtonBase>
             </div>
         </Box>
     )
 }
-
-
-

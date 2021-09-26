@@ -12,6 +12,7 @@
             "@models/*": ["models/*"],
             "@type/*": ["type/*"],
             "@css/*": ["css/*"],
+            "@assets/*": ["assets/*"],
             "@icons/*": ["icons/*"],
             "@context/*": ["context/*"],
             "@/*": ["./*"]

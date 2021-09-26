@@ -47,6 +47,7 @@ module.exports = merge(
                 '@css': path.resolve(__dirname, 'src/css'),
                 '@icons': path.resolve(__dirname, 'src/icons'),
                 '@contexts': path.resolve(__dirname, 'src/contexts'),
+                '@assets': path.resolve(__dirname, 'src/assets'),
                 '@': path.resolve(__dirname, 'src')
             }
         },
