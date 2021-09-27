@@ -17,7 +17,7 @@ A chrome extension creates an overlay to show Youtube live chat when in full scr
 
 ## Known issue
 
-_If you have any issues and suggestions please feel free to create a issue, or join the discord sever _
+If you have any issues and suggestions please feel free to create a issue, or join the discord sever https://discord.gg/RJGpyC98Ss
 
 ## Update
 
