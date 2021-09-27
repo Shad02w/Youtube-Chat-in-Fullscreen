@@ -249,8 +249,10 @@ declare namespace YTLiveChat {
     }
 
     export interface LiveChatMembershipItemRenderer extends LiveChatRenderer {
-        headerSubtext: Message
+        headerPrimaryText?: Message | Text
+        headerSubtext: Message | Text
         authorBadges: AuthorBadge[]
+        message?: Message
     }
 
     export interface LiveChatTextMessageRenderer extends LiveChatRenderer {

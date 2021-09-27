@@ -3,6 +3,7 @@
     "compilerOptions": {
         "jsx": "react",
         "target": "ES6",
+        "module": "ES2020",
         "lib": ["DOM", "ES2015", "ES2019", "ESNext"],
         "baseUrl": "./src",
         "paths": {
@@ -14,7 +15,7 @@
             "@css/*": ["css/*"],
             "@assets/*": ["assets/*"],
             "@icons/*": ["icons/*"],
-            "@context/*": ["context/*"],
+            "@contexts/*": ["contexts/*"],
             "@/*": ["./*"]
         },
         "types": ["chrome"]

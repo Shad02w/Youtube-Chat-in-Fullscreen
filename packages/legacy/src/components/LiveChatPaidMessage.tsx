@@ -21,8 +21,7 @@ export const LiveChatPaidMessage: React.FC<LiveChatPaidMessageProps> = ({ render
     }
 
     return (
-        <Paper elevation={2} className={classes.card}
-style={bodyStyle}>
+        <Paper elevation={2} className={classes.card} style={bodyStyle}>
             <PaidCardHeader
                 style={headerStyle}
                 classes={classes}
@@ -31,12 +30,10 @@ style={bodyStyle}>
                 authorNameTextColor={renderer.authorNameTextColor}
                 purchaseAmountText={renderer.purchaseAmountText}
             />
-            {renderer.message ? (
+            {renderer.message && (
                 <article className={classes.cardMessage}>
                     <Message message={renderer.message} classes={classes} />
                 </article>
-            ) : (
-                <></>
             )}
         </Paper>
     )

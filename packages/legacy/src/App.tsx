@@ -1,5 +1,5 @@
 import React from 'react'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { createTheme, ThemeProvider } from '@material-ui/core/styles'
 import { ChatOverlay } from '@components/ChatOverlay'
 import { StorageContextProvider } from '@contexts/StorageContext'
 import { ThemeColor } from '@models/Color'
@@ -7,7 +7,7 @@ import { AppContextProvider } from '@contexts/AppContext'
 import './css/App.css'
 import './css/NativeChatFilter.css'
 
-const theme = createMuiTheme({
+const theme = createTheme({
     typography: {
         h5: {
             fontSize: '1.6rem'

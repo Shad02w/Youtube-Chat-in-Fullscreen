@@ -11,7 +11,7 @@ const setGlobalVariables = () => {
     window.messages = new Messages([])
 }
 
-;(async function () {
+async function main() {
     // Since Youtube get new video page without reload, so the injected script is still there  when go to next video page
     // This prevent same  script run multiple time in one tab
 
@@ -59,4 +59,6 @@ const setGlobalVariables = () => {
         childList: true,
         subtree: true
     })
-})()
+}
+
+main()
