@@ -67,7 +67,7 @@ const testCases = async (pageType: PageType, channel: ChannelType) => {
         })
     }
 
-    waitFor(() => {
+    await waitFor(() => {
         const targetActions =
             pageType === 'init-live-chat' || pageType === 'live-chat'
                 ? pageType === 'init-live-chat'

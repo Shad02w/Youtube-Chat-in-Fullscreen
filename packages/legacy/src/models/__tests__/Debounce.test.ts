@@ -1,5 +1,4 @@
 import { debounce, debouncePromise } from '@models/Function'
-import { act } from 'react-test-renderer'
 
 beforeEach(() => {
     jest.useFakeTimers()
@@ -12,6 +11,7 @@ afterEach(() => {
 const wait = 500,
     arg1 = 3,
     arg2 = 3
+
 describe('Debounce function test', () => {
     test('Should only be run once even though the function is called multiple time within 500ms', () => {
         const mockFn = jest.fn()
@@ -30,7 +30,7 @@ describe('Debounce function test', () => {
 })
 
 describe('Debounce Promise function test', () => {
-    test('Should only be run once even though the function is called multiple time within 500ms', async done => {
+    test('Should only be run once even though the function is called multiple time within 500ms', done => {
         const run = debouncePromise(wait)
         const mockFn = jest.fn()
         const runWapper = async () => {
