@@ -17,11 +17,7 @@ A chrome extension creates an overlay to show Youtube live chat when in full scr
 
 ## Known issue
 
--   Unable to catch first chat request after the page loaded (maybe the first live chat request come before the page is loaded)
--   Freeze when go from a live page to a none-live-page
--   chat repeat
-
-    _If you have any issues and suggestions please feel free to create a issue._
+_If you have any issues and suggestions please feel free to create a issue, or join the discord sever _
 
 ## Update
 
@@ -104,6 +100,10 @@ v2.0.1 `2-May-2021`
 v2.0.2 `26-Aug-2021`
 
 -   Fixed bug the emoji url of message causing overlay to crash
+
+v2.0.3 `28-Sept-2021`
+
+-   Fixed Live Chat Membership Card
 
 ## Screenshot
 
