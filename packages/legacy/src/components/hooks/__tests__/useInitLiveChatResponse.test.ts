@@ -5,7 +5,6 @@ import { cleanupWindowMessages, setupChrome, setupWindowMessage } from '@/jest-s
 import { chrome } from 'jest-chrome'
 import { CaughtLiveChatRequestMessage } from '@models/Request'
 import { PostMessageType } from '@models/PostMessage'
-import { waitFor } from '@testing-library/dom'
 
 declare const window: ContentScriptWindow
 
@@ -44,7 +43,7 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
         }
         window.addEventListener('message', messageListener)
         act(() => {
-            chrome.runtime.onMessage.callListeners({ type: 'init-live-chat' } as CaughtLiveChatRequestMessage, {}, () => {})
+            chrome.runtime.onMessage.callListeners({ type: 'init-live-chat' } as CaughtLiveChatRequestMessage, {}, () => null)
             jest.runAllTimers()
         })
     })
@@ -55,7 +54,7 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
         renderHook(() => useInitLiveChatResponse(mockFn))
         expect(mockFn).toBeCalledTimes(0)
         await act(async () => {
-            chrome.runtime.onMessage.callListeners(message, {}, () => {})
+            chrome.runtime.onMessage.callListeners(message, {}, () => null)
             jest.runAllTimers()
         })
         expect(mockFn).toBeCalledTimes(0)
@@ -68,7 +67,7 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
         const webRequestMessage = { type: 'init-live-chat', details: {} } as CaughtLiveChatRequestMessage
 
         await act(async () => {
-            chrome.runtime.onMessage.callListeners(webRequestMessage, {}, () => {})
+            chrome.runtime.onMessage.callListeners(webRequestMessage, {}, () => null)
             window.postMessage(responseMessage, '*')
             jest.runAllTimers()
         })
@@ -80,17 +79,17 @@ describe('useInitLiveChatResponse custom effect hook testing', () => {
     })
 
     test('Should not call effect when the page type is not "init" from background message', async () => {
-        const effecFn = jest.fn()
-        const { waitFor } = renderHook(() => useInitLiveChatResponse(effecFn))
+        const effectFn = jest.fn()
+        const { waitFor } = renderHook(() => useInitLiveChatResponse(effectFn))
         const message = { type: 'live-chat' } as CaughtLiveChatRequestMessage
         await act(async () => {
-            chrome.runtime.onMessage.callListeners(message, {}, () => {})
+            chrome.runtime.onMessage.callListeners(message, {}, () => null)
             window.postMessage({ type: 'response', response: { message: 'hi' } } as PostMessageType, '*')
             jest.runAllTimers()
         })
 
         waitFor(() => {
-            expect(effecFn).toBeCalledTimes(0)
+            expect(effectFn).toBeCalledTimes(0)
         })
     })
 })

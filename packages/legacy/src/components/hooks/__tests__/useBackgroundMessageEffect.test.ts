@@ -42,7 +42,9 @@ describe('useBackgroundMessageEffect hook', () => {
         renderHook(() => useBackgroundMessage(effectFunction))
 
         act(() => {
-            chrome.runtime.onMessage.callListeners(message, {}, () => {})
+            chrome.runtime.onMessage.callListeners(message, {}, () => {
+                /** no content */
+            })
         })
 
         expect(effectFunction).toBeCalled()

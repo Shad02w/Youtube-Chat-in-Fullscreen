@@ -1,7 +1,8 @@
+/* eslint-disable padding-line-between-statements -- require */
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const path = require('path')
-const HtmlWepack = require('html-webpack-plugin')
+const HtmlWebpack = require('html-webpack-plugin')
 
 module.exports = merge(common, {
     entry: {
@@ -17,7 +18,7 @@ module.exports = merge(common, {
         hot: true
     },
     plugins: [
-        new HtmlWepack({
+        new HtmlWebpack({
             filename: 'index.html',
             template: './src/ui-testing/index.html',
             chunks: ['index']
