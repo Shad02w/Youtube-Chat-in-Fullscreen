@@ -15,4 +15,4 @@ jobs:
             - run: yarn
             - name: Legacy code base unit testing
               working-directory: ./packages/legacy
-              run: yarn test
+              run: yarn test:all
