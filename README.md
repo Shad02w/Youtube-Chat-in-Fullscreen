@@ -109,7 +109,7 @@ v2.0.3 `28-Sept-2021`
 
 _Chat overlay on Youtube Live Replay_
 
-![Chat overlay screenshot](./images/v2.0 -2.png)
+![Chat overlay screenshot](./images/v2.0-2.png)
 
 _Chat overlay on Youtube Live_
 
@@ -117,7 +117,7 @@ _Chat overlay on Youtube Live_
 
 _Settings Panel_
 
-![settings panel screenshot](./images/v2.0 - 4.png)
+![settings panel screenshot](./images/v2.0-4.png)
 
 ## Credits
 
