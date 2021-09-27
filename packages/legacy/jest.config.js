@@ -6,5 +6,6 @@ module.exports = {
         '@models/(.*)': ['<rootDir>/models/$1'],
         '@hooks/(.*)': ['<rootDir>/components/hooks/$1'],
         '@/(.*)': ['<rootDir>/$1']
-    }
+    },
+    testEnvironment: 'jsdom'
 }

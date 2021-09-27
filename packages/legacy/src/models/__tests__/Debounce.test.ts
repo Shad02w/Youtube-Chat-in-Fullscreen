@@ -1,7 +1,8 @@
 import { debounce, debouncePromise } from '@models/Function'
 
 beforeEach(() => {
-    jest.useFakeTimers()
+    // TODO: Check new prefer method
+    jest.useFakeTimers('legacy')
 })
 
 afterEach(() => {
