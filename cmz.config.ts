@@ -4,20 +4,20 @@ import { defineConfig } from '@shad02w/cmz'
 export default defineConfig({
     commitTypes: [
         {
-            name: 'Refactor',
+            name: 'refactor',
             description: 'A code change that neither fixes a bug nor adds a feature'
         },
         {
-            name: 'Fix',
+            name: 'fix',
             description: 'A bug fix'
         },
         {
-            name: 'Upgrade',
+            name: 'upgrade',
             description: 'Dependencies update and change'
         },
 
         {
-            name: 'Publish',
+            name: 'publish',
             description: 'Release new version of extension'
         }
     ],

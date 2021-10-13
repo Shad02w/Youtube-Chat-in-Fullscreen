@@ -2,16 +2,16 @@
     "name": "@ycf/root",
     "private": true,
     "scripts": {
-        "start": "yarn --cwd packages/extension start",
-        "cmz": "cmz -c configs/cmz.config.js"
+        "start": "yarn --cwd packages/extension start"
     },
     "workspaces": [
         "packages/*"
     ],
     "devDependencies": {
-        "@shad02w/cmz": "^1.0.11",
-        "@shad02w/eslint-plugin": "^1.0.11",
+        "@shad02w/cmz": "1.0.12",
+        "@shad02w/eslint-plugin": "1.0.11",
         "@types/eslint": "^7.28.0",
+        "@types/node": "^16.10.3",
         "@types/prettier": "^2.3.2",
         "@typescript-eslint/eslint-plugin": "^4.32.0",
         "@typescript-eslint/parser": "^4.32.0",
@@ -23,6 +23,7 @@
         "eslint-plugin-react": "^7.26.0",
         "eslint-plugin-react-hooks": "^4.2.0",
         "prettier": "^2.4.1",
+        "ts-node": "^10.2.1",
         "tslib": "^2.3.1",
         "typescript": "^4.4.3"
     }
