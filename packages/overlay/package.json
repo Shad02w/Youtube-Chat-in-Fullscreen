@@ -1,21 +1,23 @@
 {
     "name": "@ycf/overlay",
     "version": "1.0.0",
+    "description": "chat overlay ui",
     "main": "index.js",
     "author": "Shad02w",
     "license": "MIT",
     "private": true,
     "dependencies": {},
     "devDependencies": {
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "@types/chrome": "^0.0.157",
-        "@types/react": "^17.0.22",
-        "@types/react-dom": "^17.0.9",
-        "esbuild": "^0.12.28"
+        "react": "17.0.2",
+        "react-dom": "17.0.2",
+        "@types/chrome": "0.0.177",
+        "@types/react": "17.0.22",
+        "@types/react-dom": "17.0.9",
+        "esbuild": "0.14.14",
+        "vite": "2.7.13"
     },
     "peerDependencies": {
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2"
+        "react": "17.0.2",
+        "react-dom": "17.0.2"
     }
 }

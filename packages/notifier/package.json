@@ -1,9 +1,7 @@
 {
     "name": "@ycf/notifier",
+    "description": "send message when YT chat api changed through discord channel",
     "version": "1.0.0",
     "main": "index.js",
-    "license": "MIT",
-    "devDependencies": {
-        "@types/node": "^16.7.5"
-    }
+    "license": "MIT"
 }
