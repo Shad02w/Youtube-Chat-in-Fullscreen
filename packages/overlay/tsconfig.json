@@ -1,20 +1,15 @@
 {
-    "extends": "../../configs/tsconfig.base.json",
-    "compilerOptions": {
-        "jsx": "react-jsx",
-        "lib": ["DOM", "DOM.Iterable", "ESNext"],
-        "baseUrl": "./src",
-        "paths": {
-            "@hooks/*": ["hooks/*"],
-            "@utils/*": ["utils/*"],
-            "@components/*": ["components/*"],
-            "@models/*": ["models/*"],
-            "@type/*": ["type/*"],
-            "@css/*": ["css/*"],
-            "@icons/*": ["icons/*"],
-            "@atoms/*": ["atoms/*"]
+    "files": [],
+    "include": [],
+    "references": [
+        {
+            "path": "./config/tsconfig.app.json"
         },
-        "types": ["chrome"]
-    },
-    "include": ["src"]
+        {
+            "path": "./config/tsconfig.script.json"
+        },
+        {
+            "path": "./config/tsconfig.test.json"
+        }
+    ]
 }

@@ -1,0 +1,19 @@
+{
+    "extends": "../../../config/tsconfig.base.json",
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "baseUrl": "./src",
+        "paths": {
+            "@hooks/*": ["hooks/*"],
+            "@utils/*": ["utils/*"],
+            "@components/*": ["components/*"],
+            "@models/*": ["models/*"],
+            "@type/*": ["type/*"],
+            "@css/*": ["css/*"],
+            "@icons/*": ["icons/*"],
+            "@atoms/*": ["atoms/*"]
+        },
+        "types": ["chrome"]
+    },
+    "include": ["../src"]
+}

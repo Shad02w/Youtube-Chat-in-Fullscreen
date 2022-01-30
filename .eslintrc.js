@@ -1,1 +1,1 @@
-module.exports = require('./configs/.eslintrc.js')
+module.exports = require('./config/.eslintrc.js')
