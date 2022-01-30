@@ -1,8 +1,9 @@
 {
     "extends": "../../configs/tsconfig.base.json",
     "compilerOptions": {
+        "jsx": "react-jsx",
         "target": "ESNext",
-        "lib": ["ES2015", "ES2019", "ESNext"]
+        "lib": ["ES2015", "ESNext"]
     },
     "include": ["src"]
 }

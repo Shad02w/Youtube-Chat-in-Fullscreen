@@ -6,17 +6,25 @@
     "author": "Shad02w",
     "license": "MIT",
     "private": true,
-    "dependencies": {},
+    "scripts": {
+        "start": "vite -c ./test/vite.config.ts"
+    },
+    "dependencies": {
+        "@ycf/shared": "workspace:*"
+    },
     "devDependencies": {
-        "react": "17.0.2",
-        "react-dom": "17.0.2",
         "@types/chrome": "0.0.177",
         "@types/react": "17.0.22",
         "@types/react-dom": "17.0.9",
+        "@vitejs/plugin-react": "1.1.4",
         "esbuild": "0.14.14",
+        "jotai": "1.5.3",
+        "react": "17.0.2",
+        "react-dom": "17.0.2",
         "vite": "2.7.13"
     },
     "peerDependencies": {
+        "jotai": "1.5.3",
         "react": "17.0.2",
         "react-dom": "17.0.2"
     }
