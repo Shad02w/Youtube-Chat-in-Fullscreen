@@ -5,9 +5,9 @@
     "main": "index.js",
     "author": "Shad02w",
     "license": "MIT",
-    "private": true,
     "scripts": {
-        "start": "vite -c ./test/vite.config.ts"
+        "start": "vite -c ./test/vite.config.ts",
+        "build": "TS_NODE_PROJECT=./config/tsconfig.script.json node -r ts-node/register ./script/build.ts"
     },
     "dependencies": {
         "@ycf/shared": "workspace:*"

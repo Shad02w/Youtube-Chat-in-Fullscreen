@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "declaration": true,
-        "esModuleInterop": true,
         "strict": true,
+        "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "isolatedModules": true,
         "inlineSourceMap": true,

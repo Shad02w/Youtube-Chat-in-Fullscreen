@@ -109,3 +109,5 @@ dist
 stats.json
 
 ui-test/
+
+.DS_Store
