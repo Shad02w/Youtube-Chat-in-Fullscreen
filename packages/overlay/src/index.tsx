@@ -1,7 +1,6 @@
 import { Memo } from './util/Memo'
-import { useBool } from '@ycf/shared/src/hooks/useBoolean'
-import { useEffect } from 'react'
+import { content } from '@ycf/shared/src/content'
 
-export const ChatOverlay = Memo(() => {
-    return <div>ChatOverlay UI goes here</div>
-}, 'ChatOverlay')
+export const ChatOverlay = Memo('ChatOverlay', () => {
+    return <div>{content}</div>
+})

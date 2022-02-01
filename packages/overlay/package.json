@@ -1,8 +1,15 @@
 {
     "name": "@ycf/overlay",
     "version": "1.0.0",
-    "description": "chat overlay ui",
-    "main": "index.js",
+    "description": "chat overlay ui for Youtube Chat in Full-Screen",
+    "main": "./cjs/index.js",
+    "module": "./esm/index.js",
+    "exports": {
+        ".": {
+            "require": "./cjs/index.js",
+            "import": "./ems/index.js"
+        }
+    },
     "author": "Shad02w",
     "license": "MIT",
     "scripts": {
