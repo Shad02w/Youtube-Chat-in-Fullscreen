@@ -5,5 +5,9 @@
     "devDependencies": {
         "react": "17.0.2",
         "@types/react": "17.0.38"
+    },
+    "peerDependencies": {
+        "react": "17.0.2",
+        "@types/react": "17.0.38"
     }
 }
