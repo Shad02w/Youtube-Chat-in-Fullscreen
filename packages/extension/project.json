@@ -1,0 +1,33 @@
+{
+    "root": "packages/extension",
+    "sourceRoot": "packages/extension/src",
+    "projectType": "application",
+    "targets": {
+        "test": {
+            "outputs": [],
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "command": "echo test"
+            },
+            "dependsOn": [
+                {
+                    "target": "test",
+                    "projects": "dependencies"
+                }
+            ]
+        },
+        "build": {
+            "outputs": ["dist"],
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "command": "echo build"
+            },
+            "dependsOn": [
+                {
+                    "target": "test",
+                    "projects": "self"
+                }
+            ]
+        }
+    }
+}

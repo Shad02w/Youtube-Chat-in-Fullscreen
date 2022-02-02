@@ -10,6 +10,7 @@ const copyManifest = async () => fs.copyFile(manifestPath, path.join(outdir, './
 
 const buildScript = async () =>
     build({
+        bundle: true,
         entryPoints: {
             background: path.resolve(__dirname, '../src/background.ts'),
             'content-script': path.resolve(__dirname, '../src/content-script.ts')

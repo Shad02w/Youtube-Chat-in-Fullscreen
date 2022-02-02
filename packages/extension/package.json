@@ -3,9 +3,6 @@
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
-    "scripts": {
-        "test": "echo no test"
-    },
     "dependencies": {
         "@ycf/overlay": "workspace:*",
         "@ycf/shared": "workspace:*",
