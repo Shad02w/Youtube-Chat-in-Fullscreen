@@ -14,7 +14,7 @@
             "@icons/*": ["icons/*"],
             "@atoms/*": ["atoms/*"]
         },
-        "types": ["chrome"]
+        "types": []
     },
     "include": ["../src"]
 }
