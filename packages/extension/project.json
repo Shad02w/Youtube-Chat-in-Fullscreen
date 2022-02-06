@@ -3,6 +3,14 @@
     "sourceRoot": "packages/extension/src",
     "projectType": "application",
     "targets": {
+        "dev": {
+            "outputs": ["dist"],
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "command": "TS_NODE_PROJECT=./config/tsconfig.script.json node -r ts-node/register ./script/start.ts",
+                "cwd": "packages/extension"
+            }
+        },
         "test": {
             "outputs": [],
             "executor": "@nrwl/workspace:run-commands",
@@ -20,7 +28,8 @@
             "outputs": ["dist"],
             "executor": "@nrwl/workspace:run-commands",
             "options": {
-                "command": "echo build"
+                "command": "TS_NODE_PROJECT=./config/tsconfig.script.json node -r ts-node/register ./script/build.ts",
+                "cwd": "packages/extension"
             },
             "dependsOn": [
                 {

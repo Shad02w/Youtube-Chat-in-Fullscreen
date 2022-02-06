@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "module": "ESNext",
         "declaration": true,
         "strict": true,
         "esModuleInterop": true,

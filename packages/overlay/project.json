@@ -1,0 +1,28 @@
+{
+    "root": "packages/overlay",
+    "sourceRoot": "packages/overlay/src",
+    "projectType": "application",
+    "targets": {
+        "test": {
+            "outputs": [],
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "command": "echo overlay testing"
+            },
+            "dependsOn": [
+                {
+                    "target": "test",
+                    "projects": "dependencies"
+                }
+            ]
+        },
+        "build": {
+            "outputs": ["dist"],
+            "executor": "@nrwl/workspace:run-commands",
+            "options": {
+                "command": "TS_NODE_PROJECT=./config/tsconfig.script.json node -r ts-node/register ./script/build.ts",
+                "cwd": "packages/overlay"
+            }
+        }
+    }
+}
