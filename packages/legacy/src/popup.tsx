@@ -33,7 +33,7 @@ const useStyle = makeStyles({
         width: '25rem',
         height: 'auto',
         minHeight: '5rem',
-        fontFamily: '\'Noto Sans JP\', sans-serif'
+        fontFamily: "'Noto Sans JP', sans-serif"
     },
     icon: {
         width: theme.spacing(3),
@@ -119,22 +119,18 @@ const App: React.FC = () => {
             <Fade in={isReady} timeout={700}>
                 <div className={classes.container}>
                     <header className={classes.header}>
-                        <img className={classes.icon} src={icon}
-alt="App icon" />
-                        <Typography className={classes.appName} variant="h6"
-color="textPrimary">
+                        <img className={classes.icon} src={icon} alt="App icon" />
+                        <Typography className={classes.appName} variant="h6" color="textPrimary">
                             Youtube Chat in Fullscreen
                         </Typography>
                     </header>
                     <main className={classes.main}>
                         <article className={classes.part}>
                             <article>
-                                <Typography className={classes.partName} variant="body1"
-color="textSecondary">
+                                <Typography className={classes.partName} variant="body1" color="textSecondary">
                                     Show chat overlay
                                 </Typography>
-                                <Typography style={{ fontSize: '0.8rem' }} variant="subtitle2"
-color="textSecondary">
+                                <Typography style={{ fontSize: '0.8rem' }} variant="subtitle2" color="textSecondary">
                                     Refresh is needed
                                 </Typography>
                             </article>
@@ -142,16 +138,13 @@ color="textSecondary">
                         </article>
                         <article className={classes.part}>
                             <article>
-                                <Box display="flex" flexDirection="row"
-alignItems="center" flexWrap="nowrap">
-                                    <Typography className={classes.partName} variant="body1"
-color="textSecondary">
+                                <Box display="flex" flexDirection="row" alignItems="center" flexWrap="nowrap">
+                                    <Typography className={classes.partName} variant="body1" color="textSecondary">
                                         Native Mode
                                     </Typography>
                                     <div className={classes.beta}>BETA</div>
                                 </Box>
-                                <Typography style={{ fontSize: '0.8rem' }} variant="subtitle2"
-color="textSecondary">
+                                <Typography style={{ fontSize: '0.8rem' }} variant="subtitle2" color="textSecondary">
                                     Refresh is needed
                                 </Typography>
                             </article>
@@ -159,12 +152,10 @@ color="textSecondary">
                         </article>
                         <article className={classes.part}>
                             <article>
-                                <Typography className={classes.partName} variant="body1"
-color="textSecondary">
+                                <Typography className={classes.partName} variant="body1" color="textSecondary">
                                     Reset Overlay
                                 </Typography>
-                                <Typography style={{ fontSize: '0.8rem' }} variant="subtitle2"
-color="textSecondary">
+                                <Typography style={{ fontSize: '0.8rem' }} variant="subtitle2" color="textSecondary">
                                     This will reset all the settings, like overlay position, opacity, width, height, etc. to default
                                 </Typography>
                             </article>
@@ -183,8 +174,7 @@ color="textSecondary">
                                 autoHideDuration={3000}
                                 onClose={() => setStorageReset(false)}
                             >
-                                <Alert elevation={5} variant="standard"
-severity="success">
+                                <Alert elevation={5} variant="standard" severity="success">
                                     Successfully reset
                                 </Alert>
                             </Snackbar>

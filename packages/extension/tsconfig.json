@@ -7,6 +7,9 @@
         },
         {
             "path": "./config/tsconfig.app.json"
+        },
+        {
+            "path": "./config/tsconfig.jest.json"
         }
     ]
 }

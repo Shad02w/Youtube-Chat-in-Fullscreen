@@ -13,9 +13,9 @@
         },
         "test": {
             "outputs": [],
-            "executor": "@nrwl/workspace:run-commands",
+            "executor": "@nrwl/jest:jest",
             "options": {
-                "command": "echo test"
+                "jestConfig": "./packages/extension/config/jest.config.ts"
             },
             "dependsOn": [
                 {
