@@ -8,16 +8,6 @@ export function debounce(wait: number, callback: (...args: any) => any) {
     }
 }
 
-export const debouncePromise = (wait: number) => {
-    let timer: number
-    return <T extends any[]>(...args: T) => {
-        clearTimeout(timer)
-        return new Promise<typeof args>(resovle => {
-            timer = setTimeout(() => resovle(args), wait)
-        })
-    }
-}
-
 export function FindObjectByKeyRecursively(obj: LiveChatResponse, targetKey: string): any | undefined {
     const result = Object.keys(obj).find(k => k === targetKey)
     if (result) return obj[result]

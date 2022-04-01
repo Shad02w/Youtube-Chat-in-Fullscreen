@@ -6,13 +6,10 @@ import React from 'react'
 type ElementState = ReturnType<typeof useElementStatus>
 
 describe('useElementState hook testing', () => {
-
-
     let elementState: ElementState | undefined
     const id = 'idForElement'
 
     const setup = (): ElementState => {
-
         const result = {} as ElementState
         const TestComponent = () => {
             Object.assign(result, useElementStatus(id))
@@ -22,17 +19,14 @@ describe('useElementState hook testing', () => {
         return result
     }
 
-
     afterEach(() => {
         cleanup()
         document.body.textContent = ''
         elementState = undefined
-
     })
 
     describe('Intercept element does not exist when creating the hook', () => {
-        beforeEach(() => elementState = setup())
-
+        beforeEach(() => (elementState = setup()))
 
         test('Should return true ready state when target element is created', async () => {
             expect(elementState?.ready).toBeFalsy()

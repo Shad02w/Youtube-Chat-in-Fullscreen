@@ -1,5 +1,4 @@
-import { debounce, debouncePromise } from '@models/Function'
-import { act } from 'react-test-renderer'
+import { debounce } from '@models/Function'
 
 beforeEach(() => {
     jest.useFakeTimers()
@@ -21,28 +20,9 @@ describe('Debounce function test', () => {
         run(arg1, arg2)
         jest.advanceTimersByTime(wait)
 
-        expect(setTimeout).toHaveBeenCalledTimes(3)
         expect(mockFn).toHaveBeenCalledTimes(1)
         expect(mockFn).toBeCalledWith(arg1, arg2)
 
         jest.clearAllTimers()
-    })
-})
-
-describe('Debounce Promise function test', () => {
-    test('Should only be run once even though the function is called multiple time within 500ms', async done => {
-        const run = debouncePromise(wait)
-        const mockFn = jest.fn()
-        const runWapper = async () => {
-            await run()
-            mockFn()
-            expect(setTimeout).toHaveBeenCalledTimes(3)
-            expect(mockFn).toHaveBeenCalledTimes(1)
-            done()
-        }
-        runWapper()
-        runWapper()
-        runWapper()
-        jest.advanceTimersByTime(wait)
     })
 })

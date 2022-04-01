@@ -1,0 +1,8 @@
+{
+    "extends": "./tsconfig.app.json",
+    "compilerOptions": {
+        "types": ["jest", "chrome"]
+    },
+    "include": ["../src/**/__tests__", "../src/type-d-ts"],
+    "exclude": []
+}

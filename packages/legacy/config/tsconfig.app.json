@@ -1,0 +1,24 @@
+{
+    "extends": "../../../config/tsconfig.base.json",
+    "compilerOptions": {
+        "jsx": "react",
+        "target": "ES6",
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "baseUrl": "../src",
+        "paths": {
+            "@hooks/*": ["components/hooks/*"],
+            "@components/*": ["components/*"],
+            "@utils/*": ["utils/*"],
+            "@models/*": ["models/*"],
+            "@type/*": ["type/*"],
+            "@css/*": ["css/*"],
+            "@assets/*": ["assets/*"],
+            "@icons/*": ["icons/*"],
+            "@contexts/*": ["contexts/*"],
+            "@/*": ["./*"]
+        },
+        "types": ["chrome"]
+    },
+    "include": ["../src"],
+    "exclude": ["../src/coverage", "../src/**/__tests__"]
+}

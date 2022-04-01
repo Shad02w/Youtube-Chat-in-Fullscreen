@@ -1,0 +1,20 @@
+{
+    "root": "packages/legacy",
+    "sourceRoot": "packages/legacy/src",
+    "projectType": "application",
+    "targets": {
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "options": {
+                "jestConfig": "./packages/legacy/config/jest.config.ts"
+            },
+            "outputs": [],
+            "dependsOn": [
+                {
+                    "target": "test",
+                    "projects": "dependencies"
+                }
+            ]
+        }
+    }
+}

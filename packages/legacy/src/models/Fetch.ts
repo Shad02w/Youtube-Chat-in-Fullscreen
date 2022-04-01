@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 const forbiddenRequestHeaders = [
     // from w3c spec :https://fetch.spec.whatwg.org/#forbidden-header-name
@@ -65,7 +65,8 @@ export async function FetchData(
             data = res.data as LiveChatResponse
         }
     } catch (error) {
-        if (error.response) console.error(error.response.data)
+        const e = error as AxiosError
+        if (e.response) console.error(e.response.data)
         else console.error(error)
         return undefined
     }

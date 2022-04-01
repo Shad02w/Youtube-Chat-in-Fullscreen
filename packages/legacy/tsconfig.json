@@ -1,24 +1,12 @@
 {
-    "extends": "../../config/tsconfig.base.json",
-    "compilerOptions": {
-        "jsx": "react",
-        "target": "ES6",
-        "module": "ES2020",
-        "lib": ["DOM", "ES2015", "ES2019", "ESNext"],
-        "baseUrl": "./src",
-        "paths": {
-            "@hooks/*": ["components/hooks/*"],
-            "@components/*": ["components/*"],
-            "@utils/*": ["utils/*"],
-            "@models/*": ["models/*"],
-            "@type/*": ["type/*"],
-            "@css/*": ["css/*"],
-            "@assets/*": ["assets/*"],
-            "@icons/*": ["icons/*"],
-            "@contexts/*": ["contexts/*"],
-            "@/*": ["./*"]
+    "files": [],
+    "include": [],
+    "references": [
+        {
+            "path": "./config/tsconfig.app.json"
         },
-        "types": ["chrome"]
-    },
-    "include": ["src"]
+        {
+            "path": "./config/tsconfig.jest.json"
+        }
+    ]
 }
