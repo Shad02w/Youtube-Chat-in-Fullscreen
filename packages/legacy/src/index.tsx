@@ -38,6 +38,8 @@ async function main() {
             observer.disconnect()
             const chatListContainer = document.createElement('div')
             chatListContainer.id = chatListContainerId
+            // Added z index to prevent conflict with Enhancer for Youtube, z-index bigger than 300 will work, dont know why, but let it be this way now
+            chatListContainer.style.zIndex = '350'
             chatOverlayContainer.append(chatListContainer)
 
             const script = document.createElement('script')

@@ -29,6 +29,14 @@
                     "projects": "self"
                 }
             ]
+        },
+        "start": {
+            "executor": "@nrwl/workspace:run-commands",
+            "outputs": [],
+            "options": {
+                "command": "./node_modules/webpack-cli/bin/cli.js --config ./webpack.dev.js",
+                "cwd": "packages/legacy"
+            }
         }
     }
 }
