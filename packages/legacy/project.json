@@ -15,6 +15,20 @@
                     "projects": "dependencies"
                 }
             ]
+        },
+        "build": {
+            "executor": "@nrwl/workspace:run-commands",
+            "outputs": ["build"],
+            "options": {
+                "command": "./node_modules/webpack-cli/bin/cli.js --config ./webpack.prod.js",
+                "cwd": "packages/legacy"
+            },
+            "dependsOn": [
+                {
+                    "target": "test",
+                    "projects": "self"
+                }
+            ]
         }
     }
 }
