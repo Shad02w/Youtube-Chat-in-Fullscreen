@@ -12,7 +12,6 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: '12'
-            - run: yarn
+            - run: pnpm install
             - name: Legacy code base unit testing
-              working-directory: ./packages/legacy
-              run: yarn test:all
+              run: pnpm nx run-many --target=test --all
