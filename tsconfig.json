@@ -1,0 +1,9 @@
+{
+    "include": [],
+    "files": [],
+    "references": [
+        {
+            "path": "./app/overlay"
+        }
+    ]
+}

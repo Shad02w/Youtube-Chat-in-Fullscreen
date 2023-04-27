@@ -1,0 +1,9 @@
+{
+    "name": "@ycf/root",
+    "private": true,
+    "version": "1.0.0",
+    "author": "Alvis Tse",
+    "devDependencies": {
+        "typescript": "^5.0.4"
+    }
+}
