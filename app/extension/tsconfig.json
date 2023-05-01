@@ -2,7 +2,7 @@
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "composite": true,
-        "types": ["chrome"]
+        "types": ["webextension-polyfill"]
     },
     "references": [{ "path": "./script" }]
 }

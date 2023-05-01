@@ -1,1 +1,6 @@
-console.log('hi 1231223')
+import browser from 'webextension-polyfill'
+
+browser.runtime.onInstalled.addListener(() => {
+    console.log('abcccc')
+    console.log('onInstalled....')
+})
