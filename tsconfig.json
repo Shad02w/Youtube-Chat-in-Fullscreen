@@ -3,7 +3,7 @@
     "files": [],
     "references": [
         {
-            "path": "./app/overlay"
+            "path": "./app/extension"
         }
     ]
 }
