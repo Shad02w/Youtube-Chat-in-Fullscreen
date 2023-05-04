@@ -4,6 +4,12 @@
     "references": [
         {
             "path": "./app/extension"
+        },
+        {
+            "path": "./lib/ui"
+        },
+        {
+            "path": "./lib/demo"
         }
     ]
 }

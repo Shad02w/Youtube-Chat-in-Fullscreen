@@ -1,0 +1,15 @@
+{
+    "extends": ["@tsconfig/svelte/tsconfig.json", "../../tsconfig.base.json"],
+    "compilerOptions": {
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "resolveJsonModule": true,
+        "allowJs": true,
+        "checkJs": true,
+        "isolatedModules": true,
+        "composite": true
+    },
+    "include": ["src"],
+    "references": [{ "path": "./tsconfig.node.json" }, { "path": "../ui/tsconfig.json" }]
+}

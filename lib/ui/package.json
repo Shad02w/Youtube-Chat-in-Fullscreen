@@ -1,0 +1,7 @@
+{
+    "name": "@ycf/ui",
+    "private": true,
+    "dependencies": {
+        "svelte": "^3.58.0"
+    }
+}
