@@ -12,7 +12,6 @@
     "devDependencies": {
         "@rspack/cli": "^0.1.9",
         "@rspack/core": "^0.1.9",
-        "@types/chrome": "^0.0.234",
         "@types/fs-extra": "^11.0.1",
         "@types/webextension-polyfill": "^0.10.0",
         "fs-extra": "^11.1.1",
