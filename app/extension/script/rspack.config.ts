@@ -34,7 +34,8 @@ const release = definePlugin((compiler) => {
 
 const config: RspackOptions = defineConfig({
     entry: {
-        background: path.join(__dirname, '../src/background.ts')
+        background: path.join(__dirname, '../src/background.ts'),
+        inject: path.join(__dirname, '../src/inject.ts')
     },
     output: {
         path: path.join(__dirname, '../dist/source')

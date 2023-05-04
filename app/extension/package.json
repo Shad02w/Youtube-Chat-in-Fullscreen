@@ -1,6 +1,7 @@
 {
     "name": "@ycf/extension",
     "version": "1.0.0",
+    "author": "Alvis Tse",
     "description": "A chrome extension creates an overlay to show Youtube live chat when in full screen",
     "main": "index.js",
     "scripts": {
@@ -8,8 +9,6 @@
         "start": "rspack build -c ./script/rspack.config.ts --watch --mode=development"
     },
     "keywords": [],
-    "author": "Alvis Tse",
-    "license": "ISC",
     "devDependencies": {
         "@rspack/cli": "^0.1.9",
         "@rspack/core": "^0.1.9",

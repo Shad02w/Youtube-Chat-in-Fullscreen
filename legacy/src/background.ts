@@ -8,16 +8,16 @@ type MessagesStore = CaughtLiveChatRequestMessage[]
 const createMessageMap = () => {
     let messageStore: MessagesStore = []
     const add = (requestId: string, message: CaughtLiveChatRequestMessage) => {
-        if (messageStore.some(m => m.details.requestId === requestId)) return
+        if (messageStore.some((m) => m.details.requestId === requestId)) return
         messageStore.push(message)
     }
     const get = (requestId: string) => {
-        const results = messageStore.filter(m => m.details.requestId === requestId)
+        const results = messageStore.filter((m) => m.details.requestId === requestId)
         return results[0]
     }
 
     const clear = () => (messageStore = [])
-    const hasRequestId = (requestId: string) => Object.keys(messageStore).some(id => id === requestId)
+    const hasRequestId = (requestId: string) => Object.keys(messageStore).some((id) => id === requestId)
 
     return { store: messageStore, add, get, clear, hasRequestId }
 }
@@ -35,7 +35,7 @@ const LiveChatRequestFilter: chrome.webRequest.RequestFilter = {
 // reference to https://gist.github.com/72lions/4528834
 export function RequestBodyArrayBuffer2json(raw: chrome.webRequest.UploadData[]): JSON {
     // combine the raw data array
-    const byteLengthArray = raw.map(buffer => buffer.bytes!.byteLength)
+    const byteLengthArray = raw.map((buffer) => buffer.bytes!.byteLength)
     const totalByteLength = byteLengthArray.reduce((pre, curr) => pre + curr)
     const view = new Uint8Array(totalByteLength)
 
@@ -93,14 +93,19 @@ function attachListeners() {
         chrome.webRequest.onCompleted.addListener(liveChatRequestListener, LiveChatRequestFilter)
 
     if (!chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestBodyListener))
-        chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestBodyListener, getLiveChatRequestFilter, ['requestBody'])
+        chrome.webRequest.onBeforeRequest.addListener(getLiveChatRequestBodyListener, getLiveChatRequestFilter, [
+            'requestBody'
+        ])
 
     if (!chrome.webRequest.onBeforeSendHeaders.hasListener(getLiveChatRequestHeadersListener))
-        chrome.webRequest.onBeforeSendHeaders.addListener(getLiveChatRequestHeadersListener, getLiveChatRequestFilter, ['requestHeaders'])
+        chrome.webRequest.onBeforeSendHeaders.addListener(getLiveChatRequestHeadersListener, getLiveChatRequestFilter, [
+            'requestHeaders'
+        ])
 }
 
 function removeListeners() {
-    if (chrome.webRequest.onCompleted.hasListener(liveChatRequestListener)) chrome.webRequest.onCompleted.removeListener(liveChatRequestListener)
+    if (chrome.webRequest.onCompleted.hasListener(liveChatRequestListener))
+        chrome.webRequest.onCompleted.removeListener(liveChatRequestListener)
 
     if (chrome.webRequest.onBeforeRequest.hasListener(getLiveChatRequestBodyListener))
         chrome.webRequest.onBeforeRequest.removeListener(getLiveChatRequestBodyListener)
@@ -118,11 +123,11 @@ chrome.runtime.onInstalled.addListener(async () => {
 })
 
 // Get the variable 'on' in storage to check whether the extension is on or not
-chrome.storage.local.get(['on'], result => {
+chrome.storage.local.get(['on'], (result) => {
     if (result.on) attachListeners()
 })
 
-chrome.storage.onChanged.addListener(changes => {
+chrome.storage.onChanged.addListener((changes) => {
     // Remove all Web Request listener on background script
     if (changes['on']) {
         const isOn = changes['on'].newValue as boolean

@@ -8,5 +8,12 @@
     },
     "action": {
         "default_popup": "popup.html"
-    }
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://*.youtube.com/*"],
+            "js": ["inject.js"],
+            "run_at": "document_idle"
+        }
+    ]
 }
