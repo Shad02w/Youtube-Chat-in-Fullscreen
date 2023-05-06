@@ -6,5 +6,6 @@
     "endOfLine": "lf",
     "trailingComma": "none",
     "singleQuote": true,
-    "jsxSingleQuote": true
+    "jsxSingleQuote": true,
+    "plugins": ["prettier-plugin-svelte"]
 }
