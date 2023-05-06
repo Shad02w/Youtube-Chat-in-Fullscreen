@@ -109,5 +109,3 @@ dist
 stats.json
 
 ui-test/
-
-.svelte-kit/
