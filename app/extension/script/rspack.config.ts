@@ -5,7 +5,8 @@ import path from 'path'
 
 const PLUGIN_NAME = 'EXTENSION_RELEASE'
 const TARGET_DIRECTORY = path.join(__dirname, '../dist/target')
-const release = definePlugin((compiler) => {
+
+const buildTarget = definePlugin((compiler) => {
     compiler.hooks.afterEmit.tap(PLUGIN_NAME, async () => {
         if (await fs.exists(TARGET_DIRECTORY)) {
             await fs.rm(TARGET_DIRECTORY, { recursive: true, force: true })
@@ -33,22 +34,28 @@ const release = definePlugin((compiler) => {
 })
 
 const config: RspackOptions = defineConfig({
+    devtool: false,
     entry: {
         background: path.join(__dirname, '../src/background.ts'),
-        inject: path.join(__dirname, '../src/inject.ts')
+        inject: path.join(__dirname, '../src/inject.tsx'),
+        popup: path.join(__dirname, '../src/popup/index.ts')
     },
     output: {
         path: path.join(__dirname, '../dist/source')
     },
     builtins: {
+        react: {
+            runtime: 'automatic'
+        },
         html: [
             {
-                template: path.join(__dirname, '../src/popup.html'),
-                filename: 'popup.html'
+                template: path.join(__dirname, '../src/popup/index.html'),
+                filename: 'popup.html',
+                chunks: ['popup']
             }
         ]
     },
-    plugins: [release]
+    plugins: [buildTarget]
 })
 
 export = config

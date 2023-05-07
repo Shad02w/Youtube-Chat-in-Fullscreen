@@ -13,12 +13,16 @@
         "@rspack/cli": "^0.1.9",
         "@rspack/core": "^0.1.9",
         "@types/fs-extra": "^11.0.1",
+        "@types/react": "^18.2.6",
+        "@types/react-dom": "^18.2.4",
         "@types/webextension-polyfill": "^0.10.0",
         "fs-extra": "^11.1.1",
         "tasuku": "^2.0.1",
         "ts-node": "^10.9.1"
     },
     "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
         "webextension-polyfill": "^0.10.0"
     }
 }

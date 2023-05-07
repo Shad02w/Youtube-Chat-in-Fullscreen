@@ -6,5 +6,6 @@ browser.runtime.onInstalled.addListener(() => {
 })
 
 browser.tabs.onUpdated.addListener((tabId) => {
+    console.log('update', tabId)
     browser.tabs.sendMessage(tabId, { type: 'tab-update', tabId })
 })
