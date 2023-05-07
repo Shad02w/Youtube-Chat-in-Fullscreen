@@ -39,12 +39,6 @@ importers:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.16.3)(typescript@5.0.4)
 
-  lib/ui:
-    dependencies:
-      svelte:
-        specifier: ^3.58.0
-        version: 3.58.0
-
 packages:
 
   /@cspotcode/source-map-support@0.8.1:
@@ -2319,11 +2313,6 @@ packages:
     dependencies:
       has-flag: 4.0.0
     dev: true
-
-  /svelte@3.58.0:
-    resolution: {integrity: sha512-brIBNNB76mXFmU/Kerm4wFnkskBbluBDCjx/8TcpYRb298Yh2dztS2kQ6bhtjMcvUhd5ynClfwpz5h2gnzdQ1A==}
-    engines: {node: '>= 8'}
-    dev: false
 
   /tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
