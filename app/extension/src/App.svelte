@@ -4,6 +4,7 @@
 </script>
 
 <button class="button" on:click={() => (count += 1)}>Add Count: {count}</button>
+<p>hi</p>
 <ChatOverlay />
 
 <style>

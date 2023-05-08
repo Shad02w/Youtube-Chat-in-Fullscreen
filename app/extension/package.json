@@ -7,7 +7,8 @@
     "main": "index.js",
     "scripts": {
         "build": "node --loader @swc-node/register/esm ./script/bundle.ts",
-        "dev": "node --loader @swc-node/register/esm ./script/bundle.ts --mode=dev"
+        "dev": "node --loader @swc-node/register/esm ./script/bundle.ts --mode=dev",
+        "start": "vite serve --config ./script/vite.config.ts"
     },
     "keywords": [],
     "devDependencies": {
