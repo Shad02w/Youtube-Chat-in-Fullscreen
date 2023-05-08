@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 import { URLChangeDetector } from './util/URLChangeDetector'
-import App from './Counter.svelte'
+import App from './App.svelte'
 
 declare const window: Window & { _ycf_initialized: boolean }
 if (!window._ycf_initialized) {
@@ -14,7 +14,8 @@ function initialize() {
     root.id = '_ycf_root'
     document.body.appendChild(root)
     const app = new App({
-        target: root
+        target: root,
+        props: {}
     })
 
     console.log(app)

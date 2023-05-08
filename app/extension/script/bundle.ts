@@ -1,13 +1,18 @@
 import esbuild from 'esbuild'
 import yargs from 'yargs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 import fs from 'fs-extra'
+import { hideBin } from 'yargs/helpers'
 import sveltePlugin from 'esbuild-svelte'
 import sveltePreprocess from 'svelte-preprocess'
 import { htmlPlugin } from '@craftamap/esbuild-plugin-html'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 async function run() {
-    const { mode } = await yargs.options({
+    const { mode } = await yargs(hideBin(process.argv)).options({
         mode: {
             alias: 'm',
             describe: 'Set the mode',

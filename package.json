@@ -4,6 +4,7 @@
     "version": "1.0.0",
     "author": "Alvis Tse",
     "devDependencies": {
+        "@swc-node/register": "^1.6.5",
         "prettier": "^2.8.8",
         "prettier-plugin-svelte": "^2.10.0",
         "typescript": "^5.0.4"

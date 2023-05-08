@@ -2,15 +2,17 @@
     "name": "@ycf/extension",
     "version": "1.0.0",
     "author": "Alvis Tse",
+    "type": "module",
     "description": "A chrome extension creates an overlay to show Youtube live chat when in full screen",
     "main": "index.js",
     "scripts": {
-        "build": "ts-node -P ./script/tsconfig.json ./script/bundle.ts",
-        "dev": "ts-node -P ./script/tsconfig.json ./script/bundle.ts --mode=dev"
+        "build": "node --loader @swc-node/register/esm ./script/bundle.ts",
+        "dev": "node --loader @swc-node/register/esm ./script/bundle.ts --mode=dev"
     },
     "keywords": [],
     "devDependencies": {
         "@craftamap/esbuild-plugin-html": "^0.5.0",
+        "@sveltejs/vite-plugin-svelte": "^2.2.0",
         "@types/fs-extra": "^11.0.1",
         "@types/webextension-polyfill": "^0.10.0",
         "@types/yargs": "^17.0.24",
@@ -19,7 +21,7 @@
         "fs-extra": "^11.1.1",
         "svelte-preprocess": "^5.0.3",
         "tasuku": "^2.0.1",
-        "ts-node": "^10.9.1",
+        "vite": "^4.3.5",
         "yargs": "^17.7.2"
     },
     "dependencies": {
