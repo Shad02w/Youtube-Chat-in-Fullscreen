@@ -55,6 +55,18 @@ const config: RspackOptions = defineConfig({
             }
         ]
     },
+    module: {
+        rules: [
+            {
+                test: /\.svelte$/,
+                use: 'svelte-loader'
+            }
+        ]
+    },
+    resolve: {
+        mainFields: ['browser', 'module', 'main', 'svelte'],
+        conditionNames: ['svelte']
+    },
     plugins: [buildTarget]
 })
 

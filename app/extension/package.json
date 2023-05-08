@@ -17,12 +17,14 @@
         "@types/react-dom": "^18.2.4",
         "@types/webextension-polyfill": "^0.10.0",
         "fs-extra": "^11.1.1",
+        "svelte-loader": "^3.1.7",
         "tasuku": "^2.0.1",
         "ts-node": "^10.9.1"
     },
     "dependencies": {
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "svelte": "^3.59.0",
         "webextension-polyfill": "^0.10.0"
     }
 }
