@@ -5,30 +5,24 @@
     "description": "A chrome extension creates an overlay to show Youtube live chat when in full screen",
     "main": "index.js",
     "scripts": {
-        "bundle": "ts-node -P ./script/tsconfig.json ./script/bundle.ts",
-        "build": "ts-node -P ./script/tsconfig.json ./script/build.ts",
-        "start": "rspack build -c ./script/rspack.config.ts --watch --mode=development"
+        "build": "ts-node -P ./script/tsconfig.json ./script/bundle.ts",
+        "dev": "ts-node -P ./script/tsconfig.json ./script/bundle.ts --mode=dev"
     },
     "keywords": [],
     "devDependencies": {
         "@craftamap/esbuild-plugin-html": "^0.5.0",
-        "@rspack/cli": "^0.1.9",
-        "@rspack/core": "^0.1.9",
         "@types/fs-extra": "^11.0.1",
         "@types/webextension-polyfill": "^0.10.0",
         "@types/yargs": "^17.0.24",
         "esbuild": "^0.17.18",
         "esbuild-svelte": "^0.7.3",
         "fs-extra": "^11.1.1",
-        "svelte-loader": "^3.1.7",
         "svelte-preprocess": "^5.0.3",
         "tasuku": "^2.0.1",
         "ts-node": "^10.9.1",
         "yargs": "^17.7.2"
     },
     "dependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
         "svelte": "^3.59.1",
         "webextension-polyfill": "^0.10.0"
     }
