@@ -37,7 +37,7 @@ const config: RspackOptions = defineConfig({
     devtool: false,
     entry: {
         background: path.join(__dirname, '../src/background.ts'),
-        inject: path.join(__dirname, '../src/inject.tsx'),
+        inject: path.join(__dirname, '../src/inject.ts'),
         popup: path.join(__dirname, '../src/popup/index.ts')
     },
     output: {
@@ -58,12 +58,13 @@ const config: RspackOptions = defineConfig({
     module: {
         rules: [
             {
-                test: /\.svelte$/,
-                use: 'svelte-loader'
+                test: /\.tsx$/,
+                use: []
             }
         ]
     },
     resolve: {
+        extensions: ['.ts', '.js', '.mjs', '.cjs', '.svelte'],
         mainFields: ['browser', 'module', 'main', 'svelte'],
         conditionNames: ['svelte']
     },

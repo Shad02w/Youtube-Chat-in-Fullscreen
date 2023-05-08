@@ -6,14 +6,10 @@
     "background": {
         "service_worker": "background.js"
     },
-    "action": {
-        "default_popup": "popup.html"
-    },
     "content_scripts": [
         {
             "matches": ["*://*.youtube.com/*"],
             "js": ["inject.js"],
-            "css": ["inject.css"],
             "run_at": "document_idle"
         }
     ]
