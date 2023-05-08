@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill'
-import Counter from './Counter.svelte'
+import { URLChangeDetector } from './util/URLChangeDetector'
+import App from './Counter.svelte'
 
 declare const window: Window & { _ycf_initialized: boolean }
 if (!window._ycf_initialized) {
@@ -8,25 +9,19 @@ if (!window._ycf_initialized) {
     initialize()
 }
 
-let url = window.location.href
-
 function initialize() {
-    alert('inject')
     const root = document.createElement('div')
-    // root.id = '_ycf_root'
-    // document.body.appendChild(root)
-    // new Counter({
-    //     target: root
-    // })
-    //
-    // alert('inject')
-    //
-    // const observer = new MutationObserver(() => {
-    //     if (url !== window.location.href) {
-    //         url = window.location.href
-    //         console.log('url changed')
-    //     }
-    // })
-    //
-    // observer.observe(document.body, { childList: true, subtree: true })
+    root.id = '_ycf_root'
+    document.body.appendChild(root)
+    const app = new App({
+        target: root
+    })
+
+    console.log(app)
+
+    URLChangeDetector.subscribe(() => {
+        console.log('url changed')
+    })
+
+    console.log('youtube chat fullscreen content script injected')
 }

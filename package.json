@@ -5,6 +5,7 @@
     "author": "Alvis Tse",
     "devDependencies": {
         "prettier": "^2.8.8",
+        "prettier-plugin-svelte": "^2.10.0",
         "typescript": "^5.0.4"
     }
 }
