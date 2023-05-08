@@ -11,6 +11,7 @@
     },
     "keywords": [],
     "devDependencies": {
+        "@craftamap/esbuild-plugin-html": "^0.5.0",
         "@rspack/cli": "^0.1.9",
         "@rspack/core": "^0.1.9",
         "@types/fs-extra": "^11.0.1",

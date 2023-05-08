@@ -4,6 +4,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import sveltePlugin from 'esbuild-svelte'
 import sveltePreprocess from 'svelte-preprocess'
+import { htmlPlugin } from '@craftamap/esbuild-plugin-html'
 
 async function run() {
     const { mode } = await yargs.options({
@@ -17,13 +18,14 @@ async function run() {
     }).argv
 
     const options: esbuild.BuildOptions = {
-        entryPoints: [
-            path.join(__dirname, '../src/background.ts'),
-            path.join(__dirname, '../src/inject.ts'),
-            path.join(__dirname, '../src/popup/index.ts')
-        ],
+        entryPoints: {
+            background: path.join(__dirname, '../src/background.ts'),
+            inject: path.join(__dirname, '../src/inject.ts'),
+            popup: path.join(__dirname, '../src/popup/index.ts')
+        },
         mainFields: ['svelte', 'browser', 'module', 'main'],
         outdir: path.join(__dirname, '../dist/out'),
+        metafile: true,
         bundle: true,
         minify: true,
         sourcemap: mode === 'dev',
@@ -36,9 +38,19 @@ async function run() {
                 },
                 preprocess: [sveltePreprocess()]
             }),
+            htmlPlugin({
+                files: [
+                    {
+                        filename: 'popup.html',
+                        entryPoints: [],
+                        scriptLoading: 'defer',
+                        htmlTemplate: path.join(__dirname, '../src/popup/index.html')
+                    }
+                ]
+            }),
             cleanup(),
-            time(),
-            buildTarget()
+            buildTarget(),
+            time()
         ]
     }
 
@@ -55,11 +67,12 @@ run()
 function cleanup(): esbuild.Plugin {
     return {
         name: 'cleanup',
-        setup(build) {
-            const outdir = build.initialOptions.outdir
-            if (outdir) {
-                build.onStart(() => {
-                    console.log(`🧹cleanup ${outdir}`)
+        async setup(build) {
+            const distDir = path.join(__dirname, '../dist')
+            if (await fs.exists(distDir)) {
+                build.onStart(async () => {
+                    await fs.rm(distDir, { recursive: true, force: true })
+                    console.log(`🧹cleanup ${distDir}`)
                 })
             }
         }
@@ -85,6 +98,10 @@ function buildTarget(): esbuild.Plugin {
         name: 'buildTarget',
         setup(build) {
             build.onEnd(async () => {
+                await Promise.all([
+                    fs.mkdir(path.join(__dirname, '../dist/target/firefox'), { recursive: true }),
+                    fs.mkdir(path.join(__dirname, '../dist/target/chrome'), { recursive: true })
+                ])
                 await Promise.all([
                     fs.copyFile(
                         path.join(__dirname, '../manifest.firefox.json'),
