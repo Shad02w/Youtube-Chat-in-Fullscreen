@@ -13,8 +13,7 @@
         {
             "matches": ["*://*.youtube.com/*"],
             "js": ["inject.js"],
-            "css": ["inject.css"],
-            "run_at": "document_start"
+            "run_at": "document_idle"
         }
     ]
 }
