@@ -13,7 +13,7 @@ async function run() {
             describe: 'Set the mode',
             choices: ['dev', 'prod'],
             demandOption: true,
-            default: 'dev'
+            default: 'prod'
         }
     }).argv
 
