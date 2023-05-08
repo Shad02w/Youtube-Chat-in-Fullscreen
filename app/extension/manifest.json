@@ -6,6 +6,9 @@
     "background": {
         "service_worker": "background.js"
     },
+    "action": {
+        "default_popup": "popup.html"
+    },
     "content_scripts": [
         {
             "matches": ["*://*.youtube.com/*"],
