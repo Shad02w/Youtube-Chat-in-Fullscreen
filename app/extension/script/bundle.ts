@@ -23,11 +23,12 @@ async function run() {
     }).argv
 
     const options: esbuild.BuildOptions = {
-        entryPoints: {
-            background: path.join(__dirname, '../src/background.ts'),
-            inject: path.join(__dirname, '../src/inject.ts'),
-            popup: path.join(__dirname, '../src/popup/index.ts')
-        },
+        entryPoints: [
+            path.join(__dirname, '../src/background.ts'),
+            path.join(__dirname, '../src/inject.ts'),
+            path.join(__dirname, '../src/popup/index.ts'),
+            path.join(__dirname, '../src/iframe.css')
+        ],
         mainFields: ['svelte', 'browser', 'module', 'main'],
         outdir: path.join(__dirname, '../dist/out'),
         metafile: true,

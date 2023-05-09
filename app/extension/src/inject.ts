@@ -1,5 +1,4 @@
 import browser from 'webextension-polyfill'
-import { URLChangeDetector } from './util/URLChangeDetector'
 import App from './App.svelte'
 
 declare const window: Window & { _ycf_initialized: boolean }
@@ -13,15 +12,8 @@ function initialize() {
     const root = document.createElement('div')
     root.id = '_ycf_root'
     document.body.appendChild(root)
-    const app = new App({
-        target: root,
-        props: {}
-    })
-
-    console.log(app)
-
-    URLChangeDetector.subscribe(() => {
-        console.log('url changed')
+    new App({
+        target: root
     })
 
     console.log('youtube chat fullscreen content script injected')

@@ -11,9 +11,18 @@
     },
     "content_scripts": [
         {
-            "matches": ["*://*.youtube.com/*"],
+            "matches": ["https://www.youtube.com/*"],
             "js": ["inject.js"],
             "run_at": "document_idle"
+        },
+        {
+            "matches": ["https://www.youtube.com/live_chat*"],
+            "include_globs": ["*ycf=_self*"],
+            "all_frames": true,
+            "css": ["iframe.css"],
+            "run_at": "document_start"
         }
-    ]
+    ],
+    "permissions": ["webNavigation", "scripting"],
+    "host_permissions": ["https://www.youtube.com/*"]
 }

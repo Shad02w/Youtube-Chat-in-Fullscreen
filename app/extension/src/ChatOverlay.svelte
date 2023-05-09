@@ -8,11 +8,3 @@
         return res.json()
     }
 </script>
-
-{#await getData()}
-    <div>Loading...</div>
-{:then data}
-    <div>{JSON.stringify(data, null, 4)}</div>
-{:catch error}
-    <div>{error.message}</div>
-{/await}

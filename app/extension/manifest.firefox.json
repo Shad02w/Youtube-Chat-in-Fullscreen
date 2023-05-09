@@ -14,6 +14,13 @@
             "matches": ["*://*.youtube.com/*"],
             "js": ["inject.js"],
             "run_at": "document_idle"
+        },
+        {
+            "matches": ["https://www.youtube.com/live_chat*"],
+            "include_globs": ["*ycf=_self*"],
+            "all_frames": true,
+            "css": ["iframe.css"],
+            "run_at": "document_start"
         }
     ]
 }
