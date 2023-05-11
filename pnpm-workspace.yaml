@@ -1,4 +1,3 @@
 packages:
     - 'app/**'
     - 'lib/*'
-    - 'legacy'
