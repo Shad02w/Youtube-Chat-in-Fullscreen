@@ -12,20 +12,18 @@
     },
     "keywords": [],
     "devDependencies": {
-        "@craftamap/esbuild-plugin-html": "^0.5.0",
         "@sveltejs/vite-plugin-svelte": "^2.2.0",
-        "@types/fs-extra": "^11.0.1",
         "@types/webextension-polyfill": "^0.10.0",
         "@types/yargs": "^17.0.24",
         "esbuild": "^0.17.18",
         "esbuild-svelte": "^0.7.3",
-        "fs-extra": "^11.1.1",
         "svelte-preprocess": "^5.0.3",
         "tasuku": "^2.0.1",
         "vite": "^4.3.5",
         "yargs": "^17.7.2"
     },
     "dependencies": {
+        "solid-js": "^1.7.5",
         "svelte": "^3.59.1",
         "webextension-polyfill": "^0.10.0"
     }

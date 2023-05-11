@@ -1,8 +1,4 @@
 html,
 body {
-    background: red !important;
-}
-
-body * {
-    background: red !important ;
+    background: transparent !important;
 }

@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill'
 import App from './App.svelte'
+import {} from 'path'
 
 declare const window: Window & { _ycf_initialized: boolean }
 if (!window._ycf_initialized) {

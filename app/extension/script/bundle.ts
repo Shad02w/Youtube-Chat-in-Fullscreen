@@ -2,11 +2,10 @@ import esbuild from 'esbuild'
 import yargs from 'yargs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import fs from 'fs-extra'
+import fs from 'fs/promises'
 import { hideBin } from 'yargs/helpers'
 import sveltePlugin from 'esbuild-svelte'
 import sveltePreprocess from 'svelte-preprocess'
-import { htmlPlugin } from '@craftamap/esbuild-plugin-html'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -22,15 +21,29 @@ async function run() {
         }
     }).argv
 
+    const entries: string[] = [
+        path.join(__dirname, '../src/background.ts'),
+        path.join(__dirname, '../src/inject.ts'),
+        path.join(__dirname, '../src/popup/index.ts'),
+        path.join(__dirname, '../src/popup/index.html'),
+        path.join(__dirname, '../src/iframe.css')
+    ]
+
     const options: esbuild.BuildOptions = {
         entryPoints: [
-            path.join(__dirname, '../src/background.ts'),
-            path.join(__dirname, '../src/inject.ts'),
-            path.join(__dirname, '../src/popup/index.ts'),
-            path.join(__dirname, '../src/iframe.css')
+            ...entries.flatMap((_) => [
+                { in: _, out: `chrome/${path.basename(_, path.extname(_))}` },
+                { in: _, out: `firefox/${path.basename(_, path.extname(_))}` }
+            ]),
+            { in: path.join(__dirname, '../manifest.json'), out: 'chrome/manifest' },
+            { in: path.join(__dirname, '../manifest.firefox.json'), out: 'firefox/manifest' }
         ],
+        loader: {
+            '.html': 'copy',
+            '.json': 'copy'
+        },
         mainFields: ['svelte', 'browser', 'module', 'main'],
-        outdir: path.join(__dirname, '../dist/out'),
+        outdir: path.join(__dirname, '../dist'),
         metafile: true,
         bundle: true,
         minify: true,
@@ -43,16 +56,6 @@ async function run() {
                     css: true
                 },
                 preprocess: [sveltePreprocess()]
-            }),
-            htmlPlugin({
-                files: [
-                    {
-                        filename: 'popup.html',
-                        entryPoints: [],
-                        scriptLoading: 'defer',
-                        htmlTemplate: path.join(__dirname, '../src/popup/index.html')
-                    }
-                ]
             }),
             cleanup(),
             buildTarget(),
@@ -75,11 +78,14 @@ function cleanup(): esbuild.Plugin {
         name: 'cleanup',
         async setup(build) {
             const distDir = path.join(__dirname, '../dist')
-            if (await fs.exists(distDir)) {
+            try {
+                await fs.access(distDir)
                 build.onStart(async () => {
                     await fs.rm(distDir, { recursive: true, force: true })
                     console.log(`🧹cleanup ${distDir}`)
                 })
+            } catch {
+                // do nothing
             }
         }
     }
@@ -101,29 +107,9 @@ function time(): esbuild.Plugin {
 
 function buildTarget(): esbuild.Plugin {
     return {
-        name: 'buildTarget',
+        name: 'copy out to target',
         setup(build) {
-            build.onEnd(async () => {
-                await Promise.all([
-                    fs.mkdir(path.join(__dirname, '../dist/target/firefox'), { recursive: true }),
-                    fs.mkdir(path.join(__dirname, '../dist/target/chrome'), { recursive: true })
-                ])
-                await Promise.all([
-                    fs.copyFile(
-                        path.join(__dirname, '../manifest.firefox.json'),
-                        path.join(__dirname, '../dist/target/firefox/manifest.json')
-                    ),
-                    fs.copyFile(
-                        path.join(__dirname, '../manifest.json'),
-                        path.join(__dirname, '../dist/target/chrome/manifest.json')
-                    )
-                ])
-
-                await Promise.all([
-                    fs.copy(path.join(__dirname, '../dist/out'), path.join(__dirname, '../dist/target/chrome')),
-                    fs.copy(path.join(__dirname, '../dist/out'), path.join(__dirname, '../dist/target/firefox'))
-                ])
-            })
+            build.onEnd(async () => {})
         }
     }
 }
