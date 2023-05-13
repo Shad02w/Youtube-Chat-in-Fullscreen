@@ -23,6 +23,5 @@
             "run_at": "document_start"
         }
     ],
-    "permissions": ["webNavigation", "scripting", "activeTab"],
     "host_permissions": ["https://www.youtube.com/*"]
 }

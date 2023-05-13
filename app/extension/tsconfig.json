@@ -2,8 +2,9 @@
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "composite": true,
-        "jsx": "react-jsx",
-        "types": ["webextension-polyfill", "svelte"]
+        "jsx": "preserve",
+        "jsxImportSource": "solid-js",
+        "types": ["webextension-polyfill"]
     },
     "references": [{ "path": "./script" }]
 }

@@ -1,14 +1,12 @@
 import esbuild from 'esbuild'
 import yargs from 'yargs'
 import path from 'path'
-import { fileURLToPath } from 'url'
 import fs from 'fs/promises'
+import solidPlugin from '@ycf/esbuild-plugin-solid'
+import { fileURLToPath } from 'url'
 import { hideBin } from 'yargs/helpers'
-import sveltePlugin from 'esbuild-svelte'
-import sveltePreprocess from 'svelte-preprocess'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const dir = path.dirname(fileURLToPath(import.meta.url))
 
 async function run() {
     const { mode } = await yargs(hideBin(process.argv)).options({
@@ -22,11 +20,11 @@ async function run() {
     }).argv
 
     const entries: string[] = [
-        path.join(__dirname, '../src/background.ts'),
-        path.join(__dirname, '../src/inject.ts'),
-        path.join(__dirname, '../src/popup/index.ts'),
-        path.join(__dirname, '../src/popup/index.html'),
-        path.join(__dirname, '../src/iframe.css')
+        path.join(dir, '../src/background.ts'),
+        path.join(dir, '../src/inject.tsx'),
+        path.join(dir, '../src/popup/index.tsx'),
+        path.join(dir, '../src/popup/index.html'),
+        path.join(dir, '../src/iframe.css')
     ]
 
     const options: esbuild.BuildOptions = {
@@ -35,32 +33,21 @@ async function run() {
                 { in: _, out: `chrome/${path.basename(_, path.extname(_))}` },
                 { in: _, out: `firefox/${path.basename(_, path.extname(_))}` }
             ]),
-            { in: path.join(__dirname, '../manifest.json'), out: 'chrome/manifest' },
-            { in: path.join(__dirname, '../manifest.firefox.json'), out: 'firefox/manifest' }
+            { in: path.join(dir, '../manifest.json'), out: 'chrome/manifest' },
+            { in: path.join(dir, '../manifest.firefox.json'), out: 'firefox/manifest' }
         ],
         loader: {
             '.html': 'copy',
             '.json': 'copy'
         },
         mainFields: ['svelte', 'browser', 'module', 'main'],
-        outdir: path.join(__dirname, '../dist'),
-        metafile: true,
+        outdir: path.join(dir, '../dist'),
         bundle: true,
         minify: true,
         sourcemap: mode === 'dev',
         color: true,
         target: 'es2015',
-        plugins: [
-            sveltePlugin({
-                compilerOptions: {
-                    css: true
-                },
-                preprocess: [sveltePreprocess()]
-            }),
-            cleanup(),
-            buildTarget(),
-            time()
-        ]
+        plugins: [solidPlugin(), cleanup(), buildTarget(), time()]
     }
 
     if (mode === 'dev') {
@@ -77,7 +64,7 @@ function cleanup(): esbuild.Plugin {
     return {
         name: 'cleanup',
         async setup(build) {
-            const distDir = path.join(__dirname, '../dist')
+            const distDir = path.join(dir, '../dist')
             try {
                 await fs.access(distDir)
                 build.onStart(async () => {

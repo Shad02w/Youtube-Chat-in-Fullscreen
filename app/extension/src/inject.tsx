@@ -1,6 +1,8 @@
+/* @refresh reload */
+import { render } from 'solid-js/web'
+
 import browser from 'webextension-polyfill'
-import App from './App.svelte'
-import {} from 'path'
+import { App } from './app'
 
 declare const window: Window & { _ycf_initialized: boolean }
 if (!window._ycf_initialized) {
@@ -13,9 +15,7 @@ function initialize() {
     const root = document.createElement('div')
     root.id = '_ycf_root'
     document.body.appendChild(root)
-    new App({
-        target: root
-    })
+    render(() => <App />, root)
 
     console.log('youtube chat fullscreen content script injected')
 }
