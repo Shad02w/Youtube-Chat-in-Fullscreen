@@ -1,0 +1,20 @@
+{
+    "name": "@ycf/esbuild-plugin-solid",
+    "version": "0.1.0",
+    "private": true,
+    "description": "",
+    "main": "index.ts",
+    "keywords": [],
+    "author": "Alvis Tse",
+    "license": "ISC",
+    "dependencies": {
+        "@babel/core": "^7.21.8",
+        "babel-preset-solid": "^1.7.4",
+        "@babel/preset-typescript": "^7.21.5",
+        "esbuild": "^0.17.18"
+    },
+    "devDependencies": {
+        "@types/babel__core": "^7.20.0",
+        "bun-types": "^0.5.8"
+    }
+}
