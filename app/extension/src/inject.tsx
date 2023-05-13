@@ -2,7 +2,7 @@
 import { render } from 'solid-js/web'
 
 import browser from 'webextension-polyfill'
-import { App } from './app'
+import { App } from './App'
 
 declare const window: Window & { _ycf_initialized: boolean }
 if (!window._ycf_initialized) {

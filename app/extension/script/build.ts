@@ -23,28 +23,32 @@ async function run() {
         path.join(dir, '../src/background.ts'),
         path.join(dir, '../src/inject.tsx'),
         path.join(dir, '../src/popup/index.tsx'),
-        path.join(dir, '../src/popup/index.html'),
         path.join(dir, '../src/iframe.css')
     ]
+
+    const getFileName = (filepath: string) => {
+        const relative = path.relative(path.join(dir, '../src'), filepath)
+        return relative.slice(0, relative.lastIndexOf('.'))
+    }
 
     const options: esbuild.BuildOptions = {
         entryPoints: [
             ...entries.flatMap((_) => [
-                { in: _, out: `chrome/${path.basename(_, path.extname(_))}` },
-                { in: _, out: `firefox/${path.basename(_, path.extname(_))}` }
+                { in: _, out: `chrome/${getFileName(_)}` },
+                { in: _, out: `firefox/${getFileName(_)}` }
             ]),
             { in: path.join(dir, '../manifest.json'), out: 'chrome/manifest' },
             { in: path.join(dir, '../manifest.firefox.json'), out: 'firefox/manifest' }
         ],
         loader: {
-            '.html': 'copy',
             '.json': 'copy'
         },
-        mainFields: ['svelte', 'browser', 'module', 'main'],
         outdir: path.join(dir, '../dist'),
         bundle: true,
+        metafile: true,
         minify: true,
-        sourcemap: mode === 'dev',
+        // sourcemap: mode === 'dev',
+        sourcemap: false,
         color: true,
         target: 'es2015',
         plugins: [solidPlugin(), cleanup(), buildTarget(), time()]
@@ -64,12 +68,13 @@ function cleanup(): esbuild.Plugin {
     return {
         name: 'cleanup',
         async setup(build) {
-            const distDir = path.join(dir, '../dist')
             try {
-                await fs.access(distDir)
+                const { outdir } = build.initialOptions
+                if (!outdir) return
+                await fs.access(outdir)
                 build.onStart(async () => {
-                    await fs.rm(distDir, { recursive: true, force: true })
-                    console.log(`🧹cleanup ${distDir}`)
+                    await fs.rm(outdir, { recursive: true, force: true })
+                    console.log(`🧹cleanup ${outdir}`)
                 })
             } catch {
                 // do nothing
@@ -82,11 +87,13 @@ function time(): esbuild.Plugin {
     return {
         name: 'time',
         setup(build) {
+            let start: number = 0
             build.onStart(() => {
-                console.time('⚡build')
+                start = Date.now()
             })
-            build.onEnd(() => {
-                console.timeEnd('⚡build')
+            build.onEnd(({ errors }) => {
+                if (errors.length !== 0) return
+                console.log(`⚡build time: ${Date.now() - start}ms`)
             })
         }
     }
@@ -94,9 +101,13 @@ function time(): esbuild.Plugin {
 
 function buildTarget(): esbuild.Plugin {
     return {
-        name: 'copy out to target',
+        name: 'copy files to target',
         setup(build) {
-            build.onEnd(async () => {})
+            build.onEnd(async () => {
+                const popup = path.join(dir, '../src/popup.html')
+                await fs.copyFile(popup, path.join(dir, '../dist/chrome/popup/index.html'))
+                await fs.copyFile(popup, path.join(dir, '../dist/firefox/popup/index.html'))
+            })
         }
     }
 }
