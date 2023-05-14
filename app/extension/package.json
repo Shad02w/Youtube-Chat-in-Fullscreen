@@ -16,6 +16,7 @@
         "@types/yargs": "^17.0.24",
         "@ycf/esbuild-plugin-solid": "workspace:*",
         "esbuild": "^0.17.18",
+        "esbuild-css-modules-plugin": "^2.7.1",
         "tasuku": "^2.0.1",
         "vite": "^4.3.5",
         "vite-plugin-solid": "^2.7.0",
