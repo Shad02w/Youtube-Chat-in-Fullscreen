@@ -1,8 +1,46 @@
-html,
-body {
-    background: transparent !important;
+yt-live-chat-app yt-live-chat-renderer.yt-live-chat-app {
+    background-color: transparent;
 }
 
-* {
+yt-live-chat-app yt-live-chat-header-renderer[role='heading'] {
+    display: none;
+}
+
+yt-live-chat-app yt-live-chat-banner-manager[has-active-banner] {
+    background: transparent;
+}
+
+/* yt-live-chat-item-list-renderer[allow-scroll] #item-scroller.yt-live-chat-item-list-renderer.style-scope { */
+/*     overflow-y: overlay; */
+/* } */
+
+yt-live-chat-text-message-renderer #menu.yt-live-chat-text-message-renderer {
+    background: transparent;
+}
+
+yt-live-chat-renderer #panel-pages.yt-live-chat-renderer {
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+
+yt-live-chat-renderer #separator.yt-live-chat-renderer {
+    display: none !important;
+}
+
+yt-live-chat-restricted-participation-renderer #container.yt-live-chat-restricted-participation-renderer {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #c2c2c2 !important;
+    border: none !important;
+}
+
+::-webkit-scrollbar-track {
     background-color: transparent !important;
 }
