@@ -6,29 +6,48 @@ import { URLChangeDetector } from './util/URLChangeDetector'
 
 const ROOT_ID = '_ycf_root'
 
+interface LiveChatPageInfo {
+    type: 'live-chat' | 'live-chat-replay'
+    url: string
+}
+
 export class ChatApp {
-    private dispose: (() => void) | null = null
+    private pageInfo: LiveChatPageInfo | null = null
+    private _dispose: (() => void) | null = null
     constructor() {
         browser.runtime.onMessage.addListener((message) => {
             if (message.type === 'live-chat-url') {
-                this.start(message.url)
+                this.pageInfo = { type: 'live-chat', url: message.url }
             }
         })
 
-        URLChangeDetector.subscribe(() => this.stop())
+        URLChangeDetector.subscribe(() => (this.pageInfo = null))
+
+        document.addEventListener('fullscreenchange', () => {
+            document.fullscreenElement ? this.render() : this.dispose()
+        })
     }
 
-    private start(liveChatUrl: string) {
-        if (this.dispose) return
+    private render() {
+        if (!this.pageInfo || this._dispose) return
 
         const root = document.createElement('div')
         root.id = ROOT_ID
         document.body.appendChild(root)
-        this.dispose = render(() => <App liveChatUrl={liveChatUrl} />, root)
+
+        switch (this.pageInfo.type) {
+            case 'live-chat':
+                this._dispose = render(() => <App liveChatUrl={this.pageInfo!.url} />, root)
+                break
+            case 'live-chat-replay':
+                this._dispose = render(() => <App liveChatUrl={this.pageInfo!.url} />, root)
+                break
+        }
     }
 
-    private stop() {
-        this.dispose?.()
+    private dispose() {
+        this._dispose?.()
         document.getElementById(ROOT_ID)?.remove()
+        this._dispose = null
     }
 }

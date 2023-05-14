@@ -6,10 +6,11 @@ browser.runtime.onInstalled.addListener(() => {
     // initialize setting
 })
 
-browser.webRequest.onCompleted.addListener(
-    async ({ tabId, url }) => {
+// use webNavigation instead of webRequest, since in firefox, tabId is always -1 in webRequest
+browser.webNavigation.onCommitted.addListener(
+    ({ url, tabId }) => {
         if (url.includes(URL_MARKER)) return
         browser.tabs.sendMessage(tabId, { type: 'live-chat-url', url })
     },
-    { urls: ['https://www.youtube.com/live_chat*'] }
+    { url: [{ urlPrefix: 'https://www.youtube.com/live_chat' }] }
 )
