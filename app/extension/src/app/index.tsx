@@ -1,18 +1,11 @@
-import { Component } from 'solid-js'
+import type { Component } from 'solid-js'
 import './index.css'
+import { LiveChat } from './LiveChat'
 
-export const App: Component = () => {
-    return (
-        <>
-            <button class='_ycf_app' onClick={() => alert('click solid js')}>
-                App
-            </button>
-            <iframe
-                title='youtube chat'
-                src='https://www.youtube.com/live_chat?is_popout=1&v=jfKfPfyJRdk&ycf=_self'
-                width='400'
-                height='600'
-            />
-        </>
-    )
+interface Props {
+    liveChatUrl: string
+}
+
+export const App: Component<Props> = (props) => {
+    return <LiveChat link={props.liveChatUrl} />
 }

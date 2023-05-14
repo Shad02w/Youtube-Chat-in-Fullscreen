@@ -24,5 +24,6 @@
             "run_at": "document_start"
         }
     ],
+    "permissions": ["webRequest"],
     "host_permissions": ["https://www.youtube.com/*"]
 }

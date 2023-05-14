@@ -47,7 +47,7 @@ async function run() {
         outdir: path.join(dir, '../dist'),
         bundle: true,
         metafile: true,
-        minify: true,
+        minify: mode !== 'dev',
         sourcemap: mode === 'dev',
         color: true,
         target: 'es2015',

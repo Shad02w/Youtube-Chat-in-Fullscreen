@@ -11,7 +11,7 @@
     },
     "content_scripts": [
         {
-            "matches": ["*://*.youtube.com/*"],
+            "matches": ["https://www.youtube.com/*"],
             "js": ["inject.js"],
             "css": ["inject.css"],
             "run_at": "document_idle"
@@ -23,5 +23,6 @@
             "css": ["iframe.css"],
             "run_at": "document_start"
         }
-    ]
+    ],
+    "permissions": ["webRequest", "https://www.youtube.com/*"]
 }
