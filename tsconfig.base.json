@@ -3,6 +3,7 @@
         "strict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
+        "verbatimModuleSyntax": true,
         "noUncheckedIndexedAccess": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
