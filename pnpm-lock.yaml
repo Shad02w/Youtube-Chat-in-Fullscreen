@@ -76,6 +76,22 @@ importers:
         specifier: ^0.5.8
         version: 0.5.8
 
+  lib/ui:
+    dependencies:
+      solid-js:
+        specifier: '>=1.0.0'
+        version: 1.7.5
+    devDependencies:
+      typescript:
+        specifier: ^4.9.5
+        version: 4.9.5
+      vite:
+        specifier: ^4.1.1
+        version: 4.3.5
+      vite-plugin-solid:
+        specifier: ^2.5.0
+        version: 2.7.0(solid-js@1.7.5)(vite@4.3.5)
+
 packages:
 
   /@ampproject/remapping@2.2.1:
@@ -1438,6 +1454,12 @@ packages:
 
   /tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
+    dev: true
+
+  /typescript@4.9.5:
+    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
     dev: true
 
   /typescript@5.0.4:

@@ -14,6 +14,7 @@ interface LiveChatPageInfo {
 export class ChatApp {
     private pageInfo: LiveChatPageInfo | null = null
     private _dispose: (() => void) | null = null
+
     constructor() {
         browser.runtime.onMessage.addListener((message) => {
             if (message.type === 'live-chat-url') {
