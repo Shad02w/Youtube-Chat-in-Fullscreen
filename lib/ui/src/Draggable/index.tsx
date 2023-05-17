@@ -1,4 +1,4 @@
-import { type Component, type JSX } from 'solid-js'
+import { createEffect, type Component, type JSX } from 'solid-js'
 import { createDraggable } from './createDraggable'
 import style from './index.module.css'
 
@@ -8,10 +8,21 @@ interface Props {
 }
 
 export const Draggable: Component<Props> = (props) => {
-    const { bind, transition } = createDraggable({ initial: [0, 0] })
+    const { bind, transition } = createDraggable({ initial: [900, 300] })
+    let div: HTMLDivElement | undefined
+
+    createEffect(() => {
+        const x = transition.x()
+        const y = transition.y()
+        requestAnimationFrame(() => {
+            if (div) {
+                div.style.transform = `translate(${x}px,${y}px)`
+            }
+        })
+    })
 
     return (
-        <div class={style.container} style={{ transform: `translate(${transition.x()}px,${transition.y()}px)` }} {...bind()}>
+        <div ref={div} class={style.container} {...bind()}>
             {props.children}
         </div>
     )
