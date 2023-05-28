@@ -1,11 +1,21 @@
 import { Draggable } from './Draggable'
 import { render } from 'solid-js/web'
-import type { Component } from 'solid-js'
+import { createSignal, type Component } from 'solid-js'
+
+export const TriggerButton: Component = () => {
+    const [count, setCount] = createSignal(0)
+    return (
+        <button id='button' onClick={() => setCount((_) => _ + 1)}>
+            Count: {count()}
+        </button>
+    )
+}
 
 const App: Component = () => {
     return (
-        <Draggable>
+        <Draggable triggerId='button'>
             <div>hi</div>
+            <TriggerButton />
         </Draggable>
     )
 }

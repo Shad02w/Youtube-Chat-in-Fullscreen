@@ -4,11 +4,12 @@ import style from './index.module.css'
 
 interface Props {
     class?: string
+    triggerId?: string
     children: JSX.Element
 }
 
 export const Draggable: Component<Props> = (props) => {
-    const { bind, transition } = createDraggable({ initial: [900, 300] })
+    const { bind, transition } = createDraggable({ initial: [0, 0], triggerId: props.triggerId })
     let div: HTMLDivElement | undefined
 
     createEffect(() => {
