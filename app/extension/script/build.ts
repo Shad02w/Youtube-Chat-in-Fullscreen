@@ -3,9 +3,9 @@ import yargs from 'yargs'
 import path from 'path'
 import fs from 'fs/promises'
 import solidPlugin from '@ycf/esbuild-plugin-solid'
+import { sassPlugin, postcssModules } from 'esbuild-sass-plugin'
 import { fileURLToPath } from 'url'
 import { hideBin } from 'yargs/helpers'
-import cssModulesPlugin from 'esbuild-css-modules-plugin'
 
 const dir = path.dirname(fileURLToPath(import.meta.url))
 
@@ -51,7 +51,21 @@ async function run() {
         sourcemap: mode === 'dev',
         color: true,
         target: 'es2015',
-        plugins: [solidPlugin(), cssModulesPlugin(), cleanup(), buildTarget(), time()]
+        plugins: [
+            solidPlugin(),
+            sassPlugin({
+                filter: /\.module\.s?css$/,
+                transform: postcssModules({
+                    localsConvention: 'camelCaseOnly'
+                })
+            }),
+            sassPlugin({
+                filter: /\.s?css$/
+            }),
+            cleanup(),
+            buildTarget(),
+            time()
+        ]
     }
 
     if (mode === 'dev') {

@@ -4,6 +4,6 @@
         "module": "ESNext",
         "moduleResolution": "bundler",
         "composite": true,
-        "types": ["bun-types"]
+        "types": ["node"]
     }
 }

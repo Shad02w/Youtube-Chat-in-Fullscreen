@@ -14,7 +14,7 @@ export const TriggerButton: Component = () => {
 const App: Component = () => {
     return (
         <Draggable triggerId='button'>
-            <div>hi</div>
+            <iframe title='youtube chat' src='https://bun.sh/' width='400' height='600' />
             <TriggerButton />
         </Draggable>
     )

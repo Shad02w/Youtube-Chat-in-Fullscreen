@@ -1,8 +1,10 @@
 import { batch, createSignal } from 'solid-js'
 
-export interface Options {
+export type Options = {
     triggerId?: string
     initial: [number, number]
+    onDragStart?: () => void
+    onDragEnd?: () => void
 }
 
 export function createDraggable(options: Options) {
@@ -28,9 +30,9 @@ export function createDraggable(options: Options) {
         if (!options.triggerId) return true
 
         const el = e.target as HTMLElement
-        if (!('closest' in el)) return false
+        if (!('closest' in el)) return true
 
-        return el.closest(options.triggerId) !== null
+        return el.closest(`#${options.triggerId}`) !== null
     }
 
     const onMouseMove = (e: MouseEvent) => {
@@ -47,6 +49,7 @@ export function createDraggable(options: Options) {
         start = null
         document.removeEventListener('mousemove', onMouseMove)
         document.removeEventListener('mouseup', onMouseUp)
+        options.onDragEnd?.()
     }
 
     const bind = () => ({
@@ -56,6 +59,7 @@ export function createDraggable(options: Options) {
             previous = [x(), y()]
             document.addEventListener('mousemove', onMouseMove)
             document.addEventListener('mouseup', onMouseUp)
+            options.onDragStart?.()
         }
     })
 

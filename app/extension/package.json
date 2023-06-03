@@ -6,8 +6,8 @@
     "description": "A chrome extension creates an overlay to show Youtube live chat when in full screen",
     "main": "index.js",
     "scripts": {
-        "build": "bun ./script/build.ts",
-        "start": "bun ./script/build.ts --mode=dev",
+        "build": "ts-node --esm ./script/build.ts",
+        "start": "ts-node --esm ./script/build.ts --mode=dev",
         "dev": "vite serve --config ./script/vite.config.ts"
     },
     "keywords": [],
@@ -15,15 +15,18 @@
         "@types/webextension-polyfill": "^0.10.0",
         "@types/yargs": "^17.0.24",
         "@ycf/esbuild-plugin-solid": "workspace:*",
-        "esbuild": "^0.17.18",
-        "esbuild-css-modules-plugin": "^2.7.1",
-        "tasuku": "^2.0.1",
-        "vite": "^4.3.5",
+        "esbuild": "^0.17.19",
+        "esbuild-sass-plugin": "^2.9.0",
+        "postcss": "^8.4.24",
+        "postcss-modules": "^6.0.0",
+        "vite": "^4.3.9",
         "vite-plugin-solid": "^2.7.0",
         "yargs": "^17.7.2"
     },
     "dependencies": {
-        "solid-js": "^1.7.5",
+        "@ycf/ui": "workspace:*",
+        "classnames": "^2.3.2",
+        "solid-js": "^1.7.6",
         "webextension-polyfill": "^0.10.0"
     }
 }
