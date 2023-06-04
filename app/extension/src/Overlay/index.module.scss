@@ -1,0 +1,41 @@
+.container {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    display: inline-flex;
+    flex-flow: column;
+}
+
+.moving-container {
+    position: relative;
+}
+
+.moving-message {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 0;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    transition: opacity 250ms ease-in-out 150ms;
+}
+
+.moving-container > div {
+    transition: opacity 250ms ease-in-out;
+}
+
+:global(.moving).moving-container > div {
+    opacity: 0;
+    pointer-events: none;
+}
+
+:global(.moving).moving-container > .moving-message {
+    // cant use display: none -> display: flex because it can transit with opacity;
+    height: 100%;
+    opacity: 1;
+}

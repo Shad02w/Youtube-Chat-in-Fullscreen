@@ -13,7 +13,7 @@ export const TriggerButton: Component = () => {
 
 const App: Component = () => {
     return (
-        <Draggable triggerId='button'>
+        <Draggable initial={[0, 0]} triggerId='button'>
             <iframe title='youtube chat' src='https://bun.sh/' width='400' height='600' />
             <TriggerButton />
         </Draggable>

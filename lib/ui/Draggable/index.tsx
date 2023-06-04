@@ -1,17 +1,19 @@
 import { createEffect, type Component, type JSX } from 'solid-js'
-import { createDraggable } from './createDraggable'
+import { createDraggable, type Options } from './createDraggable'
 import classNames from 'classnames'
 
-interface Props {
+interface Props extends Options {
     class?: string
-    triggerId?: string
     children: JSX.Element
-    onDragStart?: () => void
-    onDragEnd?: () => void
 }
 
 export const Draggable: Component<Props> = (props) => {
-    const { bind, transition } = createDraggable({ initial: [0, 0], triggerId: props.triggerId, onDragStart: props.onDragStart, onDragEnd: props.onDragEnd })
+    const { bind, transition } = createDraggable({
+        initial: props.initial,
+        triggerId: props.triggerId,
+        onDragStart: props.onDragStart,
+        onDragEnd: props.onDragEnd
+    })
     let div: HTMLDivElement | undefined
 
     createEffect(() => {

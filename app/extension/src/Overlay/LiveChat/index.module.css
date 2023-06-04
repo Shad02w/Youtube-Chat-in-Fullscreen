@@ -1,0 +1,25 @@
+.container {
+    position: relative;
+}
+
+.container > iframe {
+    visibility: hidden;
+}
+
+.container > div {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 2.5em;
+}
+
+.container.loaded > div {
+    display: none;
+}
+
+.container.loaded > iframe {
+    visibility: visible;
+}

@@ -1,0 +1,19 @@
+#_ycf_root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3500;
+
+    // reset default youtube style
+    button {
+        background: #fff;
+        color: #000;
+        border: none;
+    }
+}
+
+._ycf_app {
+    width: 120px;
+    height: 60px;
+    font-size: 16px;
+}

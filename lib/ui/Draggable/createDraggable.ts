@@ -4,7 +4,7 @@ export type Options = {
     triggerId?: string
     initial: [number, number]
     onDragStart?: () => void
-    onDragEnd?: () => void
+    onDragEnd?: (cord: [number, number]) => void
 }
 
 export function createDraggable(options: Options) {
@@ -49,12 +49,12 @@ export function createDraggable(options: Options) {
         start = null
         document.removeEventListener('mousemove', onMouseMove)
         document.removeEventListener('mouseup', onMouseUp)
-        options.onDragEnd?.()
+        options.onDragEnd?.([total[0], total[1]])
     }
 
     const bind = () => ({
         onMouseDown: (e: MouseEvent) => {
-            if (start || !triggeredById(e)) return
+            if (start || !triggeredById(e) || e.buttons !== 1) return
             start = [e.clientX, e.clientY]
             previous = [x(), y()]
             document.addEventListener('mousemove', onMouseMove)

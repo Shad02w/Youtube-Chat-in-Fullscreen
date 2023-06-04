@@ -118,7 +118,7 @@ function buildTarget(): esbuild.Plugin {
         name: 'copy files to target',
         setup(build) {
             build.onEnd(async () => {
-                const popup = path.join(dir, '../src/popup.html')
+                const popup = path.join(dir, '../src/popup/index.html')
                 await fs.copyFile(popup, path.join(dir, '../dist/chrome/popup/index.html'))
                 await fs.copyFile(popup, path.join(dir, '../dist/firefox/popup/index.html'))
             })
